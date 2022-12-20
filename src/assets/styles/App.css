@@ -1,0 +1,33 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat" !important;
+}
+
+body {
+  font-family: "Montserrat" !important;
+  background-color: #fbf9fb;
+  overflow-x: hidden;
+  color: #333333;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: sans-serif !important;
+  color: #9164a0;
+  margin: 1rem;
+}
+
+#header_emprendedor a {
+  color: #fff;
+}
+
+#label_select_project {
+  cursor: pointer;
+}
