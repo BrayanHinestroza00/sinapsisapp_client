@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   img,
   thumb,
@@ -16,11 +16,12 @@ import {
 } from "src/assets/styles/emprendedor/primeraAtencion.style";
 
 import DropZone from "src/components/DropZone";
-import { SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO } from "src/utils/constants";
+import { EmprendedorContext } from "src/services/context/EmprendedorContext";
+import { HOST } from "src/utils/constants";
 import {
   getCurrentDateForBirth,
+  getDepartamentoByIdMunicipio,
   getDepartamentos,
-  getFromLocalStorage,
   getInformacionEmprendedor,
   getMunicipios,
   obtenerAcronimoTipoDocumento,
@@ -28,6 +29,8 @@ import {
 import { validacionesPrimeraAtencionUsuario } from "src/utils/validaciones";
 
 function InfoUsuario(props) {
+  const { userData, loading } = useContext(EmprendedorContext);
+
   const [predata, setPredata] = useState({});
   const [error, setError] = useState({});
   const [estudiante, setEstudiante] = useState({ show: false });
@@ -38,6 +41,28 @@ function InfoUsuario(props) {
   const [emprendedor, setEmprendedor] = useState({});
 
   useEffect(() => {
+    if (userData) {
+      if (Object.keys(props.datos).length == 0) {
+        getInformacionEmprendedor(userData.id)
+          .then((data) => {
+            getAcronimoTipoDocumento(data.tipoDocumento);
+            props.setDatos({ ...props.datos, ...data });
+            if (data.municipioId) {
+              getDepartamentoByIdMunicipio(data.municipioId)
+                .then((dataResponse) => {
+                  props.setDatos({ ...data, departamento: dataResponse[0].id });
+                })
+                .catch((error) => console.log(error));
+            } else {
+            }
+            setEmprendedor(data);
+          })
+          .catch((error) => console.log(error));
+      }
+    }
+  }, [userData]);
+
+  useEffect(() => {
     getDepartamentos()
       .then((data) => {
         setDepartamentos(data);
@@ -46,25 +71,13 @@ function InfoUsuario(props) {
   }, []);
 
   useEffect(() => {
-    const userData = getFromLocalStorage(
-      SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO
-    );
-
-    getInformacionEmprendedor(userData.id)
-      .then((data) => {
-        getAcronimoTipoDocumento(data.tipoDocumento);
-        props.setDatos({ ...props.datos, ...data });
-        setEmprendedor(data);
-      })
-      .catch((error) => console.log(error));
-  }, []);
-
-  useEffect(() => {
-    getMunicipios(props.datos.departamento)
-      .then((data) => {
-        setMunicipios(data);
-      })
-      .catch((error) => console.log(error));
+    if (props.datos.departamento != null) {
+      getMunicipios(props.datos.departamento)
+        .then((data) => {
+          setMunicipios(data);
+        })
+        .catch((error) => console.log(error));
+    }
   }, [props.datos.departamento]);
 
   const onHandleChange = (event) => {
@@ -298,22 +311,24 @@ function InfoUsuario(props) {
         </div>
 
         <div className="col-md-6">
-          <Label htmlFor="municipio" className="form-label">
+          <Label htmlFor="municipioId" className="form-label">
             Municipio de Residencia
             <span> (*)</span>
           </Label>
           <select
-            id="municipio"
+            id="municipioId"
             className="form-select"
-            name="municipio"
+            name="municipioId"
             value={
-              props.datos.municipio || emprendedor.municipio != null
-                ? emprendedor.municipio
-                : "-1"
+              emprendedor.municipioId != 0
+                ? emprendedor.municipioId
+                : props.datos.municipioId != 0
+                ? props.datos.municipioId
+                : 0
             }
             onChange={(e) => props.handleChange(e)}
           >
-            <option value={"-1"} disabled>
+            <option value={0} disabled>
               Selecciona un municipio...
             </option>
 
@@ -327,9 +342,9 @@ function InfoUsuario(props) {
                 );
               })}
           </select>
-          {error.municipio && (
+          {error.municipioId && (
             <small className="form-text font-weight-bold text-danger">
-              {error.municipio}
+              {error.municipioId}
             </small>
           )}
         </div>
@@ -375,10 +390,10 @@ function InfoUsuario(props) {
             <option value={"-1"} disabled>
               Selecciona el vinculo con la universidad
             </option>
-            <option value="Estudiante">Estudiante</option>
-            <option value="Egresado">Egresado</option>
-            <option value="Colaborador">Colaborador</option>
-            <option value="Externo">Externo</option>
+            <option value="ESTUDIANTE">Estudiante</option>
+            <option value="EGRESADO">Egresado</option>
+            <option value="COLABORADOR">Colaborador</option>
+            <option value="EXTERNO">Externo</option>
           </select>
           {error.vinculoConU && (
             <small className="form-text font-weight-bold text-danger">
@@ -386,7 +401,7 @@ function InfoUsuario(props) {
             </small>
           )}
         </div>
-        {estudiante.show || props.datos?.vinculoConU === "Estudiante" ? (
+        {estudiante.show || props.datos?.vinculoConU === "ESTUDIANTE" ? (
           <>
             <div className="col-md-6">
               <label
@@ -638,7 +653,7 @@ function InfoUsuario(props) {
               <></>
             )}
           </>
-        ) : colaborador.show || props.datos?.vinculoConU === "Colaborador" ? (
+        ) : colaborador.show || props.datos?.vinculoConU === "COLABORADOR" ? (
           <>
             <div className="col-md-6">
               <Label htmlFor="cargoColaborador" className="form-label">
@@ -680,7 +695,7 @@ function InfoUsuario(props) {
               )}
             </div>
           </>
-        ) : egresado.show || props.datos?.vinculoConU === "Egresado" ? (
+        ) : egresado.show || props.datos?.vinculoConU === "EGRESADO" ? (
           <>
             <div className="col-md-6">
               <Label htmlFor="tipoEstudianteEgresado" className="form-label">
@@ -779,14 +794,24 @@ function InfoUsuario(props) {
             Foto de Perfil
           </Label>
           <DropZone upFiles={onGetFiles} files={props?.files} />
-          {props.datos.files && (
+          {(props.datos.files || props.datos.fotoUrl) && (
             <aside style={thumbsContainer}>
-              <div style={thumb} key={props.datos?.files[0].name}>
+              <div style={thumb}>
                 <div style={thumbInner}>
                   <img
-                    src={URL.createObjectURL(props.datos?.files[0])}
+                    src={
+                      props.datos.files
+                        ? URL.createObjectURL(props.datos?.files[0])
+                        : props.datos.fotoUrl
+                        ? `${HOST}/${props.datos.fotoUrl}`
+                        : ""
+                    }
                     style={img}
-                    alt={props.datos?.files[0].name}
+                    alt={
+                      props.datos.files
+                        ? props.datos.files[0].name
+                        : props.datos.fotoUrl
+                    }
                   />
                 </div>
               </div>
@@ -837,21 +862,6 @@ const programasPrueba = {
     { value: 12, text: "Curso Aleman" },
     { value: 13, text: "Seminario Basico de MathLab" },
     { value: 14, text: "Seminario Trading" },
-  ],
-};
-
-const municipiosPrueba = {
-  1: [
-    { value: 126, text: "Leticia" },
-    { value: 127, text: "Puerto Nariño" },
-  ],
-  2: [
-    { value: 1, text: "Abejorral" },
-    { value: 71, text: "Medellin" },
-  ],
-  3: [
-    { value: 128, text: "Arauca" },
-    { value: 132, text: "Saravena" },
   ],
 };
 

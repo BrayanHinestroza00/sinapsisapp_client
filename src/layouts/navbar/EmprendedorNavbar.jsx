@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Axios from "axios";
 
 import {
-  HOST,
   MENU_EMPRENDEDOR,
   MENU_EMPRENDEDOR_INICIO,
   MENU_EMPRENDEDOR_PERFIL,
@@ -13,71 +11,15 @@ import {
   SIDEBAR_EMPRENDEDOR_ESTADO_RUTA,
   SIDEBAR_EMPRENDEDOR_RUTA_ITEM,
   SIDEBAR_EMPRENDEDOR_SUBMENU,
-  SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO,
 } from "../../utils/constants";
-import {
-  deleteFromLocalStorage,
-  getFromLocalStorage,
-  insertIntoLocalStorage,
-} from "src/utils/functions";
+
+import { EmprendedorContext } from "src/services/context/EmprendedorContext";
 
 function EmprendedorNavbar() {
+  const { userData, selectedProjectIndex, loading } =
+    useContext(EmprendedorContext);
+
   const [menuActive, setMenuActive] = useState("");
-  const [esPrimeraVez, setEsPrimeraVez] = useState(true);
-  const [selectedProject, setSelectedProject] = useState(0);
-  const [proyectosEmprendimiento, setProyectosEmprendimiento] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const userData = getFromLocalStorage(
-      SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO
-    );
-
-    // if (!userData.esPrimeraVez || !userData.proyectosEmprendimiento) {
-    Axios.get(`${HOST}/app/preload/emprendedor`, {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers": "*",
-        "Access-Control-Allow-Credentials": "true",
-      },
-      params: {
-        idUsuario: userData.id,
-      },
-    })
-      .then(({ data }) => {
-        deleteFromLocalStorage(SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO);
-        insertIntoLocalStorage(SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO, {
-          ...userData,
-          esPrimeraVez: data.response.primeraVez,
-          proyectosEmprendimiento: data.response.proyectosEmprendimiento,
-        });
-        console.log("primeraVez", data.response.primeraVez);
-        setEsPrimeraVez(data.response.primeraVez == 1);
-        setProyectosEmprendimiento(data.response.proyectosEmprendimiento);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    // }
-  }, []);
-
-  useEffect(() => {}, []);
-
-  useEffect(() => {
-    // if (loading) {
-    //   Axios
-    //     .get(`${HOST}/Emprendedor/Diagnostico`, {
-    //       headers: {
-    //         Authorization: localStorage.getItem("token"),
-    //       },
-    //     })
-    //     .then((res) => {
-    //       setEstadoDiagnostico(res.data);
-    //       setLoading(false);
-    //     })
-    //     .catch((err) => console.error(err));
-    // }
-  }, [loading]);
 
   useEffect(() => {
     try {
@@ -133,7 +75,7 @@ function EmprendedorNavbar() {
                 INICIO
               </Link>
             </li>
-            {esPrimeraVez ? (
+            {userData?.esPrimeraVez ? (
               <li className="nav-item">
                 <Link
                   className={`nav-link ${
@@ -161,8 +103,8 @@ function EmprendedorNavbar() {
                     MI PERFIL
                   </Link>
                 </li>
-                {proyectosEmprendimiento[selectedProject]
-                  .estadoEmprendimiento != "PENDIENTE" && (
+                {userData?.proyectosEmprendimiento[selectedProjectIndex]
+                  ?.estadoEmprendimiento != "PENDIENTE" && (
                   <li className="nav-item">
                     <Link
                       className={`nav-link ${

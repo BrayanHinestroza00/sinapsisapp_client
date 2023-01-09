@@ -20,6 +20,7 @@ function DropZone(props) {
     isDragAccept,
     isDragReject,
   } = useDropzone({
+    accept: props.accept ? props.accept : {},
     onDrop: (acceptedFiles) => {
       setFiles(
         acceptedFiles.map((file) =>

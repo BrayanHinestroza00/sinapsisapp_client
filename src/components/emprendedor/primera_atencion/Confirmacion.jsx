@@ -32,7 +32,7 @@ function Confirmacion(props) {
     <Contenido className="container w-50">
       <div className="text-center">
         <Circulo>
-          <Paso>3</Paso>
+          <Paso>5</Paso>
         </Circulo>
         <TituloStepByStep>Completar Primera Atención</TituloStepByStep>
       </div>

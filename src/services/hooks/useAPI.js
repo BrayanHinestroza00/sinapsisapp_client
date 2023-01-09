@@ -8,13 +8,18 @@ export function useAPI_GET(PATH, options) {
   const [errorAPI, setError] = useState(null);
 
   useEffect(() => {
+    if (loadingAPI) {
+      getData();
+    }
+  });
+
+  function getData() {
     Axios.get(`${HOST}${PATH}`, options)
       .then(({ data }) => {
         if (data.code == 1) {
           setData(data?.response);
           setError(data?.message);
         }
-
         if (data.code == -1) {
           setError(data.message);
         }
@@ -23,7 +28,7 @@ export function useAPI_GET(PATH, options) {
         setError(error);
       });
     setLoading(false);
-  }, []);
+  }
 
   return [loadingAPI, dataAPI, errorAPI];
 }

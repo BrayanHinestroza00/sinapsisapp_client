@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import Axios from "axios";
 import swal from "sweetalert2";
 
 import { validacionesSignUpComunidadUAO } from "src/utils/validaciones";
@@ -8,10 +8,28 @@ import { signUpStyled } from "../../assets/styles/StyleComponent";
 
 import imagen from "../../assets/images/Sinapsis-LR.png";
 import LogoSinapsis from "../../assets/images/Logo_Sinapsis.png";
+import { HOST } from "src/utils/constants";
 
 function SignUpIntegration() {
   const [datos, setDatos] = useState({});
   const [error, setError] = useState({});
+  const [tiposDocumento, setTiposDocumento] = useState([]);
+
+  useEffect(() => {
+    Axios.get(`${HOST}/app/tipoDocumento`)
+      .then(({ data }) => {
+        if (data.code == 1) {
+          setTiposDocumento(data.response);
+        }
+
+        if (data.code == -1) {
+          console.log(data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -27,9 +45,12 @@ function SignUpIntegration() {
     if (Object.keys(erroresFormulario).length) {
       setError(erroresFormulario);
     } else {
-      const { confirmContrasena, ...datosRegistro } = datos;
-      axios
-        .post(`${URL}/Registro`, datosRegistro)
+      setError({});
+      const { confirmContrasena, contrasena, ...datosRegistro } = datos;
+      Axios.post(`${HOST}/SignUp/Integration`, {
+        ...datosRegistro,
+        password: contrasena,
+      })
         .then(() => {
           swal
             .fire({
@@ -56,6 +77,7 @@ function SignUpIntegration() {
         });
     }
   };
+
   return (
     <signUpStyled.Grid_Layout>
       <signUpStyled.ImagenRegistro src={imagen} alt="Sinapsis" />
@@ -78,11 +100,16 @@ function SignUpIntegration() {
             </signUpStyled.Titulo>
 
             <p className="text-muted text-center">
-              <span>Bienvenido al formulario de registro de la comunidad UAO.</span>
-              <br />              
+              <span>
+                Bienvenido al formulario de registro de la comunidad UAO.
+              </span>
+              <br />
               <span>Utilizamos su usuario universitario para el registro.</span>
-              <br />              
-              <span>IMPORTANTE. Todos los campos son obligatorios</span>
+              <br />
+              <span>
+                <span style={{ fontWeight: "bold" }}>IMPORTANTE.</span> Todos
+                los campos son obligatorios
+              </span>
             </p>
 
             <signUpStyled.Formulario>
@@ -93,7 +120,7 @@ function SignUpIntegration() {
                 <signUpStyled.InputContainerRegistro>
                   <signUpStyled.Input
                     name="usuario"
-                    placeholder="Usuario"
+                    placeholder="Usuario Universitario"
                     type="text"
                     id="usuario"
                     autoFocus
@@ -116,15 +143,21 @@ function SignUpIntegration() {
                 <signUpStyled.InputContainerRegistro>
                   <signUpStyled.InputSelect
                     name="tipoDocumento"
-                    placeholder="Tipo de usuario"
                     type="text"
-                    id="tipo_usuario"
+                    id="tipoDocumento"
                     onChange={(e) => handleChange(e)}
-                    value={datos.tipoDocumento}
+                    value={datos.tipoDocumento || "-1"}
                   >
-                    <option value={1}>CÉDULA DE CIUDADANÍA</option>
-                    <option value={2}>TARJETA DE IDENTIDAD</option>
-                    <option value={3}>CÉDULA DE EXTRANJERÍA</option>
+                    <option value={"-1"} disabled>
+                      Seleccione...
+                    </option>
+                    {tiposDocumento.map((tipoDocumento, index) => {
+                      return (
+                        <option key={index} value={tipoDocumento.id}>
+                          {tipoDocumento.nombre}
+                        </option>
+                      );
+                    })}
                   </signUpStyled.InputSelect>{" "}
                   <br />
                   {error.tipoDocumento && (
@@ -206,7 +239,8 @@ function SignUpIntegration() {
                   Registrarse{" "}
                 </signUpStyled.Boton>
                 <p>
-                  ¿Eres externo de la UAO? <Link to="/Signup/Externo">Registrarte aquí</Link>
+                  ¿Eres externo de la UAO?{" "}
+                  <Link to="/Signup/Externo">Registrarte aquí</Link>
                 </p>
                 <p>
                   ¿Ya tienes una cuenta? <Link to="/Login">Iniciar sesión</Link>

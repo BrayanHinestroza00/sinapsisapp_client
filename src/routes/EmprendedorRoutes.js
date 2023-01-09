@@ -1,12 +1,12 @@
 import Axios from "axios";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
-import EditarCuentaPage from "src/pages/Emprendedor/EditarCuentaPage";
-import HomePage from "src/pages/Emprendedor/HomePage";
-import PerfilPage from "src/pages/Emprendedor/PerfilPage";
-import PrimeraAtencionPage from "src/pages/Emprendedor/PrimeraAtencionPage";
-import RutaPage from "src/pages/Emprendedor/RutaPage";
-import SeleccionarProyectoPage from "src/pages/Emprendedor/SeleccionarProyectoPage";
+import EditarCuentaPage from "src/pages/emprendedor/EditarCuentaPage";
+import HomePage from "src/pages/emprendedor/HomePage";
+import PerfilPage from "src/pages/emprendedor/PerfilPage";
+import PrimeraAtencionPage from "src/pages/emprendedor/PrimeraAtencionPage";
+import RutaPage from "src/pages/emprendedor/RutaPage";
+import SeleccionarProyectoPage from "src/components/emprendedor/SeleccionarProyectoModal";
 import PageNotFound from "src/pages/PageNotFound";
 import {
   HOST,
@@ -17,6 +17,7 @@ import {
   getFromLocalStorage,
   insertIntoLocalStorage,
 } from "src/utils/functions";
+import { EmprendedorContextProvider } from "src/services/context/EmprendedorContext";
 
 function EmprendedorRoutes() {
   useEffect(() => {
@@ -50,19 +51,25 @@ function EmprendedorRoutes() {
   }, []);
 
   return (
-    <Routes>
-      <Route exact path="/" element={<HomePage />} />
-      <Route
-        exact
-        path="/Seleccionar_Proyecto"
-        element={<SeleccionarProyectoPage />}
-      />
-      <Route exact path="/Editar_Cuenta" element={<EditarCuentaPage />} />
-      <Route exact path="/PrimeraAtencion" element={<PrimeraAtencionPage />} />
-      <Route exact path="/Ruta/*" element={<RutaPage />} />
-      <Route exact path="/Perfil" element={<PerfilPage />} />
-      <Route path="*" element={<PageNotFound />} />
-    </Routes>
+    <EmprendedorContextProvider>
+      <Routes>
+        <Route exact path="/" element={<HomePage />} />
+        <Route
+          exact
+          path="/Seleccionar_Proyecto"
+          element={<SeleccionarProyectoPage />}
+        />
+        <Route exact path="/Editar_Cuenta" element={<EditarCuentaPage />} />
+        <Route
+          exact
+          path="/PrimeraAtencion"
+          element={<PrimeraAtencionPage />}
+        />
+        <Route exact path="/Ruta/*" element={<RutaPage />} />
+        <Route exact path="/Perfil" element={<PerfilPage />} />
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </EmprendedorContextProvider>
   );
 }
 

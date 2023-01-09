@@ -4,7 +4,8 @@
 }
 
 #collapseOne a,
-#collapseTwo a {
+#collapseTwo a,
+#collapseThree a {
   color: #fff;
 }
 
@@ -46,4 +47,16 @@
 .btn-secondary:hover {
   background-color: #f57a0e;
   border-color: #ff7802;
+}
+
+.table-primary-personalized {
+  --bs-table-bg: #f3eef5;
+  --bs-table-striped-bg: #f3eef5;
+  --bs-table-striped-color: #000;
+  --bs-table-active-bg: #eedef4;
+  --bs-table-active-color: #000;
+  --bs-table-hover-bg: #f3eef5;
+  --bs-table-hover-color: #000;
+  color: #000;
+  border-color: #eedef4;
 }

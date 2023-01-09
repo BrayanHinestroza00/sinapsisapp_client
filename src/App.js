@@ -5,9 +5,10 @@ import MentorRoutes from "./routes/MentorRoutes";
 import AdministradorRoutes from "./routes/AdministradorRoutes";
 import AppRoutes from "./routes/AppRoutes";
 
-import "./assets/styles/App.css";
-import "./assets/styles/react-flexy-table.css";
-import "./assets/styles/bootstrap.css";
+import "./assets/styles/css/App.css";
+import "./assets/styles/css/react-flexy-table.css";
+import "./assets/styles/css/bootstrap.css";
+import "./assets/styles/css/modal-editar-disponibilidad.css";
 
 function App() {
   return (

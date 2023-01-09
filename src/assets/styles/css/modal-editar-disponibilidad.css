@@ -1,0 +1,14 @@
+#modal_editar_disponibilidad .modalHeader {
+  color: #fff;
+  background-color: #752a88;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
+}
+
+#modal_editar_disponibilidad .modalBody {
+  background-color: #fbf6fc;
+}
+
+#modal_editar_disponibilidad .modalHeader h2 {
+  color: #fff;
+  font-weight: bold;
+}

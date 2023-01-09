@@ -5,7 +5,7 @@ import { headerStyled } from "src/assets/styles/Header.style";
 import logo from "../../assets/images/header/emprendedor/sinapsis.png";
 import exit from "../../assets/images/header/emprendedor/exit.svg";
 import user from "../../assets/images/header/emprendedor/emprendedor_header.png";
-import Modal from "src/components/emprendedor/Modal";
+import SeleccionarProyectoPage from "src/components/emprendedor/SeleccionarProyectoModal";
 import { useEffect, useState } from "react";
 import { getFromLocalStorage } from "src/utils/functions";
 import { SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO } from "src/utils/constants";
@@ -21,7 +21,7 @@ function EmprendedorHeader() {
       SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO
     );
 
-    setUserName(userData.username);
+    setUserName(userData.username.toUpperCase());
     setProyectos(userData.proyectosEmprendimiento);
     setLoading(false);
   }, []);
@@ -64,7 +64,7 @@ function EmprendedorHeader() {
               className="dropdown-menu dropdown-menu-end"
               aria-labelledby="dropdownMenuButton1"
             >
-              {proyectos?.length > 1 && (
+              {proyectos?.length > 0 && (
                 <>
                   <li>
                     <h6 className="dropdown-header">Elige tu proyecto</h6>
@@ -106,7 +106,7 @@ function EmprendedorHeader() {
           </div>
         </headerStyled.ContenedorControlesUsuario>
       </headerStyled.PanelSuperior>
-      <Modal />
+      <SeleccionarProyectoPage />
     </>
   );
 }

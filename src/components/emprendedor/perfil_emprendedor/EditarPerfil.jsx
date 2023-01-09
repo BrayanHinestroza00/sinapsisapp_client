@@ -152,10 +152,6 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
         }
       }
 
-      for (var p of form) {
-        console.log(p);
-      }
-
       Axios.post(`${HOST}/emprendedor`, form)
         .then((res) => {
           Swal.fire({
@@ -413,10 +409,10 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
           <option value={"-1"} disabled>
             Selecciona el vinculo con la universidad
           </option>
-          <option value="Estudiante">Estudiante</option>
-          <option value="Egresado">Egresado</option>
-          <option value="Colaborador">Colaborador</option>
-          <option value="Externo">Externo</option>
+          <option value="ESTUDIANTE">Estudiante</option>
+          <option value="EGRESADO">Egresado</option>
+          <option value="COLABORADOR">Colaborador</option>
+          <option value="EXTERNO">Externo</option>
         </select>
         {error.vinculoConU && (
           <small className="form-text font-weight-bold text-danger">
@@ -424,7 +420,7 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
           </small>
         )}
       </div>
-      {estudiante.show || datos?.vinculoConU === "Estudiante" ? (
+      {estudiante.show || datos?.vinculoConU === "ESTUDIANTE" ? (
         <>
           <div className="col-md-6">
             <label
@@ -673,7 +669,7 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
             <></>
           )}
         </>
-      ) : colaborador.show || datos?.vinculoConU === "Colaborador" ? (
+      ) : colaborador.show || datos?.vinculoConU === "COLABORADOR" ? (
         <>
           <div className="col-md-6">
             <Label htmlFor="cargoColaborador" className="form-label">
@@ -715,7 +711,7 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
             )}
           </div>
         </>
-      ) : egresado.show || datos?.vinculoConU === "Egresado" ? (
+      ) : egresado.show || datos?.vinculoConU === "EGRESADO" ? (
         <>
           <div className="col-md-6">
             <Label htmlFor="tipoEstudianteEgresado" className="form-label">

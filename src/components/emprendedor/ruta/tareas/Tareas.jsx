@@ -7,7 +7,9 @@ import {
   Titulo,
 } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
 
-const data = [{ cedula: 123, correo: "123@gmail.com" }];
+const data = [
+  { "Fecha Entrega": "22/12/2022", "Correo Mentor": "123@gmail.com" },
+];
 
 function Tareas() {
   return (

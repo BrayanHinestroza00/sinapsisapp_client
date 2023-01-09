@@ -7,6 +7,8 @@ import InfoEmprendimiento from "src/components/emprendedor/primera_atencion/Info
 import Confirmacion from "src/components/emprendedor/primera_atencion/Confirmacion";
 import InfoUsuario from "src/components/emprendedor/primera_atencion/InfoUsuario";
 import { HOST } from "src/utils/constants";
+import InfoPrimeraAtencion from "src/components/emprendedor/primera_atencion/InfoPrimeraAtencion";
+import InfoDiagnostico from "src/components/emprendedor/primera_atencion/InfoDiagnostico";
 
 function PrimeraAtencionPage() {
   const [step, setStep] = useState(1);
@@ -64,7 +66,11 @@ function PrimeraAtencionPage() {
             );
           }
         } else {
-          form.append(Object.keys(datos)[index], Object.values(datos)[index]);
+          if (Object.keys(datos)[index] == "municipioId") {
+            form.append("municipio", Object.values(datos)[index]);
+          } else {
+            form.append(Object.keys(datos)[index], Object.values(datos)[index]);
+          }
         }
       }
     }
@@ -110,6 +116,13 @@ function PrimeraAtencionPage() {
     });
   };
 
+  const getFileDiagnostico = (files) => {
+    setDatos({
+      ...datos,
+      fileDiagnostico: files,
+    });
+  };
+
   return (
     <EmprendedorLayout sidebar={false}>
       <>
@@ -127,6 +140,21 @@ function PrimeraAtencionPage() {
             prevStep={prevStep}
             handleChange={handleChange}
             getLogoEmpresa={getLogoEmpresa}
+            datos={datos}
+          />
+        ) : step === 3 ? (
+          <InfoPrimeraAtencion
+            nextStep={nextStep}
+            prevStep={prevStep}
+            handleChange={handleChange}
+            datos={datos}
+          />
+        ) : step === 4 ? (
+          <InfoDiagnostico
+            nextStep={nextStep}
+            prevStep={prevStep}
+            handleChange={handleChange}
+            getFileDiagnostico={getFileDiagnostico}
             datos={datos}
           />
         ) : (

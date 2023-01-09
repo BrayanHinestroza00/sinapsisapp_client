@@ -40,10 +40,17 @@ export const validacionesSignUp = (datos) => {
     correo,
     contrasena,
     confirmContrasena,
+    aceptoTratamientoDatos,
   } = datos;
+
   //Validaciones para el tipo de documento
   if (!tipoDocumento) {
     errors.tipoDocumento = "Campo obligatorio";
+  }
+
+  //Validaciones para el tratamiento de datos
+  if (!aceptoTratamientoDatos) {
+    errors.aceptoTratamientoDatos = "Debes aceptar los términos";
   }
 
   //Validaciones para el numero de documento
@@ -137,7 +144,7 @@ export const validacionesSignUpComunidadUAO = (datos) => {
     confirmContrasena,
   } = datos;
   //Validaciones para el tipo de documento
-  if (!tipoDocumento) {
+  if (!tipoDocumento || tipoDocumento == "-1") {
     errors.tipoDocumento = "Campo obligatorio";
   }
 
@@ -204,7 +211,7 @@ export const validacionesPrimeraAtencionUsuario = (datos) => {
     telefono,
     celular,
     departamento,
-    municipio,
+    municipioId,
     direccion,
     vinculoConU,
   } = datos;
@@ -230,8 +237,8 @@ export const validacionesPrimeraAtencionUsuario = (datos) => {
   if (!departamento) {
     errors.departamento = "Campo Obligatorio";
   }
-  if (!municipio) {
-    errors.municipio = "Campo Obligatorio";
+  if (!municipioId && !datos?.municipioId) {
+    errors.municipioId = "Campo Obligatorio";
   }
   if (!direccion) {
     errors.direccion = "Campo Obligatorio";
@@ -349,6 +356,17 @@ export const validacionesPrimeraAtencionEmprendimiento = (datos) => {
     if (!razonSocialEmpresa) {
       errors.razonSocialEmpresa = "Campo Obligatorio";
     }
+  }
+
+  return errors;
+};
+
+export const validacionesDiagnostico = (datos) => {
+  const errors = {};
+  const { fileDiagnostico } = datos;
+
+  if (!fileDiagnostico) {
+    errors.fileDiagnostico = "Campo Obligatorio";
   }
 
   return errors;

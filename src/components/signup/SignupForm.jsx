@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import Axios from "axios";
 import swal from "sweetalert2";
 
 import { validacionesSignUp } from "src/utils/validaciones";
@@ -8,17 +8,43 @@ import { signUpStyled } from "../../assets/styles/StyleComponent";
 
 import imagen from "../../assets/images/Sinapsis-LR.png";
 import LogoSinapsis from "../../assets/images/Logo_Sinapsis.png";
+import { HOST } from "src/utils/constants";
 
 function SignupForm() {
   const [datos, setDatos] = useState({});
   const [error, setError] = useState({});
+  const [tiposDocumento, setTiposDocumento] = useState([]);
+
+  useEffect(() => {
+    Axios.get(`${HOST}/app/tipoDocumento`)
+      .then(({ data }) => {
+        if (data.code == 1) {
+          setTiposDocumento(data.response);
+        }
+
+        if (data.code == -1) {
+          console.log(data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const handleChange = (e) => {
     e.preventDefault();
-    setDatos({
-      ...datos,
-      [e.target.name]: e.target.value,
-    });
+
+    if (e.target.name == "aceptoTratamientoDatos") {
+      setDatos({
+        ...datos,
+        aceptoTratamientoDatos: e.target.checked,
+      });
+    } else {
+      setDatos({
+        ...datos,
+        [e.target.name]: e.target.value,
+      });
+    }
   };
 
   const handleSubmit = (e) => {
@@ -27,21 +53,23 @@ function SignupForm() {
     if (Object.keys(erroresFormulario).length) {
       setError(erroresFormulario);
     } else {
-      const { confirmContrasena, ...datosRegistro } = datos;
-      axios
-        .post(`${URL}/Registro`, datosRegistro)
+      setError({});
+      const { confirmContrasena, contrasena, ...datosRegistro } = datos;
+      Axios.post(`${HOST}/SignUp/Externo`, {
+        ...datosRegistro,
+        password: contrasena,
+      })
         .then(() => {
-          swal
-            .fire({
-              title: "Registro exitoso",
-              text: "Ahora debes esperar a que un administrador active tu cuenta",
-              icon: "success",
-              iconColor: "#9a66a8",
-              confirmButtonText: "Aceptar",
-              confirmButtonColor: "#9a66a8",
-              showConfirmButton: true,
-            })
-            .then(() => (window.location.href = "/"));
+          swal.fire({
+            title: "Registro exitoso",
+            text: "Ahora debes esperar a que un administrador active tu cuenta",
+            icon: "success",
+            iconColor: "#9a66a8",
+            confirmButtonText: "Aceptar",
+            confirmButtonColor: "#9a66a8",
+            showConfirmButton: true,
+          });
+          // .then(() => (window.location.href = "/"));
         })
         .catch((error) => {
           swal.fire({
@@ -136,15 +164,21 @@ function SignupForm() {
                 <signUpStyled.InputContainerRegistro>
                   <signUpStyled.InputSelect
                     name="tipoDocumento"
-                    placeholder="Tipo de usuario"
                     type="text"
-                    id="tipo_usuario"
+                    id="tipoDocumento"
                     onChange={(e) => handleChange(e)}
-                    value={datos.tipoDocumento}
+                    value={datos.tipoDocumento || "-1"}
                   >
-                    <option value={1}>CÉDULA DE CIUDADANÍA</option>
-                    <option value={2}>TARJETA DE IDENTIDAD</option>
-                    <option value={3}>CÉDULA DE EXTRANJERÍA</option>
+                    <option value={"-1"} disabled>
+                      Seleccione...
+                    </option>
+                    {tiposDocumento.map((tipoDocumento, index) => {
+                      return (
+                        <option key={index} value={tipoDocumento.id}>
+                          {tipoDocumento.nombre}
+                        </option>
+                      );
+                    })}
                   </signUpStyled.InputSelect>{" "}
                   <br />
                   {error.tipoDocumento && (
@@ -179,7 +213,7 @@ function SignupForm() {
 
               <div className="form-controls">
                 <signUpStyled.Label htmlFor="correo">
-                  Correo electronico <span className="text-danger"> (*)</span>
+                  Correo electrónico <span className="text-danger"> (*)</span>
                 </signUpStyled.Label>
                 <signUpStyled.InputContainerRegistro>
                   <signUpStyled.Input
@@ -199,7 +233,7 @@ function SignupForm() {
                 </signUpStyled.InputContainerRegistro>
               </div>
 
-              {datos.tipoUsuario === "Mentor" ? (
+              {datos.tipoUsuario === "Mentor" && (
                 <div className="form-controls">
                   <signUpStyled.Label htmlFor="especialidadMentor">
                     Especialidad del mentor{" "}
@@ -219,7 +253,7 @@ function SignupForm() {
                         Seleccione su especialidad
                       </option>
                       <option value="Contabilidad">Contabilidad</option>
-                      <option value="Tecnologia">Tecnologia</option>
+                      <option value="Tecnologia">Tecnología</option>
                       <option value="Negocios internacionales">
                         Negocios internacionales
                       </option>
@@ -232,8 +266,6 @@ function SignupForm() {
                     )}
                   </signUpStyled.InputContainerRegistro>
                 </div>
-              ) : (
-                <></>
               )}
 
               <div className="form-controls">
@@ -279,13 +311,42 @@ function SignupForm() {
                   )}
                 </signUpStyled.InputContainerRegistro>
               </div>
+
+              <div className="form-controls">
+                <signUpStyled.InputContainerRegistro>
+                  <div class="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      value={true}
+                      onChange={(e) => handleChange(e)}
+                      name="aceptoTratamientoDatos"
+                      id="aceptoTratamientoDatos"
+                    />
+                    <label
+                      className="form-check-label"
+                      for="aceptoTratamientoDatos"
+                    >
+                      Acepto los términos y condiciones
+                    </label>
+                  </div>
+                  <br />
+                  {error.aceptoTratamientoDatos && (
+                    <signUpStyled.SmallError class="form-text font-weight-bold text-danger">
+                      {error.aceptoTratamientoDatos}
+                    </signUpStyled.SmallError>
+                  )}
+                </signUpStyled.InputContainerRegistro>
+              </div>
+
               <signUpStyled.BotonesContainer>
                 <signUpStyled.Boton className="btn btn-primary" type=" submit">
                   {" "}
                   Registrarse{" "}
                 </signUpStyled.Boton>
                 <p>
-                  ¿Eres comunidad UAO? <Link to="/Signup/ComunidadUAO">Registrarte aquí</Link>
+                  ¿Eres comunidad UAO?{" "}
+                  <Link to="/Signup/ComunidadUAO">Registrarte aquí</Link>
                 </p>
                 <p>
                   ¿Ya tienes una cuenta? <Link to="/Login">Iniciar sesión</Link>

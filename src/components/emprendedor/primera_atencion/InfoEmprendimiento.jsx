@@ -16,6 +16,7 @@ import {
   TextArea,
   TituloStepByStep,
 } from "src/assets/styles/emprendedor/primeraAtencion.style";
+import { SubTitulo } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
 import DropZone from "src/components/DropZone";
 import { validacionesPrimeraAtencionEmprendimiento } from "src/utils/validaciones";
 
@@ -40,7 +41,7 @@ function InfoEmprendimiento(props) {
   };
 
   return (
-    <Contenido className="container w-50">
+    <Contenido className="container">
       <div className="text-center">
         <Circulo>
           <Paso>2</Paso>
@@ -49,6 +50,7 @@ function InfoEmprendimiento(props) {
       </div>
 
       <form className="row g-3">
+        <SubTitulo>Información del emprendimiento</SubTitulo>
         <div className="mb-3">
           <Label htmlFor="nombreEmprendimiento" className="form-label">
             Nombre del emprendimiento
@@ -169,50 +171,6 @@ function InfoEmprendimiento(props) {
           )}
         </div>
 
-        <div className="col-md-6 mb-3">
-          <Label htmlFor="estaConstituida" className="form-label">
-            Esta constituida
-            <span> (*)</span>
-          </Label>
-          <select
-            id="estaConstituida"
-            className="form-select"
-            name="estaConstituida"
-            value={props.datos.estaConstituida || "-1"}
-            onChange={(e) => props.handleChange(e)}
-          >
-            <option value={"-1"} disabled>
-              Seleccione...
-            </option>
-            <option value="SI">SI</option>
-            <option value="NO">NO</option>
-          </select>
-          {error.estaConstituida && (
-            <small className="form-text font-weight-bold text-danger">
-              {error.estaConstituida}
-            </small>
-          )}
-        </div>
-
-        <div className="col-md-6 mb-3">
-          <Label htmlFor="fechaConstitucion" className="form-label">
-            Fecha de constitución
-          </Label>
-          <Input
-            type="date"
-            className="form-control"
-            name="fechaConstitucion"
-            id="fechaConstitucion"
-            value={props.datos.fechaConstitucion || null}
-            onChange={(e) => props.handleChange(e)}
-          />
-          {error.fechaConstitucion && (
-            <small className="form-text font-weight-bold text-danger">
-              {error.fechaConstitucion}
-            </small>
-          )}
-        </div>
-
         <div className="mb-3">
           <Label htmlFor="descripcionProducto" className="form-label">
             Descripción del producto<span> (*)</span>
@@ -273,6 +231,52 @@ function InfoEmprendimiento(props) {
           )}
         </div>
 
+        <SubTitulo>Información de la empresa</SubTitulo>
+
+        <div className="col-md-6 mb-3">
+          <Label htmlFor="estaConstituida" className="form-label">
+            Esta constituida
+            <span> (*)</span>
+          </Label>
+          <select
+            id="estaConstituida"
+            className="form-select"
+            name="estaConstituida"
+            value={props.datos.estaConstituida || "-1"}
+            onChange={(e) => props.handleChange(e)}
+          >
+            <option value={"-1"} disabled>
+              Seleccione...
+            </option>
+            <option value="SI">SI</option>
+            <option value="NO">NO</option>
+          </select>
+          {error.estaConstituida && (
+            <small className="form-text font-weight-bold text-danger">
+              {error.estaConstituida}
+            </small>
+          )}
+        </div>
+
+        <div className="col-md-6 mb-3">
+          <Label htmlFor="fechaConstitucion" className="form-label">
+            Fecha de constitución
+          </Label>
+          <Input
+            type="date"
+            className="form-control"
+            name="fechaConstitucion"
+            id="fechaConstitucion"
+            value={props.datos.fechaConstitucion || null}
+            onChange={(e) => props.handleChange(e)}
+          />
+          {error.fechaConstitucion && (
+            <small className="form-text font-weight-bold text-danger">
+              {error.fechaConstitucion}
+            </small>
+          )}
+        </div>
+
         <div className="mb-3">
           <Label htmlFor="logoEmpresa" className="form-label nombreInput">
             Logo Empresa
@@ -317,7 +321,7 @@ function InfoEmprendimiento(props) {
             handleSubmit(e);
           }}
         >
-          Siguente
+          Siguiente
         </BotonSiguiente>
       </div>
     </Contenido>
