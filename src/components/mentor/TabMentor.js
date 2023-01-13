@@ -1,17 +1,11 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { Tabs, Tab } from "react-bootstrap";
 
-import Consultorias from "./consultoria/Consultoria";
-// import Ruta from "./ruta/Ruta";
-// import Diagnostico from "./diagnostico/Diagnostico";
-// import Historial from "../../../Shared/components/Historial/Historial";
-
-// import { useLocalStorage } from "../../../Shared/hooks/useLocalStorage";
-
 import { MentorEmprendedorContext } from "src/services/context/MentorEmprendedorContext";
-import RutaMentor from "./ruta/RutaMentor";
-import ProyectoMentor from "./emprendimientos/ProyectoMentor";
-import HistorialConsultoria from "./consultoria/HistorialConsultoria";
+import RutaMentor from "src/components/detalle_emprendedor/ruta/RutaMentor";
+import Consultorias from "src/components/detalle_emprendedor/consultoria/Consultoria";
+import HistorialConsultoria from "src/components/detalle_emprendedor/consultoria/HistorialConsultoria";
+import ProyectoMentor from "src/components/detalle_emprendedor/emprendimientos/ProyectoMentor";
 
 function TabMentor() {
   const [key, setKey] = useState("ruta");

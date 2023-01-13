@@ -6,7 +6,7 @@ import {
   SubTitulo,
   Titulo,
 } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
-import EditarDisponibilidadModal from "src/components/mentor/detalle_emprendedor/consultoria/EditarDisponibilidadModal";
+import EditarDisponibilidadModal from "src/components/mentor/detalle_emprendedor/EditarDisponibilidadModal";
 import TablaHorarios from "src/components/TablaHorarios";
 import MentorLayout from "src/layouts/MentorLayout";
 

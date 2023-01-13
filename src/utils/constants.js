@@ -41,3 +41,15 @@ export const SIDEBAR_MENTOR_CONSULTORIAS_NORMALES = "normales";
 export const SIDEBAR_MENTOR_CONSULTORIAS_ESPECIALIZADAS = "especializadas";
 export const SIDEBAR_MENTOR_REPORTES_ITEM = "reportes";
 export const SIDEBAR_MENTOR_REPORTES_CONSULTORIAS = "rep_consultorias";
+
+export const SIDEBAR_ADMINISTRADOR =
+  "sinapsisapp_sidebar_administrador_item_active";
+export const SIDEBAR_ADMINISTRADOR_SUBMENU =
+  "sinapsisapp_sidebar_administrador_subitem_active";
+export const SIDEBAR_ADMINISTRADOR_PRIMERA_ATENCION_ITEM = "primera_atencion";
+export const SIDEBAR_ADMINISTRADOR_EMPRENDEDORES_ITEM = "emprendedores";
+export const SIDEBAR_ADMINISTRADOR_REPORTES_ITEM = "reportes";
+export const SIDEBAR_ADMINISTRADOR_GESTION_USUARIOS_ITEM = "gestion_usuarios";
+export const SIDEBAR_ADMINISTRADOR_GESTION_ANUNCIOS_ITEM = "gestion_anuncios";
+// export const SIDEBAR_ADMINISTRADOR_REPORTES_ITEM = "reportes";
+// export const SIDEBAR_ADMINISTRADOR_REPORTES_CONSULTORIAS = "rep_consultorias";

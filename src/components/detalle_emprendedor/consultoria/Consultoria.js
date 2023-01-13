@@ -1,24 +1,15 @@
-import { useState, useContext } from "react";
-import ReactFlexyTable from "react-flexy-table";
-import Axios from "axios";
-import swal from "sweetalert2";
-
 import FlexyTable from "src/components/FlexyTable";
-import RevisarConsultoria from "./RevisarConsultoria";
-import { HOST } from "src/utils/constants";
-import { useAPI_GET } from "src/services/hooks/useAPI";
-import { MentorEmprendedorContext } from "src/services/context/MentorEmprendedorContext";
+// import { MentorEmprendedorContext } from "src/services/context/MentorEmprendedorContext";
 import { Card } from "react-bootstrap";
 import {
   Ruta,
   SubTitulo,
-  Titulo,
 } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
 
 // import "../../../styles/ConsultoriasMentor.css";
 
-function Consultoria() {
-  const { userData } = useContext(MentorEmprendedorContext);
+function Consultoria({ userData }) {
+  // const { userData } = useContext(MentorEmprendedorContext);
 
   return (
     <Card>

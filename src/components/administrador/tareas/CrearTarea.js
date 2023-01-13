@@ -6,6 +6,7 @@ import swal from "sweetalert2";
 
 import { HOST } from "src/utils/constants";
 import DropZone from "src/components/DropZone";
+import { Boton } from "src/assets/styles/emprendedor/primeraAtencion.style";
 
 // import "../../../styles/crearTarea.css";
 
@@ -189,18 +190,18 @@ function CrearTarea({ show, setShow }) {
         </form>
       </ModalBody>
       <ModalFooter className="modalFooter_crearTarea">
-        <button className=" btn btn_crearTareaOutline" onClick={setShow}>
+        <Boton className=" btn btn-secondary" onClick={setShow}>
           Cancelar
-        </button>
+        </Boton>
 
-        <button
-          className="btn btn_crearTarea"
+        <Boton
+          className="btn btn-primary"
           onClick={(e) => {
             handleSubmmit(e);
           }}
         >
           Crear
-        </button>
+        </Boton>
       </ModalFooter>
     </Modal>
   );

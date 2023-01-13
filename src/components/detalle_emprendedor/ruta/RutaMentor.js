@@ -4,7 +4,6 @@ import {
   CardRuta,
   Ruta,
   SubTitulo,
-  Titulo,
 } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
 import AvanceRuta from "src/components/AvanceRuta";
 import EstadoRuta from "src/components/EstadoRuta";

@@ -1,5 +1,5 @@
 import { Titulo } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
-import TabMentor from "src/components/mentor/detalle_emprendedor/TabMentor";
+import TabMentor from "src/components/mentor/TabMentor";
 import MentorLayout from "src/layouts/MentorLayout";
 import { MentorEmprendedorContextProvider } from "src/services/context/MentorEmprendedorContext";
 

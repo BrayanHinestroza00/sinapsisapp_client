@@ -2,9 +2,9 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { headerStyled } from "src/assets/styles/Header.style";
 
-import logo from "../../assets/images/header/emprendedor/sinapsis.png";
-import exit from "../../assets/images/header/emprendedor/exit.svg";
-import user from "../../assets/images/header/emprendedor/emprendedor_header.png";
+import logo from "src/assets/images/header/sinapsis.png";
+import exit from "src/assets/images/header/exit.svg";
+import user from "src/assets/images/header/emprendedor/emprendedor_header.png";
 import SeleccionarProyectoPage from "src/components/emprendedor/SeleccionarProyectoModal";
 import { useEffect, useState } from "react";
 import { getFromLocalStorage } from "src/utils/functions";

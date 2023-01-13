@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import Axios from "axios";
 import ReactFlexyTable from "react-flexy-table";
-
+import Axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { Card } from "src/assets/styles/emprendedor/mentores.style";
 import {
   Input,
@@ -12,12 +12,11 @@ import {
   SubTitulo,
   Titulo,
 } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
-import showIcon from "src/assets/images/showIcon.png";
-import MentorLayout from "src/layouts/MentorLayout";
+import AdministradorLayout from "src/layouts/AdministradorLayout";
 import { HOST } from "src/utils/constants";
-import { useNavigate } from "react-router-dom";
+import showIcon from "src/assets/images/showIcon.png";
 
-function EmprendedoresPage() {
+function MentoresPage() {
   const additionalCols = [
     {
       header: "Actions",
@@ -28,7 +27,7 @@ function EmprendedoresPage() {
               src={showIcon}
               width="auto"
               height="25"
-              onClick={() => onHandleSearchEmprendedor(data.ID)}
+              onClick={() => onHandleDetalleMentor(data.ID)}
             />{" "}
             {/* <img
               src={editIcon}
@@ -43,25 +42,9 @@ function EmprendedoresPage() {
   ];
 
   const navigate = useNavigate();
-
   const [error, setError] = useState({});
   const [datos, setDatos] = useState({});
   const [tiposDocumento, setTiposDocumento] = useState([]);
-
-  const onHandleChange = (event) => {
-    setDatos({
-      ...datos,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const onHandleSearchEmprendedor = (idEmprendedor) => {
-    navigate(`/Mentor/Emprendedor/${idEmprendedor}`);
-  };
-
-  const onHandleSubmit = (e) => {
-    e.preventDefault();
-  };
 
   useEffect(() => {
     Axios.get(`${HOST}/app/tipoDocumento`)
@@ -79,10 +62,25 @@ function EmprendedoresPage() {
       });
   }, []);
 
+  const onHandleChange = (event) => {
+    setDatos({
+      ...datos,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const onHandleSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  const onHandleDetalleMentor = (idMentor) => {
+    navigate(`/Administrador/Mentores/${idMentor}`);
+  };
+
   return (
-    <MentorLayout sidebar={true}>
+    <AdministradorLayout sidebar={true}>
       <>
-        <Titulo>Emprendedores </Titulo>
+        <Titulo>Mentores </Titulo>
 
         <Card style={{ padding: "0.5rem 2rem 1rem 2rem" }}>
           <SubTitulo>Filtros</SubTitulo>
@@ -140,10 +138,10 @@ function EmprendedoresPage() {
               )}
             </div>
 
-            {/* Nombre emprendedor */}
+            {/* Nombre(s) emprendedor */}
             <div className="col-md-6">
               <Label htmlFor="nombreEmprendedor" className="form-label">
-                Nombre(s) del Emprendedor
+                Nombre(s):
               </Label>
               <Input
                 type="text"
@@ -162,30 +160,32 @@ function EmprendedoresPage() {
               )}
             </div>
 
-            {/* Nombre iniciativa */}
+            {/* Apellido(s) emprendedor */}
             <div className="col-md-6">
-              <Label htmlFor="nombreIniciativa" className="form-label">
-                Nombre de la Iniciativa
+              <Label htmlFor="apellidoEmprendedor" className="form-label">
+                Apellido(s):
               </Label>
               <Input
                 type="text"
                 className="form-control inputDiag"
-                name="nombreIniciativa"
-                id="nombreIniciativa"
+                name="apellidoEmprendedor"
+                id="apellidoEmprendedor"
                 value={
-                  datos.nombreIniciativa != null ? datos.nombreIniciativa : ""
+                  datos.apellidoEmprendedor != null
+                    ? datos.apellidoEmprendedor
+                    : ""
                 }
                 onChange={(e) => onHandleChange(e)}
               />
-              {error.nombreIniciativa && (
+              {error.apellidoEmprendedor && (
                 <small className="form-text font-weight-bold text-danger">
-                  {error.nombreIniciativa}
+                  {error.apellidoEmprendedor}
                 </small>
               )}
             </div>
 
             <div>
-              <button className="btn btn-primary">Filtrar</button>
+              <button className="btn btn-primary">Consultar</button>
             </div>
           </form>
         </Card>
@@ -197,7 +197,7 @@ function EmprendedoresPage() {
             marginLeft: "0rem",
           }}
         >
-          <SubTitulo>Listado de Emprendedores</SubTitulo>
+          <SubTitulo>Listado de Mentores</SubTitulo>
           {data.length > 0 ? (
             <ReactFlexyTable
               data={data}
@@ -217,7 +217,7 @@ function EmprendedoresPage() {
           )}
         </Ruta>
       </>
-    </MentorLayout>
+    </AdministradorLayout>
   );
 }
 
@@ -231,4 +231,4 @@ const data = [
   },
 ];
 
-export default EmprendedoresPage;
+export default MentoresPage;

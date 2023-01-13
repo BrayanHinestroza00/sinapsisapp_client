@@ -8,6 +8,7 @@ import FlexyTable from "src/components/FlexyTable";
 
 import { HOST } from "src/utils/constants";
 import { useAPI_GET } from "src/services/hooks/useAPI";
+import { Boton } from "src/assets/styles/emprendedor/primeraAtencion.style";
 
 // import "../../../styles/TareasMentor.css";
 
@@ -16,31 +17,31 @@ function Tareas({ cedula, nombre }) {
   const [revisarTarea, setRevisarTarea] = useState(false);
   const [idTarea, setIdTarea] = useState(null);
 
-  const [loadingEntregadas, data, errorEntregadas] = useAPI_GET(
-    `${HOST}/Mentor/Tareas/Entregadas`,
-    {
-      headers: {
-        Authorization:
-          localStorage.getItem("token") || sessionStorage.getItem("token"),
-      },
-      params: {
-        cedulaEmprendedor: cedula,
-      },
-    }
-  );
+  // const [loadingEntregadas, data, errorEntregadas] = useAPI_GET(
+  //   `/Mentor/Tareas/Entregadas`,
+  //   {
+  //     headers: {
+  //       Authorization:
+  //         localStorage.getItem("token") || sessionStorage.getItem("token"),
+  //     },
+  //     params: {
+  //       cedulaEmprendedor: cedula,
+  //     },
+  //   }
+  // );
 
-  const [loadingPendientes, dataPendiente, errorPendientes] = useAPI_GET(
-    `${HOST}/Mentor/Tareas/Pendientes`,
-    {
-      headers: {
-        Authorization:
-          localStorage.getItem("token") || sessionStorage.getItem("token"),
-      },
-      params: {
-        cedulaEmprendedor: cedula,
-      },
-    }
-  );
+  // const [loadingPendientes, dataPendiente, errorPendientes] = useAPI_GET(
+  //   `/Mentor/Tareas/Pendientes`,
+  //   {
+  //     headers: {
+  //       Authorization:
+  //         localStorage.getItem("token") || sessionStorage.getItem("token"),
+  //     },
+  //     params: {
+  //       cedulaEmprendedor: cedula,
+  //     },
+  //   }
+  // );
 
   function RevisarT({ idTarea }) {
     setIdTarea(idTarea);
@@ -99,28 +100,28 @@ function Tareas({ cedula, nombre }) {
   }
   /*---------------------------------------------------------------*/
 
-  if (loadingEntregadas || loadingPendientes) {
-    return <div>Cargando</div>;
-  }
+  // if (loadingEntregadas || loadingPendientes) {
+  //   return <div>Cargando</div>;
+  // }
 
-  if (errorEntregadas || errorPendientes) {
-    swal.fire({
-      title:
-        errorEntregadas.response.data.message ||
-        errorPendientes.response.data.message,
-      icon: "warning",
-      confirmButtonText: "Aceptar",
-      confirmButtonColor: "#9a66a8",
-      showConfirmButton: true,
-      showCloseButton: true,
-    });
-  }
+  // if (errorEntregadas || errorPendientes) {
+  //   swal.fire({
+  //     title:
+  //       errorEntregadas.response.data.message ||
+  //       errorPendientes.response.data.message,
+  //     icon: "warning",
+  //     confirmButtonText: "Aceptar",
+  //     confirmButtonColor: "#9a66a8",
+  //     showConfirmButton: true,
+  //     showCloseButton: true,
+  //   });
+  // }
 
   return (
     <div className="contenedor_tareas_mentor">
-      <button className="btn_crearTarea_mentor btn " onClick={mostrarCrearT}>
+      <Boton className="btn btn-primary" onClick={mostrarCrearT}>
         Crear tarea
-      </button>
+      </Boton>
 
       {data ? (
         <FlexyTable
@@ -172,5 +173,25 @@ function Tareas({ cedula, nombre }) {
     </div>
   );
 }
+
+const data = [
+  {
+    ID: "1",
+    "Tipo Doc.": "CC",
+    "Num Doc.": "1005943951",
+    Nombre: "Brayan Hinestroza",
+    Correo: "123@gmail.com",
+  },
+];
+
+const dataPendiente = [
+  {
+    ID: "1",
+    "Tipo Doc.": "CC",
+    "Num Doc.": "1005943951",
+    Nombre: "Brayan Hinestroza",
+    Correo: "123@gmail.com",
+  },
+];
 
 export default Tareas;

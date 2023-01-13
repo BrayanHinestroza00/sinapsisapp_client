@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { headerStyled } from "src/assets/styles/Header.style";
 
-import logo from "../../assets/images/header/emprendedor/sinapsis.png";
-import exit from "../../assets/images/header/emprendedor/exit.svg";
-import user from "../../assets/images/header/emprendedor/emprendedor_header.png";
-import imagenActiva from "../../assets/images/tmp/notificacion_active.png";
-import imagenInactiva from "../../assets/images/tmp/notificacion_inactive.png";
+import logo from "src/assets/images/header/sinapsis.png";
+import exit from "src/assets/images/header/exit.svg";
+import user from "src/assets/images/header/emprendedor/emprendedor_header.png";
+import imagenActiva from "src/assets/images/tmp/notificacion_active.png";
+import imagenInactiva from "src/assets/images/tmp/notificacion_inactive.png";
 
 import { getFromLocalStorage } from "src/utils/functions";
 import { SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO } from "src/utils/constants";
