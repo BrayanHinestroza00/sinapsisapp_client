@@ -4,30 +4,30 @@ import imagen from "../../assets/images/home/315222325_3267776200103231_43921467
 
 function HomePage() {
   return (
-    <AdministradorLayout sidebar={true}>
-      <>
-        <h1>Últimos anuncios</h1>
-        <div className="container">
-          <p>
-            Fecha de publicación:{" "}
-            <span className="text-muted">21 de noviembre a las 11:39</span>
-          </p>
-          <p>
-            La Gran Vitrina Verde, se llevará a cabo el 25 de noviembre en el
-            Bulevar del Río Cali, evento de región que tendrá productos y
-            servicios de 100 negocios verdes. 📣♻️
-          </p>
-          <div className="w-100 text-center">
-            <img
-              src={imagen}
-              alt="evento"
-              className="rounded"
-              style={{ maxWidth: "50vw" }}
-            />
-          </div>
+    // <AdministradorLayout sidebar={true}>
+    <>
+      <h1>Últimos anuncios</h1>
+      <div className="container">
+        <p>
+          Fecha de publicación:{" "}
+          <span className="text-muted">21 de noviembre a las 11:39</span>
+        </p>
+        <p>
+          La Gran Vitrina Verde, se llevará a cabo el 25 de noviembre en el
+          Bulevar del Río Cali, evento de región que tendrá productos y
+          servicios de 100 negocios verdes. 📣♻️
+        </p>
+        <div className="w-100 text-center">
+          <img
+            src={imagen}
+            alt="evento"
+            className="rounded"
+            style={{ maxWidth: "50vw" }}
+          />
         </div>
-      </>
-    </AdministradorLayout>
+      </div>
+    </>
+    // </AdministradorLayout>
   );
 }
 

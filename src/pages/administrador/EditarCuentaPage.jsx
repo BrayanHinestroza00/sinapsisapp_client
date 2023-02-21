@@ -5,12 +5,12 @@ import AdministradorLayout from "src/layouts/AdministradorLayout";
 
 function EditarCuentaPage() {
   return (
-    <AdministradorLayout sidebar={true}>
-      <>
-        <Titulo>Configuración de la Cuenta</Titulo>
-        <FormEditarCuenta />
-      </>
-    </AdministradorLayout>
+    // <AdministradorLayout sidebar={true}>
+    <>
+      <Titulo>Configuración de la Cuenta</Titulo>
+      <FormEditarCuenta />
+    </>
+    // </AdministradorLayout>
   );
 }
 

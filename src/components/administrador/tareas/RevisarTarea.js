@@ -185,7 +185,7 @@ function RevisarTarea({ idTarea, show, setShow }) {
                 <option value="Reprobada">Reprobada</option>
               </select>
               {error.Calificacion && (
-                <small class="form-text font-weight-bold text-danger">
+                <small className="form-text font-weight-bold text-danger">
                   {error.Calificacion}
                 </small>
               )}
@@ -200,7 +200,7 @@ function RevisarTarea({ idTarea, show, setShow }) {
                 onChange={(e) => handleChange(e)}
               />
               {error.ComentarioMentor && (
-                <small class="form-text font-weight-bold text-danger">
+                <small className="form-text font-weight-bold text-danger">
                   {error.ComentarioMentor}
                 </small>
               )}

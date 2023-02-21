@@ -7,6 +7,7 @@ import {
 
 import rutaMenuIcon from "src/assets/images/sidebar/ruta_main.png";
 import estadoIcon from "src/assets/images/sidebar/estado_ruta.png";
+import avanzarIcon from "src/assets/images/sidebar/avanzar_ruta.png";
 import mentoresIcon from "src/assets/images/sidebar/mentor.png";
 import tareasIcon from "src/assets/images/sidebar/tareas.png";
 import proyectoIcon from "src/assets/images/sidebar/project.png";
@@ -20,7 +21,6 @@ import {
   SIDEBAR_EMPRENDEDOR,
   SIDEBAR_EMPRENDEDOR_CONSULTORIAS_ITEM,
   SIDEBAR_EMPRENDEDOR_RUTA_ITEM,
-  SIDEBAR_EMPRENDEDOR_SUBMENU,
 } from "src/utils/constants";
 
 function EmprendedorSidebar() {
@@ -42,11 +42,10 @@ function EmprendedorSidebar() {
     } catch (error) {
       console.log("Error al leer el localStorage - EmprendedorNavbar.jsx");
     }
+    // eslint-disable-next-line
   }, []);
 
   const onChangeMenu = (event_key) => {
-    console.log("AQUI");
-    console.log(event_key);
     localStorage.setItem(SIDEBAR_EMPRENDEDOR, event_key);
     setMenuActive(event_key);
   };
@@ -82,6 +81,7 @@ function EmprendedorSidebar() {
                     display: "inline",
                     marginRight: "1rem",
                   }}
+                  alt={""}
                 />
                 Mi Ruta
               </AccordionItemSidebar>
@@ -101,6 +101,28 @@ function EmprendedorSidebar() {
                 aria-label="Basic example"
               >
                 <Link
+                  to={"/Emprendedor/Ruta/Avanzar"}
+                  className="btn d-flex align-items-center"
+                  style={{
+                    textAlign: "left",
+                    height: "72px",
+                    paddingLeft: "1rem",
+                  }}
+                >
+                  <img
+                    src={avanzarIcon}
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      display: "inline",
+                      marginRight: "1rem",
+                    }}
+                    alt={""}
+                  />
+                  Avanzar en mi Ruta
+                </Link>
+
+                <Link
                   to={"/Emprendedor/Ruta/Estado"}
                   className="btn d-flex align-items-center"
                   style={{
@@ -117,6 +139,7 @@ function EmprendedorSidebar() {
                       display: "inline",
                       marginRight: "1rem",
                     }}
+                    alt={""}
                   />
                   Estado de Ruta
                 </Link>
@@ -138,6 +161,7 @@ function EmprendedorSidebar() {
                       display: "inline",
                       marginRight: "1rem",
                     }}
+                    alt={""}
                   />
                   Mis Mentores
                 </Link>
@@ -159,6 +183,7 @@ function EmprendedorSidebar() {
                       display: "inline",
                       marginRight: "1rem",
                     }}
+                    alt={""}
                   />
                   Mis Tareas
                 </Link>
@@ -180,6 +205,7 @@ function EmprendedorSidebar() {
                       display: "inline",
                       marginRight: "1rem",
                     }}
+                    alt={""}
                   />
                   Mi Proyecto
                 </Link>
@@ -201,6 +227,7 @@ function EmprendedorSidebar() {
                       display: "inline",
                       marginRight: "1rem",
                     }}
+                    alt={""}
                   />
                   Material de Apoyo
                 </Link>
@@ -225,6 +252,7 @@ function EmprendedorSidebar() {
                     display: "inline",
                     marginRight: "1rem",
                   }}
+                  alt={""}
                 />
                 Consultorías
               </AccordionItemSidebar>
@@ -263,6 +291,7 @@ function EmprendedorSidebar() {
                       display: "inline",
                       marginRight: "1rem",
                     }}
+                    alt={""}
                   />
                   Consultorías Normales
                 </Link>
@@ -283,6 +312,7 @@ function EmprendedorSidebar() {
                       display: "inline",
                       marginRight: "1rem",
                     }}
+                    alt={""}
                   />
                   Consultorías Especializadas
                 </Link>
@@ -303,6 +333,7 @@ function EmprendedorSidebar() {
                       display: "inline",
                       marginRight: "1rem",
                     }}
+                    alt={""}
                   />
                   Historial de Consultorías
                 </Link>

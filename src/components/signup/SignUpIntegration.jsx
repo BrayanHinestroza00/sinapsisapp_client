@@ -129,7 +129,7 @@ function SignUpIntegration() {
                   />{" "}
                   <br />
                   {error.usuario && (
-                    <signUpStyled.SmallError class="form-text font-weight-bold text-danger">
+                    <signUpStyled.SmallError className="form-text font-weight-bold text-danger">
                       {error.usuario}
                     </signUpStyled.SmallError>
                   )}
@@ -161,7 +161,7 @@ function SignUpIntegration() {
                   </signUpStyled.InputSelect>{" "}
                   <br />
                   {error.tipoDocumento && (
-                    <signUpStyled.SmallError class="form-text font-weight-bold text-danger">
+                    <signUpStyled.SmallError className="form-text font-weight-bold text-danger">
                       {error.tipoDocumento}
                     </signUpStyled.SmallError>
                   )}
@@ -183,7 +183,7 @@ function SignUpIntegration() {
                   />{" "}
                   <br />
                   {error.numeroDocumento && (
-                    <signUpStyled.SmallError class="form-text font-weight-bold text-danger error-class">
+                    <signUpStyled.SmallError className="form-text font-weight-bold text-danger error-class">
                       {error.numeroDocumento}
                     </signUpStyled.SmallError>
                   )}
@@ -205,7 +205,7 @@ function SignUpIntegration() {
                   />{" "}
                   <br />
                   {error.contrasena && (
-                    <signUpStyled.SmallError class="form-text font-weight-bold text-danger">
+                    <signUpStyled.SmallError className="form-text font-weight-bold text-danger">
                       {error.contrasena}
                     </signUpStyled.SmallError>
                   )}
@@ -227,7 +227,7 @@ function SignUpIntegration() {
                   />{" "}
                   <br />
                   {error.confirmContrasena && (
-                    <signUpStyled.SmallError class="form-text font-weight-bold text-danger">
+                    <signUpStyled.SmallError className="form-text font-weight-bold text-danger">
                       {error.confirmContrasena}
                     </signUpStyled.SmallError>
                   )}

@@ -18,6 +18,7 @@ import {
   insertIntoLocalStorage,
 } from "src/utils/functions";
 import { EmprendedorContextProvider } from "src/services/context/EmprendedorContext";
+import EmprendedorLayout from "src/layouts/EmprendedorLayout";
 
 function EmprendedorRoutes() {
   useEffect(() => {
@@ -52,23 +53,25 @@ function EmprendedorRoutes() {
 
   return (
     <EmprendedorContextProvider>
-      <Routes>
-        <Route exact path="/" element={<HomePage />} />
-        <Route
-          exact
-          path="/Seleccionar_Proyecto"
-          element={<SeleccionarProyectoPage />}
-        />
-        <Route exact path="/Editar_Cuenta" element={<EditarCuentaPage />} />
-        <Route
-          exact
-          path="/PrimeraAtencion"
-          element={<PrimeraAtencionPage />}
-        />
-        <Route exact path="/Ruta/*" element={<RutaPage />} />
-        <Route exact path="/Perfil" element={<PerfilPage />} />
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
+      <EmprendedorLayout sidebar={false}>
+        <Routes>
+          <Route exact path="/" element={<HomePage />} />
+          <Route
+            exact
+            path="/Seleccionar_Proyecto"
+            element={<SeleccionarProyectoPage />}
+          />
+          <Route exact path="/Editar_Cuenta" element={<EditarCuentaPage />} />
+          <Route
+            exact
+            path="/PrimeraAtencion"
+            element={<PrimeraAtencionPage />}
+          />
+          <Route exact path="/Ruta/*" element={<RutaPage />} />
+          <Route exact path="/Perfil" element={<PerfilPage />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </EmprendedorLayout>
     </EmprendedorContextProvider>
   );
 }

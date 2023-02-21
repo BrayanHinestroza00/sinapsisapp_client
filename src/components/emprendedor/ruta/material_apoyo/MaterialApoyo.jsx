@@ -40,9 +40,9 @@ function MaterialApoyo() {
                 className="card-img-top d-flex"
                 src="https://www.youtube.com/embed/rrUp4fjAYc8"
                 title="Introducción al curso Ruta 0 - Plataforma virtual Sinapsis UAO"
-                frameborder="0"
+                frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
+                allowFullScreen
                 style={{ minHeight: "20rem" }}
               />
               <div className="card-body">

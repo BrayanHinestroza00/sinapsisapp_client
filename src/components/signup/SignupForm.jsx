@@ -127,7 +127,7 @@ function SignupForm() {
                   />{" "}
                   <br />
                   {error.nombres && (
-                    <signUpStyled.SmallError class="form-text font-weight-bold text-danger">
+                    <signUpStyled.SmallError className="form-text font-weight-bold text-danger">
                       {error.nombres}
                     </signUpStyled.SmallError>
                   )}
@@ -150,7 +150,7 @@ function SignupForm() {
                   />{" "}
                   <br />
                   {error.apellidos && (
-                    <signUpStyled.SmallError class="form-text font-weight-bold text-danger">
+                    <signUpStyled.SmallError className="form-text font-weight-bold text-danger">
                       {error.apellidos}
                     </signUpStyled.SmallError>
                   )}
@@ -182,7 +182,7 @@ function SignupForm() {
                   </signUpStyled.InputSelect>{" "}
                   <br />
                   {error.tipoDocumento && (
-                    <signUpStyled.SmallError class="form-text font-weight-bold text-danger">
+                    <signUpStyled.SmallError className="form-text font-weight-bold text-danger">
                       {error.tipoDocumento}
                     </signUpStyled.SmallError>
                   )}
@@ -204,7 +204,7 @@ function SignupForm() {
                   />{" "}
                   <br />
                   {error.numeroDocumento && (
-                    <signUpStyled.SmallError class="form-text font-weight-bold text-danger error-class">
+                    <signUpStyled.SmallError className="form-text font-weight-bold text-danger error-class">
                       {error.numeroDocumento}
                     </signUpStyled.SmallError>
                   )}
@@ -226,7 +226,7 @@ function SignupForm() {
                   />{" "}
                   <br />
                   {error.correo && (
-                    <signUpStyled.SmallError class="form-text font-weight-bold text-danger">
+                    <signUpStyled.SmallError className="form-text font-weight-bold text-danger">
                       {error.correo}
                     </signUpStyled.SmallError>
                   )}
@@ -260,7 +260,7 @@ function SignupForm() {
                     </signUpStyled.InputSelect>{" "}
                     <br />
                     {error.especialidadMentor && (
-                      <signUpStyled.SmallError class="form-text font-weight-bold text-danger">
+                      <signUpStyled.SmallError className="form-text font-weight-bold text-danger">
                         {error.especialidadMentor}
                       </signUpStyled.SmallError>
                     )}
@@ -283,7 +283,7 @@ function SignupForm() {
                   />{" "}
                   <br />
                   {error.contrasena && (
-                    <signUpStyled.SmallError class="form-text font-weight-bold text-danger">
+                    <signUpStyled.SmallError className="form-text font-weight-bold text-danger">
                       {error.contrasena}
                     </signUpStyled.SmallError>
                   )}
@@ -305,7 +305,7 @@ function SignupForm() {
                   />{" "}
                   <br />
                   {error.confirmContrasena && (
-                    <signUpStyled.SmallError class="form-text font-weight-bold text-danger">
+                    <signUpStyled.SmallError className="form-text font-weight-bold text-danger">
                       {error.confirmContrasena}
                     </signUpStyled.SmallError>
                   )}
@@ -314,7 +314,7 @@ function SignupForm() {
 
               <div className="form-controls">
                 <signUpStyled.InputContainerRegistro>
-                  <div class="form-check">
+                  <div className="form-check">
                     <input
                       className="form-check-input"
                       type="checkbox"
@@ -332,7 +332,7 @@ function SignupForm() {
                   </div>
                   <br />
                   {error.aceptoTratamientoDatos && (
-                    <signUpStyled.SmallError class="form-text font-weight-bold text-danger">
+                    <signUpStyled.SmallError className="form-text font-weight-bold text-danger">
                       {error.aceptoTratamientoDatos}
                     </signUpStyled.SmallError>
                   )}

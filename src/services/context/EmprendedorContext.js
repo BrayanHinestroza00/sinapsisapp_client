@@ -2,6 +2,7 @@ import Axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import {
   HOST,
+  MENU_EMPRENDEDOR_INICIO,
   SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO,
   SINAPSIS_APP_LOCALSTORAGE_SELECTED_PROJECT,
 } from "src/utils/constants";
@@ -16,6 +17,8 @@ const EmprendedorContext = createContext();
 function EmprendedorContextProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
+  const [menuItemActive, setMenuItemActive] = useState(MENU_EMPRENDEDOR_INICIO);
+  const [showSidebar, setShowSidebar] = useState(false);
   const [selectedProjectValue, setSelectedProjectValue] = useState(null);
   const [selectedProjectIndex, setSelectedProjectIndex] = useState(null);
 
@@ -84,6 +87,7 @@ function EmprendedorContextProvider({ children }) {
   useEffect(() => {
     if (userData) {
       getIndexSelectedProject(userData.proyectosEmprendimiento);
+      setLoading(false);
     }
   }, [selectedProjectValue]);
 
@@ -95,8 +99,11 @@ function EmprendedorContextProvider({ children }) {
     if (index != -1) {
       setSelectedProjectIndex(index);
     }
-    setLoading(false);
   };
+
+  /**
+   * Determina si se debe renderizar el sidebar
+   */
 
   return (
     <EmprendedorContext.Provider
@@ -105,6 +112,10 @@ function EmprendedorContextProvider({ children }) {
         selectedProjectValue,
         selectedProjectIndex,
         loading,
+        showSidebar,
+        menuItemActive,
+        setMenuItemActive,
+        setShowSidebar,
         setSelectedProjectValue,
       }}
     >

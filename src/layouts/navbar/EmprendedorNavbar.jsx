@@ -1,8 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 
 import {
-  MENU_EMPRENDEDOR,
   MENU_EMPRENDEDOR_INICIO,
   MENU_EMPRENDEDOR_PERFIL,
   MENU_EMPRENDEDOR_PRIMERA_ATENCION,
@@ -16,34 +15,25 @@ import {
 import { EmprendedorContext } from "src/services/context/EmprendedorContext";
 
 function EmprendedorNavbar() {
-  const { userData, selectedProjectIndex, loading } =
-    useContext(EmprendedorContext);
-
-  const [menuActive, setMenuActive] = useState("");
-
-  useEffect(() => {
-    try {
-      const menu_item_active = localStorage.getItem(MENU_EMPRENDEDOR);
-      if (menu_item_active === null) {
-        localStorage.setItem(MENU_EMPRENDEDOR, MENU_EMPRENDEDOR_INICIO);
-        setMenuActive(MENU_EMPRENDEDOR_INICIO);
-      } else {
-        setMenuActive(menu_item_active);
-      }
-    } catch (error) {
-      console.log("Error al leer el localStorage - EmprendedorNavbar.jsx");
-    }
-  }, []);
+  const {
+    userData,
+    selectedProjectIndex,
+    setShowSidebar,
+    menuItemActive,
+    setMenuItemActive,
+  } = useContext(EmprendedorContext);
 
   const onChangeMenu = (event_key) => {
-    localStorage.setItem(MENU_EMPRENDEDOR, event_key);
-    setMenuActive(event_key);
+    setMenuItemActive(event_key);
     if (event_key === MENU_EMPRENDEDOR_RUTA) {
       localStorage.setItem(SIDEBAR_EMPRENDEDOR, SIDEBAR_EMPRENDEDOR_RUTA_ITEM);
       localStorage.setItem(
         SIDEBAR_EMPRENDEDOR_SUBMENU,
         SIDEBAR_EMPRENDEDOR_ESTADO_RUTA
       );
+      setShowSidebar(true);
+    } else {
+      setShowSidebar(false);
     }
   };
 
@@ -67,7 +57,7 @@ function EmprendedorNavbar() {
             <li className="nav-item">
               <Link
                 className={`nav-link ${
-                  menuActive == MENU_EMPRENDEDOR_INICIO && "active"
+                  menuItemActive == MENU_EMPRENDEDOR_INICIO && "active"
                 }`}
                 onClick={() => onChangeMenu(MENU_EMPRENDEDOR_INICIO)}
                 to="/Emprendedor"
@@ -79,7 +69,8 @@ function EmprendedorNavbar() {
               <li className="nav-item">
                 <Link
                   className={`nav-link ${
-                    menuActive == MENU_EMPRENDEDOR_PRIMERA_ATENCION && "active"
+                    menuItemActive == MENU_EMPRENDEDOR_PRIMERA_ATENCION &&
+                    "active"
                   }`}
                   onClick={() =>
                     onChangeMenu(MENU_EMPRENDEDOR_PRIMERA_ATENCION)
@@ -95,7 +86,7 @@ function EmprendedorNavbar() {
                 <li className="nav-item">
                   <Link
                     className={`nav-link ${
-                      menuActive == MENU_EMPRENDEDOR_PERFIL && "active"
+                      menuItemActive == MENU_EMPRENDEDOR_PERFIL && "active"
                     }`}
                     onClick={() => onChangeMenu(MENU_EMPRENDEDOR_PERFIL)}
                     to={"/Emprendedor/Perfil"}
@@ -108,7 +99,7 @@ function EmprendedorNavbar() {
                   <li className="nav-item">
                     <Link
                       className={`nav-link ${
-                        menuActive == MENU_EMPRENDEDOR_RUTA && "active"
+                        menuItemActive == MENU_EMPRENDEDOR_RUTA && "active"
                       }`}
                       onClick={() => onChangeMenu(MENU_EMPRENDEDOR_RUTA)}
                       to="/Emprendedor/Ruta"

@@ -1,14 +1,23 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { EmprendedorContext } from "src/services/context/EmprendedorContext";
-import { SINAPSIS_APP_LOCALSTORAGE_SELECTED_PROJECT } from "src/utils/constants";
+import {
+  MENU_EMPRENDEDOR_INICIO,
+  SINAPSIS_APP_LOCALSTORAGE_SELECTED_PROJECT,
+} from "src/utils/constants";
 import { insertIntoLocalStorage } from "src/utils/functions";
 
 function SeleccionarProyectoModal() {
   let navigate = useNavigate();
 
-  const { userData, selectedProjectValue, loading, setSelectedProjectValue } =
-    useContext(EmprendedorContext);
+  const {
+    userData,
+    selectedProjectValue,
+    loading,
+    setSelectedProjectValue,
+    setShowSidebar,
+    setMenuItemActive,
+  } = useContext(EmprendedorContext);
 
   const onSetMainProject = (idProject) => {
     setSelectedProjectValue(idProject);
@@ -16,6 +25,9 @@ function SeleccionarProyectoModal() {
       SINAPSIS_APP_LOCALSTORAGE_SELECTED_PROJECT,
       idProject
     );
+
+    setMenuItemActive(MENU_EMPRENDEDOR_INICIO);
+    setShowSidebar(false);
     navigate("/Emprendedor");
   };
 

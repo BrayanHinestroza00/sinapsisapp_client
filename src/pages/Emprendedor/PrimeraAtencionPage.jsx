@@ -2,7 +2,6 @@ import { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-import EmprendedorLayout from "src/layouts/EmprendedorLayout";
 import InfoEmprendimiento from "src/components/emprendedor/primera_atencion/InfoEmprendimiento";
 import Confirmacion from "src/components/emprendedor/primera_atencion/Confirmacion";
 import InfoUsuario from "src/components/emprendedor/primera_atencion/InfoUsuario";
@@ -124,49 +123,47 @@ function PrimeraAtencionPage() {
   };
 
   return (
-    <EmprendedorLayout sidebar={false}>
-      <>
-        {step === 1 ? (
-          <InfoUsuario
-            nextStep={nextStep}
-            handleChange={handleChange}
-            getFotoPerfilFile={getFotoPerfilFile}
-            datos={datos}
-            setDatos={setDatos}
-          />
-        ) : step === 2 ? (
-          <InfoEmprendimiento
-            nextStep={nextStep}
-            prevStep={prevStep}
-            handleChange={handleChange}
-            getLogoEmpresa={getLogoEmpresa}
-            datos={datos}
-          />
-        ) : step === 3 ? (
-          <InfoPrimeraAtencion
-            nextStep={nextStep}
-            prevStep={prevStep}
-            handleChange={handleChange}
-            datos={datos}
-          />
-        ) : step === 4 ? (
-          <InfoDiagnostico
-            nextStep={nextStep}
-            prevStep={prevStep}
-            handleChange={handleChange}
-            getFileDiagnostico={getFileDiagnostico}
-            datos={datos}
-          />
-        ) : (
-          <Confirmacion
-            prevStep={prevStep}
-            handleChange={handleChange}
-            datos={datos}
-            enviarDatos={handleSubmit}
-          />
-        )}
-      </>
-    </EmprendedorLayout>
+    <>
+      {step === 1 ? (
+        <InfoUsuario
+          nextStep={nextStep}
+          handleChange={handleChange}
+          getFotoPerfilFile={getFotoPerfilFile}
+          datos={datos}
+          setDatos={setDatos}
+        />
+      ) : step === 2 ? (
+        <InfoEmprendimiento
+          nextStep={nextStep}
+          prevStep={prevStep}
+          handleChange={handleChange}
+          getLogoEmpresa={getLogoEmpresa}
+          datos={datos}
+        />
+      ) : step === 3 ? (
+        <InfoPrimeraAtencion
+          nextStep={nextStep}
+          prevStep={prevStep}
+          handleChange={handleChange}
+          datos={datos}
+        />
+      ) : step === 4 ? (
+        <InfoDiagnostico
+          nextStep={nextStep}
+          prevStep={prevStep}
+          handleChange={handleChange}
+          getFileDiagnostico={getFileDiagnostico}
+          datos={datos}
+        />
+      ) : (
+        <Confirmacion
+          prevStep={prevStep}
+          handleChange={handleChange}
+          datos={datos}
+          enviarDatos={handleSubmit}
+        />
+      )}
+    </>
   );
 }
 

@@ -92,7 +92,7 @@ function InfoDiagnostico(props) {
               </aside>
             )}
             {error.fileDiagnostico && (
-              <small class="form-text font-weight-bold text-danger">
+              <small className="form-text font-weight-bold text-danger">
                 {error.fileDiagnostico}
               </small>
             )}

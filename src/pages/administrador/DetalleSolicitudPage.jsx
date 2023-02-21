@@ -5,12 +5,14 @@ import { AdminEmprendedorContextProvider } from "src/services/context/AdminEmpre
 
 function DetalleSolicitudPage() {
   return (
-    <AdministradorLayout sidebar={true}>
-      <AdminEmprendedorContextProvider>
-        <Titulo>Detalle de Solicitud de Primera Atención </Titulo>
-        <TabAdministrador />
-      </AdminEmprendedorContextProvider>
-    </AdministradorLayout>
+    // <AdministradorLayout sidebar={true}>
+    // <AdminEmprendedorContextProvider>
+    <>
+      <Titulo>Detalle de Solicitud de Primera Atención </Titulo>
+      <TabAdministrador />
+    </>
+    // </AdminEmprendedorContextProvider>
+    // </AdministradorLayout>
   );
 }
 

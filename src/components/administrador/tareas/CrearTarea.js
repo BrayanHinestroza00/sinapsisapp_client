@@ -131,7 +131,7 @@ function CrearTarea({ show, setShow }) {
               value={datos.nombreTarea}
             />
             {error.nombreTarea && (
-              <small class="form-text font-weight-bold text-danger">
+              <small className="form-text font-weight-bold text-danger">
                 {error.nombreTarea}
               </small>
             )}
@@ -151,7 +151,7 @@ function CrearTarea({ show, setShow }) {
               value={datos.descripcionTarea}
             />
             {error.descripcionTarea && (
-              <small class="form-text font-weight-bold text-danger">
+              <small className="form-text font-weight-bold text-danger">
                 {error.descripcionTarea}
               </small>
             )}
@@ -172,7 +172,7 @@ function CrearTarea({ show, setShow }) {
               value={datos.fechaEntrega}
             />
             {error.fechaEntrega && (
-              <small class="form-text font-weight-bold text-danger">
+              <small className="form-text font-weight-bold text-danger">
                 {error.fechaEntrega}
               </small>
             )}
@@ -182,7 +182,7 @@ function CrearTarea({ show, setShow }) {
             <label className="form-label">Adjunta tus archivos</label>
             <DropZone upFiles={getFiles} />
             {error.files && (
-              <small class="form-text font-weight-bold text-danger">
+              <small className="form-text font-weight-bold text-danger">
                 {error.files}
               </small>
             )}
