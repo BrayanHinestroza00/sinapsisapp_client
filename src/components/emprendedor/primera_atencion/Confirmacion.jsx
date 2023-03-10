@@ -29,7 +29,10 @@ function Confirmacion(props) {
   };
 
   return (
-    <Contenido className="container w-50">
+    <Contenido
+      className="container w-50"
+      style={{ backgroundColor: "#FFF", padding: "1rem 10rem" }}
+    >
       <div className="text-center">
         <Circulo>
           <Paso>5</Paso>

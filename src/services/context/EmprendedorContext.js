@@ -62,7 +62,7 @@ function EmprendedorContextProvider({ children }) {
   }, []);
 
   /**
-   * Obtiene el proyecto selecionado como principal
+   * Obtiene el proyecto seleccionado como principal
    */
   useEffect(() => {
     if (userData && userData.proyectosEmprendimiento.length > 0) {

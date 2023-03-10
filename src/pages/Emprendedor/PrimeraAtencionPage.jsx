@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 
@@ -8,8 +8,15 @@ import InfoUsuario from "src/components/emprendedor/primera_atencion/InfoUsuario
 import { HOST } from "src/utils/constants";
 import InfoPrimeraAtencion from "src/components/emprendedor/primera_atencion/InfoPrimeraAtencion";
 import InfoDiagnostico from "src/components/emprendedor/primera_atencion/InfoDiagnostico";
+import { EmprendedorContext } from "src/services/context/EmprendedorContext";
 
 function PrimeraAtencionPage() {
+  const {
+    userData,
+    selectedProjectValue: idSelectedProject,
+    loading,
+  } = useContext(EmprendedorContext);
+
   const [step, setStep] = useState(1);
   const [datos, setDatos] = useState({});
 
@@ -21,6 +28,12 @@ function PrimeraAtencionPage() {
   }
 
   const handleChange = (event) => {
+    if (!("target" in event)) {
+      console.log(event);
+      setDatos({ ...datos, descubrioSinapsis: event });
+      return;
+    }
+
     if (event.target.name === "cursosEmprendimiento") {
       const arrTmp = datos.cursosEmprendimiento
         ? [...datos.cursosEmprendimiento]
@@ -122,10 +135,15 @@ function PrimeraAtencionPage() {
     });
   };
 
+  if (loading) {
+    return <>LOADING PRIMERA_ATENCION_PAGE</>;
+  }
+
   return (
-    <>
+    <div>
       {step === 1 ? (
         <InfoUsuario
+          userData={userData}
           nextStep={nextStep}
           handleChange={handleChange}
           getFotoPerfilFile={getFotoPerfilFile}
@@ -163,7 +181,7 @@ function PrimeraAtencionPage() {
           enviarDatos={handleSubmit}
         />
       )}
-    </>
+    </div>
   );
 }
 

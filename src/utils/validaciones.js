@@ -296,67 +296,67 @@ export const validacionesPrimeraAtencionUsuario = (datos) => {
 
 export const validacionesPrimeraAtencionEmprendimiento = (datos) => {
   const errors = {};
-  const {
-    nombreEmprendimiento,
-    estaConstituida,
-    descripcionProducto,
-    materiasPrimas,
-    clienteEmprendimiento,
-    nombreEmpresa,
-    nitEmpresa,
-    fechaCreacionEmpresa,
-    razonSocialEmpresa,
-  } = datos;
+  // const {
+  //   nombreEmprendimiento,
+  //   estaConstituida,
+  //   descripcionProducto,
+  //   materiasPrimas,
+  //   clienteEmprendimiento,
+  //   nombreEmpresa,
+  //   nitEmpresa,
+  //   fechaCreacionEmpresa,
+  //   razonSocialEmpresa,
+  // } = datos;
 
-  if (!nombreEmprendimiento) {
-    errors.nombreEmprendimiento = "Campo Obligatorio";
-  }
+  // if (!nombreEmprendimiento) {
+  //   errors.nombreEmprendimiento = "Campo Obligatorio";
+  // }
 
-  if (!estaConstituida) {
-    errors.estaConstituida = "Campo Obligatorio";
-  } else {
-    if (estaConstituida === "SI") {
-      const { fechaConstitucion } = datos;
-      if (!fechaConstitucion) {
-        errors.fechaConstitucion = "Campo Obligatorio";
-      }
-    }
-  }
+  // if (!estaConstituida) {
+  //   errors.estaConstituida = "Campo Obligatorio";
+  // } else {
+  //   if (estaConstituida === "SI") {
+  //     const { fechaConstitucion } = datos;
+  //     if (!fechaConstitucion) {
+  //       errors.fechaConstitucion = "Campo Obligatorio";
+  //     }
+  //   }
+  // }
 
-  if (!descripcionProducto) {
-    errors.descripcionProducto = "Campo Obligatorio";
-  }
+  // if (!descripcionProducto) {
+  //   errors.descripcionProducto = "Campo Obligatorio";
+  // }
 
-  if (!materiasPrimas) {
-    errors.materiasPrimas = "Campo Obligatorio";
-  }
+  // if (!materiasPrimas) {
+  //   errors.materiasPrimas = "Campo Obligatorio";
+  // }
 
-  if (!clienteEmprendimiento) {
-    errors.clienteEmprendimiento = "Campo Obligatorio";
-  }
+  // if (!clienteEmprendimiento) {
+  //   errors.clienteEmprendimiento = "Campo Obligatorio";
+  // }
 
-  if (
-    nombreEmpresa ||
-    nitEmpresa ||
-    fechaCreacionEmpresa ||
-    razonSocialEmpresa
-  ) {
-    if (!nombreEmpresa) {
-      errors.nombreEmpresa = "Campo Obligatorio";
-    }
+  // if (
+  //   nombreEmpresa ||
+  //   nitEmpresa ||
+  //   fechaCreacionEmpresa ||
+  //   razonSocialEmpresa
+  // ) {
+  //   if (!nombreEmpresa) {
+  //     errors.nombreEmpresa = "Campo Obligatorio";
+  //   }
 
-    if (!nitEmpresa) {
-      errors.nitEmpresa = "Campo Obligatorio";
-    }
+  //   if (!nitEmpresa) {
+  //     errors.nitEmpresa = "Campo Obligatorio";
+  //   }
 
-    if (!fechaCreacionEmpresa) {
-      errors.fechaCreacionEmpresa = "Campo Obligatorio";
-    }
+  //   if (!fechaCreacionEmpresa) {
+  //     errors.fechaCreacionEmpresa = "Campo Obligatorio";
+  //   }
 
-    if (!razonSocialEmpresa) {
-      errors.razonSocialEmpresa = "Campo Obligatorio";
-    }
-  }
+  //   if (!razonSocialEmpresa) {
+  //     errors.razonSocialEmpresa = "Campo Obligatorio";
+  //   }
+  // }
 
   return errors;
 };

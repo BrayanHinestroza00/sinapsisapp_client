@@ -41,7 +41,10 @@ function InfoEmprendimiento(props) {
   };
 
   return (
-    <Contenido className="container">
+    <Contenido
+      className="container"
+      style={{ backgroundColor: "#FFF", padding: "1rem 10rem" }}
+    >
       <div className="text-center">
         <Circulo>
           <Paso>2</Paso>
@@ -50,7 +53,7 @@ function InfoEmprendimiento(props) {
       </div>
 
       <form className="row g-3">
-        <SubTitulo>Información del emprendimiento</SubTitulo>
+        <SubTitulo>Datos del emprendimiento</SubTitulo>
         <div className="mb-3">
           <Label htmlFor="nombreEmprendimiento" className="form-label">
             Nombre del emprendimiento
@@ -63,110 +66,11 @@ function InfoEmprendimiento(props) {
             name="nombreEmprendimiento"
             placeholder="Nombre del emprendimiento"
             onChange={(e) => props.handleChange(e)}
-            value={props.datos.nombreEmprendimiento}
+            value={props.datos.nombreEmprendimiento || ""}
           />
           {error.nombreEmprendimiento && (
             <small className="form-text font-weight-bold text-danger">
               {error.nombreEmprendimiento}
-            </small>
-          )}
-        </div>
-
-        <div className="col-md-6 mb-3">
-          <Label htmlFor="nombreEmpresa" className="form-label">
-            Nombre de empresa
-          </Label>
-          <Input
-            type="text"
-            className="form-control"
-            id="nombreEmpresa"
-            name="nombreEmpresa"
-            placeholder="Nombre de la empresa"
-            onChange={(e) => props.handleChange(e)}
-            value={props.datos.nombreEmpresa}
-          />
-          {error.nombreEmpresa && (
-            <small className="form-text font-weight-bold text-danger">
-              {error.nombreEmpresa}
-            </small>
-          )}
-        </div>
-
-        <div className="col-md-6 mb-3">
-          <Label htmlFor="nitEmpresa" className="form-label">
-            NIT
-          </Label>
-          <Input
-            type="text"
-            className="form-control"
-            id="nitEmpresa"
-            name="nitEmpresa"
-            placeholder="NIT"
-            onChange={(e) => props.handleChange(e)}
-            value={props.datos.nitEmpresa}
-          />
-          {error.nitEmpresa && (
-            <small className="form-text font-weight-bold text-danger">
-              {error.nitEmpresa}
-            </small>
-          )}
-        </div>
-
-        <div className="col-md-6 mb-3">
-          <Label htmlFor="fechaCreacionEmpresa" className="form-label">
-            Fecha de creación
-          </Label>
-          <Input
-            type="date"
-            className="form-control"
-            name="fechaCreacionEmpresa"
-            id="fechaCreacionEmpresa"
-            value={props.datos.fechaCreacionEmpresa || null}
-            onChange={(e) => props.handleChange(e)}
-          />
-          {error.fechaCreacionEmpresa && (
-            <small className="form-text font-weight-bold text-danger">
-              {error.fechaCreacionEmpresa}
-            </small>
-          )}
-        </div>
-
-        <div className="col-md-6 mb-3">
-          <Label htmlFor="razonSocialEmpresa" className="form-label">
-            Razón social
-          </Label>
-          <Input
-            type="text"
-            className="form-control"
-            id="razonSocialEmpresa"
-            name="razonSocialEmpresa"
-            placeholder="Razón social"
-            onChange={(e) => props.handleChange(e)}
-            value={props.datos.razonSocialEmpresa}
-          />
-          {error.razonSocialEmpresa && (
-            <small className="form-text font-weight-bold text-danger">
-              {error.razonSocialEmpresa}
-            </small>
-          )}
-        </div>
-
-        <div className="mb-3">
-          <Label htmlFor="sitioWebEmpresa" className="form-label">
-            Sitio Web
-          </Label>
-          <Input
-            type="text"
-            className="form-control"
-            id="sitioWebEmpresa"
-            name="sitioWebEmpresa"
-            placeholder="Sitio Web"
-            onChange={(e) => props.handleChange(e)}
-            value={props.datos.sitioWebEmpresa}
-          />
-          {error.sitioWebEmpresa && (
-            <small className="form-text font-weight-bold text-danger">
-              {error.sitioWebEmpresa}
             </small>
           )}
         </div>
@@ -182,11 +86,51 @@ function InfoEmprendimiento(props) {
             name="descripcionProducto"
             placeholder="Descripción del producto"
             onChange={(e) => props.handleChange(e)}
-            value={props.datos.descripcionProducto}
+            value={props.datos.descripcionProducto || ""}
           />
           {error.descripcionProducto && (
             <small className="form-text font-weight-bold text-danger">
               {error.descripcionProducto}
+            </small>
+          )}
+        </div>
+
+        <div className="mb-3">
+          <Label htmlFor="necesidadesIdentificadas" className="form-label">
+            Necesidades Identificadas<span> (*)</span>
+          </Label>
+          <TextArea
+            type="text"
+            className="form-control"
+            id="necesidadesIdentificadas"
+            name="necesidadesIdentificadas"
+            placeholder="Necesidades Identificadas"
+            onChange={(e) => props.handleChange(e)}
+            value={props.datos.necesidadesIdentificadas || ""}
+          />
+          {error.necesidadesIdentificadas && (
+            <small className="form-text font-weight-bold text-danger">
+              {error.necesidadesIdentificadas}
+            </small>
+          )}
+        </div>
+
+        <div className="mb-3">
+          <Label htmlFor="descripcionClientes" className="form-label">
+            Principal cliente o usuario<span> (*)</span>
+          </Label>
+          <TextArea
+            type="text"
+            className="form-control"
+            id="descripcionClientes"
+            name="descripcionClientes"
+            placeholder="Principal cliente o usuario"
+            onChange={(e) => props.handleChange(e)}
+            value={props.datos.descripcionClientes || ""}
+          />
+          {error.descripcionClientes && (
+            <small className="form-text font-weight-bold text-danger">
+              {error.descripcionClientes}
             </small>
           )}
         </div>
@@ -202,7 +146,7 @@ function InfoEmprendimiento(props) {
             name="materiasPrimas"
             placeholder="Materias primas"
             onChange={(e) => props.handleChange(e)}
-            value={props.datos.materiasPrimas}
+            value={props.datos.materiasPrimas || ""}
           />
           {error.materiasPrimas && (
             <small className="form-text font-weight-bold text-danger">
@@ -212,21 +156,177 @@ function InfoEmprendimiento(props) {
         </div>
 
         <div className="mb-3">
-          <Label htmlFor="clienteEmprendimiento" className="form-label">
-            Principal cliente o usuario<span> (*)</span>
+          <Label htmlFor="enfoqueSocial" className="form-label">
+            Enfoque Social del Emprendimiento<span> (*)</span>
           </Label>
           <TextArea
             type="text"
             className="form-control"
-            id="clienteEmprendimiento"
-            name="clienteEmprendimiento"
-            placeholder="Principal cliente o usuario"
+            id="enfoqueSocial"
+            name="enfoqueSocial"
+            placeholder="Enfoque Social"
             onChange={(e) => props.handleChange(e)}
-            value={props.datos.clienteEmprendimiento}
+            value={props.datos.enfoqueSocial || ""}
           />
-          {error.clienteEmprendimiento && (
+          {error.enfoqueSocial && (
             <small className="form-text font-weight-bold text-danger">
-              {error.clienteEmprendimiento}
+              {error.enfoqueSocial}
+            </small>
+          )}
+        </div>
+
+        <div className="mb-3">
+          <Label htmlFor="sectorEmprendimiento" className="form-label">
+            Sector del Emprendimiento
+          </Label>
+          <Input
+            type="text"
+            className="form-control"
+            id="sectorEmprendimiento"
+            name="sectorEmprendimiento"
+            placeholder="Sitio Web"
+            onChange={(e) => props.handleChange(e)}
+            value={props.datos.sectorEmprendimiento || ""}
+          />
+          {error.sectorEmprendimiento && (
+            <small className="form-text font-weight-bold text-danger">
+              {error.sectorEmprendimiento}
+            </small>
+          )}
+        </div>
+
+        <div className="mb-3">
+          <Label htmlFor="sitioWeb" className="form-label">
+            Sitio Web
+          </Label>
+          <Input
+            type="text"
+            className="form-control"
+            id="sitioWeb"
+            name="sitioWeb"
+            placeholder="Sitio Web"
+            onChange={(e) => props.handleChange(e)}
+            value={props.datos.sitioWeb || ""}
+          />
+          {error.sitioWeb && (
+            <small className="form-text font-weight-bold text-danger">
+              {error.sitioWeb}
+            </small>
+          )}
+        </div>
+
+        <SubTitulo>Redes Sociales</SubTitulo>
+
+        <div className="col-md-6 mb-3">
+          <Label htmlFor="redSocialFacebook" className="form-label">
+            Facebook
+          </Label>
+          <Input
+            type="text"
+            className="form-control"
+            id="redSocialFacebook"
+            name="redSocialFacebook"
+            onChange={(e) => props.handleChange(e)}
+            value={props.datos.redSocialFacebook || ""}
+          />
+          {error.redSocialFacebook && (
+            <small className="form-text font-weight-bold text-danger">
+              {error.redSocialFacebook}
+            </small>
+          )}
+        </div>
+
+        <div className="col-md-6 mb-3">
+          <Label htmlFor="redSocialInstagram" className="form-label">
+            Instagram
+          </Label>
+          <Input
+            type="text"
+            className="form-control"
+            id="redSocialInstagram"
+            name="redSocialInstagram"
+            onChange={(e) => props.handleChange(e)}
+            value={props.datos.redSocialInstagram || ""}
+          />
+          {error.redSocialInstagram && (
+            <small className="form-text font-weight-bold text-danger">
+              {error.redSocialInstagram}
+            </small>
+          )}
+        </div>
+
+        <div className="col-md-6 mb-3">
+          <Label htmlFor="redSocialTwitter" className="form-label">
+            Twitter
+          </Label>
+          <Input
+            type="text"
+            className="form-control"
+            id="redSocialTwitter"
+            name="redSocialTwitter"
+            onChange={(e) => props.handleChange(e)}
+            value={props.datos.redSocialTwitter || ""}
+          />
+          {error.redSocialTwitter && (
+            <small className="form-text font-weight-bold text-danger">
+              {error.redSocialTwitter}
+            </small>
+          )}
+        </div>
+
+        <div className="col-md-6 mb-3">
+          <Label htmlFor="redSocialTiktok" className="form-label">
+            TikTok
+          </Label>
+          <Input
+            type="text"
+            className="form-control"
+            id="redSocialTiktok"
+            name="redSocialTiktok"
+            onChange={(e) => props.handleChange(e)}
+            value={props.datos.redSocialTiktok || ""}
+          />
+          {error.redSocialTiktok && (
+            <small className="form-text font-weight-bold text-danger">
+              {error.redSocialTiktok}
+            </small>
+          )}
+        </div>
+
+        <div className="col-md-6 mb-3">
+          <Label htmlFor="redSocialYouTube" className="form-label">
+            YouTube
+          </Label>
+          <Input
+            type="text"
+            className="form-control"
+            id="redSocialYouTube"
+            name="redSocialYouTube"
+            onChange={(e) => props.handleChange(e)}
+            value={props.datos.redSocialYouTube || ""}
+          />
+          {error.redSocialYouTube && (
+            <small className="form-text font-weight-bold text-danger">
+              {error.redSocialYouTube}
+            </small>
+          )}
+        </div>
+
+        <div className="col-md-6 mb-3">
+          <Label htmlFor="redSocialWhatsApp" className="form-label">
+            WhatsApp
+          </Label>
+          <Input
+            type="text"
+            className="form-control"
+            id="redSocialWhatsApp"
+            name="redSocialWhatsApp"
+            onChange={(e) => props.handleChange(e)}
+            value={props.datos.redSocialWhatsApp || ""}
+          />
+          {error.redSocialWhatsApp && (
+            <small className="form-text font-weight-bold text-danger">
+              {error.redSocialWhatsApp}
             </small>
           )}
         </div>
@@ -258,49 +358,113 @@ function InfoEmprendimiento(props) {
           )}
         </div>
 
-        <div className="col-md-6 mb-3">
-          <Label htmlFor="fechaConstitucion" className="form-label">
-            Fecha de constitución
-          </Label>
-          <Input
-            type="date"
-            className="form-control"
-            name="fechaConstitucion"
-            id="fechaConstitucion"
-            value={props.datos.fechaConstitucion || null}
-            onChange={(e) => props.handleChange(e)}
-          />
-          {error.fechaConstitucion && (
-            <small className="form-text font-weight-bold text-danger">
-              {error.fechaConstitucion}
-            </small>
-          )}
-        </div>
+        {props.datos?.estaConstituida == "SI" && (
+          <>
+            <div className="col-md-6 mb-3">
+              <Label htmlFor="fechaConstitucion" className="form-label">
+                Fecha de constitución
+              </Label>
+              <Input
+                type="date"
+                className="form-control"
+                name="fechaConstitucion"
+                id="fechaConstitucion"
+                value={props.datos.fechaConstitucion || undefined}
+                onChange={(e) => props.handleChange(e)}
+              />
+              {error.fechaConstitucion && (
+                <small className="form-text font-weight-bold text-danger">
+                  {error.fechaConstitucion}
+                </small>
+              )}
+            </div>
 
-        <div className="mb-3">
-          <Label htmlFor="logoEmpresa" className="form-label nombreInput">
-            Logo Empresa
-          </Label>
-          <DropZone upFiles={onGetFiles} files={props?.logoEmpresa} />
-          {props.datos.logoEmpresa && (
-            <aside style={thumbsContainer}>
-              <div style={thumb} key={props.datos?.logoEmpresa[0].name}>
-                <div style={thumbInner}>
-                  <img
-                    src={URL.createObjectURL(props.datos?.logoEmpresa[0])}
-                    style={img}
-                    alt={props.datos?.logoEmpresa[0].name}
-                  />
-                </div>
-              </div>
-            </aside>
-          )}
-          {error.logoEmpresa && (
-            <small className="form-text font-weight-bold text-danger">
-              {error.logoEmpresa}
-            </small>
-          )}
-        </div>
+            <div className="col-md-6 mb-3">
+              <Label htmlFor="nitEmpresa" className="form-label">
+                NIT
+              </Label>
+              <Input
+                type="text"
+                className="form-control"
+                id="nitEmpresa"
+                name="nitEmpresa"
+                placeholder="NIT"
+                onChange={(e) => props.handleChange(e)}
+                value={props.datos.nitEmpresa || ""}
+              />
+              {error.nitEmpresa && (
+                <small className="form-text font-weight-bold text-danger">
+                  {error.nitEmpresa}
+                </small>
+              )}
+            </div>
+
+            <div className="col-md-6 mb-3">
+              <Label htmlFor="nombreEmpresa" className="form-label">
+                Nombre de empresa
+              </Label>
+              <Input
+                type="text"
+                className="form-control"
+                id="nombreEmpresa"
+                name="nombreEmpresa"
+                placeholder="Nombre de la empresa"
+                onChange={(e) => props.handleChange(e)}
+                value={props.datos.nombreEmpresa || ""}
+              />
+              {error.nombreEmpresa && (
+                <small className="form-text font-weight-bold text-danger">
+                  {error.nombreEmpresa}
+                </small>
+              )}
+            </div>
+
+            <div className="col-md-6 mb-3">
+              <Label htmlFor="razonSocialEmpresa" className="form-label">
+                Razón social
+              </Label>
+              <Input
+                type="text"
+                className="form-control"
+                id="razonSocialEmpresa"
+                name="razonSocialEmpresa"
+                placeholder="Razón social"
+                onChange={(e) => props.handleChange(e)}
+                value={props.datos.razonSocialEmpresa || ""}
+              />
+              {error.razonSocialEmpresa && (
+                <small className="form-text font-weight-bold text-danger">
+                  {error.razonSocialEmpresa}
+                </small>
+              )}
+            </div>
+
+            <div className="mb-3">
+              <Label htmlFor="logoEmpresa" className="form-label nombreInput">
+                Logo Empresa
+              </Label>
+              <DropZone upFiles={onGetFiles} files={props?.logoEmpresa} />
+              {props.datos.logoEmpresa && (
+                <aside style={thumbsContainer}>
+                  <div style={thumb} key={props.datos?.logoEmpresa[0].name}>
+                    <div style={thumbInner}>
+                      <img
+                        src={URL.createObjectURL(props.datos?.logoEmpresa[0])}
+                        style={img}
+                        alt={props.datos?.logoEmpresa[0].name}
+                      />
+                    </div>
+                  </div>
+                </aside>
+              )}
+              {error.logoEmpresa && (
+                <small className="form-text font-weight-bold text-danger">
+                  {error.logoEmpresa}
+                </small>
+              )}
+            </div>
+          </>
+        )}
       </form>
 
       <div className="col-12 d-flex justify-content-end">

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import SelectMultiple from "react-select";
+
 import {
   Boton,
   BotonSiguiente,
@@ -9,14 +11,10 @@ import {
   Paso,
   TituloStepByStep,
 } from "src/assets/styles/emprendedor/primeraAtencion.style";
-import { getCurrentDateForBirth } from "src/utils/functions";
+import { getCurrentDate } from "src/utils/functions";
 
 function InfoPrimeraAtencion(props) {
   const [error, setError] = useState({});
-  const [estudiante, setEstudiante] = useState(false);
-  const [colaborador, setColaborador] = useState(false);
-  const [egresado, setEgresado] = useState(false);
-  const [emprendedor, setEmprendedor] = useState(false);
 
   const validaciones = (valores) => {
     const errors = {};
@@ -74,26 +72,6 @@ function InfoPrimeraAtencion(props) {
     return errors;
   };
 
-  const changeForm = (event) => {
-    const valor = event.target.value;
-    props.handleChange(event);
-    if (valor == "Estudiante") {
-      setEstudiante(true);
-      setEgresado(false);
-      setColaborador(false);
-    } else {
-      if (valor == "Egresado") {
-        setEstudiante(false);
-        setEgresado(true);
-        setColaborador(false);
-      } else {
-        setEstudiante(false);
-        setColaborador(true);
-        setEgresado(false);
-      }
-    }
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     let erroresFormulario = validaciones(props.datos);
@@ -106,7 +84,10 @@ function InfoPrimeraAtencion(props) {
   };
 
   return (
-    <Contenido className="container">
+    <Contenido
+      className="container"
+      style={{ backgroundColor: "#FFF", padding: "1rem 10rem" }}
+    >
       <div className="text-center">
         <Circulo>
           <Paso>3</Paso>
@@ -116,19 +97,16 @@ function InfoPrimeraAtencion(props) {
 
       <form className="row g-3">
         <div className="col-md-6 mb-3">
-          <Label htmlFor="descripcionProducto" className="form-label">
+          <Label htmlFor="nombreProducto" className="form-label">
             Producto o Servicio
           </Label>
           <Input
             type="text"
             className="form-control"
-            id="descripcionProducto"
-            value={
-              props.datos.descripcionProducto ||
-              emprendedor.descripcionProducto != null
-                ? emprendedor.descripcionProducto
-                : ""
-            }
+            id="nombreProducto"
+            name="nombreProducto"
+            value={props.datos.nombreProducto || ""}
+            onChange={(e) => props.handleChange(e)}
           />
         </div>
 
@@ -140,11 +118,9 @@ function InfoPrimeraAtencion(props) {
             type="text"
             className="form-control"
             id="promedioVentas"
-            value={
-              props.datos.promedioVentas || emprendedor.promedioVentas != null
-                ? emprendedor.promedioVentas
-                : ""
-            }
+            name="promedioVentas"
+            value={props.datos.promedioVentas || ""}
+            onChange={(e) => props.handleChange(e)}
           />
         </div>
 
@@ -156,77 +132,73 @@ function InfoPrimeraAtencion(props) {
             type="text"
             className="form-control"
             id="evidenciaProducto"
-            value={
-              props.datos.evidenciaProducto ||
-              emprendedor.evidenciaProducto != null
-                ? emprendedor.evidenciaProducto
-                : ""
-            }
+            name="evidenciaProducto"
+            value={props.datos.evidenciaProducto || ""}
+            onChange={(e) => props.handleChange(e)}
           />
         </div>
 
         <div className="col-md-6 mb-3">
-          <Label htmlFor="evidenciaProducto" className="form-label">
-            ¿Cual es la evidencia de su producto/servicio?
-          </Label>
-          <Input
-            type="text"
-            className="form-control"
-            id="evidenciaProducto"
-            value={
-              props.datos.evidenciaProducto ||
-              emprendedor.evidenciaProducto != null
-                ? emprendedor.evidenciaProducto
-                : ""
-            }
-          />
-        </div>
-
-        <div className="col-md-6 mb-3">
-          <Label htmlFor="necesidadEmprendimiento" className="form-label">
-            Necesidades del emprendimiento
-          </Label>
-          <Input
-            type="text"
-            className="form-control"
-            id="necesidadEmprendimiento"
-            value={
-              props.datos.necesidadEmprendimiento ||
-              emprendedor.necesidadEmprendimiento != null
-                ? emprendedor.necesidadEmprendimiento
-                : ""
-            }
-          />
-        </div>
-
-        <div className="col-md-6 mb-3">
-          <Label htmlFor="obtieneMateriasPrimas" className="form-label">
+          <Label htmlFor="obtencionMateriasPrimas" className="form-label">
             ¿Donde consigue la materia prima?
           </Label>
           <Input
             type="text"
             className="form-control"
-            id="obtieneMateriasPrimas"
-            value={
-              props.datos.obtieneMateriasPrimas ||
-              emprendedor.obtieneMateriasPrimas != null
-                ? emprendedor.obtieneMateriasPrimas
-                : ""
-            }
+            id="obtencionMateriasPrimas"
+            name="obtencionMateriasPrimas"
+            value={props.datos.obtencionMateriasPrimas || ""}
+            onChange={(e) => props.handleChange(e)}
           />
         </div>
+
+        <div className="col-md-6 mb-3">
+          <Label htmlFor="equipoTrabajo" className="form-label">
+            ¿Tiene equipo de trabajo?
+          </Label>
+          <select
+            className="form-select"
+            id="equipoTrabajo"
+            name="equipoTrabajo"
+            value={props.datos.equipoTrabajo || "-1"}
+            onChange={(e) => props.handleChange(e)}
+          >
+            <option value={"-1"} disabled>
+              Seleccione...
+            </option>
+            <option value="SI">SI</option>
+            <option value="NO">NO</option>
+          </select>
+        </div>
+
+        {props.datos.equipoTrabajo == "SI" ? (
+          <div className="col-md-6 mb-3">
+            <Label htmlFor="cualEquipoTrabajo" className="form-label">
+              ¿Cual es su equipo de trabajo?
+            </Label>
+            <Input
+              type="text"
+              className="form-control"
+              id="cualEquipoTrabajo"
+              name="cualEquipoTrabajo"
+              value={props.datos.cualEquipoTrabajo || ""}
+              onChange={(e) => props.handleChange(e)}
+            />
+          </div>
+        ) : (
+          <div className="col-md-6 mb-3"></div>
+        )}
 
         <div className="col-md-6">
           <Label htmlFor="dedicacion" className="form-label">
             ¿A qué se dedica?
-            {/* <span> (*)</span> */}
           </Label>
           <Input
             type="text"
             className="form-control"
-            name="dedicacion"
             id="dedicacion"
-            value={props.datos.dedicacion || emprendedor.dedicacion}
+            name="dedicacion"
+            value={props.datos.dedicacion || ""}
             onChange={(e) => props.handleChange(e)}
           />
           {error.dedicacion && (
@@ -237,51 +209,31 @@ function InfoPrimeraAtencion(props) {
         </div>
 
         <div className="col-md-6 mb-3">
-          <Label htmlFor="equipoTrabajo" className="form-label">
-            ¿Tiene equipo de trabajo?
+          <Label htmlFor="desdeFechaEjecucion" className="form-label">
+            ¿Desde cuando lleva ejecutando la idea?
           </Label>
           <Input
-            type="text"
+            type="date"
             className="form-control"
-            id="equipoTrabajo"
-            value={
-              props.datos.equipoTrabajo || emprendedor.equipoTrabajo != null
-                ? emprendedor.equipoTrabajo
-                : ""
-            }
+            id="desdeFechaEjecucion"
+            name="desdeFechaEjecucion"
+            max={getCurrentDate()}
+            value={props.datos.desdeFechaEjecucion || undefined}
+            onChange={(e) => props.handleChange(e)}
           />
         </div>
 
         <div className="col-md-6 mb-3">
-          <Label htmlFor="tiempoEmprendimiento" className="form-label">
-            ¿Cuantos meses lleva ejecutando la idea?
-          </Label>
-          <Input
-            type="text"
-            className="form-control"
-            id="tiempoEmprendimiento"
-            value={
-              props.datos.tiempoEmprendimiento ||
-              emprendedor.tiempoEmprendimiento != null
-                ? emprendedor.tiempoEmprendimiento
-                : ""
-            }
-          />
-        </div>
-
-        <div className="col-md-6 mb-3">
-          <Label htmlFor="horasDedicadas" className="form-label">
+          <Label htmlFor="horasSemanales" className="form-label">
             Número de horas dedicas a la semana
           </Label>
           <Input
             type="text"
             className="form-control"
-            id="horasDedicadas"
-            value={
-              props.datos.horasDedicadas || emprendedor.horasDedicadas != null
-                ? emprendedor.horasDedicadas
-                : ""
-            }
+            id="horasSemanales"
+            name="horasSemanales"
+            value={props.datos.horasSemanales || ""}
+            onChange={(e) => props.handleChange(e)}
           />
         </div>
 
@@ -293,46 +245,56 @@ function InfoPrimeraAtencion(props) {
             type="text"
             className="form-control"
             id="motivacion"
-            value={
-              props.datos.motivacion || emprendedor.motivacion != null
-                ? emprendedor.motivacion
-                : ""
-            }
+            name="motivacion"
+            value={props.datos.motivacion || ""}
+            onChange={(e) => props.handleChange(e)}
           />
         </div>
 
         <div className="col-md-6 mb-3">
-          <Label htmlFor="clientes" className="form-label">
-            ¿Cuales son los clientes?
-          </Label>
-          <Input
-            type="text"
-            className="form-control"
-            id="clientes"
-            value={
-              props.datos.clientes || emprendedor.clientes != null
-                ? emprendedor.clientes
-                : ""
-            }
-          />
-        </div>
-
-        <div className="col-md-6 mb-3">
-          <Label htmlFor="medioServiciosSinapsis" className="form-label">
+          <Label htmlFor="descubrioSinapsis" className="form-label">
             ¿Cómo se enteró de los servicios de SINAPSIS UAO?
           </Label>
-          <Input
-            type="text"
-            className="form-control"
-            id="medioServiciosSinapsis"
-            value={
-              props.datos.medioServiciosSinapsis ||
-              emprendedor.medioServiciosSinapsis != null
-                ? emprendedor.medioServiciosSinapsis
-                : ""
-            }
+          <SelectMultiple
+            className="form-select"
+            id="descubrioSinapsis"
+            name="descubrioSinapsis"
+            value={props.datos.descubrioSinapsis}
+            onChange={(e) => props.handleChange(e)}
+            options={[
+              { value: "REDES_SOCIALES", label: "REDES SOCIALES" },
+              { value: "ASIGNATURAS", label: "ASIGNATURAS" },
+              { value: "RECORRIDO_CAMPUS", label: "RECORRIDO CAMPUS" },
+              { value: "OTRO", label: "OTRO MEDIO" },
+            ]}
+            isMulti
           />
         </div>
+
+        {props.datos.descubrioSinapsis &&
+          props.datos.descubrioSinapsis.length > 0 &&
+          props.datos.descubrioSinapsis.map((metodoDescubrio, index) => {
+            if (metodoDescubrio.value == "OTRO") {
+              return (
+                <div key={index} className="col-md-6 mb-3">
+                  <Label
+                    htmlFor="cualOtroDescubrioSinapsis"
+                    className="form-label"
+                  >
+                    ¿Cuál fue el Otro Medio?
+                  </Label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    id="cualOtroDescubrioSinapsis"
+                    name="cualOtroDescubrioSinapsis"
+                    value={props.datos.cualOtroDescubrioSinapsis || ""}
+                    onChange={(e) => props.handleChange(e)}
+                  />
+                </div>
+              );
+            }
+          })}
         <div className="col-12 d-flex flex-row-reverse">
           <BotonSiguiente
             type="button"

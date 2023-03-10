@@ -27,7 +27,7 @@ function VerPerfil(props) {
 
     getInformacionEmprendedor(userData.id)
       .then((data) => {
-        getAcronimoTipoDocumento(data.tipoDocumento);
+        getAcronimoTipoDocumento(data.tipoDocumentoId);
         getDepartamento(data.municipioId);
         getMunicipio(data.municipioId);
         setEmprendedor(data);

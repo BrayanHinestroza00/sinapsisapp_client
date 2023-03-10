@@ -1,4 +1,5 @@
-import { useContext, useEffect, useState } from "react";
+import moment from "moment";
+import { useEffect, useState } from "react";
 import {
   img,
   thumb,
@@ -16,63 +17,111 @@ import {
 } from "src/assets/styles/emprendedor/primeraAtencion.style";
 
 import DropZone from "src/components/DropZone";
-import { EmprendedorContext } from "src/services/context/EmprendedorContext";
-import { HOST } from "src/utils/constants";
+import { useFetch } from "src/services/hooks/useFetch";
+import {
+  HTTP_METHOD_GET,
+  URL_OBTENER_ASIGNATURAS,
+  URL_OBTENER_INFO_EMPRENDEDOR,
+  URL_OBTENER_PROGRAMAS_ACADEMICOS,
+} from "src/utils/apiConstants";
+import {
+  HOST,
+  T_SINAPSIS_MOD_TRABAJO_GRADO_NO,
+  T_SINAPSIS_MOD_TRABAJO_GRADO_SI,
+  T_SINAPSIS_NIVEL_ACADEMICO_EDUCACION_CONTINUA,
+  T_SINAPSIS_NIVEL_ACADEMICO_POSTGRADO,
+  T_SINAPSIS_NIVEL_ACADEMICO_PREGRADO,
+  T_SINAPSIS_NIVEL_ACADEMICO_TECNICO,
+  T_SINAPSIS_PROGRAMAS_OTRO,
+  T_SINAPSIS_TIPOS_CONTACTO_COLABORADOR,
+  T_SINAPSIS_TIPOS_CONTACTO_EGRESADO,
+  T_SINAPSIS_TIPOS_CONTACTO_ESTUDIANTE,
+} from "src/utils/constants";
 import {
   getCurrentDateForBirth,
-  getDepartamentoByIdMunicipio,
   getDepartamentos,
-  getInformacionEmprendedor,
   getMunicipios,
-  obtenerAcronimoTipoDocumento,
 } from "src/utils/functions";
 import { validacionesPrimeraAtencionUsuario } from "src/utils/validaciones";
 
-function InfoUsuario(props) {
-  const { userData, loading } = useContext(EmprendedorContext);
-
-  const [predata, setPredata] = useState({});
+function InfoUsuario({ userData, ...props }) {
   const [error, setError] = useState({});
-  const [estudiante, setEstudiante] = useState({ show: false });
-  const [colaborador, setColaborador] = useState({ show: false });
-  const [egresado, setEgresado] = useState({ show: false });
   const [departamentos, setDepartamentos] = useState([]);
   const [municipios, setMunicipios] = useState([]);
-  const [emprendedor, setEmprendedor] = useState({});
+
+  // Custom Hooks
+  const {
+    data: preloadData,
+    error: errorFetch,
+    loading: loadingFetch,
+  } = useFetch({
+    URL: URL_OBTENER_INFO_EMPRENDEDOR,
+    requestOptions: {
+      method: HTTP_METHOD_GET,
+      params: {
+        idUsuario: userData.id,
+      },
+    },
+  });
+
+  const { data: dataProgramasAcademicos } = useFetch({
+    URL: URL_OBTENER_PROGRAMAS_ACADEMICOS,
+    requestOptions: {
+      method: HTTP_METHOD_GET,
+    },
+  });
+
+  const { data: dataAsignaturas } = useFetch({
+    URL: URL_OBTENER_ASIGNATURAS,
+    requestOptions: {
+      method: HTTP_METHOD_GET,
+    },
+  });
 
   useEffect(() => {
-    if (userData) {
-      if (Object.keys(props.datos).length == 0) {
-        getInformacionEmprendedor(userData.id)
-          .then((data) => {
-            getAcronimoTipoDocumento(data.tipoDocumento);
-            props.setDatos({ ...props.datos, ...data });
-            if (data.municipioId) {
-              getDepartamentoByIdMunicipio(data.municipioId)
-                .then((dataResponse) => {
-                  props.setDatos({ ...data, departamento: dataResponse[0].id });
-                })
-                .catch((error) => console.log(error));
-            } else {
-            }
-            setEmprendedor(data);
-          })
-          .catch((error) => console.log(error));
-      }
+    if (preloadData) {
+      props.setDatos({
+        idEmprendedor: preloadData.id,
+        nombres: preloadData.nombres,
+        apellidos: preloadData.apellidos,
+        tipoDocumento: preloadData.acronimoTipoDocumento,
+        numeroDocumento: preloadData.numeroDocumento,
+        fechaNacimiento: moment(
+          preloadData.fechaNacimiento,
+          "DD/MM/YYYY"
+        ).format("YYYY-MM-DD"),
+        genero: preloadData.genero,
+        correoPersonal: preloadData.correoPersonal,
+        celular: preloadData.telefonoContacto,
+        departamento: preloadData.departamentosId,
+        municipioId: preloadData.municipioId,
+        direccion: preloadData.direccion,
+        vinculoConU: preloadData.tipoContactoId,
+        codigoEstudiantil: preloadData.codigoEstudiantil,
+        tipoEstudiante: preloadData.nivelAcademico,
+        programaAcademico: preloadData.programaAcademicoId,
+        modTrabajoGrado: preloadData.modalidadTrabajoGrado,
+        cargoColaborador: preloadData.cargo,
+        dependenciaColaborador: preloadData.dependencia,
+        tipoEstudianteEgresado: preloadData.nivelAcademico,
+        profesionEgresado: preloadData.programaAcademicoId,
+      });
     }
-  }, [userData]);
+  }, [preloadData]);
 
   useEffect(() => {
-    getDepartamentos()
-      .then((data) => {
-        setDepartamentos(data);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+    if (preloadData && preloadData.departamentoId == null) {
+      getDepartamentos()
+        .then((data) => {
+          setDepartamentos(data);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [preloadData]);
 
   useEffect(() => {
-    if (props.datos.departamento != null) {
-      getMunicipios(props.datos.departamento)
+    if (preloadData && props.datos.departamento != null) {
+      getMunicipios(props.datos.departamentoId)
         .then((data) => {
           setMunicipios(data);
         })
@@ -81,38 +130,7 @@ function InfoUsuario(props) {
   }, [props.datos.departamento]);
 
   const onHandleChange = (event) => {
-    const valor = event.target.value;
     props.handleChange(event);
-
-    if (
-      valor === "PREGRADO" ||
-      valor === "POSTGRADO" ||
-      valor === "TECNICO LABORAL" ||
-      valor === "EDUCACION CONTINUA"
-    ) {
-      setEstudiante({ ...estudiante, tipoEstudiante: valor });
-      return;
-    }
-
-    if (valor === "Estudiante") {
-      setEstudiante({ ...estudiante, show: true });
-      setEgresado({ ...egresado, show: false });
-      setColaborador({ ...colaborador, show: false });
-    } else {
-      if (valor === "Egresado") {
-        setEgresado({ ...egresado, show: true });
-        setEstudiante({ ...estudiante, show: false });
-        setColaborador({ ...colaborador, show: false });
-      } else if (valor === "Colaborador") {
-        setEstudiante({ ...estudiante, show: false });
-        setColaborador({ ...colaborador, show: true });
-        setEgresado({ ...egresado, show: false });
-      } else {
-        setEstudiante({ ...estudiante, show: false });
-        setColaborador({ ...colaborador, show: false });
-        setEgresado({ ...egresado, show: false });
-      }
-    }
   };
 
   const onHandleSubmit = (e) => {
@@ -130,16 +148,24 @@ function InfoUsuario(props) {
     props.getFotoPerfilFile(files);
   };
 
-  const getAcronimoTipoDocumento = (tipoDocumento) => {
-    obtenerAcronimoTipoDocumento(tipoDocumento)
-      .then((dataResponse) => {
-        setPredata({ ...predata, tipoDocumento: dataResponse[0].nombre });
-      })
-      .catch((error) => console.log(error));
-  };
+  if (loadingFetch || !preloadData) {
+    return <h1>LOADING...</h1>;
+  }
+
+  if (errorFetch) {
+    return (
+      <>
+        <h1>ERROR</h1>
+        <p>{errorFetch}</p>
+      </>
+    );
+  }
 
   return (
-    <Contenido className="container">
+    <Contenido
+      className="container"
+      style={{ backgroundColor: "#FFF", padding: "1rem 10rem" }}
+    >
       <div className="text-center">
         <Circulo>
           <Paso>1</Paso>
@@ -156,9 +182,7 @@ function InfoUsuario(props) {
             type="text"
             className="form-control"
             id="nombreCompleto"
-            value={`${props.datos.nombres || emprendedor.nombres} ${
-              props.datos.apellidos || emprendedor.apellidos
-            }`}
+            value={`${props.datos.nombres} ${props.datos.apellidos}`}
             disabled
           />
         </div>
@@ -171,9 +195,7 @@ function InfoUsuario(props) {
             type="text"
             className="form-control"
             id="docIdentificacion"
-            value={`${predata.tipoDocumento} - ${
-              props.datos.numeroDocumento || emprendedor.numeroDocumento
-            }`}
+            value={`${props.datos.tipoDocumento} - ${props.datos.numeroDocumento}`}
             disabled
           />
         </div>
@@ -190,9 +212,7 @@ function InfoUsuario(props) {
             id="fechaNacimiento"
             max={getCurrentDateForBirth()}
             value={
-              props.datos.fechaNacimiento || emprendedor.fechaNacimiento != null
-                ? emprendedor.fechaNacimiento
-                : ""
+              props.datos.fechaNacimiento ? props.datos.fechaNacimiento : ""
             }
             onChange={(e) => props.handleChange(e)}
           />
@@ -212,19 +232,15 @@ function InfoUsuario(props) {
             id="genero"
             className="form-select"
             name="genero"
-            value={
-              props.datos.genero || emprendedor.genero != null
-                ? emprendedor.genero
-                : "-1"
-            }
+            value={props.datos.genero ? props.datos.genero : "-1"}
             onChange={(e) => props.handleChange(e)}
           >
             <option value={"-1"} disabled>
               Selecciona un género
             </option>
-            <option value="Masculino">Masculino</option>
-            <option value="Femenino">Femenino</option>
-            <option value="Otro">Otro</option>
+            <option value="MASCULINO">Masculino</option>
+            <option value="FEMENINO">Femenino</option>
+            <option value="OTRO">Otro</option>
           </select>
           {error.genero && (
             <small className="form-text font-weight-bold text-danger">
@@ -234,24 +250,20 @@ function InfoUsuario(props) {
         </div>
 
         <div className="col-md-6">
-          <Label htmlFor="telefono" className="form-label">
-            Número Teléfono
+          <Label htmlFor="correoPersonal" className="form-label">
+            Correo Personal
           </Label>
           <Input
             type="text"
             className="form-control"
-            name="telefono"
-            id="telefono"
-            value={
-              props.datos.telefono || emprendedor.telefono != null
-                ? emprendedor.telefono
-                : ""
-            }
+            name="correoPersonal"
+            id="correoPersonal"
+            value={props.datos.correoPersonal ? props.datos.correoPersonal : ""}
             onChange={(e) => props.handleChange(e)}
           />
-          {error.telefono && (
+          {error.correoPersonal && (
             <small className="form-text font-weight-bold text-danger">
-              {error.telefono}
+              {error.correoPersonal}
             </small>
           )}
         </div>
@@ -265,11 +277,7 @@ function InfoUsuario(props) {
             className="form-control inputDiag"
             name="celular"
             id="celular"
-            value={
-              props.datos.celular || emprendedor.celular != null
-                ? emprendedor.celular
-                : ""
-            }
+            value={props.datos.celular ? props.datos.celular : ""}
             onChange={(e) => props.handleChange(e)}
           />
           {error.celular && (
@@ -289,7 +297,7 @@ function InfoUsuario(props) {
             className="form-select"
             name="departamento"
             value={props.datos.departamento || "-1"}
-            disabled={emprendedor.municipio != null}
+            disabled={props.datos.municipio != null}
             onChange={(e) => props.handleChange(e)}
           >
             <option value={"-1"} disabled>
@@ -319,13 +327,7 @@ function InfoUsuario(props) {
             id="municipioId"
             className="form-select"
             name="municipioId"
-            value={
-              emprendedor.municipioId != 0
-                ? emprendedor.municipioId
-                : props.datos.municipioId != 0
-                ? props.datos.municipioId
-                : 0
-            }
+            value={props.datos.municipioId != 0 ? props.datos.municipioId : 0}
             onChange={(e) => props.handleChange(e)}
           >
             <option value={0} disabled>
@@ -359,7 +361,7 @@ function InfoUsuario(props) {
             className="form-control"
             name="direccion"
             id="direccion"
-            value={props.datos.direccion || emprendedor.direccion}
+            value={props.datos.direccion ? props.datos.direccion : ""}
             onChange={(e) => props.handleChange(e)}
           />
           {error.direccion && (
@@ -378,11 +380,7 @@ function InfoUsuario(props) {
             id="vinculoConU"
             name="vinculoConU"
             className="form-select"
-            value={
-              props.datos.vinculoConU || emprendedor.vinculoConU != null
-                ? emprendedor.vinculoConU
-                : "-1"
-            }
+            value={props.datos.vinculoConU ? props.datos.vinculoConU : "-1"}
             onChange={(e) => {
               onHandleChange(e);
             }}
@@ -390,10 +388,10 @@ function InfoUsuario(props) {
             <option value={"-1"} disabled>
               Selecciona el vinculo con la universidad
             </option>
-            <option value="ESTUDIANTE">Estudiante</option>
-            <option value="EGRESADO">Egresado</option>
-            <option value="COLABORADOR">Colaborador</option>
-            <option value="EXTERNO">Externo</option>
+            <option value="1">Estudiante</option>
+            <option value="2">Egresado</option>
+            <option value="3">Colaborador</option>
+            <option value="4">Externo</option>
           </select>
           {error.vinculoConU && (
             <small className="form-text font-weight-bold text-danger">
@@ -401,7 +399,7 @@ function InfoUsuario(props) {
             </small>
           )}
         </div>
-        {estudiante.show || props.datos?.vinculoConU === "ESTUDIANTE" ? (
+        {props.datos?.vinculoConU === T_SINAPSIS_TIPOS_CONTACTO_ESTUDIANTE ? (
           <>
             <div className="col-md-6">
               <label
@@ -444,10 +442,18 @@ function InfoUsuario(props) {
                 <option value={"-1"} disabled>
                   Selecciona el tipo de estudiante
                 </option>
-                <option value="PREGRADO">Pregrado</option>
-                <option value="POSTGRADO">Postgrado</option>
-                <option value="TECNICO LABORAL">Técnico laboral</option>
-                <option value="EDUCACION CONTINUA">Educación continua</option>
+                <option value={T_SINAPSIS_NIVEL_ACADEMICO_PREGRADO}>
+                  Pregrado
+                </option>
+                <option value={T_SINAPSIS_NIVEL_ACADEMICO_POSTGRADO}>
+                  Postgrado
+                </option>
+                <option value={T_SINAPSIS_NIVEL_ACADEMICO_TECNICO}>
+                  Técnico laboral
+                </option>
+                <option value={T_SINAPSIS_NIVEL_ACADEMICO_EDUCACION_CONTINUA}>
+                  Educación continua
+                </option>
               </select>
               {error.tipoEstudiante && (
                 <small className="form-text font-weight-bold text-danger">
@@ -470,47 +476,31 @@ function InfoUsuario(props) {
                 name="programaAcademico"
                 value={props.datos.programaAcademico || "-1"}
                 onChange={(e) => props.handleChange(e)}
-                defaultValue={"-1"}
               >
                 <option value={"-1"} disabled>
                   Selecciona tu programa
                 </option>
 
-                {props.datos?.tipoEstudiante === "PREGRADO" ? (
-                  programasPrueba.pregrado.map((programa, index) => {
-                    return (
-                      <option key={index} value={programa.value}>
-                        {programa.text}
-                      </option>
-                    );
-                  })
-                ) : props.datos?.tipoEstudiante === "POSTGRADO" ? (
-                  programasPrueba.postgrado.map((programa, index) => {
-                    return (
-                      <option key={index} value={programa.value}>
-                        {programa.text}
-                      </option>
-                    );
-                  })
-                ) : props.datos?.tipoEstudiante === "TECNICO LABORAL" ? (
-                  programasPrueba.tecnico.map((programa, index) => {
-                    return (
-                      <option key={index} value={programa.value}>
-                        {programa.text}
-                      </option>
-                    );
-                  })
-                ) : props.datos?.tipoEstudiante === "EDUCACION CONTINUA" ? (
-                  programasPrueba.educacion.map((programa, index) => {
-                    return (
-                      <option key={index} value={programa.value}>
-                        {programa.text}
-                      </option>
-                    );
-                  })
-                ) : (
-                  <></>
-                )}
+                {dataProgramasAcademicos &&
+                  dataProgramasAcademicos.length > 0 &&
+                  dataProgramasAcademicos.map((programaAcademico, index) => {
+                    if (programaAcademico?.nivelAcademico === null) {
+                      return (
+                        <option key={index} value={programaAcademico.id}>
+                          {programaAcademico.nombre}
+                        </option>
+                      );
+                    } else if (
+                      programaAcademico?.nivelAcademico ===
+                      props.datos?.tipoEstudiante
+                    ) {
+                      return (
+                        <option key={index} value={programaAcademico.id}>
+                          {programaAcademico.nombre}
+                        </option>
+                      );
+                    }
+                  })}
               </select>
               {error.programaAcademico && (
                 <small className="form-text font-weight-bold text-danger">
@@ -519,7 +509,37 @@ function InfoUsuario(props) {
               )}
             </div>
 
-            {estudiante?.tipoEstudiante === "PREGRADO" ? (
+            {props.datos?.programaAcademico == T_SINAPSIS_PROGRAMAS_OTRO && (
+              <div className="col-md-6">
+                <Label
+                  htmlFor="cualOtroProgramaAcademico"
+                  className="form-label"
+                >
+                  ¿Cuál Otro?
+                  <span> (*)</span>
+                </Label>
+                <Input
+                  type="text"
+                  className="form-control"
+                  name="cualOtroProgramaAcademico"
+                  id="cualOtroProgramaAcademico"
+                  value={
+                    props.datos.cualOtroProgramaAcademico
+                      ? props.datos.cualOtroProgramaAcademico
+                      : ""
+                  }
+                  onChange={(e) => props.handleChange(e)}
+                />
+                {error.cualOtroProgramaAcademico && (
+                  <small className="form-text font-weight-bold text-danger">
+                    {error.cualOtroProgramaAcademico}
+                  </small>
+                )}
+              </div>
+            )}
+
+            {props.datos?.tipoEstudiante ===
+            T_SINAPSIS_NIVEL_ACADEMICO_PREGRADO ? (
               <>
                 <div className="col-md-6">
                   <label className="form-label nombreInput">
@@ -535,6 +555,10 @@ function InfoUsuario(props) {
                       id="modTrabajoGradoTrue"
                       onChange={(e) => props.handleChange(e)}
                       value={1}
+                      checked={
+                        props.datos.modTrabajoGrado ===
+                        T_SINAPSIS_MOD_TRABAJO_GRADO_SI
+                      }
                     />
                     <label
                       className="form-check-label"
@@ -552,6 +576,10 @@ function InfoUsuario(props) {
                       id="modTrabajoGradoFalse"
                       onChange={(e) => props.handleChange(e)}
                       value={0}
+                      checked={
+                        props.datos.modTrabajoGrado ===
+                        T_SINAPSIS_MOD_TRABAJO_GRADO_NO
+                      }
                     />
                     <label
                       className="form-check-label"
@@ -577,71 +605,31 @@ function InfoUsuario(props) {
                   </label>
                   <div>
                     <div className="form-check form-check-inline">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="cursosEmprendimiento1"
-                        name="cursosEmprendimiento"
-                        defaultValue="1"
-                        onChange={(e) => props.handleChange(e)}
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="cursosEmprendimiento1"
-                      >
-                        EMPRENDIMIENTO
-                      </label>
-                    </div>
-                    <div className="form-check form-check-inline">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="cursosEmprendimiento2"
-                        name="cursosEmprendimiento"
-                        defaultValue="2"
-                        onChange={(e) => props.handleChange(e)}
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="cursosEmprendimiento2"
-                      >
-                        EMPRENDIMIENTO E INICIATIVA EMPRESARIAL
-                      </label>
-                    </div>
-                    <div className="form-check form-check-inline">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="cursosEmprendimiento3"
-                        name="cursosEmprendimiento"
-                        defaultValue="3"
-                        onChange={(e) => props.handleChange(e)}
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="cursosEmprendimiento3"
-                      >
-                        PLAN DE EMPRESA
-                      </label>
-                    </div>
-                    <div className="form-check form-check-inline">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="cursosEmprendimiento4"
-                        name="cursosEmprendimiento"
-                        defaultValue="4"
-                        onChange={(e) => props.handleChange(e)}
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="cursosEmprendimiento4"
-                      >
-                        IDEAS Y OPORTUNIDAD DE NEGOCIO
-                      </label>
+                      {dataAsignaturas &&
+                        dataAsignaturas.length > 0 &&
+                        dataAsignaturas.map((asignatura, index) => {
+                          return (
+                            <div>
+                              <input
+                                key={index}
+                                className="form-check-input"
+                                type="checkbox"
+                                id={`cursosEmprendimiento${asignatura.id}`}
+                                name="cursosEmprendimiento"
+                                value={asignatura.codigo}
+                                onChange={(e) => props.handleChange(e)}
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor={`cursosEmprendimiento${asignatura.id}`}
+                              >
+                                {asignatura.nombre}
+                              </label>
+                            </div>
+                          );
+                        })}
                     </div>
                   </div>
-
                   {error.cursosEmprendimiento && (
                     <small className="form-text font-weight-bold text-danger">
                       {error.cursosEmprendimiento}
@@ -653,7 +641,8 @@ function InfoUsuario(props) {
               <></>
             )}
           </>
-        ) : colaborador.show || props.datos?.vinculoConU === "COLABORADOR" ? (
+        ) : props.datos?.vinculoConU ===
+          T_SINAPSIS_TIPOS_CONTACTO_COLABORADOR ? (
           <>
             <div className="col-md-6">
               <Label htmlFor="cargoColaborador" className="form-label">
@@ -695,7 +684,7 @@ function InfoUsuario(props) {
               )}
             </div>
           </>
-        ) : egresado.show || props.datos?.vinculoConU === "EGRESADO" ? (
+        ) : props.datos?.vinculoConU === T_SINAPSIS_TIPOS_CONTACTO_EGRESADO ? (
           <>
             <div className="col-md-6">
               <Label htmlFor="tipoEstudianteEgresado" className="form-label">
@@ -712,10 +701,18 @@ function InfoUsuario(props) {
                 <option value={"-1"} disabled>
                   Selecciona el tipo de estudiante
                 </option>
-                <option value="PREGRADO">Pregrado</option>
-                <option value="POSTGRADO">Postgrado</option>
-                <option value="TECNICO LABORAL">Técnico laboral</option>
-                <option value="EDUCACION CONTINUA">Educación continua</option>
+                <option value={T_SINAPSIS_NIVEL_ACADEMICO_PREGRADO}>
+                  Pregrado
+                </option>
+                <option value={T_SINAPSIS_NIVEL_ACADEMICO_POSTGRADO}>
+                  Postgrado
+                </option>
+                <option value={T_SINAPSIS_NIVEL_ACADEMICO_TECNICO}>
+                  Técnico laboral
+                </option>
+                <option value={T_SINAPSIS_NIVEL_ACADEMICO_EDUCACION_CONTINUA}>
+                  Educación continua
+                </option>
               </select>
               {error.tipoEstudianteEgresado && (
                 <small className="form-text font-weight-bold text-danger">
@@ -740,43 +737,26 @@ function InfoUsuario(props) {
                   Selecciona tu programa
                 </option>
 
-                {props.datos?.tipoEstudianteEgresado === "PREGRADO" ? (
-                  programasPrueba.pregrado.map((programa, index) => {
-                    return (
-                      <option key={index} value={programa.value}>
-                        {programa.text}
-                      </option>
-                    );
-                  })
-                ) : props.datos?.tipoEstudianteEgresado === "POSTGRADO" ? (
-                  programasPrueba.postgrado.map((programa, index) => {
-                    return (
-                      <option key={index} value={programa.value}>
-                        {programa.text}
-                      </option>
-                    );
-                  })
-                ) : props.datos?.tipoEstudianteEgresado ===
-                  "TECNICO LABORAL" ? (
-                  programasPrueba.tecnico.map((programa, index) => {
-                    return (
-                      <option key={index} value={programa.value}>
-                        {programa.text}
-                      </option>
-                    );
-                  })
-                ) : props.datos?.tipoEstudianteEgresado ===
-                  "EDUCACION CONTINUA" ? (
-                  programasPrueba.educacion.map((programa, index) => {
-                    return (
-                      <option key={index} value={programa.value}>
-                        {programa.text}
-                      </option>
-                    );
-                  })
-                ) : (
-                  <></>
-                )}
+                {dataProgramasAcademicos &&
+                  dataProgramasAcademicos.length > 0 &&
+                  dataProgramasAcademicos.map((programaAcademico, index) => {
+                    if (programaAcademico?.nivelAcademico === null) {
+                      return (
+                        <option key={index} value={programaAcademico.id}>
+                          {programaAcademico.nombre}
+                        </option>
+                      );
+                    } else if (
+                      programaAcademico?.nivelAcademico ===
+                      props.datos?.tipoEstudianteEgresado
+                    ) {
+                      return (
+                        <option key={index} value={programaAcademico.id}>
+                          {programaAcademico.nombre}
+                        </option>
+                      );
+                    }
+                  })}
               </select>
               {error.profesionEgresado && (
                 <small className="form-text font-weight-bold text-danger">
@@ -784,6 +764,35 @@ function InfoUsuario(props) {
                 </small>
               )}
             </div>
+
+            {props.datos?.profesionEgresado == T_SINAPSIS_PROGRAMAS_OTRO && (
+              <div className="col-md-6">
+                <Label
+                  htmlFor="cualOtroprofesionEgresado"
+                  className="form-label"
+                >
+                  ¿Cuál Otro?
+                  <span> (*)</span>
+                </Label>
+                <Input
+                  type="text"
+                  className="form-control"
+                  name="cualOtroprofesionEgresado"
+                  id="cualOtroprofesionEgresado"
+                  value={
+                    props.datos.cualOtroprofesionEgresado
+                      ? props.datos.cualOtroprofesionEgresado
+                      : ""
+                  }
+                  onChange={(e) => props.handleChange(e)}
+                />
+                {error.cualOtroprofesionEgresado && (
+                  <small className="form-text font-weight-bold text-danger">
+                    {error.cualOtroprofesionEgresado}
+                  </small>
+                )}
+              </div>
+            )}
           </>
         ) : (
           <></>
@@ -839,30 +848,5 @@ function InfoUsuario(props) {
     </Contenido>
   );
 }
-
-const programasPrueba = {
-  pregrado: [
-    { value: 1, text: "Ingenieria Informatica" },
-    { value: 2, text: "Ingenieria Multimedia" },
-    { value: 3, text: "Ingenieria Biomedica" },
-    { value: 4, text: "Ingenieria Electronica" },
-  ],
-  postgrado: [
-    { value: 5, text: "Especializacion en Finanzas" },
-    { value: 6, text: "Especializacion en Mercadeo" },
-    { value: 7, text: "Maestria en Sistemas Energeticos" },
-    { value: 8, text: "Doctorado en Ingenieria" },
-  ],
-  tecnico: [
-    { value: 9, text: "Tecnico Laboral en Comerciante" },
-    { value: 10, text: "Tecnico Laboral en Ventas y Publicidad" },
-  ],
-  educacion: [
-    { value: 11, text: "Curso Frances" },
-    { value: 12, text: "Curso Aleman" },
-    { value: 13, text: "Seminario Basico de MathLab" },
-    { value: 14, text: "Seminario Trading" },
-  ],
-};
 
 export default InfoUsuario;

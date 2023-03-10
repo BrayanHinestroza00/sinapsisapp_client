@@ -38,7 +38,10 @@ function InfoDiagnostico(props) {
   };
 
   return (
-    <Contenido className="container">
+    <Contenido
+      className="container"
+      style={{ backgroundColor: "#FFF", padding: "1rem 10rem" }}
+    >
       <div className="text-center">
         <Circulo>
           <Paso>4</Paso>
