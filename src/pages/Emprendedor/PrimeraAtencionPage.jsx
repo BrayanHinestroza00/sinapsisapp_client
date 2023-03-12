@@ -11,11 +11,7 @@ import InfoDiagnostico from "src/components/emprendedor/primera_atencion/InfoDia
 import { EmprendedorContext } from "src/services/context/EmprendedorContext";
 
 function PrimeraAtencionPage() {
-  const {
-    userData,
-    selectedProjectValue: idSelectedProject,
-    loading,
-  } = useContext(EmprendedorContext);
+  const { userData, loading } = useContext(EmprendedorContext);
 
   const [step, setStep] = useState(1);
   const [datos, setDatos] = useState({});
@@ -35,10 +31,13 @@ function PrimeraAtencionPage() {
     }
 
     if (event.target.name === "cursosEmprendimiento") {
+      console.log("here");
       const arrTmp = datos.cursosEmprendimiento
         ? [...datos.cursosEmprendimiento]
         : [];
       const index = arrTmp.indexOf(event.target.value);
+
+      console.log(arrTmp);
 
       if (index !== -1) {
         arrTmp.splice(index, 1);
@@ -114,24 +113,24 @@ function PrimeraAtencionPage() {
       });
   };
 
-  const getFotoPerfilFile = (files) => {
+  const getFotoPerfilFile = (fotoPerfil) => {
     setDatos({
       ...datos,
-      files,
+      fotoPerfil,
     });
   };
 
-  const getLogoEmpresa = (files) => {
+  const getLogoEmpresa = (logoEmpresa) => {
     setDatos({
       ...datos,
-      logoEmpresa: files,
+      logoEmpresa,
     });
   };
 
-  const getFileDiagnostico = (files) => {
+  const getFileDiagnostico = (fileDiagnostico) => {
     setDatos({
       ...datos,
-      fileDiagnostico: files,
+      fileDiagnostico,
     });
   };
 

@@ -80,6 +80,18 @@ function InfoUsuario({ userData, ...props }) {
 
   useEffect(() => {
     if (preloadData) {
+      let asignaturasEmprendedor = [];
+      if (
+        preloadData.asignaturasEmprendedor &&
+        preloadData.asignaturasEmprendedor.length > 0
+      ) {
+        preloadData.asignaturasEmprendedor.forEach((asignaturaEmprendedor) => {
+          asignaturasEmprendedor.push(
+            `${asignaturaEmprendedor.id.asignaturaId}`
+          );
+        });
+      }
+
       props.setDatos({
         idEmprendedor: preloadData.id,
         nombres: preloadData.nombres,
@@ -105,6 +117,8 @@ function InfoUsuario({ userData, ...props }) {
         dependenciaColaborador: preloadData.dependencia,
         tipoEstudianteEgresado: preloadData.nivelAcademico,
         profesionEgresado: preloadData.programaAcademicoId,
+        cursosEmprendimiento: asignaturasEmprendedor,
+        fotoUrl: preloadData.fotoUrl,
       });
     }
   }, [preloadData]);
@@ -327,7 +341,7 @@ function InfoUsuario({ userData, ...props }) {
             id="municipioId"
             className="form-select"
             name="municipioId"
-            value={props.datos.municipioId != 0 ? props.datos.municipioId : 0}
+            value={props.datos.municipioId ? props.datos.municipioId : 0}
             onChange={(e) => props.handleChange(e)}
           >
             <option value={0} disabled>
@@ -608,8 +622,15 @@ function InfoUsuario({ userData, ...props }) {
                       {dataAsignaturas &&
                         dataAsignaturas.length > 0 &&
                         dataAsignaturas.map((asignatura, index) => {
+                          {
+                            console.log(
+                              props.datos?.cursosEmprendimiento.includes(
+                                asignatura.codigo
+                              )
+                            );
+                          }
                           return (
-                            <div>
+                            <div key={index}>
                               <input
                                 key={index}
                                 className="form-check-input"
@@ -617,6 +638,9 @@ function InfoUsuario({ userData, ...props }) {
                                 id={`cursosEmprendimiento${asignatura.id}`}
                                 name="cursosEmprendimiento"
                                 value={asignatura.codigo}
+                                checked={props.datos?.cursosEmprendimiento.includes(
+                                  asignatura.codigo
+                                )}
                                 onChange={(e) => props.handleChange(e)}
                               />
                               <label
@@ -802,15 +826,15 @@ function InfoUsuario({ userData, ...props }) {
           <Label htmlFor="fotoPerfil" className="form-label nombreInput">
             Foto de Perfil
           </Label>
-          <DropZone upFiles={onGetFiles} files={props?.files} />
-          {(props.datos.files || props.datos.fotoUrl) && (
+          <DropZone upFiles={onGetFiles} files={props.datos?.fotoPerfil} />
+          {(props.datos.fotoPerfil || props.datos.fotoUrl) && (
             <aside style={thumbsContainer}>
               <div style={thumb}>
                 <div style={thumbInner}>
                   <img
                     src={
-                      props.datos.files
-                        ? URL.createObjectURL(props.datos?.files[0])
+                      props.datos.fotoPerfil
+                        ? URL.createObjectURL(props.datos?.fotoPerfil[0])
                         : props.datos.fotoUrl
                         ? `${HOST}/${props.datos.fotoUrl}`
                         : ""
@@ -818,7 +842,7 @@ function InfoUsuario({ userData, ...props }) {
                     style={img}
                     alt={
                       props.datos.files
-                        ? props.datos.files[0].name
+                        ? props.datos.fotoPerfil[0].name
                         : props.datos.fotoUrl
                     }
                   />

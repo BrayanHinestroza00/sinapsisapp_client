@@ -1,5 +1,6 @@
-import Axios from "axios";
 import { useEffect, useState } from "react";
+import Axios from "axios";
+import moment from "moment";
 import {
   img,
   thumb,
@@ -13,75 +14,134 @@ import {
   Label,
 } from "src/assets/styles/emprendedor/primeraAtencion.style";
 import DropZone from "src/components/DropZone";
+import { useFetch } from "src/services/hooks/useFetch";
+import {
+  HTTP_METHOD_GET,
+  URL_OBTENER_ASIGNATURAS,
+  URL_OBTENER_PROGRAMAS_ACADEMICOS,
+} from "src/utils/apiConstants";
 import {
   HOST,
-  SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO,
+  T_SINAPSIS_MOD_TRABAJO_GRADO_NO,
+  T_SINAPSIS_MOD_TRABAJO_GRADO_SI,
+  T_SINAPSIS_NIVEL_ACADEMICO_EDUCACION_CONTINUA,
+  T_SINAPSIS_NIVEL_ACADEMICO_POSTGRADO,
+  T_SINAPSIS_NIVEL_ACADEMICO_PREGRADO,
+  T_SINAPSIS_NIVEL_ACADEMICO_TECNICO,
+  T_SINAPSIS_PROGRAMAS_OTRO,
+  T_SINAPSIS_TIPOS_CONTACTO_COLABORADOR,
+  T_SINAPSIS_TIPOS_CONTACTO_EGRESADO,
+  T_SINAPSIS_TIPOS_CONTACTO_ESTUDIANTE,
 } from "src/utils/constants";
 import {
   getCurrentDateForBirth,
-  getDepartamentoByIdMunicipio,
   getDepartamentos,
-  getFromLocalStorage,
-  getInformacionEmprendedor,
   getMunicipios,
-  obtenerAcronimoTipoDocumento,
 } from "src/utils/functions";
 import { validacionesEditarPerfil } from "src/utils/validaciones";
 import Swal from "sweetalert2";
 
-function EditarPerfil({ allowEdit, setAllowEdit }) {
+function EditarPerfil({ preloadData, allowEdit, setAllowEdit }) {
   const [error, setError] = useState({});
-  const [predata, setPredata] = useState({});
-  const [estudiante, setEstudiante] = useState({ show: false });
-  const [colaborador, setColaborador] = useState({ show: false });
-  const [egresado, setEgresado] = useState({ show: false });
   const [departamentos, setDepartamentos] = useState([]);
   const [municipios, setMunicipios] = useState([]);
   const [datos, setDatos] = useState({});
 
-  useEffect(() => {
-    getDepartamentos()
-      .then((data) => {
-        setDepartamentos(data);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+  // Custom Hooks
+  const { data: dataProgramasAcademicos } = useFetch({
+    URL: URL_OBTENER_PROGRAMAS_ACADEMICOS,
+    requestOptions: {
+      method: HTTP_METHOD_GET,
+    },
+  });
+
+  const { data: dataAsignaturas } = useFetch({
+    URL: URL_OBTENER_ASIGNATURAS,
+    requestOptions: {
+      method: HTTP_METHOD_GET,
+    },
+  });
 
   useEffect(() => {
-    if (datos.departamentoId != null) {
+    if (preloadData) {
+      let asignaturasEmprendedor = [];
+      if (
+        preloadData.asignaturasEmprendedor &&
+        preloadData.asignaturasEmprendedor.length > 0
+      ) {
+        preloadData.asignaturasEmprendedor.forEach((asignaturaEmprendedor) => {
+          asignaturasEmprendedor.push(
+            `${asignaturaEmprendedor.id.asignaturaId}`
+          );
+        });
+      }
+
+      setDatos({
+        idEmprendedor: preloadData.id,
+        nombres: preloadData.nombres,
+        apellidos: preloadData.apellidos,
+        tipoDocumento: preloadData.acronimoTipoDocumento,
+        numeroDocumento: preloadData.numeroDocumento,
+        fechaNacimiento: moment(
+          preloadData.fechaNacimiento,
+          "DD/MM/YYYY"
+        ).format("YYYY-MM-DD"),
+        genero: preloadData.genero,
+        correoPersonal: preloadData.correoPersonal,
+        celular: preloadData.telefonoContacto,
+        departamento: preloadData.departamentosId,
+        municipioId: preloadData.municipioId,
+        direccion: preloadData.direccion,
+        vinculoConU: preloadData.tipoContactoId,
+        codigoEstudiantil: preloadData.codigoEstudiantil,
+        tipoEstudiante: preloadData.nivelAcademico,
+        programaAcademico: preloadData.programaAcademicoId,
+        modTrabajoGrado: preloadData.modalidadTrabajoGrado,
+        cargoColaborador: preloadData.cargo,
+        dependenciaColaborador: preloadData.dependencia,
+        tipoEstudianteEgresado: preloadData.nivelAcademico,
+        profesionEgresado: preloadData.programaAcademicoId,
+        cursosEmprendimiento: asignaturasEmprendedor,
+        fotoUrl: preloadData.fotoUrl,
+      });
+    }
+  }, [preloadData]);
+
+  useEffect(() => {
+    if (preloadData && preloadData.departamentoId == null) {
+      getDepartamentos()
+        .then((data) => {
+          setDepartamentos(data);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [preloadData]);
+
+  useEffect(() => {
+    if (preloadData && datos.departamento != null) {
       getMunicipios(datos.departamentoId)
         .then((data) => {
           setMunicipios(data);
         })
         .catch((error) => console.log(error));
     }
-  }, [datos.departamentoId]);
-
-  useEffect(() => {
-    const userData = getFromLocalStorage(
-      SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO
-    );
-
-    getInformacionEmprendedor(userData.id)
-      .then((data) => {
-        getAcronimoTipoDocumento(data.tipoDocumento);
-        getDepartamentoByIdMunicipio(data.municipioId)
-          .then((dataResponse) => {
-            setDatos({ ...data, departamentoId: dataResponse[0].id });
-          })
-          .catch((error) => console.log(error));
-      })
-      .catch((error) => console.log(error));
-  }, []);
+  }, [datos.departamento]);
 
   const onHandleChange = (event) => {
-    const valor = event.target.value;
+    if (!("target" in event)) {
+      console.log(event);
+      setDatos({ ...datos, descubrioSinapsis: event });
+      return;
+    }
 
     if (event.target.name === "cursosEmprendimiento") {
+      console.log("here");
       const arrTmp = datos.cursosEmprendimiento
         ? [...datos.cursosEmprendimiento]
         : [];
       const index = arrTmp.indexOf(event.target.value);
+
+      console.log(arrTmp);
 
       if (index !== -1) {
         arrTmp.splice(index, 1);
@@ -98,36 +158,6 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
       ...datos,
       [event.target.name]: event.target.value,
     });
-
-    if (
-      valor === "PREGRADO" ||
-      valor === "POSTGRADO" ||
-      valor === "TECNICO LABORAL" ||
-      valor === "EDUCACION CONTINUA"
-    ) {
-      setEstudiante({ ...estudiante, tipoEstudiante: valor });
-      return;
-    }
-
-    if (valor === "Estudiante") {
-      setEstudiante({ ...estudiante, show: true });
-      setEgresado({ ...egresado, show: false });
-      setColaborador({ ...colaborador, show: false });
-    } else {
-      if (valor === "Egresado") {
-        setEgresado({ ...egresado, show: true });
-        setEstudiante({ ...estudiante, show: false });
-        setColaborador({ ...colaborador, show: false });
-      } else if (valor === "Colaborador") {
-        setEstudiante({ ...estudiante, show: false });
-        setColaborador({ ...colaborador, show: true });
-        setEgresado({ ...egresado, show: false });
-      } else {
-        setEstudiante({ ...estudiante, show: false });
-        setColaborador({ ...colaborador, show: false });
-        setEgresado({ ...egresado, show: false });
-      }
-    }
   };
 
   const onHandleSubmit = (e) => {
@@ -185,14 +215,6 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
     });
   };
 
-  const getAcronimoTipoDocumento = (tipoDocumento) => {
-    obtenerAcronimoTipoDocumento(tipoDocumento)
-      .then((dataResponse) => {
-        setPredata({ ...predata, tipoDocumento: dataResponse[0].nombre });
-      })
-      .catch((error) => console.log(error));
-  };
-
   return (
     <form
       onSubmit={onHandleSubmit}
@@ -220,7 +242,7 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
           type="text"
           className="form-control"
           id="docIdentificacion"
-          value={`${predata.tipoDocumento} - ${datos.numeroDocumento}`}
+          value={`${datos.tipoDocumento} - ${datos.numeroDocumento}`}
           disabled
         />
       </div>
@@ -261,9 +283,9 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
           <option value={"-1"} disabled>
             Selecciona un género
           </option>
-          <option value="Masculino">Masculino</option>
-          <option value="Femenino">Femenino</option>
-          <option value="Otro">Otro</option>
+          <option value="MASCULINO">Masculino</option>
+          <option value="FEMENINO">Femenino</option>
+          <option value="OTRO">Otro</option>
         </select>
         {error.genero && (
           <small className="form-text font-weight-bold text-danger">
@@ -273,20 +295,20 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
       </div>
 
       <div className="col-md-6">
-        <Label htmlFor="telefono" className="form-label">
-          Número Teléfono
+        <Label htmlFor="correoPersonal" className="form-label">
+          Correo Personal
         </Label>
         <Input
           type="text"
           className="form-control"
-          name="telefono"
-          id="telefono"
-          value={datos.telefono != null ? datos.telefono : ""}
+          name="correoPersonal"
+          id="correoPersonal"
+          value={datos.correoPersonal ? datos.correoPersonal : ""}
           onChange={(e) => onHandleChange(e)}
         />
-        {error.telefono && (
+        {error.correoPersonal && (
           <small className="form-text font-weight-bold text-danger">
-            {error.telefono}
+            {error.correoPersonal}
           </small>
         )}
       </div>
@@ -311,15 +333,16 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
       </div>
 
       <div className="col-md-6">
-        <Label htmlFor="departamentoId" className="form-label">
+        <Label htmlFor="departamento" className="form-label">
           Departamento de Residencia
           <span> (*)</span>
         </Label>
         <select
-          id="departamentoId"
+          id="departamento"
           className="form-select"
-          name="departamentoId"
-          value={datos.departamentoId || "-1"}
+          name="departamento"
+          value={datos.departamento || "-1"}
+          disabled={datos.municipio != null}
           onChange={(e) => onHandleChange(e)}
         >
           <option value={"-1"} disabled>
@@ -333,30 +356,31 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
             );
           })}
         </select>
-        {error.departamentoId && (
+        {error.departamento && (
           <small className="form-text font-weight-bold text-danger">
-            {error.departamentoId}
+            {error.departamento}
           </small>
         )}
       </div>
 
       <div className="col-md-6">
-        <Label htmlFor="municipio" className="form-label">
+        <Label htmlFor="municipioId" className="form-label">
           Municipio de Residencia
           <span> (*)</span>
         </Label>
         <select
-          id="municipio"
+          id="municipioId"
           className="form-select"
-          name="municipio"
-          value={datos.municipioId != null ? datos.municipioId : "-1"}
+          name="municipioId"
+          value={datos.municipioId ? datos.municipioId : 0}
           onChange={(e) => onHandleChange(e)}
         >
-          <option value={"-1"} disabled>
+          <option value={0} disabled>
             Selecciona un municipio...
           </option>
 
-          {municipios.length > 0 &&
+          {datos.departamento &&
+            municipios.length > 0 &&
             municipios.map((municipio, index) => {
               return (
                 <option key={index} value={municipio.id}>
@@ -365,9 +389,9 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
               );
             })}
         </select>
-        {error.municipio && (
+        {error.municipioId && (
           <small className="form-text font-weight-bold text-danger">
-            {error.municipio}
+            {error.municipioId}
           </small>
         )}
       </div>
@@ -382,7 +406,7 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
           className="form-control"
           name="direccion"
           id="direccion"
-          value={datos.direccion}
+          value={datos.direccion ? datos.direccion : ""}
           onChange={(e) => onHandleChange(e)}
         />
         {error.direccion && (
@@ -401,7 +425,7 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
           id="vinculoConU"
           name="vinculoConU"
           className="form-select"
-          value={datos.vinculoConU != null ? datos.vinculoConU : "-1"}
+          value={datos.vinculoConU ? datos.vinculoConU : "-1"}
           onChange={(e) => {
             onHandleChange(e);
           }}
@@ -409,10 +433,10 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
           <option value={"-1"} disabled>
             Selecciona el vinculo con la universidad
           </option>
-          <option value="ESTUDIANTE">Estudiante</option>
-          <option value="EGRESADO">Egresado</option>
-          <option value="COLABORADOR">Colaborador</option>
-          <option value="EXTERNO">Externo</option>
+          <option value="1">Estudiante</option>
+          <option value="2">Egresado</option>
+          <option value="3">Colaborador</option>
+          <option value="4">Externo</option>
         </select>
         {error.vinculoConU && (
           <small className="form-text font-weight-bold text-danger">
@@ -420,7 +444,7 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
           </small>
         )}
       </div>
-      {estudiante.show || datos?.vinculoConU === "ESTUDIANTE" ? (
+      {datos?.vinculoConU === T_SINAPSIS_TIPOS_CONTACTO_ESTUDIANTE ? (
         <>
           <div className="col-md-6">
             <label
@@ -460,10 +484,18 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
               <option value={"-1"} disabled>
                 Selecciona el tipo de estudiante
               </option>
-              <option value="PREGRADO">Pregrado</option>
-              <option value="POSTGRADO">Postgrado</option>
-              <option value="TECNICO LABORAL">Técnico laboral</option>
-              <option value="EDUCACION CONTINUA">Educación continua</option>
+              <option value={T_SINAPSIS_NIVEL_ACADEMICO_PREGRADO}>
+                Pregrado
+              </option>
+              <option value={T_SINAPSIS_NIVEL_ACADEMICO_POSTGRADO}>
+                Postgrado
+              </option>
+              <option value={T_SINAPSIS_NIVEL_ACADEMICO_TECNICO}>
+                Técnico laboral
+              </option>
+              <option value={T_SINAPSIS_NIVEL_ACADEMICO_EDUCACION_CONTINUA}>
+                Educación continua
+              </option>
             </select>
             {error.tipoEstudiante && (
               <small className="form-text font-weight-bold text-danger">
@@ -486,47 +518,30 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
               name="programaAcademico"
               value={datos.programaAcademico || "-1"}
               onChange={(e) => onHandleChange(e)}
-              defaultValue={"-1"}
             >
               <option value={"-1"} disabled>
                 Selecciona tu programa
               </option>
 
-              {datos?.tipoEstudiante === "PREGRADO" ? (
-                programasPrueba.pregrado.map((programa, index) => {
-                  return (
-                    <option key={index} value={programa.value}>
-                      {programa.text}
-                    </option>
-                  );
-                })
-              ) : datos?.tipoEstudiante === "POSTGRADO" ? (
-                programasPrueba.postgrado.map((programa, index) => {
-                  return (
-                    <option key={index} value={programa.value}>
-                      {programa.text}
-                    </option>
-                  );
-                })
-              ) : datos?.tipoEstudiante === "TECNICO LABORAL" ? (
-                programasPrueba.tecnico.map((programa, index) => {
-                  return (
-                    <option key={index} value={programa.value}>
-                      {programa.text}
-                    </option>
-                  );
-                })
-              ) : datos?.tipoEstudiante === "EDUCACION CONTINUA" ? (
-                programasPrueba.educacion.map((programa, index) => {
-                  return (
-                    <option key={index} value={programa.value}>
-                      {programa.text}
-                    </option>
-                  );
-                })
-              ) : (
-                <></>
-              )}
+              {dataProgramasAcademicos &&
+                dataProgramasAcademicos.length > 0 &&
+                dataProgramasAcademicos.map((programaAcademico, index) => {
+                  if (programaAcademico?.nivelAcademico === null) {
+                    return (
+                      <option key={index} value={programaAcademico.id}>
+                        {programaAcademico.nombre}
+                      </option>
+                    );
+                  } else if (
+                    programaAcademico?.nivelAcademico === datos?.tipoEstudiante
+                  ) {
+                    return (
+                      <option key={index} value={programaAcademico.id}>
+                        {programaAcademico.nombre}
+                      </option>
+                    );
+                  }
+                })}
             </select>
             {error.programaAcademico && (
               <small className="form-text font-weight-bold text-danger">
@@ -535,7 +550,33 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
             )}
           </div>
 
-          {estudiante?.tipoEstudiante === "PREGRADO" ? (
+          {datos?.programaAcademico == T_SINAPSIS_PROGRAMAS_OTRO && (
+            <div className="col-md-6">
+              <Label htmlFor="cualOtroProgramaAcademico" className="form-label">
+                ¿Cuál Otro?
+                <span> (*)</span>
+              </Label>
+              <Input
+                type="text"
+                className="form-control"
+                name="cualOtroProgramaAcademico"
+                id="cualOtroProgramaAcademico"
+                value={
+                  datos.cualOtroProgramaAcademico
+                    ? datos.cualOtroProgramaAcademico
+                    : ""
+                }
+                onChange={(e) => onHandleChange(e)}
+              />
+              {error.cualOtroProgramaAcademico && (
+                <small className="form-text font-weight-bold text-danger">
+                  {error.cualOtroProgramaAcademico}
+                </small>
+              )}
+            </div>
+          )}
+
+          {datos?.tipoEstudiante === T_SINAPSIS_NIVEL_ACADEMICO_PREGRADO ? (
             <>
               <div className="col-md-6">
                 <label className="form-label nombreInput">
@@ -551,6 +592,9 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
                     id="modTrabajoGradoTrue"
                     onChange={(e) => onHandleChange(e)}
                     value={1}
+                    checked={
+                      datos.modTrabajoGrado === T_SINAPSIS_MOD_TRABAJO_GRADO_SI
+                    }
                   />
                   <label
                     className="form-check-label"
@@ -568,6 +612,9 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
                     id="modTrabajoGradoFalse"
                     onChange={(e) => onHandleChange(e)}
                     value={0}
+                    checked={
+                      datos.modTrabajoGrado === T_SINAPSIS_MOD_TRABAJO_GRADO_NO
+                    }
                   />
                   <label
                     className="form-check-label"
@@ -593,71 +640,41 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
                 </label>
                 <div>
                   <div className="form-check form-check-inline">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      id="cursosEmprendimiento1"
-                      name="cursosEmprendimiento"
-                      defaultValue="1"
-                      onChange={(e) => onHandleChange(e)}
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="cursosEmprendimiento1"
-                    >
-                      EMPRENDIMIENTO
-                    </label>
-                  </div>
-                  <div className="form-check form-check-inline">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      id="cursosEmprendimiento2"
-                      name="cursosEmprendimiento"
-                      defaultValue="2"
-                      onChange={(e) => onHandleChange(e)}
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="cursosEmprendimiento2"
-                    >
-                      EMPRENDIMIENTO E INICIATIVA EMPRESARIAL
-                    </label>
-                  </div>
-                  <div className="form-check form-check-inline">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      id="cursosEmprendimiento3"
-                      name="cursosEmprendimiento"
-                      defaultValue="3"
-                      onChange={(e) => onHandleChange(e)}
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="cursosEmprendimiento3"
-                    >
-                      PLAN DE EMPRESA
-                    </label>
-                  </div>
-                  <div className="form-check form-check-inline">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      id="cursosEmprendimiento4"
-                      name="cursosEmprendimiento"
-                      defaultValue="4"
-                      onChange={(e) => onHandleChange(e)}
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="cursosEmprendimiento4"
-                    >
-                      IDEAS Y OPORTUNIDAD DE NEGOCIO
-                    </label>
+                    {dataAsignaturas &&
+                      dataAsignaturas.length > 0 &&
+                      dataAsignaturas.map((asignatura, index) => {
+                        {
+                          console.log(
+                            datos?.cursosEmprendimiento.includes(
+                              asignatura.codigo
+                            )
+                          );
+                        }
+                        return (
+                          <div key={index}>
+                            <input
+                              key={index}
+                              className="form-check-input"
+                              type="checkbox"
+                              id={`cursosEmprendimiento${asignatura.id}`}
+                              name="cursosEmprendimiento"
+                              value={asignatura.codigo}
+                              checked={datos?.cursosEmprendimiento.includes(
+                                asignatura.codigo
+                              )}
+                              onChange={(e) => onHandleChange(e)}
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor={`cursosEmprendimiento${asignatura.id}`}
+                            >
+                              {asignatura.nombre}
+                            </label>
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
-
                 {error.cursosEmprendimiento && (
                   <small className="form-text font-weight-bold text-danger">
                     {error.cursosEmprendimiento}
@@ -669,7 +686,7 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
             <></>
           )}
         </>
-      ) : colaborador.show || datos?.vinculoConU === "COLABORADOR" ? (
+      ) : datos?.vinculoConU === T_SINAPSIS_TIPOS_CONTACTO_COLABORADOR ? (
         <>
           <div className="col-md-6">
             <Label htmlFor="cargoColaborador" className="form-label">
@@ -711,7 +728,7 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
             )}
           </div>
         </>
-      ) : egresado.show || datos?.vinculoConU === "EGRESADO" ? (
+      ) : datos?.vinculoConU === T_SINAPSIS_TIPOS_CONTACTO_EGRESADO ? (
         <>
           <div className="col-md-6">
             <Label htmlFor="tipoEstudianteEgresado" className="form-label">
@@ -728,10 +745,18 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
               <option value={"-1"} disabled>
                 Selecciona el tipo de estudiante
               </option>
-              <option value="PREGRADO">Pregrado</option>
-              <option value="POSTGRADO">Postgrado</option>
-              <option value="TECNICO LABORAL">Técnico laboral</option>
-              <option value="EDUCACION CONTINUA">Educación continua</option>
+              <option value={T_SINAPSIS_NIVEL_ACADEMICO_PREGRADO}>
+                Pregrado
+              </option>
+              <option value={T_SINAPSIS_NIVEL_ACADEMICO_POSTGRADO}>
+                Postgrado
+              </option>
+              <option value={T_SINAPSIS_NIVEL_ACADEMICO_TECNICO}>
+                Técnico laboral
+              </option>
+              <option value={T_SINAPSIS_NIVEL_ACADEMICO_EDUCACION_CONTINUA}>
+                Educación continua
+              </option>
             </select>
             {error.tipoEstudianteEgresado && (
               <small className="form-text font-weight-bold text-danger">
@@ -756,41 +781,26 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
                 Selecciona tu programa
               </option>
 
-              {datos?.tipoEstudianteEgresado === "PREGRADO" ? (
-                programasPrueba.pregrado.map((programa, index) => {
-                  return (
-                    <option key={index} value={programa.value}>
-                      {programa.text}
-                    </option>
-                  );
-                })
-              ) : datos?.tipoEstudianteEgresado === "POSTGRADO" ? (
-                programasPrueba.postgrado.map((programa, index) => {
-                  return (
-                    <option key={index} value={programa.value}>
-                      {programa.text}
-                    </option>
-                  );
-                })
-              ) : datos?.tipoEstudianteEgresado === "TECNICO LABORAL" ? (
-                programasPrueba.tecnico.map((programa, index) => {
-                  return (
-                    <option key={index} value={programa.value}>
-                      {programa.text}
-                    </option>
-                  );
-                })
-              ) : datos?.tipoEstudianteEgresado === "EDUCACION CONTINUA" ? (
-                programasPrueba.educacion.map((programa, index) => {
-                  return (
-                    <option key={index} value={programa.value}>
-                      {programa.text}
-                    </option>
-                  );
-                })
-              ) : (
-                <></>
-              )}
+              {dataProgramasAcademicos &&
+                dataProgramasAcademicos.length > 0 &&
+                dataProgramasAcademicos.map((programaAcademico, index) => {
+                  if (programaAcademico?.nivelAcademico === null) {
+                    return (
+                      <option key={index} value={programaAcademico.id}>
+                        {programaAcademico.nombre}
+                      </option>
+                    );
+                  } else if (
+                    programaAcademico?.nivelAcademico ===
+                    datos?.tipoEstudianteEgresado
+                  ) {
+                    return (
+                      <option key={index} value={programaAcademico.id}>
+                        {programaAcademico.nombre}
+                      </option>
+                    );
+                  }
+                })}
             </select>
             {error.profesionEgresado && (
               <small className="form-text font-weight-bold text-danger">
@@ -798,6 +808,32 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
               </small>
             )}
           </div>
+
+          {datos?.profesionEgresado == T_SINAPSIS_PROGRAMAS_OTRO && (
+            <div className="col-md-6">
+              <Label htmlFor="cualOtroprofesionEgresado" className="form-label">
+                ¿Cuál Otro?
+                <span> (*)</span>
+              </Label>
+              <Input
+                type="text"
+                className="form-control"
+                name="cualOtroprofesionEgresado"
+                id="cualOtroprofesionEgresado"
+                value={
+                  datos.cualOtroprofesionEgresado
+                    ? datos.cualOtroprofesionEgresado
+                    : ""
+                }
+                onChange={(e) => onHandleChange(e)}
+              />
+              {error.cualOtroprofesionEgresado && (
+                <small className="form-text font-weight-bold text-danger">
+                  {error.cualOtroprofesionEgresado}
+                </small>
+              )}
+            </div>
+          )}
         </>
       ) : (
         <></>
@@ -822,7 +858,7 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
                   }
                   style={img}
                   alt={
-                    datos.fotoPerfil ? datos?.fotoPerfil[0].name : datos.fotoUrl
+                    datos.fotoPerfil ? datos.fotoPerfil[0].name : datos.fotoUrl
                   }
                 />
               </div>
@@ -854,30 +890,5 @@ function EditarPerfil({ allowEdit, setAllowEdit }) {
     </form>
   );
 }
-
-const programasPrueba = {
-  pregrado: [
-    { value: 1, text: "Ingenieria Informatica" },
-    { value: 2, text: "Ingenieria Multimedia" },
-    { value: 3, text: "Ingenieria Biomedica" },
-    { value: 4, text: "Ingenieria Electronica" },
-  ],
-  postgrado: [
-    { value: 5, text: "Especializacion en Finanzas" },
-    { value: 6, text: "Especializacion en Mercadeo" },
-    { value: 7, text: "Maestria en Sistemas Energeticos" },
-    { value: 8, text: "Doctorado en Ingenieria" },
-  ],
-  tecnico: [
-    { value: 9, text: "Tecnico Laboral en Comerciante" },
-    { value: 10, text: "Tecnico Laboral en Ventas y Publicidad" },
-  ],
-  educacion: [
-    { value: 11, text: "Curso Frances" },
-    { value: 12, text: "Curso Aleman" },
-    { value: 13, text: "Seminario Basico de MathLab" },
-    { value: 14, text: "Seminario Trading" },
-  ],
-};
 
 export default EditarPerfil;
