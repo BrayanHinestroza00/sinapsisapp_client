@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   Input,
   Label,
@@ -16,12 +17,29 @@ import {
 } from "src/utils/constants";
 
 function VerPerfil({ preloadData }) {
-  const { data: dataAsignaturas } = useFetch({
-    URL: URL_OBTENER_ASIGNATURAS,
-    requestOptions: {
-      method: HTTP_METHOD_GET,
-    },
-  });
+  const { data: dataAsignaturas, error, loading, fetchAPI } = useFetch();
+
+  useEffect(() => {
+    fetchAPI({
+      URL: URL_OBTENER_ASIGNATURAS,
+      requestOptions: {
+        method: HTTP_METHOD_GET,
+      },
+    });
+  }, []);
+
+  if (loading) {
+    return <h1>LOADING...</h1>;
+  }
+
+  if (error) {
+    return (
+      <>
+        <h1>ERROR</h1>
+        <p>{error}</p>
+      </>
+    );
+  }
 
   return (
     <form className="row g-3 mt-1">

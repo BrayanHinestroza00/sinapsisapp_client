@@ -68,3 +68,13 @@
   color: #000;
   border-color: #eedef4;
 }
+
+/* AvanceRuta.jsx */
+#avanceRutaComponent .form-check-input:disabled ~ .form-check-label,
+.form-check-input:disabled .form-check-input[disabled] ~ .form-check-label {
+  opacity: 1;
+}
+
+#avanceRutaComponent .form-check-input:disabled {
+  opacity: 0.65;
+}

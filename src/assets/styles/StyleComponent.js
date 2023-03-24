@@ -96,7 +96,7 @@ const Figura = styled.figure`
 `;
 
 const Label = styled.label`
-  font-size: 18px;
+  font-size: 2rem;
 `;
 const Titulo = styled.h1`
   font-size: 24px;
@@ -132,7 +132,7 @@ const Input = styled.input`
 
 const InputSelect = styled.select`
   width: 100%;
-  height: 2.5rem;
+  //height: 2.5rem;
   padding: 5px 10px;
   font-size: 20px;
   border-radius: 4px;

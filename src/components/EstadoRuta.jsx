@@ -4,6 +4,12 @@ import {
   CirculoRuta,
   NumeroRuta,
 } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
+import {
+  T_SINAPSIS_ETAPAS_RUTA_ARRANCAR,
+  T_SINAPSIS_ETAPAS_RUTA_PENSAR,
+  T_SINAPSIS_ETAPAS_RUTA_SONAR,
+  T_SINAPSIS_ETAPAS_RUTA_TESTEAR,
+} from "src/utils/constants";
 
 function EstadoRuta({ etapa }) {
   const [loading, setLoading] = useState(true);
@@ -11,7 +17,7 @@ function EstadoRuta({ etapa }) {
 
   useEffect(() => {
     switch (etapa) {
-      case "Soñar":
+      case T_SINAPSIS_ETAPAS_RUTA_SONAR:
         setRuta({
           sonar: {
             progress: 25,
@@ -36,7 +42,7 @@ function EstadoRuta({ etapa }) {
         });
         break;
 
-      case "Pensar":
+      case T_SINAPSIS_ETAPAS_RUTA_PENSAR:
         setRuta({
           sonar: {
             progress: 25,
@@ -61,7 +67,7 @@ function EstadoRuta({ etapa }) {
         });
         break;
 
-      case "Testear":
+      case T_SINAPSIS_ETAPAS_RUTA_TESTEAR:
         setRuta({
           sonar: {
             progress: 25,
@@ -86,7 +92,7 @@ function EstadoRuta({ etapa }) {
         });
         break;
 
-      case "Arrancar":
+      case T_SINAPSIS_ETAPAS_RUTA_ARRANCAR:
         setRuta({
           sonar: {
             progress: 25,
@@ -132,8 +138,9 @@ function EstadoRuta({ etapa }) {
         });
         break;
     }
+
     setLoading(false);
-  }, []);
+  }, [etapa]);
 
   if (loading) {
     return <>Loading</>;

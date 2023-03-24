@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import {
   CODE_ERR,
@@ -7,17 +7,23 @@ import {
   ERR_MESSAGE_CODE_NOT_VALID,
 } from "src/utils/apiConstants";
 
-export function useFetch({ URL, requestOptions }) {
+export function useFetch(/*{ URL, requestOptions }*/) {
   const [data, setData] = useState(null);
+  const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    (async function () {
+  // useEffect(() => {
+  //   fetchAPI({ URL, requestOptions });
+  // }, [URL]);
+
+  const fetchAPI = useCallback(
+    async ({ URL, requestOptions }) => {
       try {
         setLoading(true);
         setData(null);
         setError(null);
+        setMessage(null);
 
         const { data } = await axios({
           url: URL,
@@ -29,7 +35,7 @@ export function useFetch({ URL, requestOptions }) {
             setData(data.response);
             break;
           case CODE_NO_CHANGES:
-            setError(data.message);
+            setMessage(data.message);
             break;
           case CODE_ERR:
             setError(data.message);
@@ -43,8 +49,9 @@ export function useFetch({ URL, requestOptions }) {
       } finally {
         setLoading(false);
       }
-    })();
-  }, [URL]);
+    },
+    [URL]
+  );
 
-  return { data, error, loading };
+  return { data, message, error, loading, fetchAPI };
 }

@@ -31,7 +31,6 @@ function PrimeraAtencionPage() {
     }
 
     if (event.target.name === "cursosEmprendimiento") {
-      console.log("here");
       const arrTmp = datos.cursosEmprendimiento
         ? [...datos.cursosEmprendimiento]
         : [];

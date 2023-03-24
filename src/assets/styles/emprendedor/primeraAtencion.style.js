@@ -61,7 +61,7 @@ export const Boton = styled.button`
   align-content: center;
   font-size: 17px;
   width: 15rem;
-  height: 2.5rem;
+  //height: 2.5rem;
   margin-top: 2rem;
   margin-left: 2rem;
   border-radius: 5px;

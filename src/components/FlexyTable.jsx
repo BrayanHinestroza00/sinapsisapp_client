@@ -29,28 +29,30 @@ function FlexyTable({ datos, adicional, ...props }) {
         td: (datos) => {
           return (
             <table>
-              <tr>
-                <td>
-                  <button
-                    className="btn btn_tabla"
-                    onClick={() => props.fun1(datos)}
-                  >
-                    {props.btn1}
-                  </button>
-                </td>
-                {props.btn2 ? (
+              <tbody>
+                <tr>
                   <td>
                     <button
-                      className="btn btn_tabla_outline"
-                      onClick={() => props.fun2(datos)}
+                      className="btn btn_tabla"
+                      onClick={() => props.fun1(datos)}
                     >
-                      {props.btn2}
+                      {props.btn1}
                     </button>
                   </td>
-                ) : (
-                  <></>
-                )}
-              </tr>
+                  {props.btn2 ? (
+                    <td>
+                      <button
+                        className="btn btn_tabla_outline"
+                        onClick={() => props.fun2(datos)}
+                      >
+                        {props.btn2}
+                      </button>
+                    </td>
+                  ) : (
+                    <></>
+                  )}
+                </tr>
+              </tbody>
             </table>
           );
         },

@@ -38,7 +38,6 @@ function EmprendedorSidebar() {
       } else {
         setMenuActive(menu_item_active);
       }
-      console.log(menuActive === SIDEBAR_EMPRENDEDOR_RUTA_ITEM);
     } catch (error) {
       console.log("Error al leer el localStorage - EmprendedorNavbar.jsx");
     }

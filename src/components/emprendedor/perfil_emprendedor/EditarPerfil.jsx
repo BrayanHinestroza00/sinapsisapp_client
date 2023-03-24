@@ -22,6 +22,7 @@ import {
 } from "src/utils/apiConstants";
 import {
   HOST,
+  SINAPSIS_APP_FORMATO_FECHA,
   T_SINAPSIS_MOD_TRABAJO_GRADO_NO,
   T_SINAPSIS_MOD_TRABAJO_GRADO_SI,
   T_SINAPSIS_NIVEL_ACADEMICO_EDUCACION_CONTINUA,
@@ -48,19 +49,25 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit }) {
   const [datos, setDatos] = useState({});
 
   // Custom Hooks
-  const { data: dataProgramasAcademicos } = useFetch({
-    URL: URL_OBTENER_PROGRAMAS_ACADEMICOS,
-    requestOptions: {
-      method: HTTP_METHOD_GET,
-    },
-  });
+  const { data: dataProgramasAcademicos, fetchAPI: fetchApiPrograma } =
+    useFetch();
 
-  const { data: dataAsignaturas } = useFetch({
-    URL: URL_OBTENER_ASIGNATURAS,
-    requestOptions: {
-      method: HTTP_METHOD_GET,
-    },
-  });
+  const { data: dataAsignaturas, fetchAPI: fetchApiAsignaturas } = useFetch();
+
+  useEffect(() => {
+    fetchApiPrograma({
+      URL: URL_OBTENER_PROGRAMAS_ACADEMICOS,
+      requestOptions: {
+        method: HTTP_METHOD_GET,
+      },
+    });
+    fetchApiAsignaturas({
+      URL: URL_OBTENER_ASIGNATURAS,
+      requestOptions: {
+        method: HTTP_METHOD_GET,
+      },
+    });
+  }, []);
 
   useEffect(() => {
     if (preloadData) {
@@ -85,7 +92,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit }) {
         fechaNacimiento: moment(
           preloadData.fechaNacimiento,
           "DD/MM/YYYY"
-        ).format("YYYY-MM-DD"),
+        ).format(SINAPSIS_APP_FORMATO_FECHA),
         genero: preloadData.genero,
         correoPersonal: preloadData.correoPersonal,
         celular: preloadData.telefonoContacto,
@@ -129,7 +136,6 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit }) {
 
   const onHandleChange = (event) => {
     if (!("target" in event)) {
-      console.log(event);
       setDatos({ ...datos, descubrioSinapsis: event });
       return;
     }
@@ -444,7 +450,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit }) {
           </small>
         )}
       </div>
-      {datos?.vinculoConU === T_SINAPSIS_TIPOS_CONTACTO_ESTUDIANTE ? (
+      {datos?.vinculoConU == T_SINAPSIS_TIPOS_CONTACTO_ESTUDIANTE ? (
         <>
           <div className="col-md-6">
             <label
@@ -686,7 +692,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit }) {
             <></>
           )}
         </>
-      ) : datos?.vinculoConU === T_SINAPSIS_TIPOS_CONTACTO_COLABORADOR ? (
+      ) : datos?.vinculoConU == T_SINAPSIS_TIPOS_CONTACTO_COLABORADOR ? (
         <>
           <div className="col-md-6">
             <Label htmlFor="cargoColaborador" className="form-label">
@@ -728,7 +734,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit }) {
             )}
           </div>
         </>
-      ) : datos?.vinculoConU === T_SINAPSIS_TIPOS_CONTACTO_EGRESADO ? (
+      ) : datos?.vinculoConU == T_SINAPSIS_TIPOS_CONTACTO_EGRESADO ? (
         <>
           <div className="col-md-6">
             <Label htmlFor="tipoEstudianteEgresado" className="form-label">
@@ -873,12 +879,17 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit }) {
       </div>
 
       <div className="col-12 d-flex flex-row-reverse">
-        <BotonSiguiente type="submit" className="btn btn-primary">
+        <BotonSiguiente
+          type="submit"
+          style={{ height: "auto" }}
+          className="btn btn-primary"
+        >
           Actualizar Datos
         </BotonSiguiente>
 
         <Boton
           type="button"
+          style={{ height: "auto" }}
           className="btn btn-secondary"
           onClick={(e) => {
             setAllowEdit(!allowEdit);

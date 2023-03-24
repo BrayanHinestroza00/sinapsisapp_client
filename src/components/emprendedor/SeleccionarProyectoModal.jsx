@@ -35,6 +35,10 @@ function SeleccionarProyectoModal() {
     navigate("/Emprendedor/primeraAtencion");
   };
 
+  if (loading) {
+    return <h1>LOADING...</h1>;
+  }
+
   return (
     <div
       className="modal fade"
@@ -57,8 +61,7 @@ function SeleccionarProyectoModal() {
             />
           </div>
           <div className="modal-body">
-            {loading == false &&
-              userData.proyectosEmprendimiento.length > 0 &&
+            {userData.proyectosEmprendimiento.length > 0 &&
               userData.proyectosEmprendimiento.map((proyecto, index) => {
                 return (
                   <button
@@ -70,13 +73,16 @@ function SeleccionarProyectoModal() {
                       border: "#9164a0 solid 1px",
                       marginBottom: "0.5rem",
                     }}
-                    onClick={() => onSetMainProject(proyecto.id)}
+                    onClick={() =>
+                      onSetMainProject(proyecto.idProyectoEmprendimiento)
+                    }
                   >
                     <span>
                       {proyecto.nombreEmprendimiento}
                       <span className="text-muted d-block">
                         {proyecto.estadoEmprendimiento}
-                        {proyecto.id == selectedProjectValue && (
+                        {proyecto.idProyectoEmprendimiento ==
+                          selectedProjectValue && (
                           <span className="d-block text-success">
                             Seleccionado
                           </span>

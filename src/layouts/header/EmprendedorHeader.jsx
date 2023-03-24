@@ -1,3 +1,4 @@
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { headerStyled } from "src/assets/styles/Header.style";
@@ -6,25 +7,18 @@ import logo from "src/assets/images/header/sinapsis.png";
 import exit from "src/assets/images/header/exit.svg";
 import user from "src/assets/images/header/emprendedor/emprendedor_header.png";
 import SeleccionarProyectoPage from "src/components/emprendedor/SeleccionarProyectoModal";
-import { useEffect, useState } from "react";
-import { getFromLocalStorage } from "src/utils/functions";
-import { SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO } from "src/utils/constants";
+import { EmprendedorContext } from "src/services/context/EmprendedorContext";
 
 function EmprendedorHeader() {
-  const [loading, setLoading] = useState(true);
-  const [userName, setUserName] = useState("");
-  const [proyectos, setProyectos] = useState([]);
   let navigate = useNavigate();
+  const { userData, loadingContext } = useContext(EmprendedorContext);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const userData = getFromLocalStorage(
-      SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO
-    );
-
-    setUserName(userData.username.toUpperCase());
-    setProyectos(userData.proyectosEmprendimiento);
-    setLoading(false);
-  }, []);
+    if (!loadingContext && userData) {
+      setLoading(false);
+    }
+  }, [loadingContext, userData]);
 
   const cerrarSesion = () => {
     navigate("/Logout");
@@ -34,9 +28,11 @@ function EmprendedorHeader() {
     navigate("/Emprendedor");
   };
 
-  return loading ? (
-    <></>
-  ) : (
+  if (loading) {
+    return <h1>Loading</h1>;
+  }
+
+  return (
     <>
       <headerStyled.PanelSuperior>
         <headerStyled.LogoSinapsisContainer onClick={() => redirectToHome()}>
@@ -53,7 +49,7 @@ function EmprendedorHeader() {
               data-bs-auto-close="outside"
               data-bs-display="static"
             >
-              <span>{userName}</span>
+              <span>{userData.username.toUpperCase()}</span>
               <headerStyled.IconoHeader
                 className="mx-2"
                 src={user}
@@ -64,7 +60,7 @@ function EmprendedorHeader() {
               className="dropdown-menu dropdown-menu-end"
               aria-labelledby="dropdownMenuButton1"
             >
-              {proyectos?.length > 0 && (
+              {userData.proyectosEmprendimiento?.length > 0 && (
                 <>
                   <li>
                     <h6 className="dropdown-header">Elige tu proyecto</h6>

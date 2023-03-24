@@ -1,16 +1,20 @@
-import Axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import {
-  HOST,
+  HTTP_METHOD_GET,
+  URL_OBTENER_INFO_SESION_EMPRENDEDOR,
+} from "src/utils/apiConstants";
+import {
   MENU_EMPRENDEDOR_INICIO,
   SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO,
+  SINAPSIS_APP_LOCALSTORAGE_OPERACION_GET,
   SINAPSIS_APP_LOCALSTORAGE_SELECTED_PROJECT,
 } from "src/utils/constants";
 import {
-  deleteFromLocalStorage,
   getFromLocalStorage,
   insertIntoLocalStorage,
 } from "src/utils/functions";
+import { useFetch } from "../hooks/useFetch";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const EmprendedorContext = createContext();
 
@@ -22,46 +26,41 @@ function EmprendedorContextProvider({ children }) {
   const [selectedProjectValue, setSelectedProjectValue] = useState(null);
   const [selectedProjectIndex, setSelectedProjectIndex] = useState(null);
 
+  // Custom Hooks
+  const { data: userInitialData, loading: loadingUserInitialData } =
+    useLocalStorage(
+      SINAPSIS_APP_LOCALSTORAGE_OPERACION_GET,
+      SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO
+    );
+
+  const { data: preloadData, loadingPreLoadData, fetchAPI } = useFetch();
+
+  useEffect(() => {
+    if (!loadingUserInitialData && userInitialData) {
+      fetchAPI({
+        URL: URL_OBTENER_INFO_SESION_EMPRENDEDOR,
+        requestOptions: {
+          method: HTTP_METHOD_GET,
+          params: {
+            idUsuario: userInitialData.id,
+          },
+        },
+      });
+    }
+  }, [userInitialData, loadingUserInitialData]);
+
   /**
    * Obtiene informacion del usuario y los proyectos asociados a el
    */
   useEffect(() => {
-    if (!userData) {
-      const userInitialData = getFromLocalStorage(
-        SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO
-      );
-
-      Axios.get(`${HOST}/app/preload/emprendedor`, {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Headers": "*",
-          "Access-Control-Allow-Credentials": "true",
-        },
-        params: {
-          idUsuario: userInitialData.id,
-        },
-      })
-        .then(({ data }) => {
-          deleteFromLocalStorage(SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO);
-          insertIntoLocalStorage(SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO, {
-            ...userInitialData,
-            esPrimeraVez: data.response.primeraVez,
-            proyectosEmprendimiento: data.response.proyectosEmprendimiento,
-          });
-
-          setUserData({
-            ...userInitialData,
-            esPrimeraVez: data.response.primeraVez,
-            proyectosEmprendimiento: data.response.proyectosEmprendimiento,
-          });
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.log(error);
-          setLoading(false);
-        });
+    if (!loadingPreLoadData && preloadData) {
+      setUserData({
+        ...userInitialData,
+        esPrimeraVez: preloadData.primeraVez,
+        proyectosEmprendimiento: preloadData.proyectosEmprendimiento,
+      });
     }
-  }, []);
+  }, [loadingPreLoadData, preloadData]);
 
   /**
    * Obtiene el proyecto seleccionado como principal
@@ -75,7 +74,8 @@ function EmprendedorContextProvider({ children }) {
       if (storageSelectedProject) {
         setSelectedProjectValue(storageSelectedProject);
       } else {
-        const defaultProject = userData.proyectosEmprendimiento[0].id;
+        const defaultProject =
+          userData.proyectosEmprendimiento[0].idProyectoEmprendimiento;
         insertIntoLocalStorage(
           SINAPSIS_APP_LOCALSTORAGE_SELECTED_PROJECT,
           defaultProject
@@ -89,23 +89,23 @@ function EmprendedorContextProvider({ children }) {
   useEffect(() => {
     if (userData) {
       getIndexSelectedProject(userData.proyectosEmprendimiento);
-      setLoading(false);
     }
-  }, [selectedProjectValue]);
+  }, [selectedProjectValue, userData]);
 
   const getIndexSelectedProject = (proyectosEmprendimiento) => {
     const index = proyectosEmprendimiento.findIndex(
       (proyectoEmprendimiento) =>
-        proyectoEmprendimiento.id == selectedProjectValue
+        proyectoEmprendimiento.idProyectoEmprendimiento == selectedProjectValue
     );
     if (index != -1) {
       setSelectedProjectIndex(index);
     }
+    setLoading(false);
   };
 
-  /**
-   * Determina si se debe renderizar el sidebar
-   */
+  if (loading || !userData) {
+    return <></>;
+  }
 
   return (
     <EmprendedorContext.Provider

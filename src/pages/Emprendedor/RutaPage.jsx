@@ -1,3 +1,4 @@
+import { useContext, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import AvanzarRuta from "src/components/emprendedor/ruta/avanzar_ruta/AvanzarRuta";
@@ -10,8 +11,17 @@ import Mentores from "src/components/emprendedor/ruta/mentores/Mentores";
 import Proyecto from "src/components/emprendedor/ruta/proyecto/ProyectoEmprendedor";
 import RedirectToEstado from "src/components/emprendedor/ruta/RedirectToEstado";
 import Tareas from "src/components/emprendedor/ruta/tareas/Tareas";
+import { EmprendedorContext } from "src/services/context/EmprendedorContext";
 
 function RutaPage() {
+  const { showSidebar, setShowSidebar } = useContext(EmprendedorContext);
+
+  useEffect(() => {
+    if (!showSidebar) {
+      setShowSidebar(true);
+    }
+  }, [showSidebar]);
+
   return (
     <Routes>
       <Route exact path="/" element={<RedirectToEstado />} />

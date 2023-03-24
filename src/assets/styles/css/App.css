@@ -6,6 +6,10 @@
   font-family: "Montserrat" !important;
 }
 
+html {
+  font-size: 10px;
+}
+
 body {
   font-family: "Montserrat" !important;
   background-color: #fbf9fb;

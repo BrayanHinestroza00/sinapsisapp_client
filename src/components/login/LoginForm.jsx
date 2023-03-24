@@ -151,22 +151,22 @@ function LoginForm({ onSubmit }) {
                 </loginStyled.InputContainer>
               </div>
 
-              <div className="form-controls botones_login">
+              <div className="form-controls">
                 <div className="form-check form-switch">
-                  <input
+                  <loginStyled.Input
                     className="form-check-input mb-3"
                     type="checkbox"
                     id="saveSesion"
                     defaultChecked={saveSession}
                     onChange={(e) => setSaveSession(e.target.checked)}
                   />
-                  <label
+                  <loginStyled.Label
                     className="form-check-label"
                     name="saveSession"
                     htmlFor="saveSesion"
                   >
                     Mantener la sesión iniciada
-                  </label>
+                  </loginStyled.Label>
                 </div>
               </div>
             </loginStyled.Formulario>

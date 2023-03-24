@@ -1,10 +1,15 @@
 import Axios from "axios";
-import { useFetch } from "src/services/hooks/useFetch";
 import {
-  HTTP_METHOD_GET,
-  URL_OBTENER_PROGRAMAS_ACADEMICOS,
-} from "./apiConstants";
-import { HOST } from "./constants";
+  HOST,
+  T_SINAPSIS_ETAPAS_RUTA_ARRANCAR,
+  T_SINAPSIS_ETAPAS_RUTA_ARRANCAR_NOMBRE,
+  T_SINAPSIS_ETAPAS_RUTA_PENSAR,
+  T_SINAPSIS_ETAPAS_RUTA_PENSAR_NOMBRE,
+  T_SINAPSIS_ETAPAS_RUTA_SONAR,
+  T_SINAPSIS_ETAPAS_RUTA_SONAR_NOMBRE,
+  T_SINAPSIS_ETAPAS_RUTA_TESTEAR,
+  T_SINAPSIS_ETAPAS_RUTA_TESTEAR_NOMBRE,
+} from "./constants";
 
 export function getCurrentDateForBirth(separator = "-") {
   let newDate = new Date();
@@ -120,4 +125,23 @@ export function getInformacionEmprendedor(idUsuario) {
       return data.response;
     })
     .catch((error) => console.log(error));
+}
+
+export function obtenerNombreEtapa(idEtapa) {
+  switch (idEtapa) {
+    case T_SINAPSIS_ETAPAS_RUTA_SONAR:
+      return T_SINAPSIS_ETAPAS_RUTA_SONAR_NOMBRE;
+
+    case T_SINAPSIS_ETAPAS_RUTA_PENSAR:
+      return T_SINAPSIS_ETAPAS_RUTA_PENSAR_NOMBRE;
+
+    case T_SINAPSIS_ETAPAS_RUTA_TESTEAR:
+      return T_SINAPSIS_ETAPAS_RUTA_TESTEAR_NOMBRE;
+
+    case T_SINAPSIS_ETAPAS_RUTA_ARRANCAR:
+      return T_SINAPSIS_ETAPAS_RUTA_ARRANCAR_NOMBRE;
+
+    default:
+      return "N/A";
+  }
 }

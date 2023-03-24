@@ -26,6 +26,7 @@ import {
 } from "src/utils/apiConstants";
 import {
   HOST,
+  SINAPSIS_APP_FORMATO_FECHA,
   T_SINAPSIS_MOD_TRABAJO_GRADO_NO,
   T_SINAPSIS_MOD_TRABAJO_GRADO_SI,
   T_SINAPSIS_NIVEL_ACADEMICO_EDUCACION_CONTINUA,
@@ -54,29 +55,37 @@ function InfoUsuario({ userData, ...props }) {
     data: preloadData,
     error: errorFetch,
     loading: loadingFetch,
-  } = useFetch({
-    URL: URL_OBTENER_INFO_EMPRENDEDOR,
-    requestOptions: {
-      method: HTTP_METHOD_GET,
-      params: {
-        idUsuario: userData.id,
+    fetchAPI: fetchApiInfoEmprendedor,
+  } = useFetch();
+
+  const { data: dataProgramasAcademicos, fetchAPI: fetchApiPrograma } =
+    useFetch();
+
+  const { data: dataAsignaturas, fetchAPI: fetchApiAsignaturas } = useFetch();
+
+  useEffect(() => {
+    fetchApiInfoEmprendedor({
+      URL: URL_OBTENER_INFO_EMPRENDEDOR,
+      requestOptions: {
+        method: HTTP_METHOD_GET,
+        params: {
+          idUsuario: userData.id,
+        },
       },
-    },
-  });
-
-  const { data: dataProgramasAcademicos } = useFetch({
-    URL: URL_OBTENER_PROGRAMAS_ACADEMICOS,
-    requestOptions: {
-      method: HTTP_METHOD_GET,
-    },
-  });
-
-  const { data: dataAsignaturas } = useFetch({
-    URL: URL_OBTENER_ASIGNATURAS,
-    requestOptions: {
-      method: HTTP_METHOD_GET,
-    },
-  });
+    });
+    fetchApiPrograma({
+      URL: URL_OBTENER_PROGRAMAS_ACADEMICOS,
+      requestOptions: {
+        method: HTTP_METHOD_GET,
+      },
+    });
+    fetchApiAsignaturas({
+      URL: URL_OBTENER_ASIGNATURAS,
+      requestOptions: {
+        method: HTTP_METHOD_GET,
+      },
+    });
+  }, []);
 
   useEffect(() => {
     if (preloadData) {
@@ -101,7 +110,7 @@ function InfoUsuario({ userData, ...props }) {
         fechaNacimiento: moment(
           preloadData.fechaNacimiento,
           "DD/MM/YYYY"
-        ).format("YYYY-MM-DD"),
+        ).format(SINAPSIS_APP_FORMATO_FECHA),
         genero: preloadData.genero,
         correoPersonal: preloadData.correoPersonal,
         celular: preloadData.telefonoContacto,
@@ -413,7 +422,7 @@ function InfoUsuario({ userData, ...props }) {
             </small>
           )}
         </div>
-        {props.datos?.vinculoConU === T_SINAPSIS_TIPOS_CONTACTO_ESTUDIANTE ? (
+        {props.datos?.vinculoConU == T_SINAPSIS_TIPOS_CONTACTO_ESTUDIANTE ? (
           <>
             <div className="col-md-6">
               <label
@@ -665,7 +674,7 @@ function InfoUsuario({ userData, ...props }) {
               <></>
             )}
           </>
-        ) : props.datos?.vinculoConU ===
+        ) : props.datos?.vinculoConU ==
           T_SINAPSIS_TIPOS_CONTACTO_COLABORADOR ? (
           <>
             <div className="col-md-6">
@@ -708,7 +717,7 @@ function InfoUsuario({ userData, ...props }) {
               )}
             </div>
           </>
-        ) : props.datos?.vinculoConU === T_SINAPSIS_TIPOS_CONTACTO_EGRESADO ? (
+        ) : props.datos?.vinculoConU == T_SINAPSIS_TIPOS_CONTACTO_EGRESADO ? (
           <>
             <div className="col-md-6">
               <Label htmlFor="tipoEstudianteEgresado" className="form-label">

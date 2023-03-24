@@ -66,6 +66,7 @@
   font-size: 16px;
   font-weight: bold;
   padding: 12px 15px;
+  vertical-align: middle;
 }
 
 ._1OmBB tbody {
@@ -145,4 +146,41 @@
 ._3cYlG:active {
   background-color: var(--rft-button-color);
   color: #fff;
+}
+
+/* Flexy Table Btn */
+.btn_tabla,
+.btn_tabla:focus {
+  color: #ffffff;
+  min-width: 7rem;
+  font-size: 19px;
+  border-radius: 5px;
+  background-color: #9a66a8;
+  border-color: #9a66a8;
+  align-content: center;
+}
+
+.btn_tabla:hover {
+  background-color: #ffffff;
+  color: #9a66a8;
+  border-color: #9a66a8;
+  transition-delay: 100ms;
+}
+
+.btn_tabla_outline,
+.btn_tabla_outline:focus {
+  margin-top: 5px;
+  min-width: 7rem;
+  font-size: 19px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  color: #9a66a8;
+  border-color: #9a66a8;
+  border-width: 2px;
+  align-content: center;
+}
+.btn_tabla_outline:hover {
+  background-color: #9a66a8;
+  color: #ffffff;
+  border-color: #9a66a8;
 }

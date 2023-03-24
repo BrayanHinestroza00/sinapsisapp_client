@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import {
@@ -21,7 +21,16 @@ function EmprendedorNavbar() {
     setShowSidebar,
     menuItemActive,
     setMenuItemActive,
+    loading: loadingContext,
   } = useContext(EmprendedorContext);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!loadingContext && userData) {
+      setLoading(false);
+    }
+  }, [loadingContext]);
 
   const onChangeMenu = (event_key) => {
     setMenuItemActive(event_key);
@@ -36,6 +45,10 @@ function EmprendedorNavbar() {
       setShowSidebar(false);
     }
   };
+
+  if (loading) {
+    return <h1>Loading Navbar</h1>;
+  }
 
   return (
     <nav
@@ -65,7 +78,7 @@ function EmprendedorNavbar() {
                 INICIO
               </Link>
             </li>
-            {userData?.esPrimeraVez ? (
+            {userData.esPrimeraVez == 1 ? (
               <li className="nav-item">
                 <Link
                   className={`nav-link ${
@@ -94,7 +107,7 @@ function EmprendedorNavbar() {
                     MI PERFIL
                   </Link>
                 </li>
-                {userData?.proyectosEmprendimiento[selectedProjectIndex]
+                {userData.proyectosEmprendimiento[selectedProjectIndex]
                   ?.estadoEmprendimiento != "PENDIENTE" && (
                   <li className="nav-item">
                     <Link

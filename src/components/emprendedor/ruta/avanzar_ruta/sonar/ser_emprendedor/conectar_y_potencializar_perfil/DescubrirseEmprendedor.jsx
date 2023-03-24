@@ -49,7 +49,10 @@ function DescubrirseEmprendedor() {
         concretas para ayudarle a comprender mejor su potencial empresarial,
         fortalecer sus habilidades e impulsar sus proyectos de negocio.
         <br />
-        <a href="https://uao-my.sharepoint.com/:x:/r/personal/djrestrepo_uao_edu_co/_layouts/15/Doc.aspx?sourcedoc=%7B73D97C66-042D-4408-A6E7-68E6325FA7C8%7D&file=3.%20Perfil%20del%20emprendedor%20Ruta%20de%20Innovaci%C3%B2n%20y%20Emprendimiento%20UAO.xlsm&action=default&mobileredirect=true">
+        <a
+          target="_blank"
+          href="https://uao-my.sharepoint.com/:x:/r/personal/djrestrepo_uao_edu_co/_layouts/15/Doc.aspx?sourcedoc=%7B73D97C66-042D-4408-A6E7-68E6325FA7C8%7D&file=3.%20Perfil%20del%20emprendedor%20Ruta%20de%20Innovaci%C3%B2n%20y%20Emprendimiento%20UAO.xlsm&action=default&mobileredirect=true"
+        >
           Descarga formato de perfil de emprendedor
         </a>
       </p>

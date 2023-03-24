@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Boton } from "src/assets/styles/emprendedor/primeraAtencion.style";
 import {
   Titulo,
@@ -22,15 +22,23 @@ function PerfilPage() {
     data: preloadData,
     error: errorFetch,
     loading: loadingFetch,
-  } = useFetch({
-    URL: URL_OBTENER_INFO_EMPRENDEDOR,
-    requestOptions: {
-      method: HTTP_METHOD_GET,
-      params: {
-        idUsuario: userData.id,
-      },
-    },
-  });
+    fetchAPI,
+  } = useFetch();
+
+  useEffect(() => {
+    console.log("first", userData);
+    if (userData) {
+      fetchAPI({
+        URL: URL_OBTENER_INFO_EMPRENDEDOR,
+        requestOptions: {
+          method: HTTP_METHOD_GET,
+          params: {
+            idUsuario: userData.id,
+          },
+        },
+      });
+    }
+  }, [userData]);
 
   if (loadingFetch || !preloadData) {
     return <h1>LOADING...</h1>;
@@ -57,6 +65,7 @@ function PerfilPage() {
               {allowEdit === false && (
                 <Boton
                   type="button"
+                  style={{ height: "auto" }}
                   className="btn btn-primary m-0"
                   onClick={() => setAllowEdit(!allowEdit)}
                 >
