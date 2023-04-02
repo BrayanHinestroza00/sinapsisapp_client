@@ -13,6 +13,7 @@ function MentorEmprendedorContextProvider({ children }) {
     <MentorEmprendedorContext.Provider
       value={{
         userData,
+        setUserData,
         loading,
       }}
     >

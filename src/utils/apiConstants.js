@@ -46,6 +46,8 @@ export const URL_OBTENER_TAREAS_PROYECTO_EMPRENDIMIENTO =
   HOST + "/ruta_innovacion/tareas";
 export const URL_OBTENER_CONSULTORIAS_PROYECTO_EMPRENDIMIENTO =
   HOST + "/ruta_innovacion/consultorias";
+export const URL_OBTENER_CONSULTORIAS_PROGRAMADAS =
+  HOST + "/ruta_innovacion/consultorias_programadas";
 
 /**
  * Rutas usadas por el Mentor
@@ -56,6 +58,11 @@ export const URL_OBTENER_MENTORES_POR_PROYECTO_EMPRENDIMIENTO =
 export const URL_OBTENER_MENTOR_POR_PROYECTO_EMPRENDIMIENTO =
   HOST + "/mentores/proyecto_emprendimiento";
 
+export const URL_OBTENER_EMPRENDEDORES_ASOCIADOS =
+  HOST + "/mentores/emprendedores";
+
+export const URL_OBTENER_HORARIO_MENTOR = HOST + "/mentores/horario";
+
 /**
  * Rutas comunes
  */
@@ -63,3 +70,10 @@ export const URL_OBTENER_PROGRAMAS_ACADEMICOS =
   HOST + "/app/programas_academicos";
 export const URL_OBTENER_ASIGNATURAS = HOST + "/app/asignaturas";
 export const URL_OBTENER_REDES_SOCIALES = HOST + "/app/redes_sociales";
+export const URL_OBTENER_TIPOS_DOCUMENTO = HOST + "/app/tipoDocumento";
+
+/**
+ * Rutas de reportes
+ */
+export const URL_OBTENER_REPORTE_CONSULTORIAS_POR_MENTOR =
+  HOST + "/reportes/consultorias_por_mentor";

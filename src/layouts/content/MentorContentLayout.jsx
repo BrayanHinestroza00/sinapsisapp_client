@@ -2,7 +2,7 @@ import MentorSidebar from "../sidebar/MentorSidebar";
 
 function MentorContentLayout({ children, sidebar }) {
   return (
-    <div className="container-fluid" style={{ marginTop: "4rem" }}>
+    <div className="container-fluid p-0">
       <div className="row flex-nowrap">
         {sidebar ? (
           <>

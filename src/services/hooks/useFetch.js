@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import axios from "axios";
 import {
   CODE_ERR,
@@ -7,51 +7,51 @@ import {
   ERR_MESSAGE_CODE_NOT_VALID,
 } from "src/utils/apiConstants";
 
-export function useFetch(/*{ URL, requestOptions }*/) {
+export function useFetch() {
   const [data, setData] = useState(null);
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // useEffect(() => {
-  //   fetchAPI({ URL, requestOptions });
-  // }, [URL]);
+  const fetchAPI = useCallback(async ({ URL, requestOptions }) => {
+    try {
+      setLoading(true);
+      setData(null);
+      setError(null);
+      setMessage(null);
 
-  const fetchAPI = useCallback(
-    async ({ URL, requestOptions }) => {
-      try {
-        setLoading(true);
-        setData(null);
-        setError(null);
-        setMessage(null);
+      const responseAPI = await axios({
+        url: URL,
+        ...requestOptions,
+      });
 
-        const { data } = await axios({
-          url: URL,
-          ...requestOptions,
-        });
-
-        switch (data.code) {
+      if (responseAPI.data.hasOwnProperty("code")) {
+        switch (responseAPI.data.code) {
           case CODE_OK:
-            setData(data.response);
+            setData(responseAPI.data.response);
             break;
           case CODE_NO_CHANGES:
-            setMessage(data.message);
+            setMessage(responseAPI.data.message);
             break;
           case CODE_ERR:
-            setError(data.message);
+            setError(responseAPI.data.message);
             break;
           default:
             setError(ERR_MESSAGE_CODE_NOT_VALID);
             break;
         }
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
+      } else {
+        // Es un reporte por lo tanto, se debe descargar el archivo.
+        const documentName = responseAPI.headers["content-type"].split("=")[1];
+        setData(responseAPI.data);
+        setMessage(documentName);
       }
-    },
-    [URL]
-  );
+    } catch (err) {
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   return { data, message, error, loading, fetchAPI };
 }

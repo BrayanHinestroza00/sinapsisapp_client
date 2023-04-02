@@ -121,6 +121,7 @@ function ProyectoEmprendedor() {
             datos={datos}
             setDatos={setDatos}
             redesData={redesData}
+            editable={true}
           />
         </Ruta>
       </CardRuta>

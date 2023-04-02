@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import {
   Auxiliar,
@@ -7,8 +8,64 @@ import {
 } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
 import AvanceRuta from "src/components/AvanceRuta";
 import EstadoRuta from "src/components/EstadoRuta";
+import { useFetch } from "src/services/hooks/useFetch";
+import {
+  HTTP_METHOD_GET,
+  URL_OBTENER_ETAPA_PROYECTO_EMPRENDEDOR,
+} from "src/utils/apiConstants";
+import { obtenerNombreEtapa } from "src/utils/functions";
 
-function RutaMentor() {
+function RutaMentor({ idProyectoEmprendimiento }) {
+  const [loadingComponent, setLoadingComponent] = useState(true);
+
+  // Custom Hooks
+  const {
+    data: preloadData,
+    message: messageFetch,
+    error: errorFetch,
+    loading: loadingFetch,
+    fetchAPI: fetchApiRuta,
+  } = useFetch();
+
+  useEffect(() => {
+    fetchApiRuta({
+      URL: URL_OBTENER_ETAPA_PROYECTO_EMPRENDEDOR,
+      requestOptions: {
+        method: HTTP_METHOD_GET,
+        params: {
+          idProyectoEmprendimiento: idProyectoEmprendimiento,
+        },
+      },
+    }).then(() => setLoadingComponent(false));
+  }, []);
+
+  if (loadingFetch || loadingComponent || !preloadData) {
+    return <>LOADING RutaMentor</>;
+  }
+
+  if (messageFetch) {
+    return (
+      <Card>
+        <SubTitulo>Estado de la ruta de I&E de SINAPSIS UAO</SubTitulo>
+
+        <CardRuta style={{ marginTop: "0rem", marginBottom: "0rem" }}>
+          <Ruta>
+            <p>{messageFetch}</p>
+          </Ruta>
+        </CardRuta>
+      </Card>
+    );
+  }
+
+  if (errorFetch) {
+    return (
+      <>
+        <h1>ERROR</h1>
+        <p>{errorFetch}</p>
+      </>
+    );
+  }
+
   return (
     <Card>
       <SubTitulo>Estado de la ruta de I&E de SINAPSIS UAO</SubTitulo>
@@ -16,9 +73,11 @@ function RutaMentor() {
         <Ruta>
           <SubTitulo>
             Actualmente el emprendedor se encuentra en la etapa:{" "}
-            <Auxiliar className="text-muted">{etapa}</Auxiliar>
+            <Auxiliar className="text-muted">
+              {obtenerNombreEtapa(preloadData.idEtapa)}
+            </Auxiliar>
           </SubTitulo>
-          <EstadoRuta etapa={etapa} />
+          <EstadoRuta etapa={preloadData.idEtapa} />
         </Ruta>
       </CardRuta>
 
@@ -26,15 +85,15 @@ function RutaMentor() {
         <Ruta>
           <SubTitulo>
             Avance en la ruta de I&E del emprendedor en la etapa:{" "}
-            <Auxiliar className="text-muted">{etapa}</Auxiliar>
+            <Auxiliar className="text-muted">
+              {obtenerNombreEtapa(preloadData.idEtapa)}
+            </Auxiliar>
           </SubTitulo>
-          <AvanceRuta />
+          <AvanceRuta preloadData={preloadData} />
         </Ruta>
       </CardRuta>
     </Card>
   );
 }
-
-const etapa = "Testear";
 
 export default RutaMentor;

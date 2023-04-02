@@ -143,6 +143,19 @@ function AvanceRuta({ preloadData }) {
     !subActEmpRutaData ||
     !actidadesEmprendedor
   ) {
+    // console.log("test", {
+    //   actRutaLoading,
+    //   herrRutaLoading,
+    //   actEmpRutaLoading,
+    //   subActEmpRutaLoading,
+    //   inverso: {
+    //     actRutaData,
+    //     herrRutaData,
+    //     actEmpRutaData,
+    //     subActEmpRutaData,
+    //     actidadesEmprendedor,
+    //   },
+    // });
     return <>LOADING AvanceRuta</>;
   }
 

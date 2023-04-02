@@ -3,11 +3,9 @@ import MentorLayout from "src/layouts/MentorLayout";
 
 function ConsultoriasPage() {
   return (
-    <MentorLayout sidebar={true}>
-      <>
-        <Titulo>Consultorias Normales</Titulo>
-      </>
-    </MentorLayout>
+    <>
+      <Titulo>Consultorias Normales</Titulo>
+    </>
   );
 }
 

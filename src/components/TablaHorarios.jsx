@@ -43,15 +43,15 @@ function TablaHorarios({ horarios }) {
           </tr>
         </thead>
         <tbody>
-          {listaHorarios.length > 0 &&
+          {listaHorarios.length > 0 ? (
             listaHorarios.map((filaHorario, index) => {
               return (
                 <tr key={index}>
                   <td key={index}>
                     {filaHorario.lunes ? (
                       <>
-                        {filaHorario.lunes?.inicio}
-                        <br /> {filaHorario?.lunes?.fin}
+                        {filaHorario.lunes?.horaInicio}
+                        <br /> {filaHorario?.lunes?.horaFin}
                       </>
                     ) : (
                       ""
@@ -60,8 +60,8 @@ function TablaHorarios({ horarios }) {
                   <td>
                     {filaHorario.martes ? (
                       <>
-                        {filaHorario.martes?.inicio}
-                        <br /> {filaHorario?.martes?.fin}
+                        {filaHorario.martes?.horaInicio}
+                        <br /> {filaHorario?.martes?.horaFin}
                       </>
                     ) : (
                       ""
@@ -70,8 +70,8 @@ function TablaHorarios({ horarios }) {
                   <td>
                     {filaHorario.miercoles ? (
                       <>
-                        {filaHorario.miercoles?.inicio}
-                        <br /> {filaHorario?.miercoles?.fin}
+                        {filaHorario.miercoles?.horaInicio}
+                        <br /> {filaHorario?.miercoles?.horaFin}
                       </>
                     ) : (
                       ""
@@ -80,8 +80,8 @@ function TablaHorarios({ horarios }) {
                   <td>
                     {filaHorario.jueves ? (
                       <>
-                        {filaHorario.jueves?.inicio}
-                        <br /> {filaHorario?.jueves?.fin}
+                        {filaHorario.jueves?.horaInicio}
+                        <br /> {filaHorario?.jueves?.horaFin}
                       </>
                     ) : (
                       ""
@@ -90,8 +90,8 @@ function TablaHorarios({ horarios }) {
                   <td>
                     {filaHorario.viernes ? (
                       <>
-                        {filaHorario.viernes?.inicio}
-                        <br /> {filaHorario?.viernes?.fin}
+                        {filaHorario.viernes?.horaInicio}
+                        <br /> {filaHorario?.viernes?.horaFin}
                       </>
                     ) : (
                       ""
@@ -100,8 +100,8 @@ function TablaHorarios({ horarios }) {
                   <td>
                     {filaHorario.sabado ? (
                       <>
-                        {filaHorario.sabado?.inicio}
-                        <br /> {filaHorario?.sabado?.fin}
+                        {filaHorario.sabado?.horaInicio}
+                        <br /> {filaHorario?.sabado?.horaFin}
                       </>
                     ) : (
                       ""
@@ -109,7 +109,16 @@ function TablaHorarios({ horarios }) {
                   </td>
                 </tr>
               );
-            })}
+            })
+          ) : (
+            <tr>
+              <td colSpan={6}>
+                <p className="m-5">
+                  El mentor no ha registrado ningun horario de disponibilidad
+                </p>
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Col,
   Container,
@@ -40,6 +40,7 @@ function EditarDisponibilidadModal({ show, setShow, horarios = [] }) {
   };
 
   const onChangeHorarioFromDay = (event, index) => {
+    console.log("Prueba", event.target.value);
     if (index != null) {
       const newHorario = {
         ...horarioNuevo[selectedDay][index],
@@ -64,6 +65,8 @@ function EditarDisponibilidadModal({ show, setShow, horarios = [] }) {
     setHorarioNuevo(horarios);
     setShow();
   };
+
+  console.log("horarioNuevo", horarioNuevo);
 
   return (
     <Modal
@@ -150,7 +153,7 @@ function EditarDisponibilidadModal({ show, setShow, horarios = [] }) {
                           type="time"
                           className="form-control"
                           name={`inicio-${index}`}
-                          value={horarioDia?.inicio?.split(" ")[0]}
+                          value={horarioDia?.horaInicio?.split(" ")[0]}
                           onChange={(evt) => onChangeHorarioFromDay(evt, index)}
                         />
                       </Col>
@@ -161,7 +164,7 @@ function EditarDisponibilidadModal({ show, setShow, horarios = [] }) {
                           type="time"
                           className="form-control"
                           name={`fin-${index}`}
-                          value={horarioDia?.fin?.split(" ")[0]}
+                          value={horarioDia?.horaFin?.split(" ")[0]}
                           onChange={(evt) => onChangeHorarioFromDay(evt, index)}
                         />
                       </Col>
@@ -231,6 +234,7 @@ function EditarDisponibilidadModal({ show, setShow, horarios = [] }) {
       </ModalBody>
       <ModalFooter className="modalFooter_revisarConsultoria">
         <BotonSiguiente
+          style={{ height: "auto" }}
           className="btn btn-primary"
           onClick={(e) => {
             // handleSubmit(e);

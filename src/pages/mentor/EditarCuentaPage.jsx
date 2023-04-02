@@ -5,12 +5,10 @@ import MentorLayout from "src/layouts/MentorLayout";
 
 function EditarCuentaPage() {
   return (
-    <MentorLayout sidebar={true}>
-      <>
-        <Titulo>Configuración de la Cuenta</Titulo>
-        <FormEditarCuenta />
-      </>
-    </MentorLayout>
+    <>
+      <Titulo>Configuración de la Cuenta</Titulo>
+      <FormEditarCuenta />
+    </>
   );
 }
 

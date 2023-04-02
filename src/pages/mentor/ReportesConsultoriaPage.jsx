@@ -1,5 +1,4 @@
-import Axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import {
   Input,
@@ -9,16 +8,49 @@ import {
   SubTitulo,
   Titulo,
 } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
-import MentorLayout from "src/layouts/MentorLayout";
-import { HOST } from "src/utils/constants";
+import { MentorContext } from "src/services/context/MentorContext";
+import { useFetch } from "src/services/hooks/useFetch";
+import {
+  HTTP_METHOD_POST,
+  URL_OBTENER_REPORTE_CONSULTORIAS_POR_MENTOR,
+} from "src/utils/apiConstants";
+import { getCurrentDate } from "src/utils/functions";
 
 function ReportesConsultoriaPage() {
+  const { userData } = useContext(MentorContext);
   const [error, setError] = useState({});
   const [datos, setDatos] = useState({});
-  const [tiposDocumento, setTiposDocumento] = useState([]);
+
+  // Custom Hooks
+  const { data, message, error: errorAPI, fetchAPI } = useFetch();
+
+  useEffect(() => {
+    if (data) {
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(data);
+      console.log(url);
+      link.href = url;
+      link.download = message;
+      link.click();
+    }
+  }, [data]);
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
+
+    fetchAPI({
+      URL: URL_OBTENER_REPORTE_CONSULTORIAS_POR_MENTOR,
+      requestOptions: {
+        method: HTTP_METHOD_POST,
+        responseType: "blob",
+        data: {
+          idMentor: userData.id,
+          fechaInicio: datos.fechaInicio,
+          fechaFin: datos.fechaFin,
+        },
+      },
+    });
+
     // let erroresFormulario = validacionesEditarPerfil(datos);
     // if (Object.keys(erroresFormulario).length) {
     //   setError(erroresFormulario);
@@ -72,134 +104,71 @@ function ReportesConsultoriaPage() {
     });
   };
 
-  useEffect(() => {
-    Axios.get(`${HOST}/app/tipoDocumento`)
-      .then(({ data }) => {
-        if (data.code == 1) {
-          setTiposDocumento(data.response);
-        }
-
-        if (data.code == -1) {
-          console.log(data.message);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  if (errorAPI) {
+    return (
+      <>
+        <h1>ERROR</h1>
+        <p>{errorAPI}</p>
+      </>
+    );
+  }
 
   return (
-    <MentorLayout sidebar={true}>
-      <>
-        <Titulo>Reportes Consultorias</Titulo>
+    <>
+      <Titulo>Reportes Consultorias</Titulo>
 
-        <Card style={{ padding: "0.5rem 2rem 1rem 2rem" }}>
-          <SubTitulo>Filtros</SubTitulo>
+      <Card style={{ padding: "0.5rem 2rem 1rem 2rem" }}>
+        <SubTitulo>Filtros</SubTitulo>
 
-          <form onSubmit={onHandleSubmit} className="row g-3">
-            {/* Tipo de documento */}
-            <div className="col-md-6">
-              <Label htmlFor="tiposDocumento" className="form-label">
-                Tipo de documento
-              </Label>
-              <select
-                id="tiposDocumento"
-                className="form-select"
-                name="tiposDocumento"
-                value={datos.tiposDocumento || "-1"}
-                onChange={(e) => onHandleChange(e)}
-              >
-                <option value={"-1"} disabled>
-                  Selecciona...
-                </option>
-                {tiposDocumento.map((tipoDocumento, index) => {
-                  return (
-                    <option key={index} value={tipoDocumento.id}>
-                      {tipoDocumento.nombre}
-                    </option>
-                  );
-                })}
-              </select>
-              {error.tiposDocumento && (
-                <small className="form-text font-weight-bold text-danger">
-                  {error.tiposDocumento}
-                </small>
-              )}
-            </div>
+        <form onSubmit={onHandleSubmit} className="row g-3">
+          {/* Fecha de inicio */}
+          <div className="col-md-6">
+            <Label htmlFor="fechaInicio" className="form-label">
+              Fecha de Inicio
+            </Label>
+            <Input
+              type="date"
+              className="form-control inputDiag"
+              name="fechaInicio"
+              id="fechaInicio"
+              max={getCurrentDate()}
+              value={datos.fechaInicio != null ? datos.fechaInicio : ""}
+              onChange={(e) => onHandleChange(e)}
+            />
+            {error.fechaInicio && (
+              <small className="form-text font-weight-bold text-danger">
+                {error.fechaInicio}
+              </small>
+            )}
+          </div>
 
-            {/* Numero de documento */}
-            <div className="col-md-6">
-              <Label htmlFor="numeroDocumento" className="form-label">
-                Número de documento
-              </Label>
-              <Input
-                type="text"
-                className="form-control inputDiag"
-                name="numeroDocumento"
-                id="numeroDocumento"
-                value={
-                  datos.numeroDocumento != null ? datos.numeroDocumento : ""
-                }
-                onChange={(e) => onHandleChange(e)}
-              />
-              {error.numeroDocumento && (
-                <small className="form-text font-weight-bold text-danger">
-                  {error.numeroDocumento}
-                </small>
-              )}
-            </div>
+          {/* Fecha de finalización */}
+          <div className="col-md-6">
+            <Label htmlFor="fechaFin" className="form-label">
+              Fecha de Finalización
+            </Label>
+            <Input
+              type="date"
+              className="form-control inputDiag"
+              name="fechaFin"
+              id="fechaFin"
+              max={getCurrentDate()}
+              value={datos.fechaFin != null ? datos.fechaFin : ""}
+              onChange={(e) => onHandleChange(e)}
+            />
+            {error.fechaFin && (
+              <small className="form-text font-weight-bold text-danger">
+                {error.fechaFin}
+              </small>
+            )}
+          </div>
 
-            {/* Nombre emprendedor */}
-            <div className="col-md-6">
-              <Label htmlFor="nombreEmprendedor" className="form-label">
-                Nombre(s) del Emprendedor
-              </Label>
-              <Input
-                type="text"
-                className="form-control inputDiag"
-                name="nombreEmprendedor"
-                id="nombreEmprendedor"
-                value={
-                  datos.nombreEmprendedor != null ? datos.nombreEmprendedor : ""
-                }
-                onChange={(e) => onHandleChange(e)}
-              />
-              {error.nombreEmprendedor && (
-                <small className="form-text font-weight-bold text-danger">
-                  {error.nombreEmprendedor}
-                </small>
-              )}
-            </div>
-
-            {/* Nombre iniciativa */}
-            <div className="col-md-6">
-              <Label htmlFor="nombreIniciativa" className="form-label">
-                Nombre de la Iniciativa
-              </Label>
-              <Input
-                type="text"
-                className="form-control inputDiag"
-                name="nombreIniciativa"
-                id="nombreIniciativa"
-                value={
-                  datos.nombreIniciativa != null ? datos.nombreIniciativa : ""
-                }
-                onChange={(e) => onHandleChange(e)}
-              />
-              {error.nombreIniciativa && (
-                <small className="form-text font-weight-bold text-danger">
-                  {error.nombreIniciativa}
-                </small>
-              )}
-            </div>
-
-            <div>
-              <button className="btn btn-primary">Generar Reporte</button>
-            </div>
-          </form>
-        </Card>
-      </>
-    </MentorLayout>
+          <div>
+            <button className="btn btn-primary">Generar Historial</button>
+          </div>
+        </form>
+      </Card>
+    </>
   );
 }
 

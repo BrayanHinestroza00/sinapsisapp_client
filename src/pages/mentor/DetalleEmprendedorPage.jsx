@@ -5,12 +5,10 @@ import { MentorEmprendedorContextProvider } from "src/services/context/MentorEmp
 
 function DetalleEmprendedorPage() {
   return (
-    <MentorLayout sidebar={true}>
-      <MentorEmprendedorContextProvider>
-        <Titulo>Detalle del Emprendedor </Titulo>
-        <TabMentor />
-      </MentorEmprendedorContextProvider>
-    </MentorLayout>
+    <MentorEmprendedorContextProvider>
+      <Titulo>Detalle del Emprendedor </Titulo>
+      <TabMentor />
+    </MentorEmprendedorContextProvider>
   );
 }
 
