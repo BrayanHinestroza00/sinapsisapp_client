@@ -9,7 +9,7 @@ import {
   Paso,
   TituloStepByStep,
 } from "src/assets/styles/emprendedor/primeraAtencion.style";
-import { HOST } from "src/utils/constants";
+import { HOST } from "src/utils/apiConstants";
 import {
   img,
   thumb,

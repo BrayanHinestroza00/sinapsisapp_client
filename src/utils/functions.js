@@ -1,6 +1,5 @@
 import Axios from "axios";
 import {
-  HOST,
   T_SINAPSIS_ETAPAS_RUTA_ARRANCAR,
   T_SINAPSIS_ETAPAS_RUTA_ARRANCAR_NOMBRE,
   T_SINAPSIS_ETAPAS_RUTA_PENSAR,
@@ -10,6 +9,7 @@ import {
   T_SINAPSIS_ETAPAS_RUTA_TESTEAR,
   T_SINAPSIS_ETAPAS_RUTA_TESTEAR_NOMBRE,
 } from "./constants";
+import { HOST } from "src/utils/apiConstants";
 
 export function getCurrentDateForBirth(separator = "-") {
   let newDate = new Date();
@@ -68,18 +68,12 @@ export function obtenerGenero(acronimoGenero) {
   switch (acronimoGenero) {
     case "M":
       return "MASCULINO";
-      break;
-
     case "F":
       return "FEMENINO";
-      break;
-
     case "O":
       return "OTRO";
-      break;
     default:
       return "NA";
-      break;
   }
 }
 

@@ -136,12 +136,13 @@ function AvanceRuta({ preloadData }) {
     actRutaLoading ||
     herrRutaLoading ||
     actEmpRutaLoading ||
-    subActEmpRutaLoading ||
-    !actRutaData ||
-    !herrRutaData ||
-    !actEmpRutaData ||
-    !subActEmpRutaData ||
-    !actidadesEmprendedor
+    subActEmpRutaLoading
+    // ||
+    // !actRutaData ||
+    // !herrRutaData ||
+    // !actEmpRutaData ||
+    // !subActEmpRutaData ||
+    // !actidadesEmprendedor
   ) {
     // console.log("test", {
     //   actRutaLoading,

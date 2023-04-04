@@ -94,10 +94,15 @@ function EmprendedoresPage() {
   };
 
   const onHandleSearchEmprendedor = (emprendedor) => {
-    navigate(`/Mentor/Emprendedor/${emprendedor.idEmprendedor}`, {
-      replace: true,
-      state: emprendedoresData[emprendedor.n - 1],
-    });
+    navigate(
+      `/Mentor/Emprendedor/${
+        emprendedoresData[emprendedor.n - 1].idEmprendedor
+      }`,
+      {
+        replace: true,
+        state: emprendedoresData[emprendedor.n - 1],
+      }
+    );
   };
 
   const onHandleSubmit = (e) => {

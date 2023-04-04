@@ -4,7 +4,7 @@ import ModalHeader from "react-bootstrap/ModalHeader";
 import Axios from "axios";
 import swal from "sweetalert2";
 
-import { HOST } from "src/utils/constants";
+import { HOST } from "src/utils/apiConstants";
 import DropZone from "src/components/DropZone";
 import { Boton } from "src/assets/styles/emprendedor/primeraAtencion.style";
 

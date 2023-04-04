@@ -12,8 +12,7 @@ import {
   SubTitulo,
   Titulo,
 } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
-import AdministradorLayout from "src/layouts/AdministradorLayout";
-import { HOST } from "src/utils/constants";
+import { HOST } from "src/utils/apiConstants";
 import showIcon from "src/assets/images/showIcon.png";
 
 function MentoresPage() {

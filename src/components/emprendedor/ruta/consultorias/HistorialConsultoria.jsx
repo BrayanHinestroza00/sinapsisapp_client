@@ -93,7 +93,7 @@ function HistorialConsultoria() {
   if (consultoriasMessage) {
     return (
       <>
-        <Titulo>Consultorias Especializadas</Titulo>
+        <Titulo>Historial de Consultorías</Titulo>
 
         <CardRuta>
           <Ruta>

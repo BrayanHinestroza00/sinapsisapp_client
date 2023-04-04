@@ -1,5 +1,3 @@
-export const HOST = "http://localhost:5000/api/v1";
-
 /**CONSTANTES APP */
 export const SINAPSIS_APP_LOCALSTORAGE_OPERACION_GET = "GET";
 export const SINAPSIS_APP_LOCALSTORAGE_OPERACION_INSERT = "INSERT";
@@ -54,6 +52,7 @@ export const SIDEBAR_ADMINISTRADOR =
 export const SIDEBAR_ADMINISTRADOR_SUBMENU =
   "sinapsisapp_sidebar_administrador_subitem_active";
 export const SIDEBAR_ADMINISTRADOR_PRIMERA_ATENCION_ITEM = "primera_atencion";
+export const SIDEBAR_ADMINISTRADOR_EMPRENDIMIENTOS_ITEM = "emprendimientos";
 export const SIDEBAR_ADMINISTRADOR_EMPRENDEDORES_ITEM = "emprendedores";
 export const SIDEBAR_ADMINISTRADOR_REPORTES_ITEM = "reportes";
 export const SIDEBAR_ADMINISTRADOR_GESTION_USUARIOS_ITEM = "gestion_usuarios";

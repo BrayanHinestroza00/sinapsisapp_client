@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import AdministradorLayout from "src/layouts/AdministradorLayout";
 import DetalleSolicitudPage from "src/pages/administrador/DetalleSolicitudPage";
+import DetalleProyectoEmprendimientoPage from "src/pages/administrador/DetalleProyectoEmprendimientoPage";
 import EditarCuentaPage from "src/pages/administrador/EditarCuentaPage";
 import EmprendedoresPage from "src/pages/administrador/EmprendedoresPage";
 import GestionAnunciosPage from "src/pages/administrador/GestionAnunciosPage";
@@ -11,6 +12,7 @@ import IndicadoresFormacionPage from "src/pages/administrador/IndicadoresFormaci
 import IndicadoresGestionPage from "src/pages/administrador/IndicadoresGestionPage";
 import MentoresPage from "src/pages/administrador/MentoresPage";
 import PrimeraAtencionPage from "src/pages/administrador/PrimeraAtencionPage";
+import ProyectoEmprendimientosPage from "src/pages/administrador/ProyectoEmprendimientosPage";
 import DetalleEmprendedorPage from "src/pages/administrador/DetalleEmprendedorPage";
 import PageNotFound from "src/pages/PageNotFound";
 import { AdminEmprendedorContextProvider } from "src/services/context/AdminEmprendedorContext";
@@ -22,6 +24,16 @@ function AdministradorRoutes() {
         <Routes>
           <Route exact path="/" element={<HomePage />} />
           <Route exact path="/Editar_Cuenta" element={<EditarCuentaPage />} />
+          <Route
+            exact
+            path="/Emprendimientos"
+            element={<ProyectoEmprendimientosPage />}
+          />
+          <Route
+            exact
+            path="/Emprendimientos/:idEmprendimiento"
+            element={<DetalleProyectoEmprendimientoPage />}
+          />
           <Route exact path="/Solicitudes" element={<PrimeraAtencionPage />} />
           <Route
             exact

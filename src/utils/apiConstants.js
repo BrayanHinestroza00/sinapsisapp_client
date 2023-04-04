@@ -1,4 +1,4 @@
-const HOST = "http://localhost:5000/api/v1";
+export const HOST = "http://localhost:5000/api/v1";
 
 /**
  * Mensajes por defecto
@@ -20,6 +20,24 @@ export const HTTP_METHOD_DELETE = "DELETE";
 export const CODE_OK = 1;
 export const CODE_NO_CHANGES = 0;
 export const CODE_ERR = -1;
+
+/**
+ * Archivos Estaticos
+ */
+export const URL_STATIC_UPLOAD_IMAGES = HOST + "/app_static/upload.png";
+
+/**
+ * Rutas usadas por el Administrador
+ */
+export const URL_OBTENER_PRIMERAS_ATENCIONES_PENDIENTES =
+  HOST + "/ruta_innovacion/primeraAtencion/pendientes";
+export const URL_OBTENER_PROYECTOS_EMPRENDIMIENTO =
+  HOST + "/ruta_innovacion/proyectos_emprendimiento";
+export const URL_OBTENER_MENTORES = HOST + "/mentores";
+export const URL_OBTENER_PRIMERA_ATENCION_EMP =
+  HOST + "/ruta_innovacion/primeraAtencion/detalle";
+export const URL_OBTENER_EMPRENDEDORES =
+  HOST + "/ruta_innovacion/emprendedores";
 
 /**
  * Rutas usadas por el Emprendedor
@@ -71,6 +89,8 @@ export const URL_OBTENER_PROGRAMAS_ACADEMICOS =
 export const URL_OBTENER_ASIGNATURAS = HOST + "/app/asignaturas";
 export const URL_OBTENER_REDES_SOCIALES = HOST + "/app/redes_sociales";
 export const URL_OBTENER_TIPOS_DOCUMENTO = HOST + "/app/tipoDocumento";
+export const URL_OBTENER_ETAPAS_RUTA_INNOVACION_EMPRENDIMIENTO =
+  HOST + "/app/etapas_ruta";
 
 /**
  * Rutas de reportes

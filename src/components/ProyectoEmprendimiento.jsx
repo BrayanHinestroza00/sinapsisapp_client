@@ -11,7 +11,7 @@ import {
   TextArea,
 } from "src/assets/styles/emprendedor/primeraAtencion.style";
 import { SubTitulo } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
-import { HOST } from "src/utils/constants";
+import { HOST } from "src/utils/apiConstants";
 import DropZone from "./DropZone";
 
 function ProyectoEmprendimiento({ datos, setDatos, redesData, editable }) {

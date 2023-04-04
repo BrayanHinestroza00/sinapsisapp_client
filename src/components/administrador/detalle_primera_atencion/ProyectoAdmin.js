@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
-import {
-  Auxiliar,
-  CardRuta,
-  Ruta,
-  Titulo,
-} from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
+import { CardRuta } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
 import ProyectoEmprendimiento from "src/components/ProyectoEmprendimiento";
 import { useFetch } from "src/services/hooks/useFetch";
 import {
@@ -14,7 +9,7 @@ import {
   URL_OBTENER_REDES_SOCIALES,
 } from "src/utils/apiConstants";
 
-function ProyectoMentor({ idEmprendimiento }) {
+function ProyectoAdmin({ idEmprendimiento }) {
   const [loadingComponent, setLoadingComponent] = useState(true);
   const [datos, setDatos] = useState(null);
 
@@ -83,7 +78,7 @@ function ProyectoMentor({ idEmprendimiento }) {
   }, [preloadData, redesData]);
 
   if (loading || loadingComponent || redesLoading || !preloadData || !datos) {
-    console.log("ProyectoMentor", {
+    console.log("ProyectoAdmin", {
       loading,
       loadingComponent,
       redesLoading,
@@ -107,22 +102,24 @@ function ProyectoMentor({ idEmprendimiento }) {
   return (
     <Card>
       <CardRuta style={{ marginTop: "1rem", marginBottom: "0rem" }}>
-        <Ruta>
-          <Titulo>
-            Información del proyecto de emprendimiento:
-            <Auxiliar className="text-muted">
-              {datos.nombreEmprendimiento}
-            </Auxiliar>
-          </Titulo>
+        <div
+          style={{
+            width: "100%",
+            marginLeft: "2rem",
+            marginRight: "2rem",
+            marginBottom: "2rem",
+            padding: "15px 16px 30px 14px",
+          }}
+        >
           <ProyectoEmprendimiento
             datos={datos}
             redesData={redesData}
             editable={false}
           />
-        </Ruta>
+        </div>
       </CardRuta>
     </Card>
   );
 }
 
-export default ProyectoMentor;
+export default ProyectoAdmin;

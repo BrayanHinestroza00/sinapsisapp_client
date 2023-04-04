@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import InfoEmprendimiento from "src/components/emprendedor/primera_atencion/InfoEmprendimiento";
 import Confirmacion from "src/components/emprendedor/primera_atencion/Confirmacion";
 import InfoUsuario from "src/components/emprendedor/primera_atencion/InfoUsuario";
-import { HOST } from "src/utils/constants";
+import { HOST } from "src/utils/apiConstants";
 import InfoPrimeraAtencion from "src/components/emprendedor/primera_atencion/InfoPrimeraAtencion";
 import InfoDiagnostico from "src/components/emprendedor/primera_atencion/InfoDiagnostico";
 import { EmprendedorContext } from "src/services/context/EmprendedorContext";

@@ -1,35 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { Modal, ModalBody, ModalFooter, ModalTitle } from "react-bootstrap";
-import ModalHeader from "react-bootstrap/ModalHeader";
-import { useAPI_GET } from "src/services/hooks/useAPI";
-import Axios from "axios";
+import React, { useState } from "react";
+import { Modal } from "react-bootstrap";
 import swal from "sweetalert2";
-import { HOST } from "src/utils/constants";
 
-// import "../../../styles/revisarTarea.css";
+import { HOST, URL_STATIC_UPLOAD_IMAGES } from "src/utils/apiConstants";
 
-function RevisarTarea({ idTarea, show, setShow }) {
+function RevisarTarea(props) {
   const [datos, setDatos] = useState({});
   const [datosTarea, setDatosTarea] = useState({});
   const [error, setError] = useState({});
 
-  const [loading, data, errorAPI] = useAPI_GET(`${HOST}/Tarea`, {
-    headers: {
-      Authorization:
-        localStorage.getItem("token") || sessionStorage.getItem("token"),
-    },
-    params: {
-      idTarea,
-    },
-  });
+  // const [loading, data, errorAPI] = useAPI_GET(`${HOST}/Tarea`, {
+  //   headers: {
+  //     Authorization:
+  //       localStorage.getItem("token") || sessionStorage.getItem("token"),
+  //   },
+  //   params: {
+  //     idTarea,
+  //   },
+  // });
 
-  useEffect(() => {
-    if (data) {
-      const { ArchivoEmprendedor, ...datos } = data[0];
-      const buffer = Buffer.from(ArchivoEmprendedor).toString();
-      setDatos({ ArchivoEmprendedor: buffer, ...datos });
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data) {
+  //     const { ArchivoEmprendedor, ...datos } = data[0];
+  //     const buffer = Buffer.from(ArchivoEmprendedor).toString();
+  //     setDatos({ ArchivoEmprendedor: buffer, ...datos });
+  //   }
+  // }, [data]);
 
   const handleChange = (e) => {
     setDatosTarea({
@@ -63,115 +59,167 @@ function RevisarTarea({ idTarea, show, setShow }) {
   };
 
   const enviarDatos = (data) => {
-    Axios.put(
-      `${HOST}/Mentor/Tarea`,
-      { idTarea, ...data },
-      {
-        headers: {
-          Authorization:
-            localStorage.getItem("token") || sessionStorage.getItem("token"),
-        },
-      }
-    )
-      .then((res) => {
-        if (res.data.affectedRows > 0) {
-          swal
-            .fire({
-              title: "Tarea calificada correctamente",
-              text: "Se ha calificado correctamente la tarea",
-              icon: "success",
-              iconColor: "#9a66a8",
-              confirmButtonText: "Aceptar",
-              confirmButtonColor: "#9a66a8",
-              showConfirmButton: true,
-            })
-            .then(() => (window.location.href = window.location.pathname));
-        }
-      })
-      .catch((err) => {
-        swal.fire({
-          title: "Calificacion de tarea fallida",
-          text: err.response.data.message,
-          icon: "error",
-          iconColor: "#9a66a8",
-          confirmButtonText: "Aceptar",
-          confirmButtonColor: "#9a66a8",
-          showConfirmButton: true,
-        });
-      });
+    // Axios.put(
+    //   `${HOST}/Mentor/Tarea`,
+    //   { idTarea, ...data },
+    //   {
+    //     headers: {
+    //       Authorization:
+    //         localStorage.getItem("token") || sessionStorage.getItem("token"),
+    //     },
+    //   }
+    // )
+    //   .then((res) => {
+    //     if (res.data.affectedRows > 0) {
+    //       swal
+    //         .fire({
+    //           title: "Tarea calificada correctamente",
+    //           text: "Se ha calificado correctamente la tarea",
+    //           icon: "success",
+    //           iconColor: "#9a66a8",
+    //           confirmButtonText: "Aceptar",
+    //           confirmButtonColor: "#9a66a8",
+    //           showConfirmButton: true,
+    //         })
+    //         .then(() => (window.location.href = window.location.pathname));
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     swal.fire({
+    //       title: "Calificacion de tarea fallida",
+    //       text: err.response.data.message,
+    //       icon: "error",
+    //       iconColor: "#9a66a8",
+    //       confirmButtonText: "Aceptar",
+    //       confirmButtonColor: "#9a66a8",
+    //       showConfirmButton: true,
+    //     });
+    //   });
   };
 
-  if (loading) {
-    return <div>Cargando</div>;
-  }
+  // if (loading) {
+  //   return <div>Cargando</div>;
+  // }
 
-  if (errorAPI) {
-    swal.fire({
-      title: errorAPI.response.data.message,
-      icon: "warning",
-      confirmButtonText: "Aceptar",
-      confirmButtonColor: "#9a66a8",
-      showConfirmButton: true,
-      showCloseButton: true,
-    });
-  }
+  // if (errorAPI) {
+  //   swal.fire({
+  //     title: errorAPI.response.data.message,
+  //     icon: "warning",
+  //     confirmButtonText: "Aceptar",
+  //     confirmButtonColor: "#9a66a8",
+  //     showConfirmButton: true,
+  //     showCloseButton: true,
+  //   });
+  // }
 
   return (
     <Modal
-      show={show}
-      backdrop="static"
+      {...props}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      show={props.show}
+      backdrop="static"
     >
-      <ModalHeader className="modalHeader_revisarTarea">
-        <ModalTitle>{datos.nombreTarea}</ModalTitle>
-      </ModalHeader>
+      <Modal.Header
+        style={{
+          color: "#FFF",
+          backgroundColor: "#752a88",
+          fontWeight: "bold",
+        }}
+        closeButton
+      >
+        <Modal.Title id="contained-modal-title-vcenter">
+          <h1 style={{ color: "#FFF" }}>{props.data.titulo}</h1>
+        </Modal.Title>
+      </Modal.Header>
 
-      <ModalBody className="modalBody_revisarTarea">
+      <Modal.Body style={{ backgroundColor: "#fbf6fc" }}>
         <div>
           <h4 className="text-center">Descripcion de la tarea</h4>
-          <p>{datos.descripcionTarea}</p>
+          <p>{props.data.descripcionTarea}</p>
         </div>
+        {props.data.urlArchivosEntrega && (
+          <>
+            <hr />
+            <div className="text-center">
+              <h4>Tarea entregada por el emprendedor</h4>
+              <p>
+                Descarga el archivo y realiza la retroalimentacion al
+                emprendedor
+              </p>
+              <a
+                rel="noreferrer"
+                className="text-center"
+                href={`${HOST}/${props.data.urlArchivosEntrega}`}
+                target="_blank"
+              >
+                <img
+                  src={URL_STATIC_UPLOAD_IMAGES}
+                  height="150"
+                  alt="Click aqui"
+                />
+              </a>
+              <br />
+              <label className="form-label mt-3">
+                Da click{" "}
+                <a
+                  rel="noreferrer"
+                  className="text-center"
+                  href={`${HOST}/${props.data.urlArchivosEntrega}`}
+                  target="_blank"
+                >
+                  Aqui
+                </a>{" "}
+                o en la imagen para descargar
+              </label>
+              <br />
+            </div>
+          </>
+        )}
+
         <hr />
-        <div className="text-center">
-          <h4>Tarea entregada por el emprendedor</h4>
-          <p>
-            Descarga el archivo y realiza la retroalimentacion al emprendedor
-          </p>
-          <a
-            rel="noreferrer"
-            className="text-center"
-            href={`${HOST}/${datos.ArchivoEmprendedor}`}
-            target="_blank"
-          >
-            <img
-              src="http://localhost:5000/upload.png"
-              height="150"
-              alt="Click aqui"
-            />
-          </a>
-          <br />
-          <label className="form-label mt-3">
-            Da click{" "}
-            <a
-              rel="noreferrer"
-              className="text-center"
-              href={`${HOST}/${datos.ArchivoEmprendedor}`}
-              target="_blank"
-            >
-              Aqui
-            </a>{" "}
-            o en la imagen para descargar
-          </label>
-          <br />
+        <div>
+          <h5>Estado de Entrega</h5>
+          <div>
+            <table className="table table-bordered">
+              <tbody>
+                <tr>
+                  <td>Estado de la Entrega</td>
+                  <td>{props.data.estadoEntrega}</td>
+                </tr>
+                <tr>
+                  <td>Estado de la Calificación</td>
+                  <td>{props.data.calificacion || "SIN CALIFICAR"}</td>
+                </tr>
+                <tr>
+                  <td>Fecha de Entrega</td>
+                  <td>{props.data.fechaEntrega || "SIN ENTREGAR"}</td>
+                </tr>
+                {!props.data.urlArchivosEntrega && (
+                  <tr>
+                    <td>Archivos Enviados</td>
+                    <td>SIN ARCHIVOS ENVIADOS</td>
+                  </tr>
+                )}
+
+                <tr>
+                  <td>Comentarios del Emprendedor</td>
+                  <td>
+                    {props.data.comentariosEntregaEmprendedor ||
+                      "SIN COMENTARIOS"}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
         <hr />
         <div>
-          <h4 className="text-center">Retroalimentacion</h4>
+          <h4 className="text-center">Retroalimentación</h4>
           <form>
             <div className="mb-3">
-              <label className="form-label">Calificacion</label>
+              <label className="form-label">Calificación</label>
               <select
                 name="Calificacion"
                 className="form-select form-control"
@@ -207,19 +255,16 @@ function RevisarTarea({ idTarea, show, setShow }) {
             </div>
           </form>
         </div>
-      </ModalBody>
+      </Modal.Body>
 
-      <ModalFooter className="modalFooter_revisarTarea">
-        <button
-          className="btn btn_revisarTarea"
-          onClick={(e) => handleSubmit(e)}
-        >
+      <Modal.Footer className="modalFooter_revisarTarea">
+        <button className="btn btn-primary" onClick={(e) => handleSubmit(e)}>
           Calificar
         </button>
-        <button className="btn btn_revisarTareaOutline" onClick={setShow}>
+        <button className="btn btn-outline-primary" onClick={props.onHide}>
           Cancelar
         </button>
-      </ModalFooter>
+      </Modal.Footer>
     </Modal>
   );
 }

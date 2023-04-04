@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import moment from "moment";
 import { Card } from "react-bootstrap";
 import {
   Input,
@@ -15,14 +14,13 @@ import {
 import showIcon from "src/assets/images/showIcon.png";
 import {
   HTTP_METHOD_GET,
-  URL_OBTENER_PRIMERAS_ATENCIONES_PENDIENTES,
-  URL_OBTENER_TIPOS_DOCUMENTO,
+  URL_OBTENER_ETAPAS_RUTA_INNOVACION_EMPRENDIMIENTO,
+  URL_OBTENER_PROYECTOS_EMPRENDIMIENTO,
 } from "src/utils/apiConstants";
 import { useFetch } from "src/services/hooks/useFetch";
 import FlexyTable from "src/components/FlexyTable";
-import { SINAPSIS_APP_FORMATO_FECHA } from "src/utils/constants";
 
-function PrimeraAtencionPage() {
+function ProyectoEmprendimientosPage() {
   const navigate = useNavigate();
   const [error, setError] = useState({});
   const [datosFiltro, setDatosFiltro] = useState({});
@@ -31,23 +29,23 @@ function PrimeraAtencionPage() {
 
   // Custom Hooks
   const {
-    data: primerasAtencionesData,
-    message: primerasAtencionesMessage,
-    error: primerasAtencionesError,
+    data: emprendimientoData,
+    message: emprendimientosMessage,
+    error: emprendimientosError,
     fetchAPI: fetchApiPrimerasAtenciones,
   } = useFetch();
 
   const {
-    data: tiposDocumentoData,
-    message: tiposDocumentoMessage,
-    error: tiposDocumentoError,
-    loading: tiposDocumentoLoading,
-    fetchAPI: fetchApiTiposDocumento,
+    data: etapasRutaData,
+    message: etapasRutaMessage,
+    error: etapasRutaError,
+    loading: etapasRutaLoading,
+    fetchAPI: fetchApiEtapasRuta,
   } = useFetch();
 
   useEffect(() => {
-    fetchApiTiposDocumento({
-      URL: URL_OBTENER_TIPOS_DOCUMENTO,
+    fetchApiEtapasRuta({
+      URL: URL_OBTENER_ETAPAS_RUTA_INNOVACION_EMPRENDIMIENTO,
       requestOptions: {
         method: HTTP_METHOD_GET,
       },
@@ -55,30 +53,25 @@ function PrimeraAtencionPage() {
   }, []);
 
   useEffect(() => {
-    let newPrimeraAtencion = [];
+    let newEmprendimiento = [];
 
-    if (primerasAtencionesData) {
-      if (primerasAtencionesData.length > 0) {
-        newPrimeraAtencion = primerasAtencionesData.map(
-          (primeraAtencion, index) => {
-            return {
-              n: index + 1,
-              "Numero Documento": primeraAtencion.documentoEmprendedor,
-              "Nombre Emprendedor": `${primeraAtencion.nombreEmprendedor}`,
-              "Nombre Emprendimiento": primeraAtencion.nombreEmprendimiento,
-              "Fecha de Registro": moment(
-                primeraAtencion.fechaRegistroPA,
-                "YYYY-MM-DD hh:mm:ss"
-              ).format(SINAPSIS_APP_FORMATO_FECHA),
-              "Correo Contacto": primeraAtencion.correoEmprendedor,
-              "Telefono Contacto": primeraAtencion.telefonoContacto || "N/R",
-            };
-          }
-        );
+    if (emprendimientoData) {
+      if (emprendimientoData.length > 0) {
+        newEmprendimiento = emprendimientoData.map((emprendimiento, index) => {
+          return {
+            n: index + 1,
+            "Numero Documento": emprendimiento.documentoEmprendedor,
+            "Nombre Emprendedor": `${emprendimiento.nombreEmprendedor}`,
+            "Nombre Emprendimiento": emprendimiento.nombreEmprendimiento,
+            "Etapa en Ruta": emprendimiento.etapaRuta,
+            "Estado en Ruta": emprendimiento.estadoRuta,
+            "Correo Contacto": emprendimiento.correoEmprendedor,
+          };
+        });
       }
     }
-    setDatos(newPrimeraAtencion);
-  }, [primerasAtencionesData]);
+    setDatos(newEmprendimiento);
+  }, [emprendimientoData]);
 
   const onHandleChange = (event) => {
     setDatosFiltro({
@@ -91,76 +84,77 @@ function PrimeraAtencionPage() {
     e.preventDefault();
     setLoading(true);
     fetchApiPrimerasAtenciones({
-      URL: URL_OBTENER_PRIMERAS_ATENCIONES_PENDIENTES,
+      URL: URL_OBTENER_PROYECTOS_EMPRENDIMIENTO,
       requestOptions: {
         method: HTTP_METHOD_GET,
       },
     }).then(() => setLoading(false));
   };
 
-  const onHandleDetalleSolicitud = (primeraAtencion) => {
+  const onHandleDetalleSolicitud = (emprendimiento) => {
     const data = {
-      ...primerasAtencionesData[primeraAtencion.n - 1],
-      type: "SOLICITUDES",
+      ...emprendimientoData[emprendimiento.n - 1],
+      type: "EMPRENDIMIENTOS",
     };
-    navigate(`/Administrador/Solicitudes/${data.proyectoEmprendimientoId}`, {
-      replace: true,
-      state: data,
-    });
+    navigate(
+      `/Administrador/Emprendimientos/${data.proyectoEmprendimientoId}`,
+      {
+        replace: true,
+        state: data,
+      }
+    );
   };
 
-  if (loading || !tiposDocumentoData) {
-    return <h1>LOADING PrimeraAtencionPage</h1>;
+  if (loading || !etapasRutaData) {
+    return <h1>LOADING ProyectoEmprendimientosPage</h1>;
   }
 
-  if (tiposDocumentoMessage || primerasAtencionesMessage) {
+  if (etapasRutaMessage || emprendimientosMessage) {
     return (
       <>
-        <p>{tiposDocumentoMessage || primerasAtencionesMessage}</p>
+        <p>{etapasRutaMessage || emprendimientosMessage}</p>
       </>
     );
   }
 
-  if (tiposDocumentoError || primerasAtencionesError) {
+  if (etapasRutaError || emprendimientosError) {
     return (
       <>
         <h1>ERROR</h1>
-        <p>{tiposDocumentoError || primerasAtencionesError}</p>
+        <p>{etapasRutaError || emprendimientosError}</p>
       </>
     );
   }
 
-  console.log("data PrimeraAtencionPage", {
+  console.log("data ProyectoEmprendimientosPage", {
     loading,
-    tiposDocumentoLoading,
-    tiposDocumentoData,
-    primerasAtencionesData,
+    etapasRutaLoading,
+    etapasRutaData,
+    emprendimientoData,
   });
 
   return (
     <>
-      <Titulo>Solicitudes de Primera Atención </Titulo>
+      <Titulo>Proyectos de Emprendimiento </Titulo>
 
       <Card style={{ padding: "0.5rem 2rem 1rem 2rem" }}>
         <SubTitulo>Filtros</SubTitulo>
 
         <form onSubmit={onHandleSubmit} className="row g-3">
-          {/* Tipo de documento */}
+          {/* Etapa en la Ruta de Innovacion & Emprendimiento */}
           <div className="col-md-6">
-            <Label htmlFor="tiposDocumento" className="form-label">
-              Tipo de documento
+            <Label htmlFor="etapasRuta" className="form-label">
+              Etapa en la Ruta de Innovacion & Emprendimiento
             </Label>
             <select
-              id="tiposDocumento"
+              id="etapasRuta"
               className="form-select"
-              name="tiposDocumento"
-              value={datos.tiposDocumento || "-1"}
+              name="etapasRuta"
+              value={datosFiltro.etapasRuta || "-1"}
               onChange={(e) => onHandleChange(e)}
             >
-              <option value={"-1"} disabled>
-                Selecciona...
-              </option>
-              {tiposDocumentoData.map((tipoDocumento, index) => {
+              <option value={"-1"}>TODAS...</option>
+              {etapasRutaData.map((tipoDocumento, index) => {
                 return (
                   <option key={index} value={tipoDocumento.id}>
                     {tipoDocumento.nombre}
@@ -168,9 +162,9 @@ function PrimeraAtencionPage() {
                 );
               })}
             </select>
-            {error.tiposDocumento && (
+            {error.etapasRuta && (
               <small className="form-text font-weight-bold text-danger">
-                {error.tiposDocumento}
+                {error.etapasRuta}
               </small>
             )}
           </div>
@@ -185,7 +179,11 @@ function PrimeraAtencionPage() {
               className="form-control inputDiag"
               name="numeroDocumento"
               id="numeroDocumento"
-              value={datos.numeroDocumento != null ? datos.numeroDocumento : ""}
+              value={
+                datosFiltro.numeroDocumento != null
+                  ? datosFiltro.numeroDocumento
+                  : ""
+              }
               onChange={(e) => onHandleChange(e)}
             />
             {error.numeroDocumento && (
@@ -206,7 +204,9 @@ function PrimeraAtencionPage() {
               name="nombreEmprendedor"
               id="nombreEmprendedor"
               value={
-                datos.nombreEmprendedor != null ? datos.nombreEmprendedor : ""
+                datosFiltro.nombreEmprendedor != null
+                  ? datosFiltro.nombreEmprendedor
+                  : ""
               }
               onChange={(e) => onHandleChange(e)}
             />
@@ -228,8 +228,8 @@ function PrimeraAtencionPage() {
               name="apellidoEmprendedor"
               id="apellidoEmprendedor"
               value={
-                datos.apellidoEmprendedor != null
-                  ? datos.apellidoEmprendedor
+                datosFiltro.apellidoEmprendedor != null
+                  ? datosFiltro.apellidoEmprendedor
                   : ""
               }
               onChange={(e) => onHandleChange(e)}
@@ -247,7 +247,7 @@ function PrimeraAtencionPage() {
         </form>
       </Card>
 
-      {primerasAtencionesData && (
+      {emprendimientoData && (
         <Ruta
           style={{
             padding: "0.5rem 2rem 1rem 2rem",
@@ -259,16 +259,16 @@ function PrimeraAtencionPage() {
             <>
               <FlexyTable
                 datos={datos}
-                titulo={"Solicitudes de Primera Atención"}
+                titulo={"Proyectos de Emprendimiento"}
                 btn1={<img src={showIcon} width="auto" height="25" />}
-                fun1={(primeraAtencionData) => {
-                  onHandleDetalleSolicitud(primeraAtencionData);
+                fun1={(emprendimientoData) => {
+                  onHandleDetalleSolicitud(emprendimientoData);
                 }}
                 adicional={true}
               />
 
               {/* <ReactFlexyTable
-                data={primerasAtencionesData}
+                data={emprendimientoData}
                 filteredDataText="Datos filtrados:"
                 nextText="Siguiente"
                 previousText="Anterior"
@@ -283,7 +283,7 @@ function PrimeraAtencionPage() {
             </>
           ) : (
             <SubTitulo>
-              No hay solicitudes de primera atencion pendientes
+              No hay Proyectos de Emprendimiento disponibles
             </SubTitulo>
           )}
         </Ruta>
@@ -292,4 +292,4 @@ function PrimeraAtencionPage() {
   );
 }
 
-export default PrimeraAtencionPage;
+export default ProyectoEmprendimientosPage;

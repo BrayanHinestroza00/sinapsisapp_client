@@ -1,11 +1,9 @@
 import Axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginForm from "src/components/login/LoginForm";
-import {
-  HOST,
-  SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO,
-} from "src/utils/constants";
+import { SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO } from "src/utils/constants";
+import { HOST } from "src/utils/apiConstants";
 import { insertIntoLocalStorage } from "src/utils/functions";
 import Swal from "sweetalert2";
 

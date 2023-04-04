@@ -10,24 +10,7 @@ import {
 } from "src/assets/styles/DropzoneStyle";
 import { HOST } from "src/utils/apiConstants";
 
-function DetalleTarea(props) {
-  const [datosTarea, setDatosTarea] = useState({});
-  const [error, setError] = useState({});
-
-  const getFiles = (files) => {
-    setDatosTarea({
-      ...datosTarea,
-      files,
-    });
-  };
-
-  const handleChangle = (e) => {
-    setDatosTarea({
-      ...datosTarea,
-      [e.target.name]: e.target.value,
-    });
-  };
-
+function DetalleTareaAdmin(props) {
   return (
     <Modal
       {...props}
@@ -120,85 +103,9 @@ function DetalleTarea(props) {
               </table>
             </div>
           </div>
-
-          {props.tipo == "PENDIENTES" && (
-            <form encType="multipart/form-data">
-              <div>
-                <br></br>
-                <h6>Sube tu tarea</h6>
-                <DropZone upFiles={getFiles} files={props.data?.files} />
-
-                {(props.data.files || props.data.urlMaterialApoyo) && (
-                  <aside style={thumbsContainer}>
-                    <div style={thumb}>
-                      <div style={thumbInner}>
-                        <img
-                          src={
-                            props.data.files
-                              ? URL.createObjectURL(props.data?.files[0])
-                              : props.data.urlMaterialApoyo
-                              ? `${HOST}/${props.data.urlMaterialApoyo}`
-                              : ""
-                          }
-                          style={img}
-                          alt={
-                            props.data.files
-                              ? props.data.files[0].name
-                              : props.data.urlMaterialApoyo
-                          }
-                        />
-                      </div>
-                    </div>
-                  </aside>
-                )}
-                {error.files && (
-                  <small class="form-text font-weight-bold text-danger">
-                    {error.files}
-                  </small>
-                )}
-              </div>
-
-              <div>
-                <br></br>
-                <h5>Comentarios de tu entrega</h5>
-                <label>Comentario </label>
-                <br />
-                <textarea
-                  name="comentarioEmprendedor"
-                  className="form-control"
-                  onChange={(e) => handleChangle(e)}
-                />
-              </div>
-            </form>
-          )}
         </div>
       </Modal.Body>
       <Modal.Footer style={{ backgroundColor: "#fbf6fc" }}>
-        {props.tipo == "PENDIENTES" && (
-          <button
-            className="btn btn-primary"
-            onClick={(e) => {
-              Swal.fire({
-                title: "¿Estás seguro que deseas enviar la tarea?",
-                icon: "question",
-                iconColor: "#9a66a8",
-                confirmButtonText: "Enviar",
-                confirmButtonColor: "#9a66a8",
-                showConfirmButton: true,
-                showCancelButton: true,
-                cancelButtonText: "Cancelar",
-              }).then((res) => {
-                if (res.isConfirmed) {
-                  //handleSubmit(e);
-                  window.alert("SUBMITTED");
-                }
-              });
-            }}
-          >
-            Entregar Tarea
-          </button>
-        )}
-
         <button className="btn btn-outline-primary" onClick={props.onHide}>
           Cerrar
         </button>
@@ -207,4 +114,4 @@ function DetalleTarea(props) {
   );
 }
 
-export default DetalleTarea;
+export default DetalleTareaAdmin;

@@ -25,7 +25,6 @@ import {
   URL_OBTENER_PROGRAMAS_ACADEMICOS,
 } from "src/utils/apiConstants";
 import {
-  HOST,
   SINAPSIS_APP_FORMATO_FECHA,
   T_SINAPSIS_MOD_TRABAJO_GRADO_NO,
   T_SINAPSIS_MOD_TRABAJO_GRADO_SI,
@@ -38,6 +37,7 @@ import {
   T_SINAPSIS_TIPOS_CONTACTO_EGRESADO,
   T_SINAPSIS_TIPOS_CONTACTO_ESTUDIANTE,
 } from "src/utils/constants";
+import { HOST } from "src/utils/apiConstants";
 import {
   getCurrentDateForBirth,
   getDepartamentos,

@@ -5,7 +5,7 @@ import Axios from "axios";
 import swal from "sweetalert2";
 
 import { useAPI_GET } from "src/services/hooks/useAPI";
-import { HOST } from "src/utils/constants";
+import { HOST } from "src/utils/apiConstants";
 
 // import "../../../styles/RevisarConsultoria.css";
 

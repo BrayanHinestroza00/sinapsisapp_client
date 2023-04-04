@@ -1,5 +1,5 @@
 import Axios from "axios";
-import { HOST } from "../utils/constants";
+import { HOST } from "src/utils/apiConstants";
 
 // PERFORM GET REQUESTS
 export function simpleRequest(path, responseHandler) {

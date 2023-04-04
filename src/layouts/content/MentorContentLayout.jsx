@@ -7,12 +7,18 @@ function MentorContentLayout({ children, sidebar }) {
         {sidebar ? (
           <>
             <MentorSidebar />
-            <div className="col py-3" style={{ maginLeft: "16.6666666667%" }}>
+            <div
+              className="col py-3"
+              style={{
+                backgroundColor: "#FFEDED",
+                maginLeft: "16.6666666667%",
+              }}
+            >
               {children}
             </div>
           </>
         ) : (
-          <div>{children}</div>
+          <div style={{ backgroundColor: "#FFEDED" }}>{children}</div>
         )}
       </div>
     </div>

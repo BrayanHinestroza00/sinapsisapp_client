@@ -35,7 +35,7 @@ export const Paso = styled.span`
 
 export const Label = styled.label`
   font-family: Roboto;
-  font-size: 19px;
+  font-size: 1.5rem;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;

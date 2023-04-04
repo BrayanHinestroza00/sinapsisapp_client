@@ -18,7 +18,8 @@ import {
   URL_OBTENER_MENTORES_POR_PROYECTO_EMPRENDIMIENTO,
   URL_OBTENER_MENTOR_POR_PROYECTO_EMPRENDIMIENTO,
 } from "src/utils/apiConstants";
-import { HOST, SINAPSIS_APP_FORMATO_FECHA } from "src/utils/constants";
+import { SINAPSIS_APP_FORMATO_FECHA } from "src/utils/constants";
+import { HOST } from "src/utils/apiConstants";
 
 function Mentores() {
   const { userData, selectedProjectIndex, loading } =

@@ -36,7 +36,7 @@ function AdministradorSidebar() {
         setMenuActive(menu_item_active);
       }
     } catch (error) {
-      console.log("Error al leer el localStorage - EmprendedorNavbar.jsx");
+      console.log("Error al leer el localStorage - AdministradorNavbar.jsx");
     }
   }, []);
 
@@ -80,7 +80,7 @@ function AdministradorSidebar() {
                     marginRight: "1rem",
                   }}
                 />
-                Primera Atención
+                Emprendimientos
               </AccordionItemSidebar>
             </h2>
 
@@ -99,6 +99,27 @@ function AdministradorSidebar() {
                 aria-label="Basic example"
               >
                 <Link
+                  to={"/Administrador/Emprendimientos"}
+                  className="btn d-flex align-items-center"
+                  style={{
+                    textAlign: "left",
+                    height: "72px",
+                    paddingLeft: "1rem",
+                  }}
+                >
+                  <img
+                    src={estadoIcon}
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      display: "inline",
+                      marginRight: "1rem",
+                    }}
+                  />
+                  Listado de Emprendimientos
+                </Link>
+
+                <Link
                   to={"/Administrador/Solicitudes"}
                   className="btn d-flex align-items-center"
                   style={{
@@ -116,7 +137,7 @@ function AdministradorSidebar() {
                       marginRight: "1rem",
                     }}
                   />
-                  Listado de Solicitudes
+                  Solicitudes Primera Atencion
                 </Link>
               </div>
             </div>

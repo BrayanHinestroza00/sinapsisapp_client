@@ -12,9 +12,14 @@ import {
   SubTitulo,
   Titulo,
 } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
-import AdministradorLayout from "src/layouts/AdministradorLayout";
-import { HOST } from "src/utils/constants";
+import {
+  HOST,
+  HTTP_METHOD_GET,
+  URL_OBTENER_EMPRENDEDORES,
+} from "src/utils/apiConstants";
 import showIcon from "src/assets/images/showIcon.png";
+import { useFetch } from "src/services/hooks/useFetch";
+import FlexyTable from "src/components/FlexyTable";
 
 function EmprendedoresPage() {
   const additionalCols = [
@@ -45,6 +50,39 @@ function EmprendedoresPage() {
   const [error, setError] = useState({});
   const [datos, setDatos] = useState({});
   const [tiposDocumento, setTiposDocumento] = useState([]);
+  const [datosFiltro, setDatosFiltro] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  // Custom Hooks
+  const {
+    data: emprendedoresData,
+    message: emprendedoresMessage,
+    error: emprendedoresError,
+    loading: emprendedoresLoading,
+    fetchAPI: fetchApiEmprendedores,
+  } = useFetch();
+
+  useEffect(() => {
+    let newEmprendedores = [];
+
+    if (emprendedoresData) {
+      if (emprendedoresData.length > 0) {
+        newEmprendedores = emprendedoresData.map((emprendedorData, index) => {
+          return {
+            n: index + 1,
+            "Numero Documento": emprendedorData.numeroDocumento,
+            "Nombre Emprendedor": `${emprendedorData.nombres} ${emprendedorData.apellidos}`,
+            "Nombre Emprendimiento": emprendedorData.nombreEmprendimiento,
+            "Estado Asesoramiento": emprendedorData.estadoAsesoramiento,
+            "Correo Contacto":
+              emprendedorData.correoInstitucional ||
+              emprendedorData.correoPersonal,
+          };
+        });
+      }
+    }
+    setDatos(newEmprendedores);
+  }, [emprendedoresData]);
 
   useEffect(() => {
     Axios.get(`${HOST}/app/tipoDocumento`)
@@ -63,19 +101,57 @@ function EmprendedoresPage() {
   }, []);
 
   const onHandleChange = (event) => {
-    setDatos({
-      ...datos,
+    setDatosFiltro({
+      ...datosFiltro,
       [event.target.name]: event.target.value,
     });
   };
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
+    fetchApiEmprendedores({
+      URL: URL_OBTENER_EMPRENDEDORES,
+      requestOptions: {
+        method: HTTP_METHOD_GET,
+        params: {
+          ...datosFiltro,
+        },
+      },
+    }).then(() => setLoading(false));
   };
 
-  const onHandleDetalleEmprendedor = (idEmprendedor) => {
-    navigate(`/Administrador/Emprendedores/${idEmprendedor}`);
+  const onHandleDetalleEmprendedor = (emprendedor) => {
+    const data = {
+      ...emprendedoresData[emprendedor.n - 1],
+      type: "EMPRENDEDORES",
+    };
+    navigate(`/Administrador/Emprendedores/${data.id}`, {
+      replace: true,
+      state: data,
+    });
   };
+
+  if (loading) {
+    return <h1>LOADING EmprendedoresPage</h1>;
+  }
+
+  if (emprendedoresMessage) {
+    return (
+      <>
+        <p>{emprendedoresMessage}</p>
+      </>
+    );
+  }
+
+  if (emprendedoresError) {
+    return (
+      <>
+        <h1>ERROR</h1>
+        <p>{emprendedoresError}</p>
+      </>
+    );
+  }
 
   return (
     // <AdministradorLayout sidebar={true}>
@@ -86,36 +162,6 @@ function EmprendedoresPage() {
         <SubTitulo>Filtros</SubTitulo>
 
         <form onSubmit={onHandleSubmit} className="row g-3">
-          {/* Tipo de documento */}
-          <div className="col-md-6">
-            <Label htmlFor="tiposDocumento" className="form-label">
-              Tipo de documento
-            </Label>
-            <select
-              id="tiposDocumento"
-              className="form-select"
-              name="tiposDocumento"
-              value={datos.tiposDocumento || "-1"}
-              onChange={(e) => onHandleChange(e)}
-            >
-              <option value={"-1"} disabled>
-                Selecciona...
-              </option>
-              {tiposDocumento.map((tipoDocumento, index) => {
-                return (
-                  <option key={index} value={tipoDocumento.id}>
-                    {tipoDocumento.nombre}
-                  </option>
-                );
-              })}
-            </select>
-            {error.tiposDocumento && (
-              <small className="form-text font-weight-bold text-danger">
-                {error.tiposDocumento}
-              </small>
-            )}
-          </div>
-
           {/* Numero de documento */}
           <div className="col-md-6">
             <Label htmlFor="numeroDocumento" className="form-label">
@@ -139,7 +185,7 @@ function EmprendedoresPage() {
           {/* Nombre(s) emprendedor */}
           <div className="col-md-6">
             <Label htmlFor="nombreEmprendedor" className="form-label">
-              Nombre(s):
+              Nombre(s) Apellido(s):
             </Label>
             <Input
               type="text"
@@ -158,75 +204,39 @@ function EmprendedoresPage() {
             )}
           </div>
 
-          {/* Apellido(s) emprendedor */}
-          <div className="col-md-6">
-            <Label htmlFor="apellidoEmprendedor" className="form-label">
-              Apellido(s):
-            </Label>
-            <Input
-              type="text"
-              className="form-control inputDiag"
-              name="apellidoEmprendedor"
-              id="apellidoEmprendedor"
-              value={
-                datos.apellidoEmprendedor != null
-                  ? datos.apellidoEmprendedor
-                  : ""
-              }
-              onChange={(e) => onHandleChange(e)}
-            />
-            {error.apellidoEmprendedor && (
-              <small className="form-text font-weight-bold text-danger">
-                {error.apellidoEmprendedor}
-              </small>
-            )}
-          </div>
-
           <div>
             <button className="btn btn-primary">Consultar</button>
           </div>
         </form>
       </Card>
 
-      <Ruta
-        style={{
-          padding: "0.5rem 2rem 1rem 2rem",
-          marginTop: "1rem",
-          marginLeft: "0rem",
-        }}
-      >
-        <SubTitulo>Listado de Emprendedores</SubTitulo>
-        {data.length > 0 ? (
-          <ReactFlexyTable
-            data={data}
-            filteredDataText="Datos filtrados:"
-            nextText="Siguiente"
-            previousText="Anterior"
-            totalDataText="Total datos:"
-            rowsText="Número de filas"
-            pageText="Página"
-            ofText=" de"
-            filterable
-            sortable={true}
-            additionalCols={additionalCols}
-          />
-        ) : (
-          <>No hay datos</>
-        )}
-      </Ruta>
+      {emprendedoresData && (
+        <Ruta
+          style={{
+            padding: "0.5rem 2rem 1rem 2rem",
+            marginTop: "1rem",
+            marginLeft: "0rem",
+          }}
+        >
+          <SubTitulo>Listado de Emprendedores</SubTitulo>
+          {emprendedoresData.length > 0 ? (
+            <FlexyTable
+              datos={datos}
+              titulo={"Listado de Emprendedores"}
+              btn1={<img src={showIcon} width="auto" height="25" />}
+              fun1={(emprendedorData) => {
+                onHandleDetalleEmprendedor(emprendedorData);
+              }}
+              adicional={true}
+            />
+          ) : (
+            <SubTitulo>No hay emprendedores disponibles</SubTitulo>
+          )}
+        </Ruta>
+      )}
     </>
     // </AdministradorLayout>
   );
 }
-
-const data = [
-  {
-    ID: "1",
-    "Tipo Doc.": "CC",
-    "Num Doc.": "1005943951",
-    Nombre: "Brayan Hinestroza",
-    Correo: "123@gmail.com",
-  },
-];
 
 export default EmprendedoresPage;

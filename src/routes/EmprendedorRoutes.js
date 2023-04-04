@@ -8,10 +8,8 @@ import PrimeraAtencionPage from "src/pages/emprendedor/PrimeraAtencionPage";
 import RutaPage from "src/pages/emprendedor/RutaPage";
 import SeleccionarProyectoPage from "src/components/emprendedor/SeleccionarProyectoModal";
 import PageNotFound from "src/pages/PageNotFound";
-import {
-  HOST,
-  SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO,
-} from "src/utils/constants";
+import { SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO } from "src/utils/constants";
+import { HOST } from "src/utils/apiConstants";
 import {
   deleteFromLocalStorage,
   getFromLocalStorage,

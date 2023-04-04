@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Axios from "axios";
-import { HOST } from "src/utils/constants";
+import { HOST } from "src/utils/apiConstants";
 
 export function useAPI_GET(PATH, options) {
   const [loadingAPI, setLoading] = useState(true);

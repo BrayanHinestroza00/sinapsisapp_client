@@ -8,7 +8,7 @@ import { signUpStyled } from "../../assets/styles/StyleComponent";
 
 import imagen from "../../assets/images/Sinapsis-LR.png";
 import LogoSinapsis from "../../assets/images/Logo_Sinapsis.png";
-import { HOST } from "src/utils/constants";
+import { HOST } from "src/utils/apiConstants";
 
 function SignupForm() {
   const [datos, setDatos] = useState({});

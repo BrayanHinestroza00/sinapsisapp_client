@@ -13,6 +13,7 @@ import {
   URL_OBTENER_CONSULTORIAS_PROYECTO_EMPRENDIMIENTO,
 } from "src/utils/apiConstants";
 import { SINAPSIS_APP_FORMATO_FECHA } from "src/utils/constants";
+import { Card } from "react-bootstrap";
 
 function HistorialConsultoria({ idProyectoEmprendimiento }) {
   const [loadingComponent, setLoadingComponent] = useState(true);
@@ -105,7 +106,7 @@ function HistorialConsultoria({ idProyectoEmprendimiento }) {
   }
 
   return (
-    <>
+    <Card>
       {consultorias.length > 0 && (
         <CardRuta>
           <Ruta>
@@ -130,7 +131,7 @@ function HistorialConsultoria({ idProyectoEmprendimiento }) {
           onHide={() => setShowConsultoria({ show: !showConsultoria.show })}
         />
       )}
-    </>
+    </Card>
   );
 }
 
