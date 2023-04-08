@@ -184,7 +184,7 @@ function AsignarEtapaRuta(props) {
           Asignar etapa inicial y mentor principal
         </Titulo>
         <form>
-          <div class="mb-3">
+          <div className="mb-3">
             <label className="form-label">Etapa inicial</label>
             <br></br>
             <select
@@ -210,7 +210,7 @@ function AsignarEtapaRuta(props) {
             </select>
           </div>
 
-          <div class="mb-3">
+          <div className="mb-3">
             <label className="form-label">Mentor principal</label>
             <br></br>
             <select

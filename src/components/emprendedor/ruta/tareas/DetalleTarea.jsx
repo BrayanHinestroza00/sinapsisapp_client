@@ -152,7 +152,7 @@ function DetalleTarea(props) {
                   </aside>
                 )}
                 {error.files && (
-                  <small class="form-text font-weight-bold text-danger">
+                  <small className="form-text font-weight-bold text-danger">
                     {error.files}
                   </small>
                 )}

@@ -4,6 +4,7 @@ import {
   CODE_ERR,
   CODE_NO_CHANGES,
   CODE_OK,
+  ERR_MESSAGE_CODE_NOT_NETWORK,
   ERR_MESSAGE_CODE_NOT_VALID,
 } from "src/utils/apiConstants";
 
@@ -42,12 +43,23 @@ export function useFetch() {
         }
       } else {
         // Es un reporte por lo tanto, se debe descargar el archivo.
-        const documentName = responseAPI.headers["content-type"].split("=")[1];
-        setData(responseAPI.data);
-        setMessage(documentName);
+        if (responseAPI.data.type == "attachment") {
+          const documentName =
+            responseAPI.headers["content-type"].split("=")[1];
+          setData(responseAPI.data);
+          setMessage(documentName);
+        } else {
+          const response = await new Response(responseAPI.data).text();
+          const { message } = await JSON.parse(response);
+          setMessage(message);
+        }
       }
     } catch (err) {
-      setError(err);
+      if (err.code == "ERR_NETWORK") {
+        setError(ERR_MESSAGE_CODE_NOT_NETWORK);
+      } else {
+        setError(err.message);
+      }
     } finally {
       setLoading(false);
     }

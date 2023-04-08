@@ -32,6 +32,7 @@ function AvanceRuta({ preloadData }) {
     fetchAPI: fetchApiHerrRuta,
   } = useFetch();
 
+  // Consulta completitud de Actividades
   const {
     data: actEmpRutaData,
     message: actEmpRutaMessage,
@@ -40,6 +41,7 @@ function AvanceRuta({ preloadData }) {
     fetchAPI: fetchApiActEmpRuta,
   } = useFetch();
 
+  // Consulta completitud de herramientas
   const {
     data: subActEmpRutaData,
     message: subActEmpRutaMessage,
@@ -137,12 +139,6 @@ function AvanceRuta({ preloadData }) {
     herrRutaLoading ||
     actEmpRutaLoading ||
     subActEmpRutaLoading
-    // ||
-    // !actRutaData ||
-    // !herrRutaData ||
-    // !actEmpRutaData ||
-    // !subActEmpRutaData ||
-    // !actidadesEmprendedor
   ) {
     // console.log("test", {
     //   actRutaLoading,
@@ -198,6 +194,20 @@ function AvanceRuta({ preloadData }) {
     );
   }
 
+  // console.log("test", {
+  //   actRutaLoading,
+  //   herrRutaLoading,
+  //   actEmpRutaLoading,
+  //   subActEmpRutaLoading,
+  //   inverso: {
+  //     actRutaData,
+  //     herrRutaData,
+  //     actEmpRutaData,
+  //     subActEmpRutaData,
+  //     actidadesEmprendedor,
+  //   },
+  // });
+
   return (
     <div id="avanceRutaComponent" className="container">
       <div className="row">
@@ -213,7 +223,7 @@ function AvanceRuta({ preloadData }) {
                       className="form-check-input"
                       type={"checkbox"}
                       checked={
-                        actidadesEmprendedor.actividades[actividadRuta.id]
+                        actidadesEmprendedor?.actividades[actividadRuta.id]
                           ?.estadoActividad == "COMPLETADA"
                       }
                       disabled
@@ -239,9 +249,9 @@ function AvanceRuta({ preloadData }) {
                       className="form-check-input"
                       type={"checkbox"}
                       checked={
-                        actidadesEmprendedor.herramientas[herramientaRuta.id]
+                        actidadesEmprendedor?.herramientas[herramientaRuta.id]
                           ?.idHerramienta == herrRutaData.id &&
-                        actidadesEmprendedor.herramientas[herramientaRuta.id]
+                        actidadesEmprendedor?.herramientas[herramientaRuta.id]
                           ?.estadoActividad == "COMPLETADA"
                       }
                       disabled

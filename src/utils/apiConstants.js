@@ -4,6 +4,7 @@ export const HOST = "http://localhost:5000/api/v1";
  * Mensajes por defecto
  */
 export const ERR_MESSAGE_CODE_NOT_VALID = "CÓDIGO DE RESPUESTA NO VÁLIDO";
+export const ERR_MESSAGE_CODE_NOT_NETWORK = "ERROR DE RED";
 
 /**
  * Métodos HTTP
@@ -34,6 +35,8 @@ export const URL_OBTENER_PRIMERAS_ATENCIONES_PENDIENTES =
 export const URL_OBTENER_PROYECTOS_EMPRENDIMIENTO =
   HOST + "/ruta_innovacion/proyectos_emprendimiento";
 export const URL_OBTENER_MENTORES = HOST + "/mentores";
+export const URL_OBTENER_INFORMACION_MENTORES =
+  HOST + "/ruta_innovacion/mentores";
 export const URL_OBTENER_PRIMERA_ATENCION_EMP =
   HOST + "/ruta_innovacion/primeraAtencion/detalle";
 export const URL_OBTENER_EMPRENDEDORES =
@@ -48,6 +51,8 @@ export const URL_REGISTRAR_PRIMERA_ATENCION = HOST + "/emprendedor";
 export const URL_OBTENER_INFO_EMPRENDEDOR = HOST + "/emprendedor";
 export const URL_OBTENER_EMPRENDEDIMIENTO =
   HOST + "/emprendedor/emprendimiento";
+export const URL_OBTENER_EMPRENDEDIMIENTOS =
+  HOST + "/emprendedor/emprendimientos";
 export const URL_OBTENER_INFO_SESION_EMPRENDEDOR =
   HOST + "/app/preload/emprendedor";
 export const URL_OBTENER_ETAPA_PROYECTO_EMPRENDEDOR =
@@ -80,13 +85,18 @@ export const URL_OBTENER_EMPRENDEDORES_ASOCIADOS =
   HOST + "/mentores/emprendedores";
 
 export const URL_OBTENER_HORARIO_MENTOR = HOST + "/mentores/horario";
+export const URL_ACTUALIZAR_HORARIO_MENTOR = HOST + "/mentores/horario";
+export const URL_FINALIZAR_ACOMPANAMIENTO =
+  HOST + "/mentores/finalizar_acompanamiento";
 
 /**
  * Rutas comunes
  */
+export const URL_ACTUALIZAR_CONTRASENA = HOST + "/actualizar_contrasena";
 export const URL_OBTENER_PROGRAMAS_ACADEMICOS =
   HOST + "/app/programas_academicos";
 export const URL_OBTENER_ASIGNATURAS = HOST + "/app/asignaturas";
+export const URL_OBTENER_ANUNCIOS = HOST + "/app/anuncios";
 export const URL_OBTENER_REDES_SOCIALES = HOST + "/app/redes_sociales";
 export const URL_OBTENER_TIPOS_DOCUMENTO = HOST + "/app/tipoDocumento";
 export const URL_OBTENER_ETAPAS_RUTA_INNOVACION_EMPRENDIMIENTO =

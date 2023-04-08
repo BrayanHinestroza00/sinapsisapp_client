@@ -13,7 +13,6 @@ function TabMentor() {
 
   // const [key, setKey] = useLocalStorage("key_for_tab", "ruta");
 
-  console.log(state);
   return (
     <Tabs activeKey={key} onSelect={(key) => setKey(key)}>
       <Tab eventKey="ruta" title="Ruta">

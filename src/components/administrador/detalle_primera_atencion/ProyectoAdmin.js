@@ -78,12 +78,12 @@ function ProyectoAdmin({ idEmprendimiento }) {
   }, [preloadData, redesData]);
 
   if (loading || loadingComponent || redesLoading || !preloadData || !datos) {
-    console.log("ProyectoAdmin", {
-      loading,
-      loadingComponent,
-      redesLoading,
-      inverted: { preloadData, datos },
-    });
+    // console.log("ProyectoAdmin", {
+    //   loading,
+    //   loadingComponent,
+    //   redesLoading,
+    //   inverted: { preloadData, datos },
+    // });
 
     return <h1>LOADING...</h1>;
   }
@@ -96,8 +96,6 @@ function ProyectoAdmin({ idEmprendimiento }) {
       </>
     );
   }
-
-  console.log(preloadData);
 
   return (
     <Card>

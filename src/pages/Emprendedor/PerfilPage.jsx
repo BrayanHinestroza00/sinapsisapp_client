@@ -26,7 +26,6 @@ function PerfilPage() {
   } = useFetch();
 
   useEffect(() => {
-    console.log("first", userData);
     if (userData) {
       fetchAPI({
         URL: URL_OBTENER_INFO_EMPRENDEDOR,

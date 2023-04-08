@@ -30,10 +30,10 @@ function PrimeraAtencionAdmin({ idProyectoEmprendimiento }) {
   }, []);
 
   if (loading || !data) {
-    console.log("PrimeraAtencionAdmin", {
-      loading,
-      inverted: { data },
-    });
+    // console.log("PrimeraAtencionAdmin", {
+    //   loading,
+    //   inverted: { data },
+    // });
 
     return <h1>LOADING...</h1>;
   }
@@ -46,8 +46,6 @@ function PrimeraAtencionAdmin({ idProyectoEmprendimiento }) {
       </>
     );
   }
-
-  console.log("PrimeraAtencionAdmin", data);
 
   return (
     <Card>
@@ -204,42 +202,24 @@ function PrimeraAtencionAdmin({ idProyectoEmprendimiento }) {
               <Label htmlFor="descubrioSinapsis" className="form-label">
                 ¿Cómo se enteró de los servicios de SINAPSIS UAO?
               </Label>
-              {/* <SelectMultiple
-                className="form-select"
-                id="descubrioSinapsis"
-                value={data.descubrioSinapsis}
-                options={[
-                  { value: "REDES_SOCIALES", label: "REDES SOCIALES" },
-                  { value: "ASIGNATURAS", label: "ASIGNATURAS" },
-                  { value: "RECORRIDO_CAMPUS", label: "RECORRIDO CAMPUS" },
-                  { value: "OTRO", label: "OTRO MEDIO" },
-                ]}
-                isMulti
-              /> */}
+              {data.descubrioSinapsis && data.descubrioSinapsis.length > 0 && (
+                <ul>
+                  {data.descubrioSinapsis
+                    .split(",")
+                    .map((metodoDescubrio, index) => {
+                      if (metodoDescubrio == "OTRO") {
+                        return (
+                          <li
+                            key={index}
+                          >{`${metodoDescubrio} - ${data.cualOtroDescubrioSinapsis}`}</li>
+                        );
+                      } else {
+                        return <li key={index}>{metodoDescubrio}</li>;
+                      }
+                    })}
+                </ul>
+              )}
             </div>
-
-            {data.descubrioSinapsis &&
-              data.descubrioSinapsis.length > 0 &&
-              data.descubrioSinapsis.map((metodoDescubrio, index) => {
-                if (metodoDescubrio.value == "OTRO") {
-                  return (
-                    <div key={index} className="col-md-6 mb-3">
-                      <Label
-                        htmlFor="cualOtroDescubrioSinapsis"
-                        className="form-label"
-                      >
-                        ¿Cuál fue el Otro Medio?
-                      </Label>
-                      <Input
-                        type="text"
-                        className="form-control"
-                        id="cualOtroDescubrioSinapsis"
-                        value={data.cualOtroDescubrioSinapsis || ""}
-                      />
-                    </div>
-                  );
-                }
-              })}
           </form>
         </div>
       </CardRuta>

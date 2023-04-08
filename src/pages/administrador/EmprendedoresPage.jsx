@@ -1,5 +1,3 @@
-import ReactFlexyTable from "react-flexy-table";
-import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Card } from "src/assets/styles/emprendedor/mentores.style";
@@ -13,7 +11,6 @@ import {
   Titulo,
 } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
 import {
-  HOST,
   HTTP_METHOD_GET,
   URL_OBTENER_EMPRENDEDORES,
 } from "src/utils/apiConstants";
@@ -22,34 +19,9 @@ import { useFetch } from "src/services/hooks/useFetch";
 import FlexyTable from "src/components/FlexyTable";
 
 function EmprendedoresPage() {
-  const additionalCols = [
-    {
-      header: "Actions",
-      td: (data) => {
-        return (
-          <div>
-            <img
-              src={showIcon}
-              width="auto"
-              height="25"
-              onClick={() => onHandleDetalleEmprendedor(data.ID)}
-            />{" "}
-            {/* <img
-              src={editIcon}
-              width="auto"
-              height="25"
-              onClick={() => alert("this is edit for id " + data.ID)}
-            />{" "} */}
-          </div>
-        );
-      },
-    },
-  ];
-
   const navigate = useNavigate();
   const [error, setError] = useState({});
   const [datos, setDatos] = useState({});
-  const [tiposDocumento, setTiposDocumento] = useState([]);
   const [datosFiltro, setDatosFiltro] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -58,7 +30,6 @@ function EmprendedoresPage() {
     data: emprendedoresData,
     message: emprendedoresMessage,
     error: emprendedoresError,
-    loading: emprendedoresLoading,
     fetchAPI: fetchApiEmprendedores,
   } = useFetch();
 
@@ -83,22 +54,6 @@ function EmprendedoresPage() {
     }
     setDatos(newEmprendedores);
   }, [emprendedoresData]);
-
-  useEffect(() => {
-    Axios.get(`${HOST}/app/tipoDocumento`)
-      .then(({ data }) => {
-        if (data.code == 1) {
-          setTiposDocumento(data.response);
-        }
-
-        if (data.code == -1) {
-          console.log(data.message);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
 
   const onHandleChange = (event) => {
     setDatosFiltro({
@@ -154,7 +109,6 @@ function EmprendedoresPage() {
   }
 
   return (
-    // <AdministradorLayout sidebar={true}>
     <>
       <Titulo>Emprendedores </Titulo>
 
@@ -218,11 +172,10 @@ function EmprendedoresPage() {
             marginLeft: "0rem",
           }}
         >
-          <SubTitulo>Listado de Emprendedores</SubTitulo>
           {emprendedoresData.length > 0 ? (
             <FlexyTable
               datos={datos}
-              titulo={"Listado de Emprendedores"}
+              titulo={"Emprendedores"}
               btn1={<img src={showIcon} width="auto" height="25" />}
               fun1={(emprendedorData) => {
                 onHandleDetalleEmprendedor(emprendedorData);
@@ -235,7 +188,6 @@ function EmprendedoresPage() {
         </Ruta>
       )}
     </>
-    // </AdministradorLayout>
   );
 }
 

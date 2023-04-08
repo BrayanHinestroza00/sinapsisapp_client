@@ -15,6 +15,19 @@ export const SINAPSIS_APP_EMP_ROLE_ID = 3;
 export const SINAPSIS_APP_FORMATO_FECHA = "DD/MM/YYYY";
 export const SINAPSIS_APP_FORMATO_FECHA_HORA = "DD/MM/YYYY hh:mm:ss";
 
+export const SINAPSIS_APP_ESTADO_ASESORAMIENTO_EN_CURSO = 1;
+export const SINAPSIS_APP_ESTADO_ASESORAMIENTO_FINALIZADO = 0;
+
+export const SINAPSIS_APP_ESTADO_RUTA_EMPRENDIMIENTO_PENDIENTE_APROBAR =
+  "PENDIENTE_APROBAR";
+
+export const SINAPSIS_APP_DIA_SEMANA_LUNES = "lunes";
+export const SINAPSIS_APP_DIA_SEMANA_MARTES = "martes";
+export const SINAPSIS_APP_DIA_SEMANA_MIERCOLES = "miercoles";
+export const SINAPSIS_APP_DIA_SEMANA_JUEVES = "jueves";
+export const SINAPSIS_APP_DIA_SEMANA_VIERNES = "viernes";
+export const SINAPSIS_APP_DIA_SEMANA_SABADO = "sabado";
+
 /** CONSTANTES EMPRENDEDOR */
 export const MENU_EMPRENDEDOR = "sinapsisapp_menu_item_active";
 export const MENU_EMPRENDEDOR_INICIO = "inicio";

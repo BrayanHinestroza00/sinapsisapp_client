@@ -11,10 +11,15 @@ import {
 import { MentorContext } from "src/services/context/MentorContext";
 import { useFetch } from "src/services/hooks/useFetch";
 import {
+  messageAlert,
+  messageAlertWithoutText,
+} from "src/utils/alerts/MessageAlert";
+import {
   HTTP_METHOD_POST,
   URL_OBTENER_REPORTE_CONSULTORIAS_POR_MENTOR,
 } from "src/utils/apiConstants";
 import { getCurrentDate } from "src/utils/functions";
+import { validarFiltroReporteConsultoriaMentor } from "src/utils/validaciones";
 
 function ReportesConsultoriaPage() {
   const { userData } = useContext(MentorContext);
@@ -25,76 +30,59 @@ function ReportesConsultoriaPage() {
   const { data, message, error: errorAPI, fetchAPI } = useFetch();
 
   useEffect(() => {
-    if (data) {
-      const link = document.createElement("a");
-      const url = URL.createObjectURL(data);
-      console.log(url);
-      link.href = url;
-      link.download = message;
-      link.click();
+    if (errorAPI) {
+    } else {
+      if (message) {
+      }
+
+      if (data) {
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(data);
+        link.href = url;
+        link.download = message;
+        link.click();
+      }
     }
   }, [data]);
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
 
-    fetchAPI({
-      URL: URL_OBTENER_REPORTE_CONSULTORIAS_POR_MENTOR,
-      requestOptions: {
-        method: HTTP_METHOD_POST,
-        responseType: "blob",
-        data: {
-          idMentor: userData.id,
-          fechaInicio: datos.fechaInicio,
-          fechaFin: datos.fechaFin,
+    let erroresFormulario = validarFiltroReporteConsultoriaMentor(datos);
+    if (Object.keys(erroresFormulario).length) {
+      setError(erroresFormulario);
+    } else {
+      setError({});
+      fetchAPI({
+        URL: URL_OBTENER_REPORTE_CONSULTORIAS_POR_MENTOR,
+        requestOptions: {
+          method: HTTP_METHOD_POST,
+          responseType: "blob",
+          data: {
+            idMentor: userData.id,
+            fechaInicio: datos.fechaInicio,
+            fechaFin: datos.fechaFin,
+          },
         },
-      },
-    });
+      });
 
-    // let erroresFormulario = validacionesEditarPerfil(datos);
-    // if (Object.keys(erroresFormulario).length) {
-    //   setError(erroresFormulario);
-    // } else {
-    //   setError({});
-    //   const form = new FormData();
+      if (errorAPI) {
+        messageAlert({
+          title: "Algo ha fallado",
+          text: errorAPI,
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
+      }
 
-    //   for (let index = 0; index < Object.values(datos).length; index++) {
-    //     if (
-    //       Object.values(datos)[index] != null ||
-    //       Object.values(datos)[index] != undefined
-    //     ) {
-    //       if (Object.keys(datos)[index] == "fotoPerfil") {
-    //         form.append("fotoPerfil", Object.values(datos)[index][0]);
-    //       } else {
-    //         form.append(Object.keys(datos)[index], Object.values(datos)[index]);
-    //       }
-    //     }
-    //   }
-
-    //   Axios.post(`${HOST}/emprendedor`, form)
-    //     .then((res) => {
-    //       Swal.fire({
-    //         title: "Correcto!",
-    //         text: "Perfil actualizado correctamente",
-    //         icon: "success",
-    //         iconColor: "#9a66a8",
-    //         confirmButtonText: "Aceptar",
-    //         confirmButtonColor: "#9a66a8",
-    //         showConfirmButton: true,
-    //       }).then(() => setAllowEdit(!allowEdit));
-    //     })
-    //     .catch((err) => {
-    //       Swal.fire({
-    //         title: "Algo ha fallado",
-    //         text: err.response.data.message,
-    //         icon: "error",
-    //         iconColor: "#9a66a8",
-    //         confirmButtonText: "Aceptar",
-    //         confirmButtonColor: "#9a66a8",
-    //         showConfirmButton: true,
-    //       });
-    //     });
-    // }
+      if (message) {
+        messageAlertWithoutText({
+          title: "No se encontraron resultados",
+          icon: "info",
+          confirmButtonText: "Aceptar",
+        });
+      }
+    }
   };
 
   const onHandleChange = (event) => {

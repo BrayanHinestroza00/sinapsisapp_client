@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  Button,
   Col,
   Container,
   Modal,
@@ -14,12 +15,33 @@ import {
   BotonSiguiente,
 } from "src/assets/styles/emprendedor/primeraAtencion.style";
 import { SubTitulo } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
+import { useFetch } from "src/services/hooks/useFetch";
+import {
+  messageAlert,
+  messageAlertWithoutText,
+} from "src/utils/alerts/MessageAlert";
+import {
+  HTTP_METHOD_POST,
+  URL_ACTUALIZAR_HORARIO_MENTOR,
+} from "src/utils/apiConstants";
+import {
+  SINAPSIS_APP_DIA_SEMANA_LUNES,
+  SINAPSIS_APP_DIA_SEMANA_MARTES,
+  SINAPSIS_APP_DIA_SEMANA_MIERCOLES,
+  SINAPSIS_APP_DIA_SEMANA_JUEVES,
+  SINAPSIS_APP_DIA_SEMANA_VIERNES,
+  SINAPSIS_APP_DIA_SEMANA_SABADO,
+} from "src/utils/constants";
+import { obtenerDiaSemana } from "src/utils/functions";
 
 function EditarDisponibilidadModal({ show, setShow, horarios = [] }) {
-  const [selectedDay, setSelectedDay] = useState("lunes");
+  const [selectedDay, setSelectedDay] = useState(SINAPSIS_APP_DIA_SEMANA_LUNES);
   const [horarioNuevo, setHorarioNuevo] = useState(
     JSON.parse(JSON.stringify(horarios))
   );
+
+  // Custom Hooks
+  const { message, error, fetchAPI } = useFetch();
 
   const onDeleteHorarioFromDay = (indexHorarioDay) => {
     setHorarioNuevo({
@@ -32,15 +54,19 @@ function EditarDisponibilidadModal({ show, setShow, horarios = [] }) {
   };
 
   const onAddHorarioFromDay = () => {
+    if (horarioNuevo[selectedDay] == null) {
+      horarioNuevo[selectedDay] = [];
+    }
+
     horarioNuevo[selectedDay].push({
       id: horarioNuevo[selectedDay].length + 1,
+      dia: obtenerDiaSemana(selectedDay),
     });
 
     setHorarioNuevo({ ...horarioNuevo });
   };
 
   const onChangeHorarioFromDay = (event, index) => {
-    console.log("Prueba", event.target.value);
     if (index != null) {
       const newHorario = {
         ...horarioNuevo[selectedDay][index],
@@ -54,6 +80,10 @@ function EditarDisponibilidadModal({ show, setShow, horarios = [] }) {
       });
     } else {
       // Push to horarioNuevo[selectedDay]
+      if (horarioNuevo[selectedDay] == null) {
+        horarioNuevo[selectedDay] = [];
+      }
+
       horarioNuevo[selectedDay].push({
         [event.target.name.split("-")[0]]: event.target.value,
       });
@@ -66,7 +96,54 @@ function EditarDisponibilidadModal({ show, setShow, horarios = [] }) {
     setShow();
   };
 
-  console.log("horarioNuevo", horarioNuevo);
+  const onSubmitDisponibilidad = (e) => {
+    e.preventDefault();
+
+    fetchAPI({
+      URL: URL_ACTUALIZAR_HORARIO_MENTOR,
+      requestOptions: {
+        method: HTTP_METHOD_POST,
+        data: {
+          idMentor: 2,
+          horarioMentor: horarioNuevo,
+        },
+      },
+    });
+
+    if (error) {
+      messageAlert({
+        title: "Algo ha fallado",
+        text: error,
+        icon: "error",
+        confirmButtonText: "Aceptar",
+      });
+    }
+
+    if (message) {
+      if (message == "OK") {
+        messageAlertWithoutText({
+          title: "Actualización Correcta!",
+          text: "Se ha actualizado el horario correctamente",
+          icon: "info",
+          confirmButtonText: "Aceptar",
+        });
+        onHandleCloseModal();
+      } else {
+        messageAlertWithoutText({
+          title: "No se encontraron resultados",
+          icon: "info",
+          confirmButtonText: "Aceptar",
+        });
+      }
+    }
+
+    messageAlertWithoutText({
+      title: "Actualización Correcta!",
+      text: "Se ha actualizado el horario correctamente",
+      icon: "info",
+      confirmButtonText: "Aceptar",
+    }).then(() => onHandleCloseModal());
+  };
 
   return (
     <Modal
@@ -88,7 +165,7 @@ function EditarDisponibilidadModal({ show, setShow, horarios = [] }) {
                 <button
                   type="button"
                   className="btn btn-info"
-                  onClick={() => setSelectedDay("lunes")}
+                  onClick={() => setSelectedDay(SINAPSIS_APP_DIA_SEMANA_LUNES)}
                 >
                   Lunes
                 </button>
@@ -97,7 +174,7 @@ function EditarDisponibilidadModal({ show, setShow, horarios = [] }) {
                 <button
                   type="button"
                   className="btn btn-info"
-                  onClick={() => setSelectedDay("martes")}
+                  onClick={() => setSelectedDay(SINAPSIS_APP_DIA_SEMANA_MARTES)}
                 >
                   Martes
                 </button>
@@ -106,7 +183,9 @@ function EditarDisponibilidadModal({ show, setShow, horarios = [] }) {
                 <button
                   type="button"
                   className="btn btn-info"
-                  onClick={() => setSelectedDay("miercoles")}
+                  onClick={() =>
+                    setSelectedDay(SINAPSIS_APP_DIA_SEMANA_MIERCOLES)
+                  }
                 >
                   Miércoles
                 </button>
@@ -115,7 +194,7 @@ function EditarDisponibilidadModal({ show, setShow, horarios = [] }) {
                 <button
                   type="button"
                   className="btn btn-info"
-                  onClick={() => setSelectedDay("jueves")}
+                  onClick={() => setSelectedDay(SINAPSIS_APP_DIA_SEMANA_JUEVES)}
                 >
                   Jueves
                 </button>
@@ -124,7 +203,9 @@ function EditarDisponibilidadModal({ show, setShow, horarios = [] }) {
                 <button
                   type="button"
                   className="btn btn-info"
-                  onClick={() => setSelectedDay("viernes")}
+                  onClick={() =>
+                    setSelectedDay(SINAPSIS_APP_DIA_SEMANA_VIERNES)
+                  }
                 >
                   Viernes
                 </button>
@@ -133,7 +214,7 @@ function EditarDisponibilidadModal({ show, setShow, horarios = [] }) {
                 <button
                   type="button"
                   className="btn btn-info"
-                  onClick={() => setSelectedDay("sabado")}
+                  onClick={() => setSelectedDay(SINAPSIS_APP_DIA_SEMANA_SABADO)}
                 >
                   Sábado
                 </button>
@@ -152,7 +233,7 @@ function EditarDisponibilidadModal({ show, setShow, horarios = [] }) {
                         <input
                           type="time"
                           className="form-control"
-                          name={`inicio-${index}`}
+                          name={`horaInicio-${index}`}
                           value={horarioDia?.horaInicio?.split(" ")[0]}
                           onChange={(evt) => onChangeHorarioFromDay(evt, index)}
                         />
@@ -163,7 +244,7 @@ function EditarDisponibilidadModal({ show, setShow, horarios = [] }) {
                         <input
                           type="time"
                           className="form-control"
-                          name={`fin-${index}`}
+                          name={`horaFin-${index}`}
                           value={horarioDia?.horaFin?.split(" ")[0]}
                           onChange={(evt) => onChangeHorarioFromDay(evt, index)}
                         />
@@ -201,7 +282,7 @@ function EditarDisponibilidadModal({ show, setShow, horarios = [] }) {
                   <input
                     type="time"
                     className="form-control"
-                    name={`inicio-0`}
+                    name={`horaInicio-0`}
                     onChange={onChangeHorarioFromDay}
                   />
                 </Col>
@@ -211,7 +292,7 @@ function EditarDisponibilidadModal({ show, setShow, horarios = [] }) {
                   <input
                     type="time"
                     className="form-control"
-                    name={`fin-0`}
+                    name={`horaFin-0`}
                     onChange={onChangeHorarioFromDay}
                   />
                 </Col>
@@ -233,19 +314,13 @@ function EditarDisponibilidadModal({ show, setShow, horarios = [] }) {
         </Container>
       </ModalBody>
       <ModalFooter className="modalFooter_revisarConsultoria">
-        <BotonSiguiente
-          style={{ height: "auto" }}
-          className="btn btn-primary"
-          onClick={(e) => {
-            // handleSubmit(e);
-          }}
-        >
+        <Button onClick={onSubmitDisponibilidad} className="btn btn-primary">
           Actualizar disponibilidad
-        </BotonSiguiente>
+        </Button>
 
-        <Boton className="btn btn-secondary" onClick={onHandleCloseModal}>
-          Cancelar
-        </Boton>
+        <Button className="btn btn-secondary" onClick={onHandleCloseModal}>
+          Cerrar
+        </Button>
       </ModalFooter>
     </Modal>
   );

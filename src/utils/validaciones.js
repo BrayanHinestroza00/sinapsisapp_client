@@ -1,3 +1,5 @@
+import { REGEX_PATTERN_SOLO_LETRAS } from "./regexPatterns";
+
 export const validacionesLogin = (datos) => {
   const errors = {};
   const { tipoDocumento, numeroDocumento, password } = datos;
@@ -460,5 +462,113 @@ export const validacionesEditarPerfil = (datos) => {
         break;
     }
   }
+  return errors;
+};
+
+/**
+ * Validaciones realizadas desde interfaces comunes
+ */
+export const validarActualizacionContrasena = (datos) => {
+  const errors = {};
+  const { oldPassword, newPassword, newPasswordConfirm } = datos;
+
+  //Validaciones para el oldPassword
+  if (!oldPassword || !oldPassword.trim().length > 0) {
+    errors.oldPassword = "Campo obligatorio";
+  }
+
+  //Validaciones para el newPassword
+  if (!newPassword || !newPassword.trim().length > 0) {
+    errors.newPassword = "Campo obligatorio";
+  }
+
+  //Validaciones para el newPasswordConfirm
+  if (!newPasswordConfirm || !newPasswordConfirm.trim().length > 0) {
+    errors.newPasswordConfirm = "Campo obligatorio";
+  }
+
+  //Validaciones para el diferencia de password
+  if (newPassword && newPasswordConfirm) {
+    if (newPassword != newPasswordConfirm) {
+      errors.newPasswordConfirm = "Las contraseñas no coinciden";
+    }
+  }
+
+  return errors;
+};
+
+/**
+ * Validaciones realizadas desde interfaz del Mentor
+ */
+export const validarListadoEmprendedoresMentor = (datos) => {
+  const errors = {};
+  const {
+    numeroDocumento,
+    nombreEmprendedor,
+    estadoAsesoramiento,
+    nombreEmprendimiento,
+  } = datos;
+
+  //Validaciones para el numero de documento del emprendedor
+  if (numeroDocumento) {
+    const RegExp = /^\D*\d{5,11}$/;
+    if (!RegExp.test(numeroDocumento)) {
+      errors.numeroDocumento = "Solo se permiten números entre 5 a 11 dígitos";
+    }
+  }
+
+  //Validaciones para el nombre del emprendedor
+  if (nombreEmprendedor) {
+    const RegExp = REGEX_PATTERN_SOLO_LETRAS;
+    if (!RegExp.test(nombreEmprendedor)) {
+      errors.nombreEmprendedor = "Solo se permiten letras";
+    }
+  }
+
+  //Validaciones para el estado del emprendimiento
+  if (!estadoAsesoramiento) {
+    errors.estadoAsesoramiento = "Campo obligatorio";
+  }
+
+  //Validaciones para el nombre del emprendimiento
+  if (nombreEmprendimiento) {
+    const RegExp = REGEX_PATTERN_SOLO_LETRAS;
+    if (!RegExp.test(nombreEmprendimiento)) {
+      errors.nombreEmprendimiento = "Solo se permiten letras.";
+    }
+  }
+  return errors;
+};
+
+export const validarFiltroReporteConsultoriaMentor = (datos) => {
+  const errors = {};
+  const { fechaInicio, fechaFin } = datos;
+
+  //Validaciones para el numero de documento del emprendedor
+  if (!fechaInicio && !fechaFin) {
+    errors.fechaInicio = "Campo Obligatorio";
+    errors.fechaFin = "Campo Obligatorio";
+  } else {
+    if (!fechaInicio) {
+      errors.fechaInicio = "Campo Obligatorio";
+    } else if (!fechaFin) {
+      errors.fechaFin = "Campo Obligatorio";
+    } else if (fechaInicio > fechaFin) {
+      errors.fechaInicio = "La fecha de inicio no puede ser mayor a la final";
+    }
+  }
+
+  return errors;
+};
+
+export const validarFinalizarAsesoramiento = (datos) => {
+  const errors = {};
+  const { observaciones } = datos;
+
+  //Validaciones para el numero de documento del emprendedor
+  if (!observaciones) {
+    errors.observaciones = "Campo Obligatorio";
+  }
+
   return errors;
 };

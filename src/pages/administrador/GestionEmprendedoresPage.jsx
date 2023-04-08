@@ -12,38 +12,52 @@ import {
   SubTitulo,
   Titulo,
 } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
-import { HOST } from "src/utils/apiConstants";
+import {
+  HOST,
+  HTTP_METHOD_GET,
+  URL_OBTENER_EMPRENDEDORES,
+} from "src/utils/apiConstants";
 import showIcon from "src/assets/images/showIcon.png";
+import editIcon from "src/assets/images/editIcon.png";
+import { useFetch } from "src/services/hooks/useFetch";
+import FlexyTable from "src/components/FlexyTable";
 
 function GestionEmprendedoresPage() {
-  const additionalCols = [
-    {
-      header: "Actions",
-      td: (data) => {
-        return (
-          <div>
-            <img
-              src={showIcon}
-              width="auto"
-              height="25"
-              onClick={() => onHandleDetalleEmprendedor(data.ID)}
-            />{" "}
-            <img
-              src={showIcon}
-              width="auto"
-              height="25"
-              onClick={() => alert("Delete" + data.ID)}
-            />{" "}
-          </div>
-        );
-      },
-    },
-  ];
-
-  const navigate = useNavigate();
   const [error, setError] = useState({});
   const [datos, setDatos] = useState({});
+  const [datosFiltro, setDatosFiltro] = useState({});
+  const [loading, setLoading] = useState(false);
   const [tiposDocumento, setTiposDocumento] = useState([]);
+
+  // Custom Hooks
+  const {
+    data: emprendedoresData,
+    message: emprendedoresMessage,
+    error: emprendedoresError,
+    fetchAPI: fetchApiEmprendedores,
+  } = useFetch();
+
+  useEffect(() => {
+    let newEmprendedores = [];
+
+    if (emprendedoresData) {
+      if (emprendedoresData.length > 0) {
+        newEmprendedores = emprendedoresData.map((emprendedorData, index) => {
+          return {
+            n: index + 1,
+            "Numero Documento": emprendedorData.numeroDocumento,
+            "Nombre Emprendedor": `${emprendedorData.nombres} ${emprendedorData.apellidos}`,
+            "Nombre Emprendimiento": emprendedorData.nombreEmprendimiento,
+            "Estado Asesoramiento": emprendedorData.estadoAsesoramiento,
+            "Correo Contacto":
+              emprendedorData.correoInstitucional ||
+              emprendedorData.correoPersonal,
+          };
+        });
+      }
+    }
+    setDatos(newEmprendedores);
+  }, [emprendedoresData]);
 
   useEffect(() => {
     Axios.get(`${HOST}/app/tipoDocumento`)
@@ -62,22 +76,53 @@ function GestionEmprendedoresPage() {
   }, []);
 
   const onHandleChange = (event) => {
-    setDatos({
-      ...datos,
+    setDatosFiltro({
+      ...datosFiltro,
       [event.target.name]: event.target.value,
     });
   };
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
+    fetchApiEmprendedores({
+      URL: URL_OBTENER_EMPRENDEDORES,
+      requestOptions: {
+        method: HTTP_METHOD_GET,
+        params: {
+          ...datosFiltro,
+        },
+      },
+    }).then(() => setLoading(false));
   };
 
-  const onHandleDetalleEmprendedor = (idEmprendedor) => {
-    navigate(`/Administrador/Emprendedores/${idEmprendedor}`);
+  const onHandleDetalleEmprendedor = (emprendedor) => {
+    // Show Modal with the info
+    const data = emprendedoresData[emprendedor.n - 1];
   };
+
+  if (loading) {
+    return <h1>LOADING EmprendedoresPage</h1>;
+  }
+
+  if (emprendedoresMessage) {
+    return (
+      <>
+        <p>{emprendedoresMessage}</p>
+      </>
+    );
+  }
+
+  if (emprendedoresError) {
+    return (
+      <>
+        <h1>ERROR</h1>
+        <p>{emprendedoresError}</p>
+      </>
+    );
+  }
 
   return (
-    // <AdministradorLayout sidebar={true}>
     <>
       <Titulo>Emprendedores </Titulo>
 
@@ -187,45 +232,35 @@ function GestionEmprendedoresPage() {
         </form>
       </Card>
 
-      <Ruta
-        style={{
-          padding: "0.5rem 2rem 1rem 2rem",
-          marginTop: "1rem",
-          marginLeft: "0rem",
-        }}
-      >
-        <SubTitulo>Listado de Emprendedores</SubTitulo>
-        {data.length > 0 ? (
-          <ReactFlexyTable
-            data={data}
-            filteredDataText="Datos filtrados:"
-            nextText="Siguiente"
-            previousText="Anterior"
-            totalDataText="Total datos:"
-            rowsText="Número de filas"
-            pageText="Página"
-            ofText=" de"
-            filterable
-            sortable={true}
-            additionalCols={additionalCols}
-          />
-        ) : (
-          <>No hay datos</>
-        )}
-      </Ruta>
+      {emprendedoresData && (
+        <Ruta
+          style={{
+            padding: "0.5rem 2rem 1rem 2rem",
+            marginTop: "1rem",
+            marginLeft: "0rem",
+          }}
+        >
+          {emprendedoresData.length > 0 ? (
+            <FlexyTable
+              datos={datos}
+              titulo={"Emprendedores"}
+              btn1={<img src={showIcon} width="auto" height="25" />}
+              fun1={(emprendedorData) => {
+                onHandleDetalleEmprendedor(emprendedorData);
+              }}
+              btn2={<img src={editIcon} width="auto" height="25" />}
+              fun2={(mentorData) => {
+                onHandleDetalleEmprendedor(mentorData);
+              }}
+              adicional={true}
+            />
+          ) : (
+            <SubTitulo>No hay emprendedores disponibles</SubTitulo>
+          )}
+        </Ruta>
+      )}
     </>
-    // </AdministradorLayout>
   );
 }
-
-const data = [
-  {
-    ID: "1",
-    "Tipo Doc.": "CC",
-    "Num Doc.": "1005943951",
-    Nombre: "Brayan Hinestroza",
-    Correo: "123@gmail.com",
-  },
-];
 
 export default GestionEmprendedoresPage;

@@ -25,7 +25,6 @@ function PrimeraAtencionPage() {
 
   const handleChange = (event) => {
     if (!("target" in event)) {
-      console.log(event);
       setDatos({ ...datos, descubrioSinapsis: event });
       return;
     }
@@ -35,8 +34,6 @@ function PrimeraAtencionPage() {
         ? [...datos.cursosEmprendimiento]
         : [];
       const index = arrTmp.indexOf(event.target.value);
-
-      console.log(arrTmp);
 
       if (index !== -1) {
         arrTmp.splice(index, 1);
@@ -88,7 +85,6 @@ function PrimeraAtencionPage() {
     axios
       .post(`${HOST}/emprendedor/primeraAtencion`, form)
       .then((res) => {
-        console.log(res);
         Swal.fire({
           title: "Primera atención enviada correctamente",
           text: "Ahora debes esperar a que un administrador te asigne tu ruta de emprendimiento y un mentor para seguirte guiando dentro de Sinapsis",

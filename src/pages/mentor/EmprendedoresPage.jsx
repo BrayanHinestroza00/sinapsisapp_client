@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Card } from "src/assets/styles/emprendedor/mentores.style";
 import {
@@ -11,47 +12,28 @@ import {
   Titulo,
 } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
 import showIcon from "src/assets/images/showIcon.png";
-import { useNavigate } from "react-router-dom";
 import { useFetch } from "src/services/hooks/useFetch";
 import {
   HTTP_METHOD_GET,
   URL_OBTENER_EMPRENDEDORES_ASOCIADOS,
-  URL_OBTENER_TIPOS_DOCUMENTO,
 } from "src/utils/apiConstants";
 import { MentorContext } from "src/services/context/MentorContext";
 import FlexyTable from "src/components/FlexyTable";
+import { validarListadoEmprendedoresMentor } from "src/utils/validaciones";
+import {
+  SINAPSIS_APP_ESTADO_ASESORAMIENTO_EN_CURSO,
+  SINAPSIS_APP_ESTADO_ASESORAMIENTO_FINALIZADO,
+} from "src/utils/constants";
 
 function EmprendedoresPage() {
-  // const { userData, loadingUserData } = useContext(MentorContext);
-
-  // const additionalCols = [
-  //   {
-  //     header: "Actions",
-  //     td: (data) => {
-  //       return (
-  //         <div>
-  //           <img
-  //             src={showIcon}
-  //             width="auto"
-  //             height="25"
-  //             onClick={() => onHandleSearchEmprendedor(data.ID)}
-  //           />{" "}
-  //           {/* <img
-  //             src={editIcon}
-  //             width="auto"
-  //             height="25"
-  //             onClick={() => alert("this is edit for id " + data.ID)}
-  //           />{" "} */}
-  //         </div>
-  //       );
-  //     },
-  //   },
-  // ];
+  const { userData } = useContext(MentorContext);
 
   const navigate = useNavigate();
 
   const [error, setError] = useState({});
-  const [datosFiltro, setDatosFiltro] = useState({});
+  const [datosFiltro, setDatosFiltro] = useState({
+    estadoAsesoramiento: SINAPSIS_APP_ESTADO_ASESORAMIENTO_EN_CURSO,
+  });
   const [datos, setDatos] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -60,7 +42,6 @@ function EmprendedoresPage() {
     data: emprendedoresData,
     message: emprendedoresMessage,
     error: emprendedoresError,
-    loading: emprendedoresLoading,
     fetchAPI: fetchApiEmprendedores,
   } = useFetch();
 
@@ -72,7 +53,7 @@ function EmprendedoresPage() {
         newEmprendedores = emprendedoresData.map((emprendedorData, index) => {
           return {
             n: index + 1,
-            "Numero Documento": emprendedorData.numeroDocumento,
+            "Documento Emprendedor": emprendedorData.numeroDocumento,
             "Nombre Emprendedor": `${emprendedorData.nombres} ${emprendedorData.apellidos}`,
             "Nombre Emprendimiento": emprendedorData.nombreEmprendimiento,
             "Estado Asesoramiento": emprendedorData.estadoAsesoramiento,
@@ -94,52 +75,36 @@ function EmprendedoresPage() {
   };
 
   const onHandleSearchEmprendedor = (emprendedor) => {
-    navigate(
-      `/Mentor/Emprendedor/${
-        emprendedoresData[emprendedor.n - 1].idEmprendedor
-      }`,
-      {
-        replace: true,
-        state: emprendedoresData[emprendedor.n - 1],
-      }
-    );
+    const data = emprendedoresData[emprendedor.n - 1];
+
+    console.log("EmprendedoresPage", data);
+    navigate(`/Mentor/Emprendedor/${data.idEmprendedor}`, {
+      replace: true,
+      state: data,
+    });
   };
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
-    fetchApiEmprendedores({
-      URL: URL_OBTENER_EMPRENDEDORES_ASOCIADOS,
-      requestOptions: {
-        method: HTTP_METHOD_GET,
-        params: {
-          ...datosFiltro,
-          idMentor: 2,
+
+    let erroresFormulario = validarListadoEmprendedoresMentor(datosFiltro);
+    if (Object.keys(erroresFormulario).length) {
+      setError(erroresFormulario);
+    } else {
+      setError({});
+      setLoading(true);
+      fetchApiEmprendedores({
+        URL: URL_OBTENER_EMPRENDEDORES_ASOCIADOS,
+        requestOptions: {
+          method: HTTP_METHOD_GET,
+          params: {
+            ...datosFiltro,
+            idMentor: userData.id,
+          },
         },
-      },
-    }).then(() => setLoading(false));
+      }).then(() => setLoading(false));
+    }
   };
-
-  if (loading) {
-    return <h1>LOADING EmprendedoresPage</h1>;
-  }
-
-  if (emprendedoresMessage) {
-    return (
-      <>
-        <p>{emprendedoresMessage}</p>
-      </>
-    );
-  }
-
-  if (emprendedoresError) {
-    return (
-      <>
-        <h1>ERROR</h1>
-        <p>{emprendedoresError}</p>
-      </>
-    );
-  }
 
   return (
     <>
@@ -156,14 +121,10 @@ function EmprendedoresPage() {
             </Label>
             <Input
               type="text"
-              className="form-control inputDiag"
+              className="form-control"
               name="numeroDocumento"
               id="numeroDocumento"
-              value={
-                datosFiltro.numeroDocumento != null
-                  ? datosFiltro.numeroDocumento
-                  : ""
-              }
+              value={datosFiltro.numeroDocumento || ""}
               onChange={(e) => onHandleChange(e)}
             />
             {error.numeroDocumento && (
@@ -180,14 +141,10 @@ function EmprendedoresPage() {
             </Label>
             <Input
               type="text"
-              className="form-control inputDiag"
+              className="form-control"
               name="nombreEmprendedor"
               id="nombreEmprendedor"
-              value={
-                datosFiltro.nombreEmprendedor != null
-                  ? datosFiltro.nombreEmprendedor
-                  : ""
-              }
+              value={datosFiltro.nombreEmprendedor || ""}
               onChange={(e) => onHandleChange(e)}
             />
             {error.nombreEmprendedor && (
@@ -206,13 +163,18 @@ function EmprendedoresPage() {
               id="estadoAsesoramiento"
               className="form-select"
               name="estadoAsesoramiento"
-              value={datosFiltro.estadoAsesoramiento || "-1"}
+              value={datosFiltro.estadoAsesoramiento}
               onChange={(e) => onHandleChange(e)}
             >
-              <option selected value={"EN CURSO"}>
+              <option
+                selected
+                value={SINAPSIS_APP_ESTADO_ASESORAMIENTO_EN_CURSO}
+              >
                 EN CURSO
               </option>
-              <option value={"FINALIZADA"}>FINALIZADA</option>
+              <option value={SINAPSIS_APP_ESTADO_ASESORAMIENTO_FINALIZADO}>
+                FINALIZADA
+              </option>
             </select>
             {error.estadoAsesoramiento && (
               <small className="form-text font-weight-bold text-danger">
@@ -228,14 +190,10 @@ function EmprendedoresPage() {
             </Label>
             <Input
               type="text"
-              className="form-control inputDiag"
+              className="form-control"
               name="nombreEmprendimiento"
               id="nombreEmprendimiento"
-              value={
-                datosFiltro.nombreEmprendimiento != null
-                  ? datosFiltro.nombreEmprendimiento
-                  : ""
-              }
+              value={datosFiltro.nombreEmprendimiento || ""}
               onChange={(e) => onHandleChange(e)}
             />
             {error.nombreEmprendimiento && (
@@ -251,7 +209,7 @@ function EmprendedoresPage() {
         </form>
       </Card>
 
-      {emprendedoresData && (
+      {loading ? (
         <Ruta
           style={{
             padding: "0.5rem 2rem 1rem 2rem",
@@ -259,37 +217,48 @@ function EmprendedoresPage() {
             marginLeft: "0rem",
           }}
         >
-          {emprendedoresData.length > 0 ? (
-            <>
-              <SubTitulo>Listado de Emprendedores</SubTitulo>
-              <FlexyTable
-                datos={datos}
-                titulo={"Listado de Emprendedores"}
-                btn1={<img src={showIcon} width="auto" height="25" />}
-                fun1={(emprendedorData) => {
-                  onHandleSearchEmprendedor(emprendedorData);
-                }}
-                adicional={true}
-              />
-
-              {/* <ReactFlexyTable
-                data={emprendedoresData}
-                filteredDataText="Datos filtrados:"
-                nextText="Siguiente"
-                previousText="Anterior"
-                totalDataText="Total datosFiltro:"
-                rowsText="Número de filas"
-                pageText="Página"
-                ofText=" de"
-                filterable
-                sortable={true}
-                additionalCols={additionalCols}
-              /> */}
-            </>
-          ) : (
-            <SubTitulo>No tienes emprendedores asociados</SubTitulo>
-          )}
+          <p>Cargando...</p>
         </Ruta>
+      ) : emprendedoresMessage || emprendedoresError ? (
+        <Ruta
+          style={{
+            padding: "0.5rem 2rem 1rem 2rem",
+            marginTop: "1rem",
+            marginLeft: "0rem",
+          }}
+        >
+          {emprendedoresMessage && (
+            <SubTitulo>{emprendedoresMessage}</SubTitulo>
+          )}
+
+          {emprendedoresError && <SubTitulo>{emprendedoresError}</SubTitulo>}
+        </Ruta>
+      ) : (
+        emprendedoresData && (
+          <Ruta
+            style={{
+              padding: "0.5rem 2rem 1rem 2rem",
+              marginTop: "1rem",
+              marginLeft: "0rem",
+            }}
+          >
+            {emprendedoresData.length > 0 ? (
+              <>
+                <FlexyTable
+                  datos={datos}
+                  titulo={"Listado de Emprendedores"}
+                  btn1={<img src={showIcon} width="auto" height="25" />}
+                  fun1={(emprendedorData) => {
+                    onHandleSearchEmprendedor(emprendedorData);
+                  }}
+                  adicional={true}
+                />
+              </>
+            ) : (
+              <SubTitulo>No tienes emprendedores asociados</SubTitulo>
+            )}
+          </Ruta>
+        )
       )}
     </>
   );

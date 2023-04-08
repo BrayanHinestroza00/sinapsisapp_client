@@ -1,5 +1,11 @@
 import Axios from "axios";
 import {
+  SINAPSIS_APP_DIA_SEMANA_LUNES,
+  SINAPSIS_APP_DIA_SEMANA_MARTES,
+  SINAPSIS_APP_DIA_SEMANA_MIERCOLES,
+  SINAPSIS_APP_DIA_SEMANA_JUEVES,
+  SINAPSIS_APP_DIA_SEMANA_VIERNES,
+  SINAPSIS_APP_DIA_SEMANA_SABADO,
   T_SINAPSIS_ETAPAS_RUTA_ARRANCAR,
   T_SINAPSIS_ETAPAS_RUTA_ARRANCAR_NOMBRE,
   T_SINAPSIS_ETAPAS_RUTA_PENSAR,
@@ -134,6 +140,31 @@ export function obtenerNombreEtapa(idEtapa) {
 
     case T_SINAPSIS_ETAPAS_RUTA_ARRANCAR:
       return T_SINAPSIS_ETAPAS_RUTA_ARRANCAR_NOMBRE;
+
+    default:
+      return "N/A";
+  }
+}
+
+export function obtenerDiaSemana(nombreDia) {
+  switch (nombreDia) {
+    case SINAPSIS_APP_DIA_SEMANA_LUNES:
+      return 1;
+
+    case SINAPSIS_APP_DIA_SEMANA_MARTES:
+      return 2;
+
+    case SINAPSIS_APP_DIA_SEMANA_MIERCOLES:
+      return 3;
+
+    case SINAPSIS_APP_DIA_SEMANA_JUEVES:
+      return 4;
+
+    case SINAPSIS_APP_DIA_SEMANA_VIERNES:
+      return 5;
+
+    case SINAPSIS_APP_DIA_SEMANA_SABADO:
+      return 6;
 
     default:
       return "N/A";

@@ -141,14 +141,6 @@ function ConsultoriasEspPage() {
     );
   }
 
-  // console.log("tes", {
-  //   loadingUserData,
-  //   horariosLoading,
-  //   loadingComponent,
-  //   consultoriasLoading,
-  //   inverse: { horariosData, consultoriasData },
-  // });
-
   return (
     <>
       <Titulo>Consultorías Especializadas</Titulo>

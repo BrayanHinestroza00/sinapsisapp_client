@@ -1,13 +1,15 @@
-import React from "react";
+import { useContext } from "react";
 import { Titulo } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
 import FormEditarCuenta from "src/components/FormEditarCuenta";
-import MentorLayout from "src/layouts/MentorLayout";
+import { MentorContext } from "src/services/context/MentorContext";
 
 function EditarCuentaPage() {
+  const { userData } = useContext(MentorContext);
+
   return (
     <>
       <Titulo>Configuración de la Cuenta</Titulo>
-      <FormEditarCuenta />
+      <FormEditarCuenta idUsuario={userData.id} />
     </>
   );
 }

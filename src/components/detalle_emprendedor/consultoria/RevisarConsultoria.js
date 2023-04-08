@@ -68,7 +68,6 @@ function RevisarConsultoria({ idConsultoria, show, setShow }) {
                 },
               }
             ).then((respuesta) => {
-              console.log(respuesta);
               if (respuesta.data.affectedRows > 0) {
                 swal
                   .fire({

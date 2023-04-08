@@ -130,13 +130,6 @@ function PrimeraAtencionPage() {
     );
   }
 
-  console.log("data PrimeraAtencionPage", {
-    loading,
-    tiposDocumentoLoading,
-    tiposDocumentoData,
-    primerasAtencionesData,
-  });
-
   return (
     <>
       <Titulo>Solicitudes de Primera Atención </Titulo>

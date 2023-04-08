@@ -141,13 +141,10 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit }) {
     }
 
     if (event.target.name === "cursosEmprendimiento") {
-      console.log("here");
       const arrTmp = datos.cursosEmprendimiento
         ? [...datos.cursosEmprendimiento]
         : [];
       const index = arrTmp.indexOf(event.target.value);
-
-      console.log(arrTmp);
 
       if (index !== -1) {
         arrTmp.splice(index, 1);
@@ -650,11 +647,13 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit }) {
                       dataAsignaturas.length > 0 &&
                       dataAsignaturas.map((asignatura, index) => {
                         {
+                          /* {
                           console.log(
                             datos?.cursosEmprendimiento.includes(
                               asignatura.codigo
                             )
                           );
+                        } */
                         }
                         return (
                           <div key={index}>

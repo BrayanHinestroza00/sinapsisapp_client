@@ -11,7 +11,6 @@ export function simpleRequest(path, responseHandler) {
     },
   })
     .then(({ data }) => {
-      console.log(data.response);
       if (data.code == 0) {
         return responseHandler("success", data.response);
       }

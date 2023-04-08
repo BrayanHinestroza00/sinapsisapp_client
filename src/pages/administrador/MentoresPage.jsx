@@ -1,4 +1,3 @@
-import ReactFlexyTable from "react-flexy-table";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -12,38 +11,54 @@ import {
   SubTitulo,
   Titulo,
 } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
-import { HOST } from "src/utils/apiConstants";
+import {
+  HOST,
+  HTTP_METHOD_GET,
+  URL_OBTENER_MENTORES,
+} from "src/utils/apiConstants";
 import showIcon from "src/assets/images/showIcon.png";
+import FlexyTable from "src/components/FlexyTable";
+import { useFetch } from "src/services/hooks/useFetch";
 
 function MentoresPage() {
-  const additionalCols = [
-    {
-      header: "Actions",
-      td: (data) => {
-        return (
-          <div>
-            <img
-              src={showIcon}
-              width="auto"
-              height="25"
-              onClick={() => onHandleDetalleMentor(data.ID)}
-            />{" "}
-            {/* <img
-              src={editIcon}
-              width="auto"
-              height="25"
-              onClick={() => alert("this is edit for id " + data.ID)}
-            />{" "} */}
-          </div>
-        );
-      },
-    },
-  ];
-
   const navigate = useNavigate();
   const [error, setError] = useState({});
-  const [datos, setDatos] = useState({});
+  const [datos, setDatos] = useState(null);
+  const [datosFiltro, setDatosFiltro] = useState({});
+  const [loading, setLoading] = useState(false);
   const [tiposDocumento, setTiposDocumento] = useState([]);
+
+  // Custom Hooks
+  const {
+    data: mentoresData,
+    message: mentoresMessage,
+    error: mentoresError,
+    fetchAPI: fetchApiMentores,
+  } = useFetch();
+
+  useEffect(() => {
+    let newMentores = [];
+
+    if (mentoresData) {
+      if (mentoresData.length > 0) {
+        newMentores = mentoresData.map((mentorData, index) => {
+          return {
+            n: index + 1,
+            "Numero Documento": mentorData.usuario.numeroDocumento,
+            "Nombre Mentor": `${mentorData.usuario.nombres} ${mentorData.usuario.apellidos}`,
+            Cargo: mentorData.cargo,
+            "Dependencia/Facultad":
+              mentorData.dependencia || mentorData.facultad,
+            "Correo Contacto":
+              mentorData.usuario.correoInstitucional ||
+              mentorData.usuario.correoPersonal,
+          };
+        });
+      }
+    }
+
+    setDatos(newMentores);
+  }, [mentoresData]);
 
   useEffect(() => {
     Axios.get(`${HOST}/app/tipoDocumento`)
@@ -62,22 +77,59 @@ function MentoresPage() {
   }, []);
 
   const onHandleChange = (event) => {
-    setDatos({
-      ...datos,
+    setDatosFiltro({
+      ...datosFiltro,
       [event.target.name]: event.target.value,
     });
   };
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
+    fetchApiMentores({
+      URL: URL_OBTENER_MENTORES,
+      requestOptions: {
+        method: HTTP_METHOD_GET,
+        params: {
+          ...datosFiltro,
+        },
+      },
+    }).then(() => setLoading(false));
   };
 
-  const onHandleDetalleMentor = (idMentor) => {
-    navigate(`/Administrador/Mentores/${idMentor}`);
+  const onHandleDetalleMentor = (mentor) => {
+    const data = {
+      ...mentoresData[mentor.n - 1],
+      type: "EMPRENDEDORES",
+    };
+    navigate(`/Administrador/Mentores/${data.idMentor}`, {
+      replace: true,
+      state: data,
+    });
   };
+
+  if (loading) {
+    return <h1>LOADING MentoresPage</h1>;
+  }
+
+  if (mentoresMessage) {
+    return (
+      <>
+        <p>{mentoresMessage}</p>
+      </>
+    );
+  }
+
+  if (mentoresError) {
+    return (
+      <>
+        <h1>ERROR</h1>
+        <p>{mentoresError}</p>
+      </>
+    );
+  }
 
   return (
-    // <AdministradorLayout sidebar={true}>
     <>
       <Titulo>Mentores </Titulo>
 
@@ -94,7 +146,7 @@ function MentoresPage() {
               id="tiposDocumento"
               className="form-select"
               name="tiposDocumento"
-              value={datos.tiposDocumento || "-1"}
+              value={datosFiltro.tiposDocumento || "-1"}
               onChange={(e) => onHandleChange(e)}
             >
               <option value={"-1"} disabled>
@@ -125,7 +177,11 @@ function MentoresPage() {
               className="form-control inputDiag"
               name="numeroDocumento"
               id="numeroDocumento"
-              value={datos.numeroDocumento != null ? datos.numeroDocumento : ""}
+              value={
+                datosFiltro.numeroDocumento != null
+                  ? datosFiltro.numeroDocumento
+                  : ""
+              }
               onChange={(e) => onHandleChange(e)}
             />
             {error.numeroDocumento && (
@@ -135,48 +191,48 @@ function MentoresPage() {
             )}
           </div>
 
-          {/* Nombre(s) emprendedor */}
+          {/* Nombre(s) mentor */}
           <div className="col-md-6">
-            <Label htmlFor="nombreEmprendedor" className="form-label">
+            <Label htmlFor="nombreMentor" className="form-label">
               Nombre(s):
             </Label>
             <Input
               type="text"
               className="form-control inputDiag"
-              name="nombreEmprendedor"
-              id="nombreEmprendedor"
+              name="nombreMentor"
+              id="nombreMentor"
               value={
-                datos.nombreEmprendedor != null ? datos.nombreEmprendedor : ""
+                datosFiltro.nombreMentor != null ? datosFiltro.nombreMentor : ""
               }
               onChange={(e) => onHandleChange(e)}
             />
-            {error.nombreEmprendedor && (
+            {error.nombreMentor && (
               <small className="form-text font-weight-bold text-danger">
-                {error.nombreEmprendedor}
+                {error.nombreMentor}
               </small>
             )}
           </div>
 
-          {/* Apellido(s) emprendedor */}
+          {/* Apellido(s) mentor */}
           <div className="col-md-6">
-            <Label htmlFor="apellidoEmprendedor" className="form-label">
+            <Label htmlFor="apellidoMentor" className="form-label">
               Apellido(s):
             </Label>
             <Input
               type="text"
               className="form-control inputDiag"
-              name="apellidoEmprendedor"
-              id="apellidoEmprendedor"
+              name="apellidoMentor"
+              id="apellidoMentor"
               value={
-                datos.apellidoEmprendedor != null
-                  ? datos.apellidoEmprendedor
+                datosFiltro.apellidoMentor != null
+                  ? datosFiltro.apellidoMentor
                   : ""
               }
               onChange={(e) => onHandleChange(e)}
             />
-            {error.apellidoEmprendedor && (
+            {error.apellidoMentor && (
               <small className="form-text font-weight-bold text-danger">
-                {error.apellidoEmprendedor}
+                {error.apellidoMentor}
               </small>
             )}
           </div>
@@ -187,45 +243,31 @@ function MentoresPage() {
         </form>
       </Card>
 
-      <Ruta
-        style={{
-          padding: "0.5rem 2rem 1rem 2rem",
-          marginTop: "1rem",
-          marginLeft: "0rem",
-        }}
-      >
-        <SubTitulo>Listado de Mentores</SubTitulo>
-        {data.length > 0 ? (
-          <ReactFlexyTable
-            data={data}
-            filteredDataText="Datos filtrados:"
-            nextText="Siguiente"
-            previousText="Anterior"
-            totalDataText="Total datos:"
-            rowsText="Número de filas"
-            pageText="Página"
-            ofText=" de"
-            filterable
-            sortable={true}
-            additionalCols={additionalCols}
-          />
-        ) : (
-          <>No hay datos</>
-        )}
-      </Ruta>
+      {mentoresData && (
+        <Ruta
+          style={{
+            padding: "0.5rem 2rem 1rem 2rem",
+            marginTop: "1rem",
+            marginLeft: "0rem",
+          }}
+        >
+          {datos.length > 0 ? (
+            <FlexyTable
+              datos={datos}
+              titulo={"Mentores"}
+              btn1={<img src={showIcon} width="auto" height="25" />}
+              fun1={(mentorData) => {
+                onHandleDetalleMentor(mentorData);
+              }}
+              adicional={true}
+            />
+          ) : (
+            <SubTitulo>No hay mentores disponibles</SubTitulo>
+          )}
+        </Ruta>
+      )}
     </>
-    // {/* </AdministradorLayout> */}
   );
 }
-
-const data = [
-  {
-    ID: "1",
-    "Tipo Doc.": "CC",
-    "Num Doc.": "1005943951",
-    Nombre: "Brayan Hinestroza",
-    Correo: "123@gmail.com",
-  },
-];
 
 export default MentoresPage;

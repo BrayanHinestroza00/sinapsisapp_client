@@ -10,6 +10,7 @@ import ProyectoAdmin from "./detalle_primera_atencion/ProyectoAdmin";
 import ProyectoMentor from "../detalle_emprendedor/emprendimientos/ProyectoMentor";
 import EmprendedorAdmin from "./detalle_primera_atencion/EmprendedorAdmin";
 import PrimeraAtencionAdmin from "./detalle_primera_atencion/PrimeraAtencionAdmin";
+import ProyectosEmprendedor from "./detalle_emprendedor/ProyectosEmprendedor";
 
 function TabAdministrador() {
   const { state } = useLocation();
@@ -76,6 +77,12 @@ function TabAdministrador() {
       <Tabs activeKey={key} onSelect={(key) => setKey(key)}>
         <Tab eventKey="emprendedor" title="Emprendedor">
           <EmprendedorAdmin idEmprendedor={state.id} />
+        </Tab>
+        <Tab eventKey="emprendimientos" title="Emprendimientos">
+          <ProyectosEmprendedor idEmprendedor={state.id} />
+        </Tab>
+        <Tab eventKey="consultorias" title="Consultorías Programadas">
+          <Consultorias idEmprendedor={state.id} />
         </Tab>
       </Tabs>
     );

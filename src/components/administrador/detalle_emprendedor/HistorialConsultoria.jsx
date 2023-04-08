@@ -1,21 +1,24 @@
 import { useEffect, useState } from "react";
-import { Card } from "react-bootstrap";
 import moment from "moment";
-import FlexyTable from "src/components/FlexyTable";
+
 import {
+  CardRuta,
   Ruta,
-  SubTitulo,
 } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
-import { URL_OBTENER_CONSULTORIAS_PROGRAMADAS } from "src/utils/apiConstants";
+import DetalleConsultoria from "src/components/emprendedor/ruta/consultorias/DetalleConsultoria";
+import FlexyTable from "src/components/FlexyTable";
 import { useFetch } from "src/services/hooks/useFetch";
+import {
+  HTTP_METHOD_GET,
+  URL_OBTENER_CONSULTORIAS_PROYECTO_EMPRENDIMIENTO,
+} from "src/utils/apiConstants";
 import { SINAPSIS_APP_FORMATO_FECHA } from "src/utils/constants";
-import { HTTP_METHOD_GET } from "src/utils/apiConstants";
+import { Card } from "react-bootstrap";
 
-// import "../../../styles/ConsultoriasMentor.css";
-
-function Consultoria({ idEmprendedor }) {
+function HistorialConsultoria({ idProyectoEmprendimiento }) {
   const [loadingComponent, setLoadingComponent] = useState(true);
   const [consultorias, setConsultorias] = useState([]);
+  const [showConsultoria, setShowConsultoria] = useState({ show: false });
 
   // Custom Hooks
   const {
@@ -28,12 +31,12 @@ function Consultoria({ idEmprendedor }) {
 
   useEffect(() => {
     fetchApiConsultorias({
-      URL: URL_OBTENER_CONSULTORIAS_PROGRAMADAS,
+      URL: URL_OBTENER_CONSULTORIAS_PROYECTO_EMPRENDIMIENTO,
       requestOptions: {
         method: HTTP_METHOD_GET,
         params: {
-          idUsuario: idEmprendedor,
-          tipoUsuario: 1,
+          idProyectoEmprendimiento: idProyectoEmprendimiento,
+          tipoBusqueda: "H",
         },
       },
     });
@@ -57,13 +60,11 @@ function Consultoria({ idEmprendedor }) {
             ).format(SINAPSIS_APP_FORMATO_FECHA),
             "Hora Inicio": consultoriaData.horaInicioConsultoria,
             "Hora Finalizacion": consultoriaData.horaFinConsultoria,
-            Emprendedor:
-              consultoriaData.nombreEmprendedor +
+            "Creado Por":
+              consultoriaData.nombreMentor +
               " " +
-              consultoriaData.apellidoEmprendedor,
-            "Correo Contacto":
-              consultoriaData.correoInstitucionalEmprendedor ||
-              consultoriaData.correoPersonalEmprendedor,
+              consultoriaData.apellidoMentor,
+            "Correo Contacto": consultoriaData.correoInstitucionalMentor,
           };
         });
       }
@@ -72,24 +73,26 @@ function Consultoria({ idEmprendedor }) {
     }
   }, [consultoriasData]);
 
+  const onClicDetalleConsultoria = (consultoria) => {
+    setShowConsultoria({
+      show: true,
+      data: consultoriasData[consultoria.n - 1],
+    });
+  };
+
   if (loadingComponent || consultoriasLoading) {
-    return <h1>LOADING EstadoRutaEmprendedor</h1>;
+    return <h1>LOADING HISTORICO CONSULTORIA</h1>;
   }
 
   if (consultoriasMessage) {
     return (
-      <Card>
-        <SubTitulo>Consultorías programadas</SubTitulo>
-        <Ruta
-          style={{
-            padding: "0rem 2rem 1rem 2rem",
-            marginTop: "0rem",
-            marginLeft: "0rem",
-          }}
-        >
-          <p>Loading Consultoria Mentor</p>
-        </Ruta>
-      </Card>
+      <>
+        <CardRuta>
+          <Ruta>
+            <p>{consultoriasMessage}</p>
+          </Ruta>
+        </CardRuta>
+      </>
     );
   }
 
@@ -104,26 +107,32 @@ function Consultoria({ idEmprendedor }) {
 
   return (
     <Card>
-      <SubTitulo>Consultorías programadas</SubTitulo>
-      <Ruta
-        style={{
-          padding: "0rem 2rem 1rem 2rem",
-          marginTop: "0rem",
-          marginLeft: "0rem",
-        }}
-      >
-        {/* <SubTitulo>CONSULTARÍAS PROGRAMADAS</SubTitulo> */}
-        {consultorias.length > 0 ? (
-          <FlexyTable
-            datos={consultorias}
-            titulo={"consultorías programadas"}
-          />
-        ) : (
-          <>No hay consultorías programadas</>
-        )}
-      </Ruta>
+      {consultorias.length > 0 && (
+        <CardRuta>
+          <Ruta>
+            <FlexyTable
+              datos={consultorias}
+              titulo={"Historico de Consultorias"}
+              btn1={"Ver Detalle"}
+              fun1={(consultoriaData) => {
+                onClicDetalleConsultoria(consultoriaData);
+              }}
+              adicional={true}
+            />
+          </Ruta>
+        </CardRuta>
+      )}
+
+      {showConsultoria.show && (
+        <DetalleConsultoria
+          show={showConsultoria.show}
+          data={showConsultoria.data}
+          tipo={showConsultoria.tipo}
+          onHide={() => setShowConsultoria({ show: !showConsultoria.show })}
+        />
+      )}
     </Card>
   );
 }
 
-export default Consultoria;
+export default HistorialConsultoria;

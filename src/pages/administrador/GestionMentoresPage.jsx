@@ -1,4 +1,3 @@
-import ReactFlexyTable from "react-flexy-table";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -12,38 +11,55 @@ import {
   SubTitulo,
   Titulo,
 } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
-import { HOST } from "src/utils/apiConstants";
+import {
+  HOST,
+  HTTP_METHOD_GET,
+  URL_OBTENER_MENTORES,
+} from "src/utils/apiConstants";
 import showIcon from "src/assets/images/showIcon.png";
+import editIcon from "src/assets/images/editIcon.png";
+import { useFetch } from "src/services/hooks/useFetch";
+import FlexyTable from "src/components/FlexyTable";
 
 function GestionMentoresPage() {
-  const additionalCols = [
-    {
-      header: "Actions",
-      td: (data) => {
-        return (
-          <div>
-            <img
-              src={showIcon}
-              width="auto"
-              height="25"
-              onClick={() => onHandleDetalleMentor(data.ID)}
-            />{" "}
-            <img
-              src={showIcon}
-              width="auto"
-              height="25"
-              onClick={() => alert("Delete" + data.ID)}
-            />{" "}
-          </div>
-        );
-      },
-    },
-  ];
-
   const navigate = useNavigate();
   const [error, setError] = useState({});
   const [datos, setDatos] = useState({});
+  const [datosFiltro, setDatosFiltro] = useState({});
+  const [loading, setLoading] = useState(false);
   const [tiposDocumento, setTiposDocumento] = useState([]);
+
+  // Custom Hooks
+  const {
+    data: mentoresData,
+    message: mentoresMessage,
+    error: mentoresError,
+    fetchAPI: fetchApiMentores,
+  } = useFetch();
+
+  useEffect(() => {
+    let newMentores = [];
+
+    if (mentoresData) {
+      if (mentoresData.length > 0) {
+        newMentores = mentoresData.map((mentorData, index) => {
+          return {
+            n: index + 1,
+            "Numero Documento": mentorData.usuario.numeroDocumento,
+            "Nombre Mentor": `${mentorData.usuario.nombres} ${mentorData.usuario.apellidos}`,
+            Cargo: mentorData.cargo,
+            "Dependencia/Facultad":
+              mentorData.dependencia || mentorData.facultad,
+            "Correo Contacto":
+              mentorData.usuario.correoInstitucional ||
+              mentorData.usuario.correoPersonal,
+          };
+        });
+      }
+    }
+
+    setDatos(newMentores);
+  }, [mentoresData]);
 
   useEffect(() => {
     Axios.get(`${HOST}/app/tipoDocumento`)
@@ -62,22 +78,53 @@ function GestionMentoresPage() {
   }, []);
 
   const onHandleChange = (event) => {
-    setDatos({
-      ...datos,
+    setDatosFiltro({
+      ...datosFiltro,
       [event.target.name]: event.target.value,
     });
   };
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
+    fetchApiMentores({
+      URL: URL_OBTENER_MENTORES,
+      requestOptions: {
+        method: HTTP_METHOD_GET,
+        params: {
+          ...datosFiltro,
+        },
+      },
+    }).then(() => setLoading(false));
   };
 
-  const onHandleDetalleMentor = (idMentor) => {
-    navigate(`/Administrador/Mentores/${idMentor}`);
+  const onHandleDetalleMentor = (mentor) => {
+    // Show Modal with the info
+    const data = mentoresData[mentor.n - 1];
   };
+
+  if (loading) {
+    return <h1>LOADING MentoresPage</h1>;
+  }
+
+  if (mentoresMessage) {
+    return (
+      <>
+        <p>{mentoresMessage}</p>
+      </>
+    );
+  }
+
+  if (mentoresError) {
+    return (
+      <>
+        <h1>ERROR</h1>
+        <p>{mentoresError}</p>
+      </>
+    );
+  }
 
   return (
-    // <AdministradorLayout sidebar={true}>
     <>
       <Titulo>Mentores </Titulo>
 
@@ -187,45 +234,35 @@ function GestionMentoresPage() {
         </form>
       </Card>
 
-      <Ruta
-        style={{
-          padding: "0.5rem 2rem 1rem 2rem",
-          marginTop: "1rem",
-          marginLeft: "0rem",
-        }}
-      >
-        <SubTitulo>Listado de Mentores</SubTitulo>
-        {data.length > 0 ? (
-          <ReactFlexyTable
-            data={data}
-            filteredDataText="Datos filtrados:"
-            nextText="Siguiente"
-            previousText="Anterior"
-            totalDataText="Total datos:"
-            rowsText="Número de filas"
-            pageText="Página"
-            ofText=" de"
-            filterable
-            sortable={true}
-            additionalCols={additionalCols}
-          />
-        ) : (
-          <>No hay datos</>
-        )}
-      </Ruta>
+      {mentoresData && (
+        <Ruta
+          style={{
+            padding: "0.5rem 2rem 1rem 2rem",
+            marginTop: "1rem",
+            marginLeft: "0rem",
+          }}
+        >
+          {datos.length > 0 ? (
+            <FlexyTable
+              datos={datos}
+              titulo={"Mentores"}
+              btn1={<img src={showIcon} width="auto" height="25" />}
+              fun1={(mentorData) => {
+                onHandleDetalleMentor(mentorData);
+              }}
+              btn2={<img src={editIcon} width="auto" height="25" />}
+              fun2={(mentorData) => {
+                onHandleDetalleMentor(mentorData);
+              }}
+              adicional={true}
+            />
+          ) : (
+            <SubTitulo>No hay mentores disponibles</SubTitulo>
+          )}
+        </Ruta>
+      )}
     </>
-    // </AdministradorLayout>
   );
 }
-
-const data = [
-  {
-    ID: "1",
-    "Tipo Doc.": "CC",
-    "Num Doc.": "1005943951",
-    Nombre: "Brayan Hinestroza",
-    Correo: "123@gmail.com",
-  },
-];
 
 export default GestionMentoresPage;

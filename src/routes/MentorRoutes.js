@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-import MentorContentLayout from "src/layouts/content/MentorContentLayout";
 import MentorLayout from "src/layouts/MentorLayout";
 import ConsultoriasEspPage from "src/pages/mentor/ConsultoriasEspPage";
 import ConsultoriasPage from "src/pages/mentor/ConsultoriasPage";

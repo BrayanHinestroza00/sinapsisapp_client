@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import {
   Auxiliar,
@@ -14,9 +14,13 @@ import {
   URL_OBTENER_ETAPA_PROYECTO_EMPRENDEDOR,
 } from "src/utils/apiConstants";
 import { obtenerNombreEtapa } from "src/utils/functions";
+import FinalizarAsesoramiento from "./FinalizarAsesoramiento";
+import { MentorContext } from "src/services/context/MentorContext";
+import { SINAPSIS_APP_ESTADO_RUTA_EMPRENDIMIENTO_PENDIENTE_APROBAR } from "src/utils/constants";
 
 function RutaMentor({ idProyectoEmprendimiento }) {
   const [loadingComponent, setLoadingComponent] = useState(true);
+  const { userData } = useContext(MentorContext);
 
   // Custom Hooks
   const {
@@ -40,6 +44,11 @@ function RutaMentor({ idProyectoEmprendimiento }) {
   }, []);
 
   if (loadingFetch || loadingComponent || !preloadData) {
+    // console.log("RutaMentor", {
+    //   loadingFetch,
+    //   loadingComponent,
+    //   dt: { preloadData, messageFetch, errorFetch },
+    // });
     return <>LOADING RutaMentor</>;
   }
 
@@ -92,6 +101,17 @@ function RutaMentor({ idProyectoEmprendimiento }) {
           <AvanceRuta preloadData={preloadData} />
         </Ruta>
       </CardRuta>
+
+      {preloadData.estadoRuta ==
+        SINAPSIS_APP_ESTADO_RUTA_EMPRENDIMIENTO_PENDIENTE_APROBAR &&
+        preloadData.idMentor == userData.id && (
+          <CardRuta style={{ marginTop: "0rem", marginBottom: "0rem" }}>
+            <Ruta>
+              <SubTitulo>Finalizar Acompañamiento: </SubTitulo>
+              <FinalizarAsesoramiento preloadData={preloadData} />
+            </Ruta>
+          </CardRuta>
+        )}
     </Card>
   );
 }

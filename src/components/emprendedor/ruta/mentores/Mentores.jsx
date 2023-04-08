@@ -147,7 +147,7 @@ function Mentores() {
               )}
             </div>
             <img
-              class="rounded"
+              className="rounded"
               src={
                 mentorAsignado.fotoPerfilMentor
                   ? `${HOST}/${mentorAsignado.fotoPerfilMentor}`
@@ -174,7 +174,7 @@ function Mentores() {
                     style={{ maxWidth: "20rem" }}
                   >
                     <img
-                      class="rounded"
+                      className="rounded"
                       src={
                         mentorAsignado.fotoPerfilMentor
                           ? `${HOST}/${mentorAsignado.fotoPerfilMentor}`

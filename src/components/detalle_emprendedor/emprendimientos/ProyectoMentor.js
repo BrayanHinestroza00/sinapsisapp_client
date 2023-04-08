@@ -83,12 +83,12 @@ function ProyectoMentor({ idEmprendimiento }) {
   }, [preloadData, redesData]);
 
   if (loading || loadingComponent || redesLoading || !preloadData || !datos) {
-    console.log("ProyectoMentor", {
-      loading,
-      loadingComponent,
-      redesLoading,
-      inverted: { preloadData, datos },
-    });
+    // console.log("ProyectoMentor", {
+    //   loading,
+    //   loadingComponent,
+    //   redesLoading,
+    //   inverted: { preloadData, datos },
+    // });
 
     return <h1>LOADING...</h1>;
   }
@@ -102,7 +102,7 @@ function ProyectoMentor({ idEmprendimiento }) {
     );
   }
 
-  console.log(preloadData);
+  // console.log(preloadData);
 
   return (
     <Card>

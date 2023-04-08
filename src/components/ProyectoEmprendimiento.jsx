@@ -66,6 +66,8 @@ function ProyectoEmprendimiento({ datos, setDatos, redesData, editable }) {
     return <h1>LOADING...</h1>;
   }
 
+  // console.log("ProyectoEmprendimiento", { datos, redesData });
+
   return (
     <div>
       <form>
