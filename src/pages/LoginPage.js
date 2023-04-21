@@ -1,74 +1,79 @@
-import Axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import LoginForm from "src/components/login/LoginForm";
 import { SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO } from "src/utils/constants";
-import { HOST } from "src/utils/apiConstants";
+import { HTTP_METHOD_POST, URL_INICIAR_SESION } from "src/utils/apiConstants";
 import { insertIntoLocalStorage } from "src/utils/functions";
-import Swal from "sweetalert2";
+import { useFetch } from "src/services/hooks/useFetch";
+import { messageAlert } from "src/utils/alerts/MessageAlert";
 
 function LoginPage() {
   let navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
+  // Custom Hooks
+  const {
+    data: dataAPI,
+    message: messageAPI,
+    error: errorAPI,
+    fetchAPI,
+  } = useFetch();
 
   useEffect(() => {
     localStorage.clear();
   }, []);
 
   const onSubmit = (loginData) => {
-    Axios.post(`${HOST}/login`, loginData, {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers": "*",
-        "Access-Control-Allow-Credentials": "true",
+    setLoading(true);
+    fetchAPI({
+      URL: URL_INICIAR_SESION,
+      requestOptions: {
+        method: HTTP_METHOD_POST,
+        data: loginData,
       },
-    })
-      .then(({ data }) => {
-        if (data.code === 200) {
-          insertIntoLocalStorage(
-            SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO,
-            data.response
-          );
-
-          if (data.response.roles.length > 1) {
-            navigate("/Administrador");
-          } else {
-            switch (data.response.roles[0]) {
-              case 1:
-                navigate("/Administrador");
-                break;
-              case 2:
-                navigate("/Mentor");
-                break;
-              case 3:
-                navigate("/Emprendedor");
-                break;
-              default:
-                break;
-            }
-          }
-        } else {
-          Swal.fire({
-            title: data.message,
-            icon: "warning",
-            iconColor: "#9a66a8",
-            confirmButtonText: "Aceptar",
-            confirmButtonColor: "#9a66a8",
-            showConfirmButton: true,
-          });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        Swal.fire({
-          title: error,
-          icon: "error",
-          iconColor: "#9a66a8",
-          confirmButtonText: "Aceptar",
-          confirmButtonColor: "#9a66a8",
-          showConfirmButton: true,
-        });
-      });
+    });
   };
+
+  if (loading && errorAPI) {
+    messageAlert({
+      title: "Inicio de sesion fallido",
+      text: errorAPI,
+      icon: "error",
+      confirmButtonText: "Aceptar",
+    });
+    setLoading(false);
+  } else if (loading && messageAPI) {
+    if (messageAPI == "OK") {
+      insertIntoLocalStorage(SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO, dataAPI);
+
+      if (dataAPI.roles.length > 1) {
+        navigate("/Administrador");
+      } else {
+        switch (dataAPI.roles[0]) {
+          case 1:
+            navigate("/Administrador");
+            break;
+          case 2:
+            navigate("/Mentor");
+            break;
+          case 3:
+            navigate("/Emprendedor");
+            break;
+          default:
+            break;
+        }
+      }
+    } else {
+      messageAlert({
+        title: "Inicio de sesion fallido",
+        text: messageAPI,
+        icon: "warning",
+        confirmButtonText: "Aceptar",
+      });
+    }
+    setLoading(false);
+  }
 
   return <LoginForm onSubmit={onSubmit} />;
 }

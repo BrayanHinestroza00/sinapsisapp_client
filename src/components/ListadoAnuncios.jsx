@@ -4,19 +4,6 @@ import { useFetch } from "src/services/hooks/useFetch";
 import { HTTP_METHOD_GET, URL_OBTENER_ANUNCIOS } from "src/utils/apiConstants";
 import Anuncio from "./Anuncio";
 
-// const data = [
-//   {
-//     dAnuncio: 1,
-//     titulo: "Gran Vitrina Verde",
-//     descripcion:
-//       "La Gran Vitrina Verde, se llevará a cabo el 25 de noviembre en el Bulevar del Río Cali, evento de región que tendrá productos y servicios de 100 negocios verdes. 📣♻️",
-//     urlAnuncio:
-//       "/anuncios/315222325_3267776200103231_4392146787720809758_n.jpg",
-//     fechaCreacion: "2023-04-21 11:39:00",
-//   },
-// ];
-//const data = [];
-
 function ListadoAnuncios() {
   // Custom Hooks
   const { data, message, error, loading, fetchAPI } = useFetch();

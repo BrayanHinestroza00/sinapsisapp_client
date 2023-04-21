@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+
 import { Card } from "src/assets/styles/emprendedor/mentores.style";
 import {
   Input,
@@ -13,17 +14,18 @@ import {
 import {
   HTTP_METHOD_GET,
   URL_OBTENER_EMPRENDEDORES,
+  URL_OBTENER_TIPOS_CONTACTO,
 } from "src/utils/apiConstants";
 import showIcon from "src/assets/images/showIcon.png";
 import { useFetch } from "src/services/hooks/useFetch";
 import FlexyTable from "src/components/FlexyTable";
+import { validarListadoEmprendedoresAdmin } from "src/utils/validaciones";
 
 function EmprendedoresPage() {
   const navigate = useNavigate();
   const [error, setError] = useState({});
   const [datos, setDatos] = useState({});
   const [datosFiltro, setDatosFiltro] = useState({});
-  const [loading, setLoading] = useState(false);
 
   // Custom Hooks
   const {
@@ -32,6 +34,23 @@ function EmprendedoresPage() {
     error: emprendedoresError,
     fetchAPI: fetchApiEmprendedores,
   } = useFetch();
+
+  const {
+    data: tiposContactoData,
+    message: tiposContactoMessage,
+    error: tiposContactoError,
+    loading: tiposContactoLoading,
+    fetchAPI: fetchApiTiposContacto,
+  } = useFetch();
+
+  useEffect(() => {
+    fetchApiTiposContacto({
+      URL: URL_OBTENER_TIPOS_CONTACTO,
+      requestOptions: {
+        method: HTTP_METHOD_GET,
+      },
+    });
+  }, []);
 
   useEffect(() => {
     let newEmprendedores = [];
@@ -42,12 +61,12 @@ function EmprendedoresPage() {
           return {
             n: index + 1,
             "Numero Documento": emprendedorData.numeroDocumento,
-            "Nombre Emprendedor": `${emprendedorData.nombres} ${emprendedorData.apellidos}`,
-            "Nombre Emprendimiento": emprendedorData.nombreEmprendimiento,
-            "Estado Asesoramiento": emprendedorData.estadoAsesoramiento,
+            "Nombre Emprendedor": emprendedorData.nombreCompleto,
+            "Tipo Contacto": emprendedorData.tipoContacto,
             "Correo Contacto":
               emprendedorData.correoInstitucional ||
               emprendedorData.correoPersonal,
+            "Estado Ruta I&E": emprendedorData.estado,
           };
         });
       }
@@ -64,16 +83,21 @@ function EmprendedoresPage() {
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
-    fetchApiEmprendedores({
-      URL: URL_OBTENER_EMPRENDEDORES,
-      requestOptions: {
-        method: HTTP_METHOD_GET,
-        params: {
-          ...datosFiltro,
+    let erroresFormulario = validarListadoEmprendedoresAdmin(datosFiltro);
+    if (Object.keys(erroresFormulario).length) {
+      setError(erroresFormulario);
+    } else {
+      setError({});
+      fetchApiEmprendedores({
+        URL: URL_OBTENER_EMPRENDEDORES,
+        requestOptions: {
+          method: HTTP_METHOD_GET,
+          params: {
+            ...datosFiltro,
+          },
         },
-      },
-    }).then(() => setLoading(false));
+      });
+    }
   };
 
   const onHandleDetalleEmprendedor = (emprendedor) => {
@@ -87,82 +111,138 @@ function EmprendedoresPage() {
     });
   };
 
-  if (loading) {
-    return <h1>LOADING EmprendedoresPage</h1>;
-  }
-
-  if (emprendedoresMessage) {
-    return (
-      <>
-        <p>{emprendedoresMessage}</p>
-      </>
-    );
-  }
-
-  if (emprendedoresError) {
-    return (
-      <>
-        <h1>ERROR</h1>
-        <p>{emprendedoresError}</p>
-      </>
-    );
-  }
-
   return (
     <>
-      <Titulo>Emprendedores </Titulo>
+      <Titulo>Emprendedores Registrados</Titulo>
 
-      <Card style={{ padding: "0.5rem 2rem 1rem 2rem" }}>
-        <SubTitulo>Filtros</SubTitulo>
+      <>
+        {tiposContactoLoading ? (
+          <Ruta
+            style={{
+              padding: "0.5rem 2rem 1rem 2rem",
+              marginTop: "1rem",
+              marginLeft: "0rem",
+            }}
+          >
+            <p>Cargando...</p>
+          </Ruta>
+        ) : tiposContactoMessage || tiposContactoError ? (
+          <Ruta
+            style={{
+              padding: "0.5rem 2rem 1rem 2rem",
+              marginTop: "1rem",
+              marginLeft: "0rem",
+            }}
+          >
+            {tiposContactoError && <SubTitulo>{tiposContactoError}</SubTitulo>}
 
-        <form onSubmit={onHandleSubmit} className="row g-3">
-          {/* Numero de documento */}
-          <div className="col-md-6">
-            <Label htmlFor="numeroDocumento" className="form-label">
-              Número de documento
-            </Label>
-            <Input
-              type="text"
-              className="form-control inputDiag"
-              name="numeroDocumento"
-              id="numeroDocumento"
-              value={datos.numeroDocumento != null ? datos.numeroDocumento : ""}
-              onChange={(e) => onHandleChange(e)}
-            />
-            {error.numeroDocumento && (
-              <small className="form-text font-weight-bold text-danger">
-                {error.numeroDocumento}
-              </small>
+            {tiposContactoMessage && (
+              <SubTitulo>{tiposContactoMessage}</SubTitulo>
             )}
-          </div>
+          </Ruta>
+        ) : (
+          <Card style={{ padding: "0.5rem 2rem 1rem 2rem" }}>
+            <SubTitulo>Filtros</SubTitulo>
 
-          {/* Nombre(s) emprendedor */}
-          <div className="col-md-6">
-            <Label htmlFor="nombreEmprendedor" className="form-label">
-              Nombre(s) Apellido(s):
-            </Label>
-            <Input
-              type="text"
-              className="form-control inputDiag"
-              name="nombreEmprendedor"
-              id="nombreEmprendedor"
-              value={
-                datos.nombreEmprendedor != null ? datos.nombreEmprendedor : ""
-              }
-              onChange={(e) => onHandleChange(e)}
-            />
-            {error.nombreEmprendedor && (
-              <small className="form-text font-weight-bold text-danger">
-                {error.nombreEmprendedor}
-              </small>
-            )}
-          </div>
+            <form onSubmit={onHandleSubmit} className="row g-3">
+              {/* Numero de documento */}
+              <div className="col-md-6">
+                <Label htmlFor="numeroDocumento" className="form-label">
+                  Número de documento
+                </Label>
+                <Input
+                  type="text"
+                  className="form-control inputDiag"
+                  name="numeroDocumento"
+                  id="numeroDocumento"
+                  value={datosFiltro.numeroDocumento || ""}
+                  onChange={(e) => onHandleChange(e)}
+                />
+                {error.numeroDocumento && (
+                  <small className="form-text font-weight-bold text-danger">
+                    {error.numeroDocumento}
+                  </small>
+                )}
+              </div>
 
-          <div>
-            <button className="btn btn-primary">Consultar</button>
-          </div>
-        </form>
-      </Card>
+              {/* Nombre(s) emprendedor */}
+              <div className="col-md-6">
+                <Label htmlFor="nombreEmprendedor" className="form-label">
+                  Nombre(s) Apellido(s):
+                </Label>
+                <Input
+                  type="text"
+                  className="form-control inputDiag"
+                  name="nombreEmprendedor"
+                  id="nombreEmprendedor"
+                  value={datosFiltro.nombreEmprendedor || ""}
+                  onChange={(e) => onHandleChange(e)}
+                />
+                {error.nombreEmprendedor && (
+                  <small className="form-text font-weight-bold text-danger">
+                    {error.nombreEmprendedor}
+                  </small>
+                )}
+              </div>
+              {/* Estado en la Ruta de Innovacion & Emprendimiento */}
+              <div className="col-md-6">
+                <Label htmlFor="estadosRuta" className="form-label">
+                  Estado en la Ruta de Innovacion & Emprendimiento
+                </Label>
+                <select
+                  id="estadosRuta"
+                  className="form-select"
+                  name="estadosRuta"
+                  value={datosFiltro.estadosRuta || "-1"}
+                  onChange={(e) => onHandleChange(e)}
+                >
+                  <option value={"-1"}>TODAS...</option>
+                  <option value={"ACTIVO"}>ACTIVO</option>
+                  <option value={"INACTIVO"}>INACTIVO</option>
+                </select>
+                {error.estadosRuta && (
+                  <small className="form-text font-weight-bold text-danger">
+                    {error.estadosRuta}
+                  </small>
+                )}
+              </div>
+
+              {/* Tipo contacto */}
+              <div className="col-md-6">
+                <Label htmlFor="tiposContacto" className="form-label">
+                  Tipo de Contacto del Emprendedor:
+                </Label>
+                <select
+                  id="tiposContacto"
+                  className="form-select"
+                  name="tiposContacto"
+                  value={datosFiltro.tiposContacto || "-1"}
+                  onChange={(e) => onHandleChange(e)}
+                >
+                  <option value={"-1"}>TODAS...</option>
+                  {tiposContactoData &&
+                    tiposContactoData.length > 0 &&
+                    tiposContactoData.map((tipoContacto, index) => {
+                      return (
+                        <option key={index} value={tipoContacto.id}>
+                          {tipoContacto.nombre}
+                        </option>
+                      );
+                    })}
+                </select>
+                {error.tiposContacto && (
+                  <small className="form-text font-weight-bold text-danger">
+                    {error.tiposContacto}
+                  </small>
+                )}
+              </div>
+              <div>
+                <button className="btn btn-primary">Consultar</button>
+              </div>
+            </form>
+          </Card>
+        )}
+      </>
 
       {emprendedoresData && (
         <Ruta

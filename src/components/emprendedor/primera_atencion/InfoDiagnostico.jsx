@@ -106,6 +106,7 @@ function InfoDiagnostico(props) {
           <Boton
             type="button"
             className="btn btn-outline-primary"
+            style={{ height: "auto" }}
             onClick={() => {
               props.prevStep();
             }}
@@ -116,6 +117,7 @@ function InfoDiagnostico(props) {
           <BotonSiguiente
             type="button"
             className="btn btn-primary"
+            style={{ height: "auto" }}
             onClick={(e) => {
               handleSubmit(e);
             }}

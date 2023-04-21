@@ -1,124 +1,103 @@
 import React, { useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Button, Form, Modal } from "react-bootstrap";
 import swal from "sweetalert2";
 
-import { HOST, URL_STATIC_UPLOAD_IMAGES } from "src/utils/apiConstants";
+import {
+  HOST,
+  HTTP_METHOD_POST,
+  URL_CALIFICAR_TAREA_EMPRENDEDOR,
+  URL_STATIC_UPLOAD_IMAGES,
+} from "src/utils/apiConstants";
+import { confirmAlertWithText } from "src/utils/alerts/ConfirmAlert";
+import {
+  messageAlert,
+  messageAlertWithoutText,
+} from "src/utils/alerts/MessageAlert";
+import { useFetch } from "src/services/hooks/useFetch";
+import { validarCalificacionTarea } from "src/utils/validaciones";
 
-function RevisarTarea(props) {
-  const [datos, setDatos] = useState({});
+function RevisarTarea({ show, data, onHide }) {
   const [datosTarea, setDatosTarea] = useState({});
   const [error, setError] = useState({});
+  const [loading, setLoading] = useState(false);
 
-  // const [loading, data, errorAPI] = useAPI_GET(`${HOST}/Tarea`, {
-  //   headers: {
-  //     Authorization:
-  //       localStorage.getItem("token") || sessionStorage.getItem("token"),
-  //   },
-  //   params: {
-  //     idTarea,
-  //   },
-  // });
+  // Custom Hooks
+  const { message: messageAPI, error: errorAPI, fetchAPI } = useFetch();
 
-  // useEffect(() => {
-  //   if (data) {
-  //     const { ArchivoEmprendedor, ...datos } = data[0];
-  //     const buffer = Buffer.from(ArchivoEmprendedor).toString();
-  //     setDatos({ ArchivoEmprendedor: buffer, ...datos });
-  //   }
-  // }, [data]);
-
-  const handleChange = (e) => {
+  const onHandleChange = (e) => {
     setDatosTarea({
       ...datosTarea,
       [e.target.name]: e.target.value,
     });
   };
 
-  const validaciones = (valores) => {
-    const errors = {};
-    const { ComentarioMentor, Calificacion } = valores;
-
-    if (!ComentarioMentor) {
-      errors.ComentarioMentor = "Campo Obligatorio";
-    }
-    if (!Calificacion) {
-      errors.Calificacion = "Campo Obligatorio";
-    }
-
-    return errors;
-  };
-
-  const handleSubmit = (e) => {
-    let erroresFormulario = validaciones(datosTarea);
+  const onHandleSubmit = (e) => {
+    let erroresFormulario = validarCalificacionTarea(datosTarea);
     if (Object.keys(erroresFormulario).length) {
       setError(erroresFormulario);
     } else {
       setError({});
-      enviarDatos(datosTarea);
+      confirmAlertWithText({
+        title: "¿Estás seguro que deseas calificar la tarea?",
+        text: "Esta acción no se puede deshacer",
+        confirmButtonText: "Calificar Tarea",
+        cancelButtonText: "Cancelar",
+        onConfirm: () => submitForm(),
+      });
     }
   };
 
-  const enviarDatos = (data) => {
-    // Axios.put(
-    //   `${HOST}/Mentor/Tarea`,
-    //   { idTarea, ...data },
-    //   {
-    //     headers: {
-    //       Authorization:
-    //         localStorage.getItem("token") || sessionStorage.getItem("token"),
-    //     },
-    //   }
-    // )
-    //   .then((res) => {
-    //     if (res.data.affectedRows > 0) {
-    //       swal
-    //         .fire({
-    //           title: "Tarea calificada correctamente",
-    //           text: "Se ha calificado correctamente la tarea",
-    //           icon: "success",
-    //           iconColor: "#9a66a8",
-    //           confirmButtonText: "Aceptar",
-    //           confirmButtonColor: "#9a66a8",
-    //           showConfirmButton: true,
-    //         })
-    //         .then(() => (window.location.href = window.location.pathname));
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     swal.fire({
-    //       title: "Calificacion de tarea fallida",
-    //       text: err.response.data.message,
-    //       icon: "error",
-    //       iconColor: "#9a66a8",
-    //       confirmButtonText: "Aceptar",
-    //       confirmButtonColor: "#9a66a8",
-    //       showConfirmButton: true,
-    //     });
-    //   });
+  const submitForm = () => {
+    setLoading(true);
+    fetchAPI({
+      URL: URL_CALIFICAR_TAREA_EMPRENDEDOR,
+      requestOptions: {
+        method: HTTP_METHOD_POST,
+        data: {
+          ...datosTarea,
+          idTarea: data.idTarea,
+        },
+      },
+    });
   };
 
-  // if (loading) {
-  //   return <div>Cargando</div>;
-  // }
+  if (loading && errorAPI) {
+    messageAlert({
+      title: "Algo ha fallado",
+      text: errorAPI,
+      icon: "error",
+      confirmButtonText: "Aceptar",
+    });
 
-  // if (errorAPI) {
-  //   swal.fire({
-  //     title: errorAPI.response.data.message,
-  //     icon: "warning",
-  //     confirmButtonText: "Aceptar",
-  //     confirmButtonColor: "#9a66a8",
-  //     showConfirmButton: true,
-  //     showCloseButton: true,
-  //   });
-  // }
+    setLoading(false);
+  } else if (loading && messageAPI) {
+    if (messageAPI == "OK") {
+      messageAlertWithoutText({
+        title: "Tarea Calificada Exitosamente",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        onConfirm: () => {
+          onHide();
+          window.location.reload();
+        },
+      });
+      setDatosTarea({});
+    } else {
+      messageAlertWithoutText({
+        title: messageAPI,
+        icon: "warning",
+        confirmButtonText: "Aceptar",
+      });
+    }
+    setLoading(false);
+  }
 
   return (
     <Modal
-      {...props}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
-      show={props.show}
+      show={show}
       backdrop="static"
     >
       <Modal.Header
@@ -130,16 +109,16 @@ function RevisarTarea(props) {
         closeButton
       >
         <Modal.Title id="contained-modal-title-vcenter">
-          <h1 style={{ color: "#FFF" }}>{props.data.titulo}</h1>
+          <h1 style={{ color: "#FFF" }}>{data.titulo}</h1>
         </Modal.Title>
       </Modal.Header>
 
       <Modal.Body style={{ backgroundColor: "#fbf6fc" }}>
         <div>
           <h4 className="text-center">Descripcion de la tarea</h4>
-          <p>{props.data.descripcionTarea}</p>
+          <p>{data.descripcionTarea}</p>
         </div>
-        {props.data.urlArchivosEntrega && (
+        {data.urlArchivosEntrega && (
           <>
             <hr />
             <div className="text-center">
@@ -151,7 +130,7 @@ function RevisarTarea(props) {
               <a
                 rel="noreferrer"
                 className="text-center"
-                href={`${HOST}/${props.data.urlArchivosEntrega}`}
+                href={`${HOST}/${data.urlArchivosEntrega}`}
                 target="_blank"
               >
                 <img
@@ -166,7 +145,7 @@ function RevisarTarea(props) {
                 <a
                   rel="noreferrer"
                   className="text-center"
-                  href={`${HOST}/${props.data.urlArchivosEntrega}`}
+                  href={`${HOST}/${data.urlArchivosEntrega}`}
                   target="_blank"
                 >
                   Aqui
@@ -186,17 +165,17 @@ function RevisarTarea(props) {
               <tbody>
                 <tr>
                   <td>Estado de la Entrega</td>
-                  <td>{props.data.estadoEntrega}</td>
+                  <td>{data.estadoEntrega}</td>
                 </tr>
                 <tr>
                   <td>Estado de la Calificación</td>
-                  <td>{props.data.calificacion || "SIN CALIFICAR"}</td>
+                  <td>{data.calificacion || "SIN CALIFICAR"}</td>
                 </tr>
                 <tr>
                   <td>Fecha de Entrega</td>
-                  <td>{props.data.fechaEntrega || "SIN ENTREGAR"}</td>
+                  <td>{data.fechaEntrega || "SIN ENTREGAR"}</td>
                 </tr>
-                {!props.data.urlArchivosEntrega && (
+                {!data.urlArchivosEntrega && (
                   <tr>
                     <td>Archivos Enviados</td>
                     <td>SIN ARCHIVOS ENVIADOS</td>
@@ -206,8 +185,7 @@ function RevisarTarea(props) {
                 <tr>
                   <td>Comentarios del Emprendedor</td>
                   <td>
-                    {props.data.comentariosEntregaEmprendedor ||
-                      "SIN COMENTARIOS"}
+                    {data.comentariosEntregaEmprendedor || "SIN COMENTARIOS"}
                   </td>
                 </tr>
               </tbody>
@@ -217,51 +195,51 @@ function RevisarTarea(props) {
         <hr />
         <div>
           <h4 className="text-center">Retroalimentación</h4>
-          <form>
-            <div className="mb-3">
-              <label className="form-label">Calificación</label>
-              <select
-                name="Calificacion"
-                className="form-select form-control"
+          <Form>
+            <Form.Group className="mb-3">
+              <Form.Label>Calificación de la Entrega</Form.Label>
+              <Form.Select
+                name="calificacionEntrega"
                 type="text"
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => onHandleChange(e)}
               >
                 <option disabled selected>
-                  Calificacion de tarea
+                  Calificación de tarea
                 </option>
-                <option value="Aprobada">Aprobada</option>
-                <option value="Reprobada">Reprobada</option>
-              </select>
-              {error.Calificacion && (
+                <option value="A">Aprobada</option>
+                <option value="R">Reprobada</option>
+              </Form.Select>
+              {error.calificacionEntrega && (
                 <small className="form-text font-weight-bold text-danger">
-                  {error.Calificacion}
+                  {error.calificacionEntrega}
                 </small>
               )}
-            </div>
+            </Form.Group>
 
-            <div className="mb-3">
-              <label className="form-label">Comentario</label>
+            <Form.Group className="mb-3">
+              <Form.Label>Comentarios de la Entrega</Form.Label>
               <br />
-              <textarea
-                name="ComentarioMentor"
-                className="form-control"
-                onChange={(e) => handleChange(e)}
+              <Form.Control
+                as="textarea"
+                cols={3}
+                name="comentariosEntrega"
+                onChange={(e) => onHandleChange(e)}
               />
-              {error.ComentarioMentor && (
+              {error.comentariosEntrega && (
                 <small className="form-text font-weight-bold text-danger">
-                  {error.ComentarioMentor}
+                  {error.comentariosEntrega}
                 </small>
               )}
-            </div>
-          </form>
+            </Form.Group>
+          </Form>
         </div>
       </Modal.Body>
 
-      <Modal.Footer className="modalFooter_revisarTarea">
-        <button className="btn btn-primary" onClick={(e) => handleSubmit(e)}>
+      <Modal.Footer>
+        <Button className="btn btn-primary" onClick={(e) => onHandleSubmit(e)}>
           Calificar
-        </button>
-        <button className="btn btn-outline-primary" onClick={props.onHide}>
+        </Button>
+        <button className="btn btn-outline-primary" onClick={onHide}>
           Cancelar
         </button>
       </Modal.Footer>

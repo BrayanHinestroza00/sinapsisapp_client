@@ -12,69 +12,14 @@ import {
   TituloStepByStep,
 } from "src/assets/styles/emprendedor/primeraAtencion.style";
 import { getCurrentDate } from "src/utils/functions";
+import { validacionesPrimeraAtencionPA } from "src/utils/validaciones";
 
 function InfoPrimeraAtencion(props) {
   const [error, setError] = useState({});
 
-  const validaciones = (valores) => {
-    const errors = {};
-    const { celular, ciudad, direccion, genero, vinculoConU, fechaNacimiento } =
-      valores;
-
-    if (!fechaNacimiento) {
-      errors.fechaNacimiento = "Campo Obligatorio";
-    }
-    if (!ciudad) {
-      errors.ciudad = "Campo Obligatorio";
-    }
-    if (!direccion) {
-      errors.direccion = "Campo Obligatorio";
-    }
-    if (!celular) {
-      errors.celular = "Campo Obligatorio";
-    } else {
-      const RegExp = /^\D*\d{1,10}$/;
-      if (!RegExp.test(celular)) {
-        errors.celular = "Solo se permiten números y máximo 10 dígitos";
-      }
-    }
-    if (!genero) {
-      errors.genero = "Campo Obligatorio";
-    }
-    if (!vinculoConU) {
-      errors.vinculoConU = "Campo Obligatorio";
-    } else {
-      switch (vinculoConU) {
-        case "Estudiante":
-          const { codigoEstudiantil, tipoEstudiante, programaAcademico } =
-            valores;
-          if (!codigoEstudiantil) {
-            errors.codigoEstudiantil = "Campo Obligatorio";
-          }
-          if (!tipoEstudiante) {
-            errors.tipoEstudiante = "Campo Obligatorio";
-          }
-          if (!programaAcademico) {
-            errors.programaAcademico = "Campo Obligatorio";
-          }
-
-          break;
-        case "Egresado":
-          const { profesionEgresado } = valores;
-          if (!profesionEgresado) {
-            errors.profesionEgresado = "Campo Obligatorio";
-          }
-          break;
-        default:
-          break;
-      }
-    }
-    return errors;
-  };
-
-  const handleSubmit = (e) => {
+  const onHandleSubmit = (e) => {
     e.preventDefault();
-    let erroresFormulario = validaciones(props.datos);
+    let erroresFormulario = validacionesPrimeraAtencionPA(props.datos);
     if (Object.keys(erroresFormulario).length) {
       setError(erroresFormulario);
     } else {
@@ -99,6 +44,7 @@ function InfoPrimeraAtencion(props) {
         <div className="col-md-6 mb-3">
           <Label htmlFor="nombreProducto" className="form-label">
             Producto o Servicio
+            <span> (*)</span>
           </Label>
           <Input
             type="text"
@@ -108,6 +54,11 @@ function InfoPrimeraAtencion(props) {
             value={props.datos.nombreProducto || ""}
             onChange={(e) => props.handleChange(e)}
           />
+          {error.nombreProducto && (
+            <small className="form-text font-weight-bold text-danger">
+              {error.nombreProducto}
+            </small>
+          )}
         </div>
 
         <div className="col-md-6 mb-3">
@@ -122,6 +73,11 @@ function InfoPrimeraAtencion(props) {
             value={props.datos.promedioVentas || ""}
             onChange={(e) => props.handleChange(e)}
           />
+          {error.promedioVentas && (
+            <small className="form-text font-weight-bold text-danger">
+              {error.promedioVentas}
+            </small>
+          )}
         </div>
 
         <div className="col-md-6 mb-3">
@@ -136,6 +92,11 @@ function InfoPrimeraAtencion(props) {
             value={props.datos.evidenciaProducto || ""}
             onChange={(e) => props.handleChange(e)}
           />
+          {error.evidenciaProducto && (
+            <small className="form-text font-weight-bold text-danger">
+              {error.evidenciaProducto}
+            </small>
+          )}
         </div>
 
         <div className="col-md-6 mb-3">
@@ -150,11 +111,17 @@ function InfoPrimeraAtencion(props) {
             value={props.datos.obtencionMateriasPrimas || ""}
             onChange={(e) => props.handleChange(e)}
           />
+          {error.obtencionMateriasPrimas && (
+            <small className="form-text font-weight-bold text-danger">
+              {error.obtencionMateriasPrimas}
+            </small>
+          )}
         </div>
 
         <div className="col-md-6 mb-3">
           <Label htmlFor="equipoTrabajo" className="form-label">
             ¿Tiene equipo de trabajo?
+            <span> (*)</span>
           </Label>
           <select
             className="form-select"
@@ -166,15 +133,21 @@ function InfoPrimeraAtencion(props) {
             <option value={"-1"} disabled>
               Seleccione...
             </option>
-            <option value="SI">SI</option>
-            <option value="NO">NO</option>
+            <option value="S">SI</option>
+            <option value="N">NO</option>
           </select>
+          {error.equipoTrabajo && (
+            <small className="form-text font-weight-bold text-danger">
+              {error.equipoTrabajo}
+            </small>
+          )}
         </div>
 
-        {props.datos.equipoTrabajo == "SI" ? (
+        {props.datos.equipoTrabajo == "S" ? (
           <div className="col-md-6 mb-3">
             <Label htmlFor="cualEquipoTrabajo" className="form-label">
               ¿Cual es su equipo de trabajo?
+              <span> (*)</span>
             </Label>
             <Input
               type="text"
@@ -184,6 +157,11 @@ function InfoPrimeraAtencion(props) {
               value={props.datos.cualEquipoTrabajo || ""}
               onChange={(e) => props.handleChange(e)}
             />
+            {error.cualEquipoTrabajo && (
+              <small className="form-text font-weight-bold text-danger">
+                {error.cualEquipoTrabajo}
+              </small>
+            )}
           </div>
         ) : (
           <div className="col-md-6 mb-3"></div>
@@ -192,6 +170,7 @@ function InfoPrimeraAtencion(props) {
         <div className="col-md-6">
           <Label htmlFor="dedicacion" className="form-label">
             ¿A qué se dedica?
+            <span> (*)</span>
           </Label>
           <Input
             type="text"
@@ -221,11 +200,17 @@ function InfoPrimeraAtencion(props) {
             value={props.datos.desdeFechaEjecucion || undefined}
             onChange={(e) => props.handleChange(e)}
           />
+          {error.desdeFechaEjecucion && (
+            <small className="form-text font-weight-bold text-danger">
+              {error.desdeFechaEjecucion}
+            </small>
+          )}
         </div>
 
         <div className="col-md-6 mb-3">
           <Label htmlFor="horasSemanales" className="form-label">
             Número de horas dedicas a la semana
+            <span> (*)</span>
           </Label>
           <Input
             type="text"
@@ -235,11 +220,17 @@ function InfoPrimeraAtencion(props) {
             value={props.datos.horasSemanales || ""}
             onChange={(e) => props.handleChange(e)}
           />
+          {error.horasSemanales && (
+            <small className="form-text font-weight-bold text-danger">
+              {error.horasSemanales}
+            </small>
+          )}
         </div>
 
         <div className="col-md-6 mb-3">
           <Label htmlFor="motivacion" className="form-label">
             ¿Cuál es su motivación?
+            <span> (*)</span>
           </Label>
           <Input
             type="text"
@@ -249,14 +240,20 @@ function InfoPrimeraAtencion(props) {
             value={props.datos.motivacion || ""}
             onChange={(e) => props.handleChange(e)}
           />
+          {error.motivacion && (
+            <small className="form-text font-weight-bold text-danger">
+              {error.motivacion}
+            </small>
+          )}
         </div>
 
         <div className="col-md-6 mb-3">
           <Label htmlFor="descubrioSinapsis" className="form-label">
             ¿Cómo se enteró de los servicios de SINAPSIS UAO?
+            <span> (*)</span>
           </Label>
           <SelectMultiple
-            className="form-select"
+            // className="form-select"
             id="descubrioSinapsis"
             name="descubrioSinapsis"
             value={props.datos.descubrioSinapsis}
@@ -269,6 +266,11 @@ function InfoPrimeraAtencion(props) {
             ]}
             isMulti
           />
+          {error.descubrioSinapsis && (
+            <small className="form-text font-weight-bold text-danger">
+              {error.descubrioSinapsis}
+            </small>
+          )}
         </div>
 
         {props.datos.descubrioSinapsis &&
@@ -291,6 +293,11 @@ function InfoPrimeraAtencion(props) {
                     value={props.datos.cualOtroDescubrioSinapsis || ""}
                     onChange={(e) => props.handleChange(e)}
                   />
+                  {error.cualOtroDescubrioSinapsis && (
+                    <small className="form-text font-weight-bold text-danger">
+                      {error.cualOtroDescubrioSinapsis}
+                    </small>
+                  )}
                 </div>
               );
             }
@@ -299,15 +306,15 @@ function InfoPrimeraAtencion(props) {
           <BotonSiguiente
             type="button"
             className="btn btn-primary"
-            onClick={(e) => {
-              props.nextStep();
-            }}
+            style={{ height: "auto" }}
+            onClick={onHandleSubmit}
           >
             Siguiente
           </BotonSiguiente>
           <Boton
             type="button"
             className="btn btn-outline-primary"
+            style={{ height: "auto" }}
             onClick={() => {
               props.prevStep();
             }}

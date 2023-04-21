@@ -11,8 +11,11 @@ import ProyectoMentor from "../detalle_emprendedor/emprendimientos/ProyectoMento
 import EmprendedorAdmin from "./detalle_primera_atencion/EmprendedorAdmin";
 import PrimeraAtencionAdmin from "./detalle_primera_atencion/PrimeraAtencionAdmin";
 import ProyectosEmprendedor from "./detalle_emprendedor/ProyectosEmprendedor";
+import { AdministradorContext } from "src/services/context/AdministradorContext";
+import HistorialTareas from "./tareas/HistorialTareas";
 
 function TabAdministrador() {
+  const { userData } = useContext(AdministradorContext);
   const { state } = useLocation();
   const [key, setKey] = useState();
   // const [key, setKey] = useLocalStorage("key_for_tab", "ruta");
@@ -50,6 +53,7 @@ function TabAdministrador() {
         <Tab eventKey="ruta" title="Ruta">
           <RutaMentor
             idProyectoEmprendimiento={state.proyectoEmprendimientoId}
+            userData={userData}
           />
         </Tab>
 
@@ -69,6 +73,12 @@ function TabAdministrador() {
 
         <Tab eventKey="tareas" title="Tareas">
           <Tareas idProyectoEmprendimiento={state.proyectoEmprendimientoId} />
+        </Tab>
+
+        <Tab eventKey="historial_tareas" title="Historial Tareas">
+          <HistorialTareas
+            idProyectoEmprendimiento={state.proyectoEmprendimientoId}
+          />
         </Tab>
       </Tabs>
     );

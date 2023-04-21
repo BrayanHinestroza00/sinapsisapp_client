@@ -168,7 +168,7 @@ function ConsultoriaEspecializada() {
                 </div>
                 <img
                   src={logoSinapsis}
-                  alt="Logo Sinapsis"
+                  alt="Logo SINAPSIS UAO"
                   style={{ width: "30%" }}
                 />
               </div>

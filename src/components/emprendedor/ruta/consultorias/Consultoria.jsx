@@ -96,7 +96,7 @@ function Consultoria() {
   if (consultoriasMessage) {
     return (
       <>
-        <Titulo>Estado de la ruta de I&E de SINAPSIS UAO</Titulo>
+        <Titulo>Consultorías</Titulo>
 
         <CardRuta>
           <Ruta>
@@ -119,7 +119,7 @@ function Consultoria() {
   return (
     <>
       <Titulo>
-        Consultorías{" "}
+        Consultorías
         <Auxiliar>
           <Link to={"/Emprendedor/Ruta/Consultoria/Historial"}>
             Ver historial
@@ -162,7 +162,7 @@ function Consultoria() {
                 </div>
                 <img
                   src={logoSinapsis}
-                  alt="Logo Sinapsis"
+                  alt="Logo SINAPSIS UAO"
                   style={{ width: "30%" }}
                 />
               </div>

@@ -16,66 +16,83 @@ import ProyectoEmprendimientosPage from "src/pages/administrador/ProyectoEmprend
 import DetalleEmprendedorPage from "src/pages/administrador/DetalleEmprendedorPage";
 import PageNotFound from "src/pages/PageNotFound";
 import { AdminEmprendedorContextProvider } from "src/services/context/AdminEmprendedorContext";
+import { AdministradorContextProvider } from "src/services/context/AdministradorContext";
+import DetalleMentorPage from "src/pages/administrador/DetalleMentorPage";
 
 function AdministradorRoutes() {
   return (
-    <AdministradorLayout sidebar={true}>
-      <AdminEmprendedorContextProvider>
-        <Routes>
-          <Route exact path="/" element={<HomePage />} />
-          <Route exact path="/Editar_Cuenta" element={<EditarCuentaPage />} />
-          <Route
-            exact
-            path="/Emprendimientos"
-            element={<ProyectoEmprendimientosPage />}
-          />
-          <Route
-            exact
-            path="/Emprendimientos/:idEmprendimiento"
-            element={<DetalleProyectoEmprendimientoPage />}
-          />
-          <Route exact path="/Solicitudes" element={<PrimeraAtencionPage />} />
-          <Route
-            exact
-            path="/Solicitudes/:idSolicitud"
-            element={<DetalleSolicitudPage />}
-          />
-          <Route exact path="/Emprendedores" element={<EmprendedoresPage />} />
-          <Route
-            exact
-            path="/Emprendedores/:idEmprendedor"
-            element={<DetalleEmprendedorPage />}
-          />
-          <Route exact path="/Mentores" element={<MentoresPage />} />
-          <Route
-            exact
-            path="/Reportes/Formacion"
-            element={<IndicadoresFormacionPage />}
-          />
-          <Route
-            exact
-            path="/Reportes/Gestion"
-            element={<IndicadoresGestionPage />}
-          />
-          <Route
-            exact
-            path="/Gestion/Emprendedores"
-            element={<GestionEmprendedoresPage />}
-          />
-          <Route
-            exact
-            path="/Gestion/Mentores"
-            element={<GestionMentoresPage />}
-          />
-          <Route
-            exact
-            path="/Gestion/Anuncios"
-            element={<GestionAnunciosPage />}
-          />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </AdminEmprendedorContextProvider>
-    </AdministradorLayout>
+    <AdministradorContextProvider>
+      <AdministradorLayout sidebar={true}>
+        <AdminEmprendedorContextProvider>
+          <Routes>
+            <Route exact path="/" element={<HomePage />} />
+            <Route exact path="/Editar_Cuenta" element={<EditarCuentaPage />} />
+            <Route
+              exact
+              path="/Emprendimientos"
+              element={<ProyectoEmprendimientosPage />}
+            />
+            <Route
+              exact
+              path="/Emprendimientos/:idEmprendimiento"
+              element={<DetalleProyectoEmprendimientoPage />}
+            />
+            <Route
+              exact
+              path="/Solicitudes"
+              element={<PrimeraAtencionPage />}
+            />
+            <Route
+              exact
+              path="/Solicitudes/:idSolicitud"
+              element={<DetalleSolicitudPage />}
+            />
+            <Route
+              exact
+              path="/Emprendedores"
+              element={<EmprendedoresPage />}
+            />
+            <Route
+              exact
+              path="/Emprendedores/:idEmprendedor"
+              element={<DetalleEmprendedorPage />}
+            />
+            <Route exact path="/Mentores" element={<MentoresPage />} />
+            <Route
+              exact
+              path="/Mentores/:idMentor"
+              element={<DetalleMentorPage />}
+            />
+            <Route
+              exact
+              path="/Reportes/Formacion"
+              element={<IndicadoresFormacionPage />}
+            />
+            <Route
+              exact
+              path="/Reportes/Gestion"
+              element={<IndicadoresGestionPage />}
+            />
+            <Route
+              exact
+              path="/Gestion/Emprendedores"
+              element={<GestionEmprendedoresPage />}
+            />
+            <Route
+              exact
+              path="/Gestion/Mentores"
+              element={<GestionMentoresPage />}
+            />
+            <Route
+              exact
+              path="/Gestion/Anuncios"
+              element={<GestionAnunciosPage />}
+            />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </AdminEmprendedorContextProvider>
+      </AdministradorLayout>
+    </AdministradorContextProvider>
   );
 }
 

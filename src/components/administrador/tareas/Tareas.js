@@ -11,7 +11,7 @@ import { SINAPSIS_APP_FORMATO_FECHA_HORA } from "src/utils/constants";
 import { HOST } from "src/utils/apiConstants";
 import { useAPI_GET } from "src/services/hooks/useAPI";
 import { Boton } from "src/assets/styles/emprendedor/primeraAtencion.style";
-import { Card } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { useFetch } from "src/services/hooks/useFetch";
 import {
   HTTP_METHOD_GET,
@@ -20,21 +20,19 @@ import {
 import {
   CardRuta,
   Ruta,
+  SubTitulo,
 } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
 import DetalleTareaAdmin from "./DetalleTareaAdmin";
 
 // import "../../../styles/TareasMentor.css";
 
-function Tareas({ cedula, nombre, idProyectoEmprendimiento }) {
-  const [crearTarea, setCrearTarea] = useState(false);
-  const [revisarTarea, setRevisarTarea] = useState(false);
-  const [idTarea, setIdTarea] = useState(null);
-
+function Tareas({ idProyectoEmprendimiento }) {
   const [loadingComponent, setLoadingComponent] = useState(true);
   const [pendientes, setPendientes] = useState([]);
   const [entregadas, setEntregadas] = useState([]);
   const [showPendientes, setShowPendientes] = useState({ show: false });
   const [showEntregadas, setShowEntregadas] = useState({ show: false });
+  const [showCrearTarea, setShowCrearTarea] = useState(false);
 
   // Custom Hooks
   const {
@@ -80,11 +78,12 @@ function Tareas({ cedula, nombre, idProyectoEmprendimiento }) {
   }, []);
 
   useEffect(() => {
-    if (pendientesData && entregadasData) {
+    if (pendientesData || entregadasData) {
+      console.log("first");
       let newEntregadas = [];
       let newPendientes = [];
 
-      if (entregadasData.length > 0) {
+      if (entregadasData && entregadasData.length > 0) {
         newEntregadas = entregadasData.map((entregadaData, index) => {
           return {
             n: index + 1,
@@ -100,7 +99,8 @@ function Tareas({ cedula, nombre, idProyectoEmprendimiento }) {
         });
       }
 
-      if (pendientesData.length > 0) {
+      if (pendientesData && pendientesData.length > 0) {
+        console.log("first");
         newPendientes = pendientesData.map((pendienteData, index) => {
           return {
             n: index + 1,
@@ -137,36 +137,6 @@ function Tareas({ cedula, nombre, idProyectoEmprendimiento }) {
     });
   };
 
-  // const [loadingEntregadas, data, errorEntregadas] = useAPI_GET(
-  //   `/Mentor/Tareas/Entregadas`,
-  //   {
-  //     headers: {
-  //       Authorization:
-  //         localStorage.getItem("token") || sessionStorage.getItem("token"),
-  //     },
-  //     params: {
-  //       cedulaEmprendedor: cedula,
-  //     },
-  //   }
-  // );
-
-  // const [loadingPendientes, dataPendiente, errorPendientes] = useAPI_GET(
-  //   `/Mentor/Tareas/Pendientes`,
-  //   {
-  //     headers: {
-  //       Authorization:
-  //         localStorage.getItem("token") || sessionStorage.getItem("token"),
-  //     },
-  //     params: {
-  //       cedulaEmprendedor: cedula,
-  //     },
-  //   }
-  // );
-
-  function RevisarT({ idTarea }) {
-    setIdTarea(idTarea);
-    mostrarRevisarT();
-  }
   function EliminarT({ idTarea }) {
     swal
       .fire({
@@ -207,54 +177,32 @@ function Tareas({ cedula, nombre, idProyectoEmprendimiento }) {
         }
       });
   }
-  /**Funciones que muestras u ocultan los modal */
-  function ocultarModal() {
-    setCrearTarea(false);
-    setRevisarTarea(false);
-  }
-  function mostrarCrearT() {
-    setCrearTarea(true);
-  }
-  function mostrarRevisarT() {
-    setRevisarTarea(true);
-  }
+
   /*---------------------------------------------------------------*/
-
-  // if (loadingEntregadas || loadingPendientes) {
-  //   return <div>Cargando</div>;
-  // }
-
-  // if (errorEntregadas || errorPendientes) {
-  //   swal.fire({
-  //     title:
-  //       errorEntregadas.response.data.message ||
-  //       errorPendientes.response.data.message,
-  //     icon: "warning",
-  //     confirmButtonText: "Aceptar",
-  //     confirmButtonColor: "#9a66a8",
-  //     showConfirmButton: true,
-  //     showCloseButton: true,
-  //   });
-  // }
 
   if (
     pendientesLoading ||
     loadingComponent ||
-    entregadasLoading ||
-    !pendientesData
+    entregadasLoading
+    // || !pendientesData
   ) {
-    return <h1>LOADING EstadoRutaEmprendedor</h1>;
+    return <h1>LOADING Tareas</h1>;
   }
 
-  if (pendientesMessage || entregadasMessage) {
+  if (
+    (pendientesMessage && pendientesMessage != "Sin datos") ||
+    (entregadasMessage && entregadasMessage != "Sin datos")
+  ) {
     return (
-      <>
-        <CardRuta>
-          <Ruta>
-            <p>{pendientesMessage || entregadasMessage}</p>
-          </Ruta>
-        </CardRuta>
-      </>
+      <Ruta
+        style={{
+          padding: "0rem 2rem 1rem 2rem",
+          marginTop: "0rem",
+          marginLeft: "0rem",
+        }}
+      >
+        <p>{pendientesMessage || entregadasMessage}</p>
+      </Ruta>
     );
   }
 
@@ -267,15 +215,22 @@ function Tareas({ cedula, nombre, idProyectoEmprendimiento }) {
     );
   }
 
-  return (
-    <Card className="contenedor_tareas_mentor">
-      <Boton className="btn btn-primary" onClick={mostrarCrearT}>
-        Crear tarea
-      </Boton>
+  console.log({ pendientes: { pendientes, pendientesData } });
 
-      {entregadas.length > 0 && (
-        <CardRuta>
-          <Ruta>
+  return (
+    <Card>
+      <SubTitulo>Tareas del Emprendedor</SubTitulo>
+
+      <Button
+        className="btn btn-primary mx-4 my-3 w-25"
+        onClick={() => setShowCrearTarea(!showCrearTarea)}
+      >
+        Crear tarea
+      </Button>
+
+      <CardRuta style={{ marginTop: "1rem", marginBottom: "0rem" }}>
+        <Ruta>
+          {entregadas.length > 0 ? (
             <FlexyTable
               datos={entregadas}
               titulo={"Tareas Entregadas"}
@@ -285,13 +240,15 @@ function Tareas({ cedula, nombre, idProyectoEmprendimiento }) {
               }}
               adicional={true}
             />
-          </Ruta>
-        </CardRuta>
-      )}
+          ) : (
+            <h6>No hay tareas Entregadas por el Emprendedor</h6>
+          )}
+        </Ruta>
+      </CardRuta>
 
-      {pendientes.length > 0 && (
-        <CardRuta>
-          <Ruta>
+      <CardRuta>
+        <Ruta>
+          {pendientes.length > 0 ? (
             <FlexyTable
               datos={pendientes}
               titulo={"Tareas Pendientes"}
@@ -301,9 +258,11 @@ function Tareas({ cedula, nombre, idProyectoEmprendimiento }) {
               }}
               adicional={true}
             />
-          </Ruta>
-        </CardRuta>
-      )}
+          ) : (
+            <h6>No hay tareas Pendientes del Emprendedor</h6>
+          )}
+        </Ruta>
+      </CardRuta>
 
       {showEntregadas.show && (
         <RevisarTarea
@@ -322,39 +281,15 @@ function Tareas({ cedula, nombre, idProyectoEmprendimiento }) {
         />
       )}
 
-      {crearTarea ? (
-        <CrearTarea show={crearTarea} setShow={ocultarModal} />
-      ) : (
-        revisarTarea && (
-          <RevisarTarea
-            show={revisarTarea}
-            setShow={ocultarModal}
-            idTarea={idTarea}
-          />
-        )
+      {showCrearTarea && (
+        <CrearTarea
+          show={showCrearTarea}
+          idProyectoEmprendimiento={idProyectoEmprendimiento}
+          onHide={() => setShowCrearTarea(!showCrearTarea)}
+        />
       )}
     </Card>
   );
 }
-
-const data = [
-  {
-    ID: "1",
-    "Tipo Doc.": "CC",
-    "Num Doc.": "1005943951",
-    Nombre: "Brayan Hinestroza",
-    Correo: "123@gmail.com",
-  },
-];
-
-const dataPendiente = [
-  {
-    ID: "1",
-    "Tipo Doc.": "CC",
-    "Num Doc.": "1005943951",
-    Nombre: "Brayan Hinestroza",
-    Correo: "123@gmail.com",
-  },
-];
 
 export default Tareas;

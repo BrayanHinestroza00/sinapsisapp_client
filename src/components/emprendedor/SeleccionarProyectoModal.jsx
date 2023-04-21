@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { EmprendedorContext } from "src/services/context/EmprendedorContext";
 import {
@@ -92,12 +93,11 @@ function SeleccionarProyectoModal() {
                   </button>
                 );
               })}
-            <button
-              className="bg-success"
+            <Button
+              className="btn btn-primary"
               style={{
                 display: "flex",
                 alignSelf: "center",
-                width: "70%",
                 padding: "1rem",
                 border: "#9164a0 solid 1px",
                 marginBottom: "0.5rem",
@@ -111,7 +111,7 @@ function SeleccionarProyectoModal() {
               onClick={() => onCreateNewProject()}
             >
               <span>CREAR NUEVO PROYECTO DE EMPRENDIMIENTO</span>
-            </button>
+            </Button>
           </div>
         </div>
       </div>

@@ -1,50 +1,134 @@
 import { useState } from "react";
-import Swal from "sweetalert2";
 import { Modal, Form } from "react-bootstrap";
+
 import {
   img,
   thumb,
   thumbInner,
   thumbsContainer,
 } from "src/assets/styles/DropzoneStyle";
-import { HOST } from "src/utils/apiConstants";
 import DropZone from "./DropZone";
+import {
+  HOST,
+  HTTP_METHOD_POST,
+  URL_PUBLICAR_ANUNCIO,
+} from "src/utils/apiConstants";
+import { confirmAlertWithText } from "src/utils/alerts/ConfirmAlert";
+import { validarCrearAnuncio } from "src/utils/validaciones";
+import { useFetch } from "src/services/hooks/useFetch";
+import {
+  messageAlert,
+  messageAlertWithoutText,
+} from "src/utils/alerts/MessageAlert";
+import {
+  SINAPSIS_APP_FORMATO_FECHA,
+  SINAPSIS_APP_FORMATO_FECHA_INPUT,
+} from "src/utils/constants";
+import moment from "moment";
 
 function AnuncioModal(props) {
   const [datos, setDatos] = useState({});
   const [error, setError] = useState({});
+  const [loading, setLoading] = useState(false);
 
-  const getFiles = (files) => {
+  // Custom Hooks
+  const { message: messageAPI, error: errorAPI, fetchAPI } = useFetch();
+
+  const getFiles = (fileAnuncio) => {
     setDatos({
       ...datos,
-      files,
+      fileAnuncio,
     });
   };
 
-  const handleChangle = (e) => {
+  const onHandleChangle = (e) => {
     setDatos({
       ...datos,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = (e) => {
-    Swal.fire({
-      title: "¿Estás seguro que deseas publicar el anuncio?",
-      icon: "question",
-      iconColor: "#9a66a8",
-      confirmButtonText: "Publicar",
-      confirmButtonColor: "#9a66a8",
-      showConfirmButton: true,
-      showCancelButton: true,
-      cancelButtonText: "Cancelar",
-    }).then((res) => {
-      if (res.isConfirmed) {
-        //handleSubmit(e);
-        window.alert("SUBMITTED");
+  const onHandleSubmit = (e) => {
+    e.preventDefault();
+
+    let erroresFormulario = validarCrearAnuncio(datos);
+    if (Object.keys(erroresFormulario).length) {
+      setError(erroresFormulario);
+    } else {
+      setError({});
+      confirmAlertWithText({
+        title: "¿Estás seguro que deseas publicar el anuncio?",
+        text: "Esta acción no se puede deshacer",
+        confirmButtonText: "Publicar",
+        cancelButtonText: "Cancelar",
+        onConfirm: () => submitForm(),
+      });
+    }
+  };
+
+  const submitForm = () => {
+    const form = new FormData();
+
+    for (let index = 0; index < Object.values(datos).length; index++) {
+      if (
+        Object.values(datos)[index] != null ||
+        Object.values(datos)[index] != undefined
+      ) {
+        if (Object.keys(datos)[index] == "fileAnuncio") {
+          console.log("AQUI", Object.values(datos)[index][0]);
+          form.append("flyerAnuncio", Object.values(datos)[index][0]);
+        } else if (Object.keys(datos)[index] == "fechaHasta") {
+          const fechaHasta = moment(
+            Object.values(datos)[index],
+            SINAPSIS_APP_FORMATO_FECHA_INPUT
+          ).format(SINAPSIS_APP_FORMATO_FECHA);
+
+          form.append("fechaHasta", fechaHasta);
+        } else {
+          form.append(Object.keys(datos)[index], Object.values(datos)[index]);
+        }
       }
+    }
+
+    setLoading(true);
+    fetchAPI({
+      URL: URL_PUBLICAR_ANUNCIO,
+      requestOptions: {
+        method: HTTP_METHOD_POST,
+        data: form,
+      },
     });
   };
+
+  if (loading && errorAPI) {
+    messageAlert({
+      title: "Algo ha fallado",
+      text: errorAPI,
+      icon: "error",
+      confirmButtonText: "Aceptar",
+    });
+    setLoading(false);
+  } else if (loading && messageAPI) {
+    if (messageAPI == "OK") {
+      messageAlertWithoutText({
+        title: "Anuncio Publicado Exitosamente",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        onConfirm: () => {
+          props.onHide();
+          window.location.reload();
+        },
+      });
+      setDatos({});
+    } else {
+      messageAlertWithoutText({
+        title: messageAPI,
+        icon: "warning",
+        confirmButtonText: "Aceptar",
+      });
+    }
+    setLoading(false);
+  }
 
   return (
     <Modal
@@ -63,7 +147,7 @@ function AnuncioModal(props) {
         closeButton
       >
         <Modal.Title id="contained-modal-title-vcenter">
-          <h1 style={{ color: "#FFF" }}>Publicacion de Nuevo Anuncio</h1>
+          <h1 style={{ color: "#FFF" }}>Publicación de Nuevo Anuncio</h1>
         </Modal.Title>
       </Modal.Header>
       <Modal.Body style={{ backgroundColor: "#fbf6fc" }}>
@@ -74,7 +158,7 @@ function AnuncioModal(props) {
               <Form.Control
                 name="tituloAnuncio"
                 className="form-control"
-                onChange={(e) => handleChangle(e)}
+                onChange={(e) => onHandleChangle(e)}
               />
 
               {error.tituloAnuncio && (
@@ -91,7 +175,7 @@ function AnuncioModal(props) {
                 rows={3}
                 name="descripcionAnuncio"
                 className="form-control"
-                onChange={(e) => handleChangle(e)}
+                onChange={(e) => onHandleChangle(e)}
               />
 
               {error.descripcionAnuncio && (
@@ -113,7 +197,8 @@ function AnuncioModal(props) {
                   name="permanente"
                   type={"radio"}
                   id={`inline-radio-permanente`}
-                  checked={datos.permanente == 0}
+                  checked={datos.permanente == 1}
+                  onChange={(e) => onHandleChangle(e)}
                 />
 
                 <Form.Check
@@ -123,7 +208,8 @@ function AnuncioModal(props) {
                   name="permanente"
                   type={"radio"}
                   id={`inline-radio-no-permanente`}
-                  checked={datos.permanente == 1}
+                  checked={datos.permanente == 0}
+                  onChange={(e) => onHandleChangle(e)}
                 />
               </div>
               {error.permanente && (
@@ -133,16 +219,16 @@ function AnuncioModal(props) {
               )}
             </Form.Group>
 
-            {1 == 1 && (
+            {datos.permanente == 0 && (
               <Form.Group className="mb-3">
                 <Form.Label>
-                  Fecha Hasta de Visualizacion del Anuncio{" "}
+                  Fecha Hasta de Visualización del Anuncio{" "}
                 </Form.Label>
                 <Form.Control
                   type="date"
                   name="fechaHasta"
                   className="form-control"
-                  onChange={(e) => handleChangle(e)}
+                  onChange={(e) => onHandleChangle(e)}
                 />
 
                 {error.fechaHasta && (
@@ -153,35 +239,36 @@ function AnuncioModal(props) {
               </Form.Group>
             )}
 
-            <div>
-              <br></br>
+            <div className="mt-4">
               <h6>Flayer del Anuncio</h6>
-              <DropZone upFiles={getFiles} files={datos?.files} />
+              <DropZone upFiles={getFiles} files={datos?.fileAnuncio} />
 
-              {(datos.files || datos.urlAnuncio) && (
+              {(datos.fileAnuncio || datos.urlAnuncio) && (
                 <aside style={thumbsContainer}>
                   <div style={thumb}>
                     <div style={thumbInner}>
                       <img
                         src={
-                          datos.files
-                            ? URL.createObjectURL(datos?.files[0])
+                          datos.fileAnuncio
+                            ? URL.createObjectURL(datos?.fileAnuncio[0])
                             : datos.urlAnuncio
                             ? `${HOST}/${datos.urlAnuncio}`
                             : ""
                         }
                         style={img}
                         alt={
-                          datos.files ? datos.files[0].name : datos.urlAnuncio
+                          datos.fileAnuncio
+                            ? datos.fileAnuncio[0].name
+                            : datos.urlAnuncio
                         }
                       />
                     </div>
                   </div>
                 </aside>
               )}
-              {error.files && (
+              {error.fileAnuncio && (
                 <small className="form-text font-weight-bold text-danger">
-                  {error.files}
+                  {error.fileAnuncio}
                 </small>
               )}
             </div>
@@ -189,7 +276,7 @@ function AnuncioModal(props) {
         </div>
       </Modal.Body>
       <Modal.Footer style={{ backgroundColor: "#fbf6fc" }}>
-        <button className="btn btn-primary" onClick={handleSubmit}>
+        <button className="btn btn-primary" onClick={onHandleSubmit}>
           Entregar Tarea
         </button>
 

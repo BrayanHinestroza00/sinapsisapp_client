@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Tabs, Tab } from "react-bootstrap";
 
 import RutaMentor from "src/components/detalle_emprendedor/ruta/RutaMentor";
@@ -6,8 +6,11 @@ import Consultorias from "src/components/detalle_emprendedor/consultoria/Consult
 import HistorialConsultoria from "src/components/detalle_emprendedor/consultoria/HistorialConsultoria";
 import ProyectoMentor from "src/components/detalle_emprendedor/emprendimientos/ProyectoMentor";
 import { useLocation } from "react-router-dom";
+import { MentorContext } from "src/services/context/MentorContext";
 
 function TabMentor() {
+  const { userData } = useContext(MentorContext);
+
   const { state } = useLocation();
   const [key, setKey] = useState("ruta");
 
@@ -16,7 +19,10 @@ function TabMentor() {
   return (
     <Tabs activeKey={key} onSelect={(key) => setKey(key)}>
       <Tab eventKey="ruta" title="Ruta">
-        <RutaMentor idProyectoEmprendimiento={state.idProyectoEmprendimiento} />
+        <RutaMentor
+          idProyectoEmprendimiento={state.idProyectoEmprendimiento}
+          userData={userData}
+        />
       </Tab>
 
       <Tab eventKey="emprendimientos" title="Emprendimientos">

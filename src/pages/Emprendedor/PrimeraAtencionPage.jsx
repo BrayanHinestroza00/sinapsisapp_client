@@ -1,20 +1,39 @@
+import moment from "moment";
+import { useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
-import axios from "axios";
-import Swal from "sweetalert2";
 
 import InfoEmprendimiento from "src/components/emprendedor/primera_atencion/InfoEmprendimiento";
 import Confirmacion from "src/components/emprendedor/primera_atencion/Confirmacion";
 import InfoUsuario from "src/components/emprendedor/primera_atencion/InfoUsuario";
-import { HOST } from "src/utils/apiConstants";
+import {
+  HTTP_METHOD_POST,
+  URL_REGISTRAR_PRIMERA_ATENCION,
+} from "src/utils/apiConstants";
 import InfoPrimeraAtencion from "src/components/emprendedor/primera_atencion/InfoPrimeraAtencion";
 import InfoDiagnostico from "src/components/emprendedor/primera_atencion/InfoDiagnostico";
 import { EmprendedorContext } from "src/services/context/EmprendedorContext";
+import { messageAlert } from "src/utils/alerts/MessageAlert";
+import { useFetch } from "src/services/hooks/useFetch";
+import {
+  SINAPSIS_APP_FORMATO_FECHA,
+  SINAPSIS_APP_FORMATO_FECHA_INPUT,
+} from "src/utils/constants";
 
 function PrimeraAtencionPage() {
-  const { userData, loading } = useContext(EmprendedorContext);
+  const navigate = useNavigate();
+  const { userData /*,loading*/ } = useContext(EmprendedorContext);
 
   const [step, setStep] = useState(1);
   const [datos, setDatos] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  // Custom Hooks
+  const {
+    data: dataAPI,
+    message: messageAPI,
+    error: errorAPI,
+    fetchAPI,
+  } = useFetch();
 
   function nextStep() {
     setStep(step + 1);
@@ -72,40 +91,62 @@ function PrimeraAtencionPage() {
               Object.values(datos)[index][0]
             );
           }
-        } else {
-          if (Object.keys(datos)[index] == "municipioId") {
-            form.append("municipio", Object.values(datos)[index]);
-          } else {
-            form.append(Object.keys(datos)[index], Object.values(datos)[index]);
+        } else if (Object.keys(datos)[index] == "municipioId") {
+          form.append("municipio", Object.values(datos)[index]);
+        } else if (Object.keys(datos)[index] == "cursosEmprendimiento") {
+          if (Object.values(datos)[index].length > 0) {
+            form.append(
+              "cursosEmprendimiento",
+              Object.values(datos)[index].toString()
+            );
           }
+        } else if (Object.keys(datos)[index] == "descubrioSinapsis") {
+          let metodosDescubrio = "";
+
+          Object.values(datos)[index].forEach((metodoDescubrio) => {
+            metodosDescubrio += `${metodoDescubrio.value},`;
+          });
+
+          if (metodosDescubrio.length > 0) {
+            metodosDescubrio.slice(0, metodosDescubrio.length - 1);
+          }
+
+          form.append("descubrioSinapsis", metodosDescubrio);
+        } else if (Object.keys(datos)[index] == "fechaNacimiento") {
+          const fechaNacimiento = moment(
+            Object.values(datos)[index],
+            SINAPSIS_APP_FORMATO_FECHA_INPUT
+          ).format(SINAPSIS_APP_FORMATO_FECHA);
+
+          form.append("fechaNacimiento", fechaNacimiento);
+        } else if (Object.keys(datos)[index] == "fechaConstitucion") {
+          const fechaConstitucion = moment(
+            Object.values(datos)[index],
+            SINAPSIS_APP_FORMATO_FECHA_INPUT
+          ).format(SINAPSIS_APP_FORMATO_FECHA);
+
+          form.append("fechaConstitucion", fechaConstitucion);
+        } else if (Object.keys(datos)[index] == "desdeFechaEjecucion") {
+          const desdeFechaEjecucion = moment(
+            Object.values(datos)[index],
+            SINAPSIS_APP_FORMATO_FECHA_INPUT
+          ).format(SINAPSIS_APP_FORMATO_FECHA);
+
+          form.append("desdeFechaEjecucion", desdeFechaEjecucion);
+        } else {
+          form.append(Object.keys(datos)[index], Object.values(datos)[index]);
         }
       }
     }
 
-    axios
-      .post(`${HOST}/emprendedor/primeraAtencion`, form)
-      .then((res) => {
-        Swal.fire({
-          title: "Primera atención enviada correctamente",
-          text: "Ahora debes esperar a que un administrador te asigne tu ruta de emprendimiento y un mentor para seguirte guiando dentro de Sinapsis",
-          icon: "success",
-          iconColor: "#9a66a8",
-          confirmButtonText: "Aceptar",
-          confirmButtonColor: "#9a66a8",
-          showConfirmButton: true,
-        }).then(() => (window.location.href = "/Emprendedor"));
-      })
-      .catch((err) => {
-        Swal.fire({
-          title: "Primera atención fallida",
-          text: err.response.data.message,
-          icon: "error",
-          iconColor: "#9a66a8",
-          confirmButtonText: "Aceptar",
-          confirmButtonColor: "#9a66a8",
-          showConfirmButton: true,
-        });
-      });
+    setLoading(true);
+    fetchAPI({
+      URL: URL_REGISTRAR_PRIMERA_ATENCION,
+      requestOptions: {
+        method: HTTP_METHOD_POST,
+        data: form,
+      },
+    });
   };
 
   const getFotoPerfilFile = (fotoPerfil) => {
@@ -129,12 +170,40 @@ function PrimeraAtencionPage() {
     });
   };
 
-  if (loading) {
-    return <>LOADING PRIMERA_ATENCION_PAGE</>;
+  // if (loading) {
+  //   return <>LOADING PRIMERA_ATENCION_PAGE</>;
+  // }
+
+  if (loading && errorAPI) {
+    messageAlert({
+      title: "Algo ha fallado",
+      text: errorAPI,
+      icon: "error",
+      confirmButtonText: "Aceptar",
+    });
+    setLoading(false);
+  } else if (loading && messageAPI) {
+    if (messageAPI == "OK") {
+      messageAlert({
+        title: "Primera atención enviada correctamente",
+        text: "Ahora debes esperar a que un administrador te asigne tu ruta de emprendimiento y un mentor para seguirte guiando dentro de SINAPSIS UAO",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        onConfirm: () => navigate("/Emprendedor"),
+      });
+    } else {
+      messageAlert({
+        title: "Registro de primera atención fallida",
+        text: messageAPI,
+        icon: "warning",
+        confirmButtonText: "Aceptar",
+      });
+    }
+    setLoading(false);
   }
 
   return (
-    <div>
+    <div className="mb-5">
       {step === 1 ? (
         <InfoUsuario
           userData={userData}

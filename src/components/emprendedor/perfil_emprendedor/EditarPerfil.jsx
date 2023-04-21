@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import Axios from "axios";
 import moment from "moment";
+import { useEffect, useState } from "react";
 import {
   img,
   thumb,
@@ -17,11 +16,14 @@ import DropZone from "src/components/DropZone";
 import { useFetch } from "src/services/hooks/useFetch";
 import {
   HTTP_METHOD_GET,
+  HTTP_METHOD_POST,
+  URL_ACTUALIZAR_PERFIL_EMPRENDEDOR,
   URL_OBTENER_ASIGNATURAS,
   URL_OBTENER_PROGRAMAS_ACADEMICOS,
 } from "src/utils/apiConstants";
 import {
   SINAPSIS_APP_FORMATO_FECHA,
+  SINAPSIS_APP_FORMATO_FECHA_INPUT,
   T_SINAPSIS_MOD_TRABAJO_GRADO_NO,
   T_SINAPSIS_MOD_TRABAJO_GRADO_SI,
   T_SINAPSIS_NIVEL_ACADEMICO_EDUCACION_CONTINUA,
@@ -40,19 +42,31 @@ import {
   getMunicipios,
 } from "src/utils/functions";
 import { validacionesEditarPerfil } from "src/utils/validaciones";
-import Swal from "sweetalert2";
+import { confirmAlertWithText } from "src/utils/alerts/ConfirmAlert";
+import {
+  messageAlert,
+  messageAlertWithoutText,
+} from "src/utils/alerts/MessageAlert";
 
 function EditarPerfil({ preloadData, allowEdit, setAllowEdit }) {
   const [error, setError] = useState({});
   const [departamentos, setDepartamentos] = useState([]);
   const [municipios, setMunicipios] = useState([]);
   const [datos, setDatos] = useState({});
+  const [loading, setLoading] = useState(false);
 
   // Custom Hooks
   const { data: dataProgramasAcademicos, fetchAPI: fetchApiPrograma } =
     useFetch();
 
   const { data: dataAsignaturas, fetchAPI: fetchApiAsignaturas } = useFetch();
+
+  const {
+    data: dataAPI,
+    message: messageAPI,
+    error: errorAPI,
+    fetchAPI,
+  } = useFetch();
 
   useEffect(() => {
     fetchApiPrograma({
@@ -91,8 +105,8 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit }) {
         numeroDocumento: preloadData.numeroDocumento,
         fechaNacimiento: moment(
           preloadData.fechaNacimiento,
-          "DD/MM/YYYY"
-        ).format(SINAPSIS_APP_FORMATO_FECHA),
+          SINAPSIS_APP_FORMATO_FECHA
+        ).format(SINAPSIS_APP_FORMATO_FECHA_INPUT),
         genero: preloadData.genero,
         correoPersonal: preloadData.correoPersonal,
         celular: preloadData.telefonoContacto,
@@ -170,45 +184,48 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit }) {
       setError(erroresFormulario);
     } else {
       setError({});
-      const form = new FormData();
+      confirmAlertWithText({
+        title: "¿Estas seguro que deseas actualizar tu perfil?",
+        text: "La información se puede modificar en cualquier momento",
+        confirmButtonText: "Actualizar",
+        cancelButtonText: "Cancelar",
+        onConfirm: () => onSubmit(),
+      });
+    }
+  };
 
-      for (let index = 0; index < Object.values(datos).length; index++) {
-        if (
-          Object.values(datos)[index] != null ||
-          Object.values(datos)[index] != undefined
-        ) {
-          if (Object.keys(datos)[index] == "fotoPerfil") {
-            form.append("fotoPerfil", Object.values(datos)[index][0]);
-          } else {
-            form.append(Object.keys(datos)[index], Object.values(datos)[index]);
-          }
+  const onSubmit = () => {
+    const form = new FormData();
+
+    for (let index = 0; index < Object.values(datos).length; index++) {
+      if (
+        Object.values(datos)[index] != null ||
+        Object.values(datos)[index] != undefined
+      ) {
+        if (Object.keys(datos)[index] == "fotoPerfil") {
+          form.append("fotoPerfil", Object.values(datos)[index][0]);
+        }
+        if (Object.keys(datos)[index] == "fechaNacimiento") {
+          const fechaNacimiento = moment(
+            Object.values(datos)[index],
+            SINAPSIS_APP_FORMATO_FECHA_INPUT
+          ).format(SINAPSIS_APP_FORMATO_FECHA);
+
+          form.append("fechaNacimiento", fechaNacimiento);
+        } else {
+          form.append(Object.keys(datos)[index], Object.values(datos)[index]);
         }
       }
-
-      Axios.post(`${HOST}/emprendedor`, form)
-        .then((res) => {
-          Swal.fire({
-            title: "Correcto!",
-            text: "Perfil actualizado correctamente",
-            icon: "success",
-            iconColor: "#9a66a8",
-            confirmButtonText: "Aceptar",
-            confirmButtonColor: "#9a66a8",
-            showConfirmButton: true,
-          }).then(() => setAllowEdit(!allowEdit));
-        })
-        .catch((err) => {
-          Swal.fire({
-            title: "Algo ha fallado",
-            text: err.response.data.message,
-            icon: "error",
-            iconColor: "#9a66a8",
-            confirmButtonText: "Aceptar",
-            confirmButtonColor: "#9a66a8",
-            showConfirmButton: true,
-          });
-        });
     }
+
+    setLoading(true);
+    fetchAPI({
+      URL: URL_ACTUALIZAR_PERFIL_EMPRENDEDOR,
+      requestOptions: {
+        method: HTTP_METHOD_POST,
+        data: form,
+      },
+    });
   };
 
   const onGetFiles = (fotoPerfil) => {
@@ -217,6 +234,32 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit }) {
       fotoPerfil,
     });
   };
+
+  if (loading && errorAPI) {
+    messageAlert({
+      title: "Algo ha fallado",
+      text: errorAPI,
+      icon: "error",
+      confirmButtonText: "Aceptar",
+    });
+    setLoading(false);
+  } else if (loading && messageAPI) {
+    if (messageAPI == "OK") {
+      messageAlertWithoutText({
+        title: "Perfil actualizado correctamente",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        onConfirm: () => setAllowEdit(!allowEdit),
+      });
+    } else {
+      messageAlertWithoutText({
+        title: messageAPI,
+        icon: "warning",
+        confirmButtonText: "Aceptar",
+      });
+    }
+    setLoading(false);
+  }
 
   return (
     <form

@@ -17,13 +17,13 @@ function SignsUp() {
 
   return (
     <signUpStyled.Grid_Layout>
-      <signUpStyled.ImagenRegistro src={imagen} alt="Sinapsis" />
+      <signUpStyled.ImagenRegistro src={imagen} alt="SINAPSIS UAO" />
       <signUpStyled.Contenedor_Derecho>
         <signUpStyled.CardSignUp>
           <signUpStyled.Figura>
             <signUpStyled.Logo_Sinapsis_Registro
               src={LogoSinapsis}
-              alt="Logo Sinapsis"
+              alt="Logo SINAPSIS UAO"
               width="228"
             />
           </signUpStyled.Figura>

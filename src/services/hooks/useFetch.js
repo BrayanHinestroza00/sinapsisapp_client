@@ -33,6 +33,7 @@ export function useFetch() {
             break;
           case CODE_NO_CHANGES:
             setMessage(responseAPI.data.message);
+            setData(responseAPI.data.response);
             break;
           case CODE_ERR:
             setError(responseAPI.data.message);

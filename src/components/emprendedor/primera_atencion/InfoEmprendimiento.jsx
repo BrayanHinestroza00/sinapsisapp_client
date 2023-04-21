@@ -77,7 +77,7 @@ function InfoEmprendimiento(props) {
 
         <div className="mb-3">
           <Label htmlFor="descripcionProducto" className="form-label">
-            Descripción del producto<span> (*)</span>
+            Descripción del producto <span> (*)</span>
           </Label>
           <TextArea
             type="text"
@@ -97,7 +97,7 @@ function InfoEmprendimiento(props) {
 
         <div className="mb-3">
           <Label htmlFor="necesidadesIdentificadas" className="form-label">
-            Necesidades Identificadas<span> (*)</span>
+            Necesidades Identificadas <span> (*)</span>
           </Label>
           <TextArea
             type="text"
@@ -117,7 +117,7 @@ function InfoEmprendimiento(props) {
 
         <div className="mb-3">
           <Label htmlFor="descripcionClientes" className="form-label">
-            Principal cliente o usuario<span> (*)</span>
+            Principal cliente o usuario <span> (*)</span>
           </Label>
           <TextArea
             type="text"
@@ -137,7 +137,7 @@ function InfoEmprendimiento(props) {
 
         <div className="mb-3">
           <Label htmlFor="materiasPrimas" className="form-label">
-            Materias primas<span> (*)</span>
+            Materias primas
           </Label>
           <TextArea
             type="text"
@@ -157,7 +157,7 @@ function InfoEmprendimiento(props) {
 
         <div className="mb-3">
           <Label htmlFor="enfoqueSocial" className="form-label">
-            Enfoque Social del Emprendimiento<span> (*)</span>
+            Enfoque Social del Emprendimiento
           </Label>
           <TextArea
             type="text"
@@ -184,7 +184,7 @@ function InfoEmprendimiento(props) {
             className="form-control"
             id="sectorEmprendimiento"
             name="sectorEmprendimiento"
-            placeholder="Sitio Web"
+            placeholder="Sector del Emprendimiento"
             onChange={(e) => props.handleChange(e)}
             value={props.datos.sectorEmprendimiento || ""}
           />
@@ -348,8 +348,8 @@ function InfoEmprendimiento(props) {
             <option value={"-1"} disabled>
               Seleccione...
             </option>
-            <option value="SI">SI</option>
-            <option value="NO">NO</option>
+            <option value="S">SI</option>
+            <option value="N">NO</option>
           </select>
           {error.estaConstituida && (
             <small className="form-text font-weight-bold text-danger">
@@ -358,11 +358,11 @@ function InfoEmprendimiento(props) {
           )}
         </div>
 
-        {props.datos?.estaConstituida == "SI" && (
+        {props.datos?.estaConstituida == "S" && (
           <>
             <div className="col-md-6 mb-3">
               <Label htmlFor="fechaConstitucion" className="form-label">
-                Fecha de constitución
+                Fecha de constitución <span> (*)</span>
               </Label>
               <Input
                 type="date"
@@ -381,7 +381,7 @@ function InfoEmprendimiento(props) {
 
             <div className="col-md-6 mb-3">
               <Label htmlFor="nitEmpresa" className="form-label">
-                NIT
+                NIT <span> (*)</span>
               </Label>
               <Input
                 type="text"
@@ -401,7 +401,7 @@ function InfoEmprendimiento(props) {
 
             <div className="col-md-6 mb-3">
               <Label htmlFor="nombreEmpresa" className="form-label">
-                Nombre de empresa
+                Nombre de empresa <span> (*)</span>
               </Label>
               <Input
                 type="text"
@@ -421,7 +421,7 @@ function InfoEmprendimiento(props) {
 
             <div className="col-md-6 mb-3">
               <Label htmlFor="razonSocialEmpresa" className="form-label">
-                Razón social
+                Razón social <span> (*)</span>
               </Label>
               <Input
                 type="text"
@@ -471,6 +471,7 @@ function InfoEmprendimiento(props) {
         <Boton
           type="button"
           className="btn btn-outline-primary"
+          style={{ height: "auto" }}
           onClick={() => {
             props.prevStep();
           }}
@@ -481,6 +482,7 @@ function InfoEmprendimiento(props) {
         <BotonSiguiente
           type="button"
           className="btn btn-primary"
+          style={{ height: "auto" }}
           onClick={(e) => {
             handleSubmit(e);
           }}

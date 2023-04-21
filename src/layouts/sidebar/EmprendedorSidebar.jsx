@@ -209,7 +209,7 @@ function EmprendedorSidebar() {
                   Mi Proyecto
                 </Link>
 
-                <Link
+                {/* <Link
                   to={"/Emprendedor/Ruta/Material"}
                   className="btn d-flex align-items-center"
                   style={{
@@ -229,7 +229,7 @@ function EmprendedorSidebar() {
                     alt={""}
                   />
                   Material de Apoyo
-                </Link>
+                </Link> */}
               </div>
             </div>
           </div>

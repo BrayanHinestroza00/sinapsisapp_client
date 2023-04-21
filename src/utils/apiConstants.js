@@ -35,19 +35,27 @@ export const URL_OBTENER_PRIMERAS_ATENCIONES_PENDIENTES =
 export const URL_OBTENER_PROYECTOS_EMPRENDIMIENTO =
   HOST + "/ruta_innovacion/proyectos_emprendimiento";
 export const URL_OBTENER_MENTORES = HOST + "/mentores";
-export const URL_OBTENER_INFORMACION_MENTORES =
-  HOST + "/ruta_innovacion/mentores";
+// export const URL_OBTENER_INFORMACION_MENTORES =
+//   HOST + "/ruta_innovacion/mentores";
 export const URL_OBTENER_PRIMERA_ATENCION_EMP =
   HOST + "/ruta_innovacion/primeraAtencion/detalle";
 export const URL_OBTENER_EMPRENDEDORES =
   HOST + "/ruta_innovacion/emprendedores";
+export const URL_ASIGNAR_ETAPA_INICIAL =
+  HOST + "/ruta_innovacion/primeraAtencion";
+export const URL_CREAR_TAREA_EMPRENDEDOR =
+  HOST + "/ruta_innovacion/tareas/crear";
+export const URL_CALIFICAR_TAREA_EMPRENDEDOR =
+  HOST + "/ruta_innovacion/tareas/calificar";
+
+export const URL_PUBLICAR_ANUNCIO = HOST + "/app/publicar_anuncio";
 
 /**
  * Rutas usadas por el Emprendedor
  */
-// export const URL_REGISTRAR_PRIMERA_ATENCION =
-//   HOST + "/emprendedor/primeraAtencion";
-export const URL_REGISTRAR_PRIMERA_ATENCION = HOST + "/emprendedor";
+export const URL_REGISTRAR_PRIMERA_ATENCION =
+  HOST + "/emprendedor/primeraAtencion";
+export const URL_ACTUALIZAR_PERFIL_EMPRENDEDOR = HOST + "/emprendedor";
 export const URL_OBTENER_INFO_EMPRENDEDOR = HOST + "/emprendedor";
 export const URL_OBTENER_EMPRENDEDIMIENTO =
   HOST + "/emprendedor/emprendimiento";
@@ -67,6 +75,8 @@ export const URL_OBTENER_SUB_ACTIVIDADES_EMPRENDEDOR =
   HOST + "/ruta_innovacion/subactividades_emprendedimiento";
 export const URL_OBTENER_TAREAS_PROYECTO_EMPRENDIMIENTO =
   HOST + "/ruta_innovacion/tareas";
+export const URL_ENTREGAR_TAREA_EMPRENDEDOR =
+  HOST + "/ruta_innovacion/tareas/entregar";
 export const URL_OBTENER_CONSULTORIAS_PROYECTO_EMPRENDIMIENTO =
   HOST + "/ruta_innovacion/consultorias";
 export const URL_OBTENER_CONSULTORIAS_PROGRAMADAS =
@@ -99,6 +109,7 @@ export const URL_OBTENER_ASIGNATURAS = HOST + "/app/asignaturas";
 export const URL_OBTENER_ANUNCIOS = HOST + "/app/anuncios";
 export const URL_OBTENER_REDES_SOCIALES = HOST + "/app/redes_sociales";
 export const URL_OBTENER_TIPOS_DOCUMENTO = HOST + "/app/tipoDocumento";
+export const URL_OBTENER_TIPOS_CONTACTO = HOST + "/app/tipoContacto";
 export const URL_OBTENER_ETAPAS_RUTA_INNOVACION_EMPRENDIMIENTO =
   HOST + "/app/etapas_ruta";
 
@@ -107,3 +118,12 @@ export const URL_OBTENER_ETAPAS_RUTA_INNOVACION_EMPRENDIMIENTO =
  */
 export const URL_OBTENER_REPORTE_CONSULTORIAS_POR_MENTOR =
   HOST + "/reportes/consultorias_por_mentor";
+
+/**
+ * Rutas de Autenticacion
+ */
+export const URL_REGISTRAR_EMPRENDEDOR_INTEGRACION =
+  HOST + "/SignUp/Integration";
+export const URL_REGISTRAR_EMPRENDEDOR_EXTERNO = HOST + "/SignUp/Externo";
+export const URL_REGISTRAR_MENTOR = HOST + "/SignUp/Mentor";
+export const URL_INICIAR_SESION = HOST + "/login";

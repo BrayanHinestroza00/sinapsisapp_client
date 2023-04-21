@@ -1,5 +1,23 @@
-import { REGEX_PATTERN_SOLO_LETRAS } from "./regexPatterns";
+import {
+  T_SINAPSIS_NIVEL_ACADEMICO_PREGRADO,
+  T_SINAPSIS_TIPOS_CONTACTO_COLABORADOR,
+  T_SINAPSIS_TIPOS_CONTACTO_EGRESADO,
+  T_SINAPSIS_TIPOS_CONTACTO_ESTUDIANTE,
+  T_SINAPSIS_TIPOS_CONTACTO_EXTERNO,
+} from "./constants";
+import {
+  REGEX_PATTERN_CARATERETES,
+  REGEX_PATTERN_CORREO_ELECTRONICO,
+  REGEX_PATTERN_NUMERO_DOCUMENTO,
+  REGEX_PATTERN_NUMERO_TELEFONO,
+  REGEX_PATTERN_PASSWORD,
+  REGEX_PATTERN_SOLO_LETRAS,
+  REGEX_PATTERN_SOLO_NUMEROS,
+} from "./regexPatterns";
 
+/**
+ * Validaciones de autenticación
+ */
 export const validacionesLogin = (datos) => {
   const errors = {};
   const { tipoDocumento, numeroDocumento, password } = datos;
@@ -13,7 +31,7 @@ export const validacionesLogin = (datos) => {
   if (!numeroDocumento) {
     errors.numeroDocumento = "Campo obligatorio";
   } else {
-    const RegExp = /^\D*\d{5,11}$/;
+    const RegExp = REGEX_PATTERN_NUMERO_DOCUMENTO;
     if (!RegExp.test(numeroDocumento)) {
       errors.numeroDocumento = "Solo se permiten números entre 5 a 11 dígitos";
     }
@@ -23,10 +41,10 @@ export const validacionesLogin = (datos) => {
   if (!password) {
     errors.password = "Campo obligatorio";
   } else {
-    const RegExp = /^(?=.*\d).{4,8}$/;
+    const RegExp = REGEX_PATTERN_PASSWORD;
     if (!RegExp.test(password)) {
       errors.password =
-        "La contraseña debe tener entre 4 y 8 caracteres y al menos un dígito.";
+        "La contraseña debe tener entre 4 y 12 caracteres y al menos un dígito.";
     }
   }
   return errors;
@@ -59,7 +77,7 @@ export const validacionesSignUp = (datos) => {
   if (!numeroDocumento) {
     errors.numeroDocumento = "Campo obligatorio";
   } else {
-    const RegExp = /^\D*\d{5,11}$/;
+    const RegExp = REGEX_PATTERN_NUMERO_DOCUMENTO;
     if (!RegExp.test(numeroDocumento)) {
       errors.numeroDocumento = "Solo se permiten números entre 5 a 11 dígitos";
     }
@@ -99,8 +117,7 @@ export const validacionesSignUp = (datos) => {
     errors.correo = "Campo obligatorio";
   } else {
     // eslint-disable-next-line
-    const RegExp =
-      /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    const RegExp = REGEX_PATTERN_CORREO_ELECTRONICO;
     if (!RegExp.test(correo)) {
       errors.correo = "El correo no es válido";
     }
@@ -110,20 +127,20 @@ export const validacionesSignUp = (datos) => {
   if (!contrasena) {
     errors.contrasena = "Campo obligatorio";
   } else {
-    const RegExp = /^(?=.*\d).{4,8}$/;
+    const RegExp = REGEX_PATTERN_PASSWORD;
     if (!RegExp.test(contrasena)) {
       errors.contrasena =
-        "La contraseña debe tener entre 4 y 8 caracteres y al menos un dígito.";
+        "La contraseña debe tener entre 4 y 12 caracteres y al menos un dígito.";
     }
   }
 
   if (!confirmContrasena) {
     errors.confirmContrasena = "Campo obligatorio";
   } else {
-    const RegExp = /^(?=.*\d).{4,8}$/;
+    const RegExp = REGEX_PATTERN_PASSWORD;
     if (!RegExp.test(confirmContrasena)) {
       errors.confirmContrasena =
-        "La contraseña debe tener entre 4 y 8 caracteres y al menos un dígito.";
+        "La contraseña debe tener entre 4 y 12 caracteres y al menos un dígito.";
     }
   }
 
@@ -154,7 +171,7 @@ export const validacionesSignUpComunidadUAO = (datos) => {
   if (!numeroDocumento) {
     errors.numeroDocumento = "Campo obligatorio";
   } else {
-    const RegExp = /^\D*\d{5,11}$/;
+    const RegExp = REGEX_PATTERN_NUMERO_DOCUMENTO;
     if (!RegExp.test(numeroDocumento)) {
       errors.numeroDocumento = "Solo se permiten números entre 5 a 11 dígitos";
     }
@@ -179,20 +196,20 @@ export const validacionesSignUpComunidadUAO = (datos) => {
   if (!contrasena) {
     errors.contrasena = "Campo obligatorio";
   } else {
-    const RegExp = /^(?=.*\d).{4,8}$/;
+    const RegExp = REGEX_PATTERN_PASSWORD;
     if (!RegExp.test(contrasena)) {
       errors.contrasena =
-        "La contraseña debe tener entre 4 y 8 caracteres y al menos un dígito.";
+        "La contraseña debe tener entre 4 y 12 caracteres y al menos un dígito.";
     }
   }
 
   if (!confirmContrasena) {
     errors.confirmContrasena = "Campo obligatorio";
   } else {
-    const RegExp = /^(?=.*\d).{4,8}$/;
+    const RegExp = REGEX_PATTERN_PASSWORD;
     if (!RegExp.test(confirmContrasena)) {
       errors.confirmContrasena =
-        "La contraseña debe tener entre 4 y 8 caracteres y al menos un dígito.";
+        "La contraseña debe tener entre 4 y 12 caracteres y al menos un dígito.";
     }
   }
 
@@ -205,12 +222,53 @@ export const validacionesSignUpComunidadUAO = (datos) => {
   return errors;
 };
 
+export const validacionesSignUpMentor = (datos) => {
+  const errors = {};
+  const { usuario, tipoDocumento, numeroDocumento, etapaRuta } = datos;
+  //Validaciones para el tipo de documento
+  if (!tipoDocumento || tipoDocumento == "-1") {
+    errors.tipoDocumento = "Campo obligatorio";
+  }
+
+  //Validaciones para el tipo de documento
+  if (!etapaRuta || etapaRuta == "-1") {
+    errors.etapaRuta = "Campo obligatorio";
+  }
+
+  //Validaciones para el numero de documento
+  if (!numeroDocumento) {
+    errors.numeroDocumento = "Campo obligatorio";
+  } else {
+    const RegExp = REGEX_PATTERN_NUMERO_DOCUMENTO;
+    if (!RegExp.test(numeroDocumento)) {
+      errors.numeroDocumento = "Solo se permiten números entre 5 a 11 dígitos";
+    }
+  }
+
+  //Validaciones para el usuario
+  if (!usuario) {
+    errors.usuario = "Campo obligatorio";
+  }
+  // else {
+  //     const RegExp = /^[A-Za-z ]{1,50}$/;
+  //     if (!RegExp.test(usuario)) {
+  //       errors.nombres = "Mínimo 1 y máximo 50 caracteres.";
+  //     }
+  //   }
+  // }
+
+  return errors;
+};
+
+/**
+ * Validaciones de primera atención
+ */
 export const validacionesPrimeraAtencionUsuario = (datos) => {
   const errors = {};
   const {
     fechaNacimiento,
     genero,
-    telefono,
+    correoPersonal,
     celular,
     departamento,
     municipioId,
@@ -224,14 +282,17 @@ export const validacionesPrimeraAtencionUsuario = (datos) => {
   if (!genero) {
     errors.genero = "Campo Obligatorio";
   }
-  if (telefono) {
-    const RegExp = /^\D*\d{1,10}$/;
-    if (!RegExp.test(celular)) {
-      errors.celular = "Solo se permiten números y máximo 10 dígitos";
+  if (!correoPersonal) {
+    errors.correoPersonal = "Campo obligatorio";
+  } else {
+    // eslint-disable-next-line
+    const RegExp = REGEX_PATTERN_CORREO_ELECTRONICO;
+    if (!RegExp.test(correoPersonal)) {
+      errors.correo = "El correo no es válido";
     }
   }
   if (celular) {
-    const RegExp = /^\D*\d{1,10}$/;
+    const RegExp = REGEX_PATTERN_NUMERO_TELEFONO;
     if (!RegExp.test(celular)) {
       errors.celular = "Solo se permiten números y máximo 10 dígitos";
     }
@@ -249,7 +310,7 @@ export const validacionesPrimeraAtencionUsuario = (datos) => {
     errors.vinculoConU = "Campo Obligatorio";
   } else {
     switch (vinculoConU) {
-      case "Estudiante":
+      case T_SINAPSIS_TIPOS_CONTACTO_ESTUDIANTE:
         const { codigoEstudiantil, tipoEstudiante, programaAcademico } = datos;
         if (!codigoEstudiantil) {
           errors.codigoEstudiantil = "Campo Obligatorio";
@@ -258,7 +319,10 @@ export const validacionesPrimeraAtencionUsuario = (datos) => {
           errors.tipoEstudiante = "Campo Obligatorio";
         } else {
           const { modTrabajoGrado } = datos;
-          if (tipoEstudiante === "PREGRADO" && !modTrabajoGrado) {
+          if (
+            tipoEstudiante === T_SINAPSIS_NIVEL_ACADEMICO_PREGRADO &&
+            !modTrabajoGrado
+          ) {
             errors.modTrabajoGrado = "Campo Obligatorio";
           }
         }
@@ -267,7 +331,7 @@ export const validacionesPrimeraAtencionUsuario = (datos) => {
         }
         break;
 
-      case "Egresado":
+      case T_SINAPSIS_TIPOS_CONTACTO_EGRESADO:
         const { profesionEgresado, tipoEstudianteEgresado } = datos;
         if (!profesionEgresado) {
           errors.profesionEgresado = "Campo Obligatorio";
@@ -277,7 +341,7 @@ export const validacionesPrimeraAtencionUsuario = (datos) => {
         }
         break;
 
-      case "Colaborador":
+      case T_SINAPSIS_TIPOS_CONTACTO_COLABORADOR:
         const { cargoColaborador, dependenciaColaborador } = datos;
         if (!cargoColaborador) {
           errors.cargoColaborador = "Campo Obligatorio";
@@ -286,7 +350,7 @@ export const validacionesPrimeraAtencionUsuario = (datos) => {
           errors.dependenciaColaborador = "Campo Obligatorio";
         }
         break;
-      case "Externo":
+      case T_SINAPSIS_TIPOS_CONTACTO_EXTERNO:
         break;
 
       default:
@@ -298,67 +362,137 @@ export const validacionesPrimeraAtencionUsuario = (datos) => {
 
 export const validacionesPrimeraAtencionEmprendimiento = (datos) => {
   const errors = {};
-  // const {
-  //   nombreEmprendimiento,
-  //   estaConstituida,
-  //   descripcionProducto,
-  //   materiasPrimas,
-  //   clienteEmprendimiento,
-  //   nombreEmpresa,
-  //   nitEmpresa,
-  //   fechaCreacionEmpresa,
-  //   razonSocialEmpresa,
-  // } = datos;
+  const {
+    nombreEmprendimiento,
+    descripcionProducto,
+    necesidadesIdentificadas,
+    descripcionClientes,
+    // materiasPrimas,
+    // enfoqueSocial,
+    // sectorEmprendimiento,
+    // sitioWeb,
+    // redSocialFacebook,
+    // redSocialInstagram,
+    // redSocialTwitter,
+    // redSocialTiktok,
+    // redSocialYouTube,
+    // redSocialWhatsApp,
+    estaConstituida,
+  } = datos;
 
-  // if (!nombreEmprendimiento) {
-  //   errors.nombreEmprendimiento = "Campo Obligatorio";
-  // }
+  if (!nombreEmprendimiento) {
+    errors.nombreEmprendimiento = "Campo Obligatorio";
+  }
 
-  // if (!estaConstituida) {
-  //   errors.estaConstituida = "Campo Obligatorio";
-  // } else {
-  //   if (estaConstituida === "SI") {
-  //     const { fechaConstitucion } = datos;
-  //     if (!fechaConstitucion) {
-  //       errors.fechaConstitucion = "Campo Obligatorio";
-  //     }
-  //   }
-  // }
+  if (!descripcionProducto) {
+    errors.descripcionProducto = "Campo Obligatorio";
+  }
 
-  // if (!descripcionProducto) {
-  //   errors.descripcionProducto = "Campo Obligatorio";
-  // }
+  if (!necesidadesIdentificadas) {
+    errors.necesidadesIdentificadas = "Campo Obligatorio";
+  }
 
-  // if (!materiasPrimas) {
-  //   errors.materiasPrimas = "Campo Obligatorio";
-  // }
+  if (!descripcionClientes) {
+    errors.descripcionClientes = "Campo Obligatorio";
+  }
 
-  // if (!clienteEmprendimiento) {
-  //   errors.clienteEmprendimiento = "Campo Obligatorio";
-  // }
+  if (!estaConstituida) {
+    errors.estaConstituida = "Campo Obligatorio";
+  } else {
+    if (estaConstituida == "S") {
+      const {
+        fechaConstitucion,
+        nitEmpresa,
+        nombreEmpresa,
+        razonSocialEmpresa,
+      } = datos;
 
-  // if (
-  //   nombreEmpresa ||
-  //   nitEmpresa ||
-  //   fechaCreacionEmpresa ||
-  //   razonSocialEmpresa
-  // ) {
-  //   if (!nombreEmpresa) {
-  //     errors.nombreEmpresa = "Campo Obligatorio";
-  //   }
+      if (!fechaConstitucion) {
+        errors.fechaConstitucion = "Campo Obligatorio";
+      }
 
-  //   if (!nitEmpresa) {
-  //     errors.nitEmpresa = "Campo Obligatorio";
-  //   }
+      if (!nitEmpresa) {
+        errors.nitEmpresa = "Campo Obligatorio";
+      }
 
-  //   if (!fechaCreacionEmpresa) {
-  //     errors.fechaCreacionEmpresa = "Campo Obligatorio";
-  //   }
+      if (!nombreEmpresa) {
+        errors.nombreEmpresa = "Campo Obligatorio";
+      }
 
-  //   if (!razonSocialEmpresa) {
-  //     errors.razonSocialEmpresa = "Campo Obligatorio";
-  //   }
-  // }
+      if (!razonSocialEmpresa) {
+        errors.razonSocialEmpresa = "Campo Obligatorio";
+      }
+    }
+  }
+
+  return errors;
+};
+
+export const validacionesPrimeraAtencionPA = (datos) => {
+  const errors = {};
+  const {
+    nombreProducto,
+    promedioVentas,
+    evidenciaProducto,
+    obtencionMateriasPrimas,
+    equipoTrabajo,
+
+    dedicacion,
+    desdeFechaEjecucion,
+    horasSemanales,
+    motivacion,
+    descubrioSinapsis,
+  } = datos;
+
+  if (!nombreProducto) {
+    errors.nombreProducto = "Campo Obligatorio";
+  }
+
+  if (!equipoTrabajo) {
+    errors.equipoTrabajo = "Campo Obligatorio";
+  } else {
+    if (equipoTrabajo == "S") {
+      const { cualEquipoTrabajo } = datos;
+
+      if (!cualEquipoTrabajo) {
+        errors.cualEquipoTrabajo = "Campo Obligatorio";
+      }
+    }
+  }
+
+  if (!dedicacion) {
+    errors.dedicacion = "Campo Obligatorio";
+  }
+
+  if (!horasSemanales) {
+    errors.horasSemanales = "Campo Obligatorio";
+  } else {
+    const RegExp = REGEX_PATTERN_SOLO_NUMEROS;
+    if (!RegExp.test(horasSemanales)) {
+      errors.horasSemanales = "Solo se permiten números";
+    }
+  }
+
+  if (!motivacion) {
+    errors.motivacion = "Campo Obligatorio";
+  }
+
+  if (!descubrioSinapsis || descubrioSinapsis.length == 0) {
+    errors.descubrioSinapsis = "Campo Obligatorio";
+  } else {
+    for (let i = 0; i < descubrioSinapsis.length; i++) {
+      const metodoDescubrio = descubrioSinapsis[i];
+
+      if (metodoDescubrio.value == "OTRO") {
+        const { cualOtroDescubrioSinapsis } = datos;
+
+        if (!cualOtroDescubrioSinapsis) {
+          errors.cualOtroDescubrioSinapsis = "Campo Obligatorio";
+        }
+        break;
+      }
+    }
+  }
 
   return errors;
 };
@@ -379,9 +513,9 @@ export const validacionesEditarPerfil = (datos) => {
   const {
     fechaNacimiento,
     genero,
-    telefono,
+    correoPersonal,
     celular,
-    departamentoId,
+    departamento,
     municipioId,
     direccion,
     vinculoConU,
@@ -393,22 +527,25 @@ export const validacionesEditarPerfil = (datos) => {
   if (!genero) {
     errors.genero = "Campo Obligatorio";
   }
-  if (telefono) {
-    const RegExp = /^\D*\d{1,10}$/;
-    if (!RegExp.test(celular)) {
-      errors.celular = "Solo se permiten números y máximo 10 dígitos";
+  if (!correoPersonal) {
+    errors.correoPersonal = "Campo obligatorio";
+  } else {
+    // eslint-disable-next-line
+    const RegExp = REGEX_PATTERN_CORREO_ELECTRONICO;
+    if (!RegExp.test(correoPersonal)) {
+      errors.correo = "El correo no es válido";
     }
   }
   if (celular) {
-    const RegExp = /^\D*\d{1,10}$/;
+    const RegExp = REGEX_PATTERN_NUMERO_TELEFONO;
     if (!RegExp.test(celular)) {
       errors.celular = "Solo se permiten números y máximo 10 dígitos";
     }
   }
-  if (!departamentoId) {
-    errors.departamentoId = "Campo Obligatorio";
+  if (!departamento) {
+    errors.departamento = "Campo Obligatorio";
   }
-  if (!municipioId) {
+  if (!municipioId && !datos?.municipioId) {
     errors.municipioId = "Campo Obligatorio";
   }
   if (!direccion) {
@@ -418,7 +555,7 @@ export const validacionesEditarPerfil = (datos) => {
     errors.vinculoConU = "Campo Obligatorio";
   } else {
     switch (vinculoConU) {
-      case "Estudiante":
+      case T_SINAPSIS_TIPOS_CONTACTO_ESTUDIANTE:
         const { codigoEstudiantil, tipoEstudiante, programaAcademico } = datos;
         if (!codigoEstudiantil) {
           errors.codigoEstudiantil = "Campo Obligatorio";
@@ -427,7 +564,10 @@ export const validacionesEditarPerfil = (datos) => {
           errors.tipoEstudiante = "Campo Obligatorio";
         } else {
           const { modTrabajoGrado } = datos;
-          if (tipoEstudiante === "PREGRADO" && !modTrabajoGrado) {
+          if (
+            tipoEstudiante === T_SINAPSIS_NIVEL_ACADEMICO_PREGRADO &&
+            !modTrabajoGrado
+          ) {
             errors.modTrabajoGrado = "Campo Obligatorio";
           }
         }
@@ -436,7 +576,7 @@ export const validacionesEditarPerfil = (datos) => {
         }
         break;
 
-      case "Egresado":
+      case T_SINAPSIS_TIPOS_CONTACTO_EGRESADO:
         const { profesionEgresado, tipoEstudianteEgresado } = datos;
         if (!profesionEgresado) {
           errors.profesionEgresado = "Campo Obligatorio";
@@ -446,7 +586,7 @@ export const validacionesEditarPerfil = (datos) => {
         }
         break;
 
-      case "Colaborador":
+      case T_SINAPSIS_TIPOS_CONTACTO_COLABORADOR:
         const { cargoColaborador, dependenciaColaborador } = datos;
         if (!cargoColaborador) {
           errors.cargoColaborador = "Campo Obligatorio";
@@ -455,7 +595,7 @@ export const validacionesEditarPerfil = (datos) => {
           errors.dependenciaColaborador = "Campo Obligatorio";
         }
         break;
-      case "Externo":
+      case T_SINAPSIS_TIPOS_CONTACTO_EXTERNO:
         break;
 
       default:
@@ -475,22 +615,41 @@ export const validarActualizacionContrasena = (datos) => {
   //Validaciones para el oldPassword
   if (!oldPassword || !oldPassword.trim().length > 0) {
     errors.oldPassword = "Campo obligatorio";
+  } else {
+    const RegExp = REGEX_PATTERN_PASSWORD;
+    if (!RegExp.test(oldPassword)) {
+      errors.oldPassword =
+        "La contraseña debe tener entre 4 y 12 caracteres y al menos un dígito.";
+    }
   }
 
   //Validaciones para el newPassword
   if (!newPassword || !newPassword.trim().length > 0) {
     errors.newPassword = "Campo obligatorio";
+  } else {
+    const RegExp = REGEX_PATTERN_PASSWORD;
+    if (!RegExp.test(newPassword)) {
+      errors.newPassword =
+        "La contraseña debe tener entre 4 y 12 caracteres y al menos un dígito.";
+    }
   }
 
   //Validaciones para el newPasswordConfirm
   if (!newPasswordConfirm || !newPasswordConfirm.trim().length > 0) {
     errors.newPasswordConfirm = "Campo obligatorio";
+  } else {
+    const RegExp = REGEX_PATTERN_PASSWORD;
+    if (!RegExp.test(newPasswordConfirm)) {
+      errors.newPasswordConfirm =
+        "La contraseña debe tener entre 4 y 12 caracteres y al menos un dígito.";
+    }
   }
 
   //Validaciones para el diferencia de password
   if (newPassword && newPasswordConfirm) {
-    if (newPassword != newPasswordConfirm) {
-      errors.newPasswordConfirm = "Las contraseñas no coinciden";
+    if (newPassword !== newPasswordConfirm) {
+      errors.newPassword = "Las contraseñas deben ser iguales";
+      errors.newPasswordConfirm = "Las contraseñas deben ser iguales";
     }
   }
 
@@ -511,7 +670,7 @@ export const validarListadoEmprendedoresMentor = (datos) => {
 
   //Validaciones para el numero de documento del emprendedor
   if (numeroDocumento) {
-    const RegExp = /^\D*\d{5,11}$/;
+    const RegExp = REGEX_PATTERN_NUMERO_DOCUMENTO;
     if (!RegExp.test(numeroDocumento)) {
       errors.numeroDocumento = "Solo se permiten números entre 5 a 11 dígitos";
     }
@@ -568,6 +727,250 @@ export const validarFinalizarAsesoramiento = (datos) => {
   //Validaciones para el numero de documento del emprendedor
   if (!observaciones) {
     errors.observaciones = "Campo Obligatorio";
+  }
+
+  return errors;
+};
+
+/**
+ * Validaciones realizadas desde interfaz del Administrador
+ */
+export const validarListadoSolicitudesPA = (datos) => {
+  const errors = {};
+  const { numeroDocumento, nombreEmprendedor, nombreEmprendimiento } = datos;
+
+  //Validaciones para el numero de documento del emprendedor
+  if (numeroDocumento) {
+    const RegExp = REGEX_PATTERN_NUMERO_DOCUMENTO;
+    if (!RegExp.test(numeroDocumento)) {
+      errors.numeroDocumento = "Solo se permiten números entre 5 a 11 dígitos";
+    }
+  }
+
+  //Validaciones para el nombre del emprendedor
+  if (nombreEmprendedor) {
+    const RegExp = REGEX_PATTERN_SOLO_LETRAS;
+    if (!RegExp.test(nombreEmprendedor)) {
+      errors.nombreEmprendedor = "Solo se permiten letras";
+    }
+  }
+
+  //Validaciones para el nombre del emprendimiento
+  if (nombreEmprendimiento) {
+    const RegExp = REGEX_PATTERN_SOLO_LETRAS;
+    if (!RegExp.test(nombreEmprendimiento)) {
+      errors.nombreEmprendimiento = "Solo se permiten letras.";
+    }
+  }
+  return errors;
+};
+
+export const validarListadoProyectoEmprendimiento = (datos) => {
+  const errors = {};
+  const { numeroDocumento, nombreEmprendedor, nombreEmprendimiento } = datos;
+
+  //Validaciones para el numero de documento del emprendedor
+  if (numeroDocumento) {
+    const RegExp = REGEX_PATTERN_NUMERO_DOCUMENTO;
+    if (!RegExp.test(numeroDocumento)) {
+      errors.numeroDocumento = "Solo se permiten números entre 5 a 11 dígitos";
+    }
+  }
+
+  //Validaciones para el nombre del emprendedor
+  if (nombreEmprendedor) {
+    const RegExp = REGEX_PATTERN_SOLO_LETRAS;
+    if (!RegExp.test(nombreEmprendedor)) {
+      errors.nombreEmprendedor = "Solo se permiten letras";
+    }
+  }
+
+  //Validaciones para el nombre del emprendimiento
+  if (nombreEmprendimiento) {
+    const RegExp = REGEX_PATTERN_SOLO_LETRAS;
+    if (!RegExp.test(nombreEmprendimiento)) {
+      errors.nombreEmprendimiento = "Solo se permiten letras.";
+    }
+  }
+  return errors;
+};
+
+export const validarCrearAnuncio = (datos) => {
+  const errors = {};
+  const { tituloAnuncio, descripcionAnuncio, permanente, fileAnuncio } = datos;
+
+  //Validaciones para el titulo
+  if (!tituloAnuncio) {
+    errors.tituloAnuncio = "Campo Obligatorio";
+  } else {
+    const RegExp = REGEX_PATTERN_CARATERETES;
+    if (!RegExp.test(tituloAnuncio)) {
+      errors.tituloAnuncio = "Maximo 200 caracteres";
+    }
+  }
+
+  //Validaciones para el titulo
+  if (!descripcionAnuncio) {
+    errors.descripcionAnuncio = "Campo Obligatorio";
+  } else {
+    const RegExp = REGEX_PATTERN_CARATERETES;
+    if (!RegExp.test(descripcionAnuncio)) {
+      errors.descripcionAnuncio = "Maximo 200 caracteres";
+    }
+  }
+
+  //Validaciones para el mentor principal del emprendedor
+  if (!permanente) {
+    errors.permanente = "Campo Obligatorio";
+  } else {
+    if (permanente == 0) {
+      const { fechaHasta } = datos;
+      if (!fechaHasta) {
+        errors.permanente = "Campo Obligatorio";
+      }
+    }
+  }
+
+  //Validaciones para el mentor principal del emprendedor
+  if (!fileAnuncio) {
+    errors.fileAnuncio = "Campo Obligatorio";
+  }
+
+  return errors;
+};
+
+export const validarAsignarEtapaInicial = (datos) => {
+  const errors = {};
+  const { etapa, mentorPrincipal } = datos;
+
+  //Validaciones para la etapa emprendedor
+  if (!etapa) {
+    errors.etapa = "Campo Obligatorio";
+  }
+
+  //Validaciones para el mentor principal del emprendedor
+  if (!mentorPrincipal) {
+    errors.mentorPrincipal = "Campo Obligatorio";
+  }
+
+  return errors;
+};
+
+export const validarListadoMentoresAdmin = (datos) => {
+  const errors = {};
+  const { numeroDocumento, nombreMentor } = datos;
+
+  //Validaciones para el numero de documento del emprendedor
+  if (numeroDocumento) {
+    const RegExp = REGEX_PATTERN_NUMERO_DOCUMENTO;
+    if (!RegExp.test(numeroDocumento)) {
+      errors.numeroDocumento = "Solo se permiten números entre 5 a 11 dígitos";
+    }
+  }
+
+  //Validaciones para el nombre del emprendedor
+  if (nombreMentor) {
+    const RegExp = REGEX_PATTERN_SOLO_LETRAS;
+    if (!RegExp.test(nombreMentor)) {
+      errors.nombreMentor = "Solo se permiten letras";
+    }
+  }
+
+  return errors;
+};
+
+export const validarListadoEmprendedoresAdmin = (datos) => {
+  const errors = {};
+  const { numeroDocumento, nombreEmprendedor } = datos;
+
+  //Validaciones para el numero de documento del emprendedor
+  if (numeroDocumento) {
+    const RegExp = REGEX_PATTERN_NUMERO_DOCUMENTO;
+    if (!RegExp.test(numeroDocumento)) {
+      errors.numeroDocumento = "Solo se permiten números entre 5 a 11 dígitos";
+    }
+  }
+
+  //Validaciones para el nombre del emprendedor
+  if (nombreEmprendedor) {
+    const RegExp = REGEX_PATTERN_SOLO_LETRAS;
+    if (!RegExp.test(nombreEmprendedor)) {
+      errors.nombreEmprendedor = "Solo se permiten letras";
+    }
+  }
+
+  return errors;
+};
+
+export const validarCreacionTarea = (datos) => {
+  const errors = {};
+  const { fileTarea, descripcionTarea, fechaEntrega, nombreTarea } = datos;
+  if (!nombreTarea) {
+    errors.nombreTarea = "Campo Obligatorio";
+  }
+  if (!descripcionTarea) {
+    errors.descripcionTarea = "Campo Obligatorio";
+  }
+  if (!fechaEntrega) {
+    errors.fechaEntrega = "Campo Obligatorio";
+  } else {
+    // console.log("Qui", new Date(fechaEntrega) < new Date());
+    // console.log("AQui", {
+    //   fechaEntrega,
+    //   date: new Date(),
+    //   t: new Date(fechaEntrega),
+    // });
+
+    if (new Date(fechaEntrega) < new Date()) {
+      errors.fechaEntrega =
+        "La fecha limite de entrega NO puede ser menor de HOY";
+    }
+  }
+
+  if (!fileTarea) {
+    errors.fileTarea = "Campo Obligatorio";
+  } else {
+    if (fileTarea.length > 1) {
+      errors.fileTarea = "Solo se permite subir 1 archivo";
+    }
+  }
+  return errors;
+};
+
+export const validarEntregaTarea = (datos) => {
+  const errors = {};
+  const { files, comentarioEmprendedor } = datos;
+
+  if (comentarioEmprendedor) {
+    const RegExp = REGEX_PATTERN_SOLO_LETRAS;
+    if (!RegExp.test(comentarioEmprendedor)) {
+      errors.comentarioEmprendedor = "Solo se permiten letras";
+    }
+  }
+
+  if (!files) {
+    errors.files = "Campo Obligatorio";
+  } else {
+    if (files.length > 1) {
+      errors.files = "Solo se permite subir 1 archivo";
+    }
+  }
+  return errors;
+};
+
+export const validarCalificacionTarea = (datos) => {
+  const errors = {};
+  const { calificacionEntrega, comentariosEntrega } = datos;
+
+  if (comentariosEntrega) {
+    const RegExp = REGEX_PATTERN_SOLO_LETRAS;
+    if (!RegExp.test(comentariosEntrega)) {
+      errors.comentariosEntrega = "Solo se permiten letras";
+    }
+  }
+
+  if (!calificacionEntrega) {
+    errors.calificacionEntrega = "Campo Obligatorio";
   }
 
   return errors;

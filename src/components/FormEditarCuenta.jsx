@@ -232,7 +232,7 @@ function FormEditarCuenta({ idUsuario }) {
             >
               <img
                 src={LogoSinapsis}
-                alt="Logo Sinapsis"
+                alt="Logo SINAPSIS UAO"
                 className="logo_sinapsis"
                 style={{
                   width: "20vw",

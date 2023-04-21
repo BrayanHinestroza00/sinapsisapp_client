@@ -1,16 +1,19 @@
-import Swal from "sweetalert2";
-import { useState } from "react";
 import { Modal } from "react-bootstrap";
-import DropZone from "src/components/DropZone";
+
 import {
   img,
   thumb,
   thumbInner,
   thumbsContainer,
 } from "src/assets/styles/DropzoneStyle";
+import downloadIcon from "src/assets/images/download_icon.png";
+
 import { HOST } from "src/utils/apiConstants";
+import { SINAPSIS_APP_FORMATO_FECHA_HORA } from "src/utils/constants";
+import moment from "moment";
 
 function DetalleTareaAdmin(props) {
+  console.log(props);
   return (
     <Modal
       {...props}
@@ -33,29 +36,40 @@ function DetalleTareaAdmin(props) {
       </Modal.Header>
       <Modal.Body style={{ backgroundColor: "#fbf6fc" }}>
         <div className="container">
-          <div>
+          <div className="row mb-3">
             <h5>Descripción</h5>
             <p>{props.data.descripcionTarea}</p>
           </div>
 
           {props.data.urlMaterialApoyo && (
-            <div>
+            <div className="row mb-3">
               <h5>Recursos del docente</h5>
-              <br />
-              <div>
+              <div className="text-center">
                 <a
-                  className="text-center"
                   href={`${HOST}/${props.data.urlMaterialApoyo}`}
                   target="_blank"
                 >
-                  <img src={`${HOST}/upload.png`} height="150" alt="" />
+                  <img src={downloadIcon} width="25%" alt="downloadIcon" />
                 </a>
-                <br />
               </div>
             </div>
           )}
 
-          <div>
+          {props?.tipo == "historial" && props.data.urlArchivosEntrega && (
+            <div className="row mb-3">
+              <h5>Recursos entregado por Emprendedor</h5>
+              <div className="text-center">
+                <a
+                  href={`${HOST}/${props.data.urlArchivosEntrega}`}
+                  target="_blank"
+                >
+                  <img src={downloadIcon} width="25%" alt="downloadIcon" />
+                </a>
+              </div>
+            </div>
+          )}
+
+          <div className="row mb-3">
             <h5>Estado de Entrega</h5>
             <div>
               <table className="table table-bordered">
@@ -69,34 +83,69 @@ function DetalleTareaAdmin(props) {
                     <td>{props.data.calificacion || "SIN ENTREGAR"}</td>
                   </tr>
                   <tr>
-                    <td>Fecha de Entrega</td>
-                    <td>{props.data.fechaEntrega || "SIN ENTREGAR"}</td>
-                  </tr>
-                  <tr>
-                    <td>Archivos Enviados</td>
+                    <td>Fecha Limite de Entrega</td>
                     <td>
-                      {props.data.urlArchivosEntrega ? (
-                        <aside style={thumbsContainer}>
-                          <div style={thumb}>
-                            <div style={thumbInner}>
-                              <img
-                                src={`${HOST}/${props.data.urlArchivosEntrega}`}
-                                style={img}
-                                alt={"Documentos entregados"}
-                              />
-                            </div>
-                          </div>
-                        </aside>
-                      ) : (
-                        "SIN ARCHIVOS ENVIADOS"
-                      )}
+                      {props.data.fechaLimiteEntrega
+                        ? moment(
+                            props.data.fechaLimiteEntrega,
+                            "YYYY-MM-DD hh:mm:ss"
+                          ).format(SINAPSIS_APP_FORMATO_FECHA_HORA)
+                        : "SIN ENTREGAR"}
                     </td>
                   </tr>
                   <tr>
-                    <td>Comentarios de la Entrega</td>
+                    <td>Fecha de Entrega</td>
+                    <td>
+                      {props.data.fechaEntrega
+                        ? moment(
+                            props.data.fechaEntrega,
+                            "YYYY-MM-DD hh:mm:ss"
+                          ).format(SINAPSIS_APP_FORMATO_FECHA_HORA)
+                        : "SIN ENTREGAR"}
+                    </td>
+                  </tr>
+                  {props.tipo != "historial" && (
+                    <tr>
+                      <td>Archivos Enviados</td>
+                      <td>
+                        {props.data.urlArchivosEntrega ? (
+                          <aside style={thumbsContainer}>
+                            <div style={thumb}>
+                              <div style={thumbInner}>
+                                <img
+                                  src={`${HOST}/${props.data.urlArchivosEntrega}`}
+                                  style={img}
+                                  alt={"Documentos entregados"}
+                                />
+                              </div>
+                            </div>
+                          </aside>
+                        ) : (
+                          "SIN ARCHIVOS ENVIADOS"
+                        )}
+                      </td>
+                    </tr>
+                  )}
+
+                  <tr>
+                    <td>Comentarios de la Entrega de Emprendedor</td>
                     <td>
                       {props.data.comentariosEntregaEmprendedor ||
                         "SIN COMENTARIOS"}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>Comentarios de la Entrega de Usuario</td>
+                    <td>
+                      {props.data.comentariosEntrega || "SIN COMENTARIOS"}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>Asignada por</td>
+                    <td>
+                      {`${props.data.nombresCrea} ${props.data.apellidosCrea}`}
                     </td>
                   </tr>
                 </tbody>

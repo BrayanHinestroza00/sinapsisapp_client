@@ -1,21 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Axios from "axios";
 import swal from "sweetalert2";
 import { Titulo } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
 import { Card } from "react-bootstrap";
 import {
   HTTP_METHOD_GET,
+  HTTP_METHOD_POST,
+  URL_ASIGNAR_ETAPA_INICIAL,
   URL_OBTENER_ETAPAS_RUTA_INNOVACION_EMPRENDIMIENTO,
   URL_OBTENER_MENTORES,
 } from "src/utils/apiConstants";
 import { useFetch } from "src/services/hooks/useFetch";
+import { validarAsignarEtapaInicial } from "src/utils/validaciones";
+import { confirmAlertWithText } from "src/utils/alerts/ConfirmAlert";
+import {
+  messageAlert,
+  messageAlertWithoutText,
+} from "src/utils/alerts/MessageAlert";
+import { useLocation, useNavigate } from "react-router-dom";
+import { AdministradorContext } from "src/services/context/AdministradorContext";
 
-function AsignarEtapaRuta(props) {
-  const [mentores2, setMentores] = useState(null);
-  const [etapas2, setEtapas] = useState(null);
-  const [etapaMentor, setEtapaMentor] = useState({}); // Eleccion del administrador para dar ruta y mentor al emprendedor
-  const loading = props.loading;
-  const mentores = [];
+function AsignarEtapaRuta() {
+  const navigate = useNavigate();
+  const { userData } = useContext(AdministradorContext);
+  const { state } = useLocation();
+  const [error, setError] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [datos, setDatos] = useState({}); // Eleccion del administrador para dar ruta y mentor al emprendedor
 
   // Custom Hooks
   const {
@@ -34,6 +45,8 @@ function AsignarEtapaRuta(props) {
     fetchAPI: fetchApiEtapasRuta,
   } = useFetch();
 
+  const { message: messageAPI, error: errorAPI, fetchAPI } = useFetch();
+
   useEffect(() => {
     fetchApiEtapasRuta({
       URL: URL_OBTENER_ETAPAS_RUTA_INNOVACION_EMPRENDIMIENTO,
@@ -44,137 +57,105 @@ function AsignarEtapaRuta(props) {
   }, []);
 
   useEffect(() => {
-    if (etapaMentor.etapa) {
+    if (datos && datos.etapa) {
       fetchApiMentores({
         URL: URL_OBTENER_MENTORES,
         requestOptions: {
           method: HTTP_METHOD_GET,
           params: {
-            idEtapaRutaInnovacion: etapaMentor.etapa,
+            idEtapaRutaInnovacion: datos.etapa,
           },
         },
       });
     }
-  }, [etapaMentor]);
+  }, [datos]);
 
-  useEffect(() => {
-    if (loading) {
-      Axios.get(`${URL}/Administrador/AsignarMentor`, {
-        headers: {
-          Authorization:
-            localStorage.getItem("token") || sessionStorage.getItem("token"),
-        },
-      })
-        .then((res) => {
-          const { etapas, mentores } = res.data;
-          setMentores(mentores);
-          setEtapas(etapas);
-          props.setLoading(false);
-        })
-        .catch((err) => {
-          swal.fire({
-            title: err.response.data.message,
-            icon: "warning",
-            confirmButtonText: "Aceptar",
-            confirmButtonColor: "#9a66a8",
-            showConfirmButton: true,
-            showCloseButton: true,
-          });
-        });
-    }
-  }, [loading]);
-
-  const HandleChange = (e) => {
+  const onHandleChange = (e) => {
     if (e.target.name == "etapa") {
-      setEtapaMentor({
+      setDatos({
         [e.target.name]: e.target.value,
       });
     } else {
-      setEtapaMentor({
-        ...etapaMentor,
+      setDatos({
+        ...datos,
         [e.target.name]: e.target.value,
+      });
+    }
+    setError({});
+  };
+
+  const onHandleSubmit = (e) => {
+    e.preventDefault();
+    let erroresFormulario = validarAsignarEtapaInicial(datos);
+    if (Object.keys(erroresFormulario).length) {
+      setError(erroresFormulario);
+    } else {
+      setError({});
+      confirmAlertWithText({
+        title:
+          "¿Estas seguro? Se asignara una etapa inicial y mentor principal al emprendedor",
+        text: "Este proceso no se puede deshacer",
+        confirmButtonText: "Confirmar",
+        cancelButtonText: "Cancelar",
+        onConfirm: () => handleSubmit(),
       });
     }
   };
 
-  const HandleClick = () => {
-    swal
-      .fire({
-        title: "¿Estás seguro?",
-        text: "Se asignara una etapa inicial y mentor principal al emprendedor",
-        icon: "warning",
-        iconColor: "#9a66a8",
-        confirmButtonText: "Confirmar",
-        confirmButtonColor: "#9a66a8",
-        showConfirmButton: true,
-        showCancelButton: true,
-        cancelButtonText: "Cancelar",
-      })
-      .then((res) => {
-        if (res.isConfirmed) {
-          asignarRuta();
-        }
-      });
-  };
-
-  const asignarRuta = () => {
-    const datos = {
-      ...etapaMentor,
-      cedulaEmprendedor: window.location.pathname.split("/")[3],
-    };
-    Axios.put(
-      `${URL}/Administrador/AsignarMentor`,
-      {
-        datos,
-      },
-      {
-        headers: {
-          Authorization:
-            localStorage.getItem("token") || sessionStorage.getItem("token"),
+  const handleSubmit = () => {
+    setLoading(true);
+    // console.log("Data", {
+    //   idProyectoEmprendimiento: state.proyectoEmprendimientoId,
+    //   idEtapaRuta: datos.etapa,
+    //   creado_por: userData.id,
+    //   idMentorPrincipal: datos.mentorPrincipal,
+    // });
+    fetchAPI({
+      URL: URL_ASIGNAR_ETAPA_INICIAL,
+      requestOptions: {
+        method: HTTP_METHOD_POST,
+        data: {
+          idProyectoEmprendimiento: state.proyectoEmprendimientoId,
+          idEtapaRuta: datos.etapa,
+          creado_por: userData.id,
+          idMentorPrincipal: datos.mentorPrincipal,
         },
-      }
-    )
-      .then((res) => {
-        if (
-          res.data.resultado1.affectedRows > 0 &&
-          res.data.resultado2.affectedRows > 0
-        ) {
-          swal
-            .fire({
-              title: "Diagnostico revisado",
-              icon: "success",
-              iconColor: "#9a66a8",
-              confirmButtonText: "Aceptar",
-              confirmButtonColor: "#9a66a8",
-              showConfirmButton: true,
-            })
-            .then(() => (window.location.href = "/Administrador/Diagnosticos"));
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      },
+    });
   };
 
-  if (/*loading ||*/ !etapasRutaData) {
-    return <h1>LOADING ProyectoEmprendimientosPage</h1>;
-  }
-
-  if (etapasRutaMessage) {
-    return (
-      <>
-        <p>{etapasRutaMessage}</p>
-      </>
-    );
-  }
-
-  if (etapasRutaError) {
-    return (
-      <>
-        <h1>ERROR</h1>
-        <p>{etapasRutaError}</p>
-      </>
-    );
+  if (loading && errorAPI) {
+    messageAlert({
+      title: "Algo ha fallado",
+      text: errorAPI,
+      icon: "error",
+      confirmButtonText: "Aceptar",
+    });
+    setLoading(false);
+  } else if (loading && messageAPI) {
+    if (messageAPI == "OK") {
+      messageAlertWithoutText({
+        title: "Se ha asignado la etapa y mentor correctamente",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        onConfirm: () =>
+          navigate(
+            `/Administrador/Emprendimientos/${state.proyectoEmprendimientoId}`,
+            {
+              replace: true,
+              state: state,
+            }
+          ),
+      });
+    } else {
+      messageAlert({
+        title: "Asignación de etapa inicial fallido",
+        text: messageAPI,
+        icon: "warning",
+        confirmButtonText: "Aceptar",
+      });
+    }
+    setLoading(false);
   }
 
   return (
@@ -184,62 +165,83 @@ function AsignarEtapaRuta(props) {
           Asignar etapa inicial y mentor principal
         </Titulo>
         <form>
-          <div className="mb-3">
-            <label className="form-label">Etapa inicial</label>
-            <br></br>
-            <select
-              name="etapa"
-              className="form-select"
-              type="text"
-              onChange={(e) => {
-                HandleChange(e);
-              }}
-            >
-              <option className="inputDiag" value="-1" disabled selected>
-                Seleccione una...
-              </option>
-              {etapasRutaLoading || etapasRutaData.length == 0 ? (
-                <></>
-              ) : (
-                etapasRutaData.map((etapaRuta) => (
-                  <option className="inputDiagDC" value={etapaRuta.id}>
-                    {etapaRuta.nombre}
-                  </option>
-                ))
+          {etapasRutaLoading ? (
+            <p>Cargando...</p>
+          ) : etapasRutaMessage || etapasRutaError ? (
+            <p>{etapasRutaMessage || etapasRutaError}</p>
+          ) : (
+            <div className="mb-3">
+              <label className="form-label">Etapa inicial</label>
+              <br></br>
+              <select
+                name="etapa"
+                className="form-select"
+                type="text"
+                onChange={(e) => {
+                  onHandleChange(e);
+                }}
+                value={datos.etapa || "-1"}
+              >
+                <option value="-1" disabled>
+                  Seleccione una...
+                </option>
+                {etapasRutaData &&
+                  etapasRutaData.length > 0 &&
+                  etapasRutaData.map((etapaRuta, index) => (
+                    <option key={index} value={etapaRuta.id}>
+                      {etapaRuta.nombre}
+                    </option>
+                  ))}
+              </select>
+              {error.etapa && (
+                <small className="form-text font-weight-bold text-danger">
+                  {error.etapa}
+                </small>
               )}
-            </select>
-          </div>
+            </div>
+          )}
 
-          <div className="mb-3">
-            <label className="form-label">Mentor principal</label>
-            <br></br>
-            <select
-              name="mentorPrincipal"
-              className="form-select"
-              type="text"
-              onChange={(e) => {
-                HandleChange(e);
-              }}
-              value={etapaMentor.mentorPrincipal || "-1"}
-            >
-              <option className="inputDiagDC" value="-1" disabled selected>
-                Seleccione uno...
-              </option>
-              {mentoresData && mentoresData.length > 0 ? (
-                mentoresData.map((mentor) => (
-                  <option className="inputDiagDC" value={mentor.idUsuario}>
-                    {`${mentor.usuario.nombres} ${mentor.usuario.apellidos} / ${
-                      mentor.cargo || "Sin especialidad"
-                    }`}
-                  </option>
-                ))
+          {datos?.etapa && (
+            <div className="mb-3">
+              <label className="form-label">Mentor principal</label>
+              <br></br>
+              {mentoresLoading ? (
+                <p>Cargando...</p>
+              ) : mentoresMessage || mentoresError ? (
+                <p>{mentoresMessage || mentoresError}</p>
               ) : (
-                <></>
+                <select
+                  name="mentorPrincipal"
+                  className="form-select"
+                  type="text"
+                  onChange={(e) => {
+                    onHandleChange(e);
+                  }}
+                  value={datos.mentorPrincipal || "-1"}
+                >
+                  <option value="-1" disabled>
+                    Seleccione uno...
+                  </option>
+                  {mentoresData &&
+                    mentoresData.length > 0 &&
+                    mentoresData.map((mentor, index) => (
+                      <option key={index} value={mentor.id}>
+                        {`${mentor.nombreCompleto} / ${
+                          mentor.cargoMentor || "Sin especialidad"
+                        }`}
+                      </option>
+                    ))}
+                </select>
               )}
-            </select>
-          </div>
+              {error.mentorPrincipal && (
+                <small className="form-text font-weight-bold text-danger">
+                  {error.mentorPrincipal}
+                </small>
+              )}
+            </div>
+          )}
           <div className="text-center">
-            <button className="btn btn-primary mb-3" onClick={HandleClick}>
+            <button className="btn btn-primary mb-3" onClick={onHandleSubmit}>
               Asignar
             </button>
           </div>

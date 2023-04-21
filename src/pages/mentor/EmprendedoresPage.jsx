@@ -77,7 +77,6 @@ function EmprendedoresPage() {
   const onHandleSearchEmprendedor = (emprendedor) => {
     const data = emprendedoresData[emprendedor.n - 1];
 
-    console.log("EmprendedoresPage", data);
     navigate(`/Mentor/Emprendedor/${data.idEmprendedor}`, {
       replace: true,
       state: data,

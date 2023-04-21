@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import moment from "moment";
 import FlexyTable from "src/components/FlexyTable";
 import {
@@ -11,11 +11,9 @@ import { useFetch } from "src/services/hooks/useFetch";
 import { SINAPSIS_APP_FORMATO_FECHA } from "src/utils/constants";
 import { HTTP_METHOD_GET } from "src/utils/apiConstants";
 
-// import "../../../styles/ConsultoriasMentor.css";
-
 function Consultoria({ idEmprendedor }) {
-  const [loadingComponent, setLoadingComponent] = useState(true);
   const [consultorias, setConsultorias] = useState([]);
+  const [showConsultoriaModal, setShowConsultoriaModal] = useState(false);
 
   // Custom Hooks
   const {
@@ -37,8 +35,6 @@ function Consultoria({ idEmprendedor }) {
         },
       },
     });
-
-    setLoadingComponent(false);
   }, []);
 
   useEffect(() => {
@@ -72,39 +68,18 @@ function Consultoria({ idEmprendedor }) {
     }
   }, [consultoriasData]);
 
-  if (loadingComponent || consultoriasLoading) {
-    return <h1>LOADING EstadoRutaEmprendedor</h1>;
-  }
-
-  if (consultoriasMessage) {
-    return (
-      <Card>
-        <SubTitulo>Consultorías programadas</SubTitulo>
-        <Ruta
-          style={{
-            padding: "0rem 2rem 1rem 2rem",
-            marginTop: "0rem",
-            marginLeft: "0rem",
-          }}
-        >
-          <p>Loading Consultoria Mentor</p>
-        </Ruta>
-      </Card>
-    );
-  }
-
-  if (consultoriasError) {
-    return (
-      <>
-        <h1>ERROR</h1>
-        <p>{consultoriasError}</p>
-      </>
-    );
-  }
+  const showModal = () => {
+    setShowConsultoriaModal(true);
+  };
 
   return (
     <Card>
       <SubTitulo>Consultorías programadas</SubTitulo>
+
+      <Button className="btn btn-primary mx-4 my-3 w-25" onClick={showModal}>
+        Programar Consultoria
+      </Button>
+
       <Ruta
         style={{
           padding: "0rem 2rem 1rem 2rem",
@@ -112,16 +87,26 @@ function Consultoria({ idEmprendedor }) {
           marginLeft: "0rem",
         }}
       >
-        {/* <SubTitulo>CONSULTARÍAS PROGRAMADAS</SubTitulo> */}
-        {consultorias.length > 0 ? (
+        {consultoriasLoading ? (
+          <h6>Cargando...</h6>
+        ) : consultoriasError ||
+          (consultoriasMessage && consultoriasMessage != "Sin datos") ? (
+          <>
+            {consultoriasError && <h6>{consultoriasError}</h6>}
+
+            {consultoriasMessage && <h6>{consultoriasMessage}</h6>}
+          </>
+        ) : consultorias && consultorias.length > 0 ? (
           <FlexyTable
             datos={consultorias}
             titulo={"consultorías programadas"}
           />
         ) : (
-          <>No hay consultorías programadas</>
+          <h6>No hay consultorías programadas</h6>
         )}
       </Ruta>
+
+      {}
     </Card>
   );
 }

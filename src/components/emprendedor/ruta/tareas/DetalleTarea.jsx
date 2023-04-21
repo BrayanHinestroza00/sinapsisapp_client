@@ -1,6 +1,7 @@
 import Swal from "sweetalert2";
 import { useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Form, Modal } from "react-bootstrap";
+
 import DropZone from "src/components/DropZone";
 import {
   img,
@@ -8,11 +9,27 @@ import {
   thumbInner,
   thumbsContainer,
 } from "src/assets/styles/DropzoneStyle";
-import { HOST } from "src/utils/apiConstants";
+import downloadIcon from "src/assets/images/download_icon.png";
+import {
+  HOST,
+  HTTP_METHOD_POST,
+  URL_ENTREGAR_TAREA_EMPRENDEDOR,
+} from "src/utils/apiConstants";
+import { confirmAlertWithText } from "src/utils/alerts/ConfirmAlert";
+import { validarEntregaTarea } from "src/utils/validaciones";
+import {
+  messageAlert,
+  messageAlertWithoutText,
+} from "src/utils/alerts/MessageAlert";
+import { useFetch } from "src/services/hooks/useFetch";
 
 function DetalleTarea(props) {
   const [datosTarea, setDatosTarea] = useState({});
   const [error, setError] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  // Custom Hooks
+  const { message: messageAPI, error: errorAPI, fetchAPI } = useFetch();
 
   const getFiles = (files) => {
     setDatosTarea({
@@ -21,12 +38,78 @@ function DetalleTarea(props) {
     });
   };
 
-  const handleChangle = (e) => {
+  const onHandleChangle = (e) => {
     setDatosTarea({
       ...datosTarea,
       [e.target.name]: e.target.value,
     });
   };
+
+  const onHandleSubmit = (e) => {
+    e.preventDefault();
+    let erroresFormulario = validarEntregaTarea(datosTarea);
+    if (Object.keys(erroresFormulario).length) {
+      setError(erroresFormulario);
+    } else {
+      setError({});
+      confirmAlertWithText({
+        title: "¿Estás seguro que deseas entregar la tarea?",
+        text: "Esta acción no se puede deshacer",
+        confirmButtonText: "Entregar Tarea",
+        cancelButtonText: "Cancelar",
+        onConfirm: () => submitForm(),
+      });
+    }
+  };
+
+  const submitForm = () => {
+    const { files, comentarioEmprendedor } = datosTarea;
+
+    const form = new FormData();
+    form.append("idTarea", props.data.idTarea);
+    form.append("comentariosEntrega", comentarioEmprendedor);
+    form.append("fileEntrega", files[0]);
+
+    setLoading(true);
+    fetchAPI({
+      URL: URL_ENTREGAR_TAREA_EMPRENDEDOR,
+      requestOptions: {
+        method: HTTP_METHOD_POST,
+        data: form,
+      },
+    });
+  };
+
+  if (loading && errorAPI) {
+    messageAlert({
+      title: "Algo ha fallado",
+      text: errorAPI,
+      icon: "error",
+      confirmButtonText: "Aceptar",
+    });
+
+    setLoading(false);
+  } else if (loading && messageAPI) {
+    if (messageAPI == "OK") {
+      messageAlertWithoutText({
+        title: "Tarea Entregada Exitosamente",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        onConfirm: () => {
+          props.onHide();
+          window.location.reload();
+        },
+      });
+      setDatosTarea({});
+    } else {
+      messageAlertWithoutText({
+        title: messageAPI,
+        icon: "warning",
+        confirmButtonText: "Aceptar",
+      });
+    }
+    setLoading(false);
+  }
 
   return (
     <Modal
@@ -50,29 +133,29 @@ function DetalleTarea(props) {
       </Modal.Header>
       <Modal.Body style={{ backgroundColor: "#fbf6fc" }}>
         <div className="container">
-          <div>
+          <div className="row">
             <h5>Descripción</h5>
             <p>{props.data.descripcionTarea}</p>
           </div>
 
           {props.data.urlMaterialApoyo && (
-            <div>
+            <div className="row">
               <h5>Recursos del docente</h5>
               <br />
-              <div>
+              <div className="text-center">
                 <a
                   className="text-center"
                   href={`${HOST}/${props.data.urlMaterialApoyo}`}
                   target="_blank"
                 >
-                  <img src={`${HOST}/upload.png`} height="150" alt="" />
+                  <img src={downloadIcon} width="25%" alt="downloadIcon" />
                 </a>
                 <br />
               </div>
             </div>
           )}
 
-          <div>
+          <div className="row">
             <h5>Estado de Entrega</h5>
             <div>
               <table className="table table-bordered">
@@ -122,79 +205,63 @@ function DetalleTarea(props) {
           </div>
 
           {props.tipo == "PENDIENTES" && (
-            <form encType="multipart/form-data">
-              <div>
-                <br></br>
-                <h6>Sube tu tarea</h6>
-                <DropZone upFiles={getFiles} files={props.data?.files} />
+            <Form encType="multipart/form-data">
+              <div className="row">
+                <Form.Group className="mb-3">
+                  <h6>Sube tu tarea</h6>
+                  <DropZone upFiles={getFiles} files={datosTarea?.files} />
 
-                {(props.data.files || props.data.urlMaterialApoyo) && (
-                  <aside style={thumbsContainer}>
-                    <div style={thumb}>
-                      <div style={thumbInner}>
-                        <img
-                          src={
-                            props.data.files
-                              ? URL.createObjectURL(props.data?.files[0])
-                              : props.data.urlMaterialApoyo
-                              ? `${HOST}/${props.data.urlMaterialApoyo}`
-                              : ""
-                          }
-                          style={img}
-                          alt={
-                            props.data.files
-                              ? props.data.files[0].name
-                              : props.data.urlMaterialApoyo
-                          }
-                        />
+                  {(datosTarea?.files || props.data.urlArchivosEntrega) && (
+                    <aside style={thumbsContainer}>
+                      <div style={thumb}>
+                        <div style={thumbInner}>
+                          <img
+                            src={
+                              datosTarea?.files
+                                ? URL.createObjectURL(datosTarea?.files[0])
+                                : props.data.urlArchivosEntrega
+                                ? `${HOST}/${props.data.urlArchivosEntrega}`
+                                : ""
+                            }
+                            style={img}
+                            alt={
+                              datosTarea?.files
+                                ? datosTarea.files[0].name
+                                : props.data.urlArchivosEntrega
+                            }
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </aside>
-                )}
-                {error.files && (
-                  <small className="form-text font-weight-bold text-danger">
-                    {error.files}
-                  </small>
-                )}
+                    </aside>
+                  )}
+                  {error.files && (
+                    <small className="form-text font-weight-bold text-danger">
+                      {error.files}
+                    </small>
+                  )}
+                </Form.Group>
               </div>
-
-              <div>
-                <br></br>
-                <h5>Comentarios de tu entrega</h5>
-                <label>Comentario </label>
-                <br />
-                <textarea
-                  name="comentarioEmprendedor"
-                  className="form-control"
-                  onChange={(e) => handleChangle(e)}
-                />
+              <div className="row">
+                <Form.Group className="mb-3">
+                  <h5>Comentarios de tu entrega</h5>
+                  <Form.Label>Comentario </Form.Label>
+                  <br />
+                  <Form.Control
+                    as="textarea"
+                    cols={3}
+                    name="comentarioEmprendedor"
+                    className="form-control"
+                    onChange={(e) => onHandleChangle(e)}
+                  />
+                </Form.Group>
               </div>
-            </form>
+            </Form>
           )}
         </div>
       </Modal.Body>
       <Modal.Footer style={{ backgroundColor: "#fbf6fc" }}>
         {props.tipo == "PENDIENTES" && (
-          <button
-            className="btn btn-primary"
-            onClick={(e) => {
-              Swal.fire({
-                title: "¿Estás seguro que deseas enviar la tarea?",
-                icon: "question",
-                iconColor: "#9a66a8",
-                confirmButtonText: "Enviar",
-                confirmButtonColor: "#9a66a8",
-                showConfirmButton: true,
-                showCancelButton: true,
-                cancelButtonText: "Cancelar",
-              }).then((res) => {
-                if (res.isConfirmed) {
-                  //handleSubmit(e);
-                  window.alert("SUBMITTED");
-                }
-              });
-            }}
-          >
+          <button className="btn btn-primary" onClick={onHandleSubmit}>
             Entregar Tarea
           </button>
         )}

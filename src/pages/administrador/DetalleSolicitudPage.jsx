@@ -7,14 +7,16 @@ function DetalleSolicitudPage() {
     <>
       <Titulo>Detalle de Solicitud de Primera Atención </Titulo>
       <table>
-        <tr className="d-flex">
-          <td style={{ width: "65vw" }}>
-            <TabAdministrador />
-          </td>
-          <td className="mt-5">
-            <AsignarEtapaRuta />
-          </td>
-        </tr>
+        <tbody className="d-flex">
+          <tr>
+            <td style={{ width: "65vw" }}>
+              <TabAdministrador />
+            </td>
+            <td className="mt-5">
+              <AsignarEtapaRuta />
+            </td>
+          </tr>
+        </tbody>
       </table>
     </>
   );

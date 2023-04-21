@@ -2,7 +2,7 @@ import DescubrirseEmprendedor from "./sonar/ser_emprendedor/conectar_y_potencial
 
 function SeccionAvanzarRuta({ idSeccion, tituloSeccion }) {
   return (
-    <div className="accordion" id={`accordion${idSeccion}`}>
+    <div className="accordion m-0" id={`accordion${idSeccion}`}>
       <div className="accordion-item">
         <h2 className="accordion-header" id={`heading${idSeccion}`}>
           <button

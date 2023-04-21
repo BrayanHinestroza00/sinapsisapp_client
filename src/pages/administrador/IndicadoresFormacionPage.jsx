@@ -1,6 +1,6 @@
 import { Card } from "react-bootstrap";
 import { Titulo } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
-import LineChart from "src/components/chartjs/LineChart";
+import LineChart from "src/components/administrador/chartjs/LineChart";
 
 function IndicadoresFormacionPage() {
   return (

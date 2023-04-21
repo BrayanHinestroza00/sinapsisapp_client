@@ -4,6 +4,7 @@ import moment from "moment";
 import {
   CardRuta,
   Ruta,
+  SubTitulo,
 } from "src/assets/styles/emprendedor/rutaEmprendimiento.style";
 import DetalleConsultoria from "src/components/emprendedor/ruta/consultorias/DetalleConsultoria";
 import FlexyTable from "src/components/FlexyTable";
@@ -16,7 +17,7 @@ import { SINAPSIS_APP_FORMATO_FECHA } from "src/utils/constants";
 import { Card } from "react-bootstrap";
 
 function HistorialConsultoria({ idProyectoEmprendimiento }) {
-  const [loadingComponent, setLoadingComponent] = useState(true);
+  // const [loadingComponent, setLoadingComponent] = useState(true);
   const [consultorias, setConsultorias] = useState([]);
   const [showConsultoria, setShowConsultoria] = useState({ show: false });
 
@@ -41,7 +42,7 @@ function HistorialConsultoria({ idProyectoEmprendimiento }) {
       },
     });
 
-    setLoadingComponent(false);
+    // setLoadingComponent(false);
   }, []);
 
   useEffect(() => {
@@ -80,57 +81,86 @@ function HistorialConsultoria({ idProyectoEmprendimiento }) {
     });
   };
 
-  if (loadingComponent || consultoriasLoading) {
-    return <h1>LOADING HISTORICO CONSULTORIA</h1>;
-  }
+  // if (loadingComponent || consultoriasLoading) {
+  //   console.log("Loading HistorialConsultoria", {
+  //     loadingComponent,
+  //     consultoriasLoading,
+  //   });
+  //   return <h1>LOADING HISTORICO CONSULTORIA</h1>;
+  // }
 
-  if (consultoriasMessage) {
-    return (
-      <>
-        <CardRuta>
-          <Ruta>
-            <p>{consultoriasMessage}</p>
-          </Ruta>
-        </CardRuta>
-      </>
-    );
-  }
+  // if (consultoriasMessage) {
+  //   console.log("Message HistorialConsultoria");
+  //   return (
+  //     <>
+  //       <CardRuta>
+  //         <Ruta>
+  //           <p>{consultoriasMessage}</p>
+  //         </Ruta>
+  //       </CardRuta>
+  //     </>
+  //   );
+  // }
 
-  if (consultoriasError) {
-    return (
-      <>
-        <h1>ERROR</h1>
-        <p>{consultoriasError}</p>
-      </>
-    );
-  }
+  // if (consultoriasError) {
+  //   console.log("Errpr HistorialConsultoria");
+  //   return (
+  //     <>
+  //       <h1>ERROR</h1>
+  //       <p>{consultoriasError}</p>
+  //     </>
+  //   );
+  // }
+
+  // console.log("first", {
+  //   consultoriasData,
+  //   consultoriasMessage,
+  //   consultoriasError,
+  //   loadingComponent,
+  //   consultoriasLoading,
+  // });
 
   return (
     <Card>
-      {consultorias.length > 0 && (
-        <CardRuta>
-          <Ruta>
-            <FlexyTable
-              datos={consultorias}
-              titulo={"Historico de Consultorias"}
-              btn1={"Ver Detalle"}
-              fun1={(consultoriaData) => {
-                onClicDetalleConsultoria(consultoriaData);
-              }}
-              adicional={true}
-            />
-          </Ruta>
-        </CardRuta>
-      )}
+      <SubTitulo>Historico de Consultorias del Emprendedor</SubTitulo>
+      <Ruta
+        style={{
+          padding: "0rem 2rem 1rem 2rem",
+          marginTop: "0rem",
+          marginLeft: "0rem",
+        }}
+      >
+        {consultoriasLoading ? (
+          <h6>Cargando...</h6>
+        ) : consultoriasError || consultoriasMessage ? (
+          <>
+            {consultoriasError && <h6>{consultoriasError}</h6>}
 
-      {showConsultoria.show && (
-        <DetalleConsultoria
-          show={showConsultoria.show}
-          data={showConsultoria.data}
-          tipo={showConsultoria.tipo}
-          onHide={() => setShowConsultoria({ show: !showConsultoria.show })}
-        />
-      )}
+            {consultoriasMessage && <h6>{consultoriasMessage}</h6>}
+          </>
+        ) : consultorias && consultorias.length > 0 ? (
+          <FlexyTable
+            datos={consultorias}
+            titulo={"Historico de Consultorias"}
+            btn1={"Ver Detalle"}
+            fun1={(consultoriaData) => {
+              onClicDetalleConsultoria(consultoriaData);
+            }}
+            adicional={true}
+          />
+        ) : (
+          <h6>No se encontraron consultorías</h6>
+        )}
+
+        {showConsultoria.show && (
+          <DetalleConsultoria
+            show={showConsultoria.show}
+            data={showConsultoria.data}
+            tipo={showConsultoria.tipo}
+            onHide={() => setShowConsultoria({ show: !showConsultoria.show })}
+          />
+        )}
+      </Ruta>
     </Card>
   );
 }

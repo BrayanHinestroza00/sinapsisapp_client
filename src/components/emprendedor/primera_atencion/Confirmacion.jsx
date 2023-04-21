@@ -1,5 +1,3 @@
-import Swal from "sweetalert2";
-
 import imagen from "../../../assets/images/Logo_Sinapsis.png";
 
 import {
@@ -10,21 +8,18 @@ import {
   Paso,
   TituloStepByStep,
 } from "src/assets/styles/emprendedor/primeraAtencion.style";
+import { confirmAlertWithText } from "src/utils/alerts/ConfirmAlert";
 
 function Confirmacion(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    Swal.fire({
-      title: "Estas seguro?",
-      showDenyButton: true,
-      confirmButtonText: "Enviar",
-      denyButtonText: `Cancelar`,
-    }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
-      if (result.isConfirmed) {
-        props.enviarDatos();
-      }
+    confirmAlertWithText({
+      title: "¿Estas seguro que deseas continuar con el registro?",
+      text: "Este proceso no se puede deshacer",
+      confirmButtonText: "Confirmar",
+      cancelButtonText: "Cancelar",
+      onConfirm: () => props.enviarDatos(),
     });
   };
 
@@ -37,15 +32,17 @@ function Confirmacion(props) {
         <Circulo>
           <Paso>5</Paso>
         </Circulo>
-        <TituloStepByStep>Completar Primera Atención</TituloStepByStep>
+        <TituloStepByStep>
+          Completar Registro de Primera Atención
+        </TituloStepByStep>
       </div>
 
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="text-center">
-          <img src={imagen} alt="Logo Sinapsis" />
+          <img src={imagen} alt="Logo SINAPSIS UAO" />
 
           <p>
-            A continuación, iniciaras el proceso de primera atención con
+            A continuación, finalizaras el proceso de primera atención con
             SINAPSIS UAO.
           </p>
 
@@ -63,13 +60,18 @@ function Confirmacion(props) {
           <Boton
             type="button"
             className="btn btn-outline-primary"
+            style={{ height: "auto" }}
             onClick={() => {
               props.prevStep();
             }}
           >
             Volver
           </Boton>
-          <BotonSiguiente type="submit" className="btn btn-primary btnNext">
+          <BotonSiguiente
+            type="submit"
+            className="btn btn-primary"
+            style={{ height: "auto" }}
+          >
             Enviar
           </BotonSiguiente>
         </div>

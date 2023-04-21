@@ -89,7 +89,7 @@ function Tareas() {
             idProyectoEmprendimiento:
               userData.proyectosEmprendimiento[selectedProjectIndex]
                 .idProyectoEmprendimiento,
-            tipoBusqueda: "todas",
+            tipoBusqueda: "historial",
           },
         },
       });
@@ -99,12 +99,12 @@ function Tareas() {
   }, [userData, selectedProjectIndex]);
 
   useEffect(() => {
-    if (pendientesData && entregadasData && todasData) {
+    if (pendientesData || entregadasData || todasData) {
       let newEntregadas = [];
       let newPendientes = [];
       let newTodos = [];
 
-      if (entregadasData.length > 0) {
+      if (entregadasData && entregadasData.length > 0) {
         newEntregadas = entregadasData.map((entregadaData, index) => {
           return {
             n: index + 1,
@@ -120,7 +120,7 @@ function Tareas() {
         });
       }
 
-      if (pendientesData.length > 0) {
+      if (pendientesData && pendientesData.length > 0) {
         newPendientes = pendientesData.map((pendienteData, index) => {
           return {
             n: index + 1,
@@ -136,7 +136,7 @@ function Tareas() {
         });
       }
 
-      if (todasData.length > 0) {
+      if (todasData && todasData.length > 0) {
         newTodos = todasData.map((todaData, index) => {
           return {
             n: index + 1,
@@ -191,16 +191,20 @@ function Tareas() {
     todasLoading ||
     loading ||
     loadingComponent ||
-    entregadasLoading ||
-    !pendientesData
+    entregadasLoading /*||
+    !pendientesData*/
   ) {
-    return <h1>LOADING EstadoRutaEmprendedor</h1>;
+    return <h1>LOADING Tareas</h1>;
   }
 
-  if (pendientesMessage || entregadasMessage || todasMessage) {
+  if (
+    (pendientesMessage && pendientesMessage != "Sin datos") ||
+    (entregadasMessage && entregadasMessage != "Sin datos") ||
+    (todasMessage && todasMessage != "Sin datos")
+  ) {
     return (
       <>
-        <Titulo>Estado de la ruta de I&E de SINAPSIS UAO</Titulo>
+        <Titulo>Mis Tareas</Titulo>
 
         <CardRuta>
           <Ruta>
@@ -224,7 +228,7 @@ function Tareas() {
     <>
       <Titulo>Mis Tareas</Titulo>
 
-      {entregadas.length > 0 && (
+      {entregadas && entregadas.length > 0 && (
         <CardRuta>
           <Ruta>
             <FlexyTable
@@ -240,7 +244,7 @@ function Tareas() {
         </CardRuta>
       )}
 
-      {pendientes.length > 0 && (
+      {pendientes && pendientes.length > 0 && (
         <CardRuta>
           <Ruta>
             <FlexyTable
@@ -256,7 +260,7 @@ function Tareas() {
         </CardRuta>
       )}
 
-      {todos.length > 0 && (
+      {todos && todos.length > 0 && (
         <CardRuta>
           <Ruta>
             <FlexyTable

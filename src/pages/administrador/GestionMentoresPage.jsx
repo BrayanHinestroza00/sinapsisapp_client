@@ -14,28 +14,51 @@ import {
 import {
   HOST,
   HTTP_METHOD_GET,
+  URL_OBTENER_ETAPAS_RUTA_INNOVACION_EMPRENDIMIENTO,
   URL_OBTENER_MENTORES,
 } from "src/utils/apiConstants";
 import showIcon from "src/assets/images/showIcon.png";
 import editIcon from "src/assets/images/editIcon.png";
 import { useFetch } from "src/services/hooks/useFetch";
 import FlexyTable from "src/components/FlexyTable";
+import { validarListadoMentoresAdmin } from "src/utils/validaciones";
+import RegistrarMentor from "src/components/administrador/registrar_mentor/RegistrarMentor";
 
 function GestionMentoresPage() {
   const navigate = useNavigate();
   const [error, setError] = useState({});
   const [datos, setDatos] = useState({});
-  const [datosFiltro, setDatosFiltro] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [tiposDocumento, setTiposDocumento] = useState([]);
+  const [datosFiltro, setDatosFiltro] = useState({ estadoCuenta: "1" });
+  const [show, setShow] = useState({
+    showForm: false,
+    showDetalle: false,
+  });
 
   // Custom Hooks
   const {
     data: mentoresData,
     message: mentoresMessage,
     error: mentoresError,
+    loading: mentoresLoading,
     fetchAPI: fetchApiMentores,
   } = useFetch();
+
+  const {
+    data: etapasRutaData,
+    message: etapasRutaMessage,
+    error: etapasRutaError,
+    loading: etapasRutaLoading,
+    fetchAPI: fetchApiEtapasRuta,
+  } = useFetch();
+
+  useEffect(() => {
+    fetchApiEtapasRuta({
+      URL: URL_OBTENER_ETAPAS_RUTA_INNOVACION_EMPRENDIMIENTO,
+      requestOptions: {
+        method: HTTP_METHOD_GET,
+      },
+    });
+  }, []);
 
   useEffect(() => {
     let newMentores = [];
@@ -45,14 +68,13 @@ function GestionMentoresPage() {
         newMentores = mentoresData.map((mentorData, index) => {
           return {
             n: index + 1,
-            "Numero Documento": mentorData.usuario.numeroDocumento,
-            "Nombre Mentor": `${mentorData.usuario.nombres} ${mentorData.usuario.apellidos}`,
-            Cargo: mentorData.cargo,
+            "Numero Documento": `${mentorData.acronimoTipoDocumento} - ${mentorData.numeroDocumento}`,
+            "Nombre Mentor": mentorData.nombreCompleto,
+            Cargo: mentorData.cargoMentor,
             "Dependencia/Facultad":
-              mentorData.dependencia || mentorData.facultad,
+              mentorData.dependenciaMentor || mentorData.facultadMentor,
             "Correo Contacto":
-              mentorData.usuario.correoInstitucional ||
-              mentorData.usuario.correoPersonal,
+              mentorData.correoInstitucional || mentorData.correoPersonal,
           };
         });
       }
@@ -60,22 +82,6 @@ function GestionMentoresPage() {
 
     setDatos(newMentores);
   }, [mentoresData]);
-
-  useEffect(() => {
-    Axios.get(`${HOST}/app/tipoDocumento`)
-      .then(({ data }) => {
-        if (data.code == 1) {
-          setTiposDocumento(data.response);
-        }
-
-        if (data.code == -1) {
-          console.log(data.message);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
 
   const onHandleChange = (event) => {
     setDatosFiltro({
@@ -86,16 +92,21 @@ function GestionMentoresPage() {
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
-    fetchApiMentores({
-      URL: URL_OBTENER_MENTORES,
-      requestOptions: {
-        method: HTTP_METHOD_GET,
-        params: {
-          ...datosFiltro,
+    let erroresFormulario = validarListadoMentoresAdmin(datosFiltro);
+    if (Object.keys(erroresFormulario).length) {
+      setError(erroresFormulario);
+    } else {
+      setError({});
+      fetchApiMentores({
+        URL: URL_OBTENER_MENTORES,
+        requestOptions: {
+          method: HTTP_METHOD_GET,
+          params: {
+            ...datosFiltro,
+          },
         },
-      },
-    }).then(() => setLoading(false));
+      });
+    }
   };
 
   const onHandleDetalleMentor = (mentor) => {
@@ -103,164 +114,218 @@ function GestionMentoresPage() {
     const data = mentoresData[mentor.n - 1];
   };
 
-  if (loading) {
-    return <h1>LOADING MentoresPage</h1>;
-  }
-
-  if (mentoresMessage) {
-    return (
-      <>
-        <p>{mentoresMessage}</p>
-      </>
-    );
-  }
-
-  if (mentoresError) {
-    return (
-      <>
-        <h1>ERROR</h1>
-        <p>{mentoresError}</p>
-      </>
-    );
-  }
+  const onClickRegistrarMentor = () => {
+    setShow({ ...show, showForm: !show.showForm });
+  };
 
   return (
     <>
       <Titulo>Mentores </Titulo>
 
-      <Card style={{ padding: "0.5rem 2rem 1rem 2rem" }}>
-        <SubTitulo>Filtros</SubTitulo>
+      <>
+        {etapasRutaLoading ? (
+          <Ruta
+            style={{
+              padding: "0.5rem 2rem 1rem 2rem",
+              marginTop: "1rem",
+              marginLeft: "0rem",
+            }}
+          >
+            <p>Cargando...</p>
+          </Ruta>
+        ) : etapasRutaMessage || etapasRutaError ? (
+          <Ruta
+            style={{
+              padding: "0.5rem 2rem 1rem 2rem",
+              marginTop: "1rem",
+              marginLeft: "0rem",
+            }}
+          >
+            {etapasRutaMessage && <SubTitulo>{etapasRutaMessage}</SubTitulo>}
 
-        <form onSubmit={onHandleSubmit} className="row g-3">
-          {/* Tipo de documento */}
-          <div className="col-md-6">
-            <Label htmlFor="tiposDocumento" className="form-label">
-              Tipo de documento
-            </Label>
-            <select
-              id="tiposDocumento"
-              className="form-select"
-              name="tiposDocumento"
-              value={datos.tiposDocumento || "-1"}
-              onChange={(e) => onHandleChange(e)}
+            {etapasRutaError && <SubTitulo>{etapasRutaError}</SubTitulo>}
+          </Ruta>
+        ) : (
+          <Card style={{ padding: "0.5rem 2rem 1rem 2rem" }}>
+            <SubTitulo>Filtros</SubTitulo>
+
+            <form onSubmit={onHandleSubmit} className="row g-3">
+              {/* Numero de documento */}
+              <div className="col-md-6">
+                <Label htmlFor="numeroDocumentoFGMP" className="form-label">
+                  Número de documento
+                </Label>
+                <Input
+                  type="text"
+                  className="form-control inputDiag"
+                  name="numeroDocumento"
+                  id="numeroDocumentoFGMP"
+                  value={datosFiltro.numeroDocumento || ""}
+                  onChange={(e) => onHandleChange(e)}
+                />
+                {error.numeroDocumento && (
+                  <small className="form-text font-weight-bold text-danger">
+                    {error.numeroDocumento}
+                  </small>
+                )}
+              </div>
+
+              {/* Nombre(s) mentor */}
+              <div className="col-md-6">
+                <Label htmlFor="nombreMentor" className="form-label">
+                  Nombre(s) Apellido(s):
+                </Label>
+                <Input
+                  type="text"
+                  className="form-control inputDiag"
+                  name="nombreMentor"
+                  id="nombreMentor"
+                  value={datosFiltro.nombreMentor || ""}
+                  onChange={(e) => onHandleChange(e)}
+                />
+                {error.nombreMentor && (
+                  <small className="form-text font-weight-bold text-danger">
+                    {error.nombreMentor}
+                  </small>
+                )}
+              </div>
+
+              {/* Etapa del Mentor */}
+              <div className="col-md-6">
+                <Label htmlFor="etapasRuta" className="form-label">
+                  Etapa de la Ruta de Innovacion & Emprendimiento
+                </Label>
+                <select
+                  id="etapasRuta"
+                  className="form-select"
+                  name="etapasRuta"
+                  value={datosFiltro.etapasRuta || "-1"}
+                  onChange={(e) => onHandleChange(e)}
+                >
+                  <option value={"-1"}>TODAS...</option>
+                  {etapasRutaData &&
+                    etapasRutaData.length > 0 &&
+                    etapasRutaData.map((etapaRuta, index) => {
+                      return (
+                        <option key={index} value={etapaRuta.id}>
+                          {etapaRuta.nombre}
+                        </option>
+                      );
+                    })}
+                </select>
+                {error.etapasRuta && (
+                  <small className="form-text font-weight-bold text-danger">
+                    {error.etapasRuta}
+                  </small>
+                )}
+              </div>
+
+              {/* Estado Cuenta */}
+              <div className="col-md-6">
+                <Label htmlFor="estadoCuenta" className="form-label">
+                  Estado de la Cuenta
+                </Label>
+                <select
+                  id="estadoCuenta"
+                  className="form-select"
+                  name="estadoCuenta"
+                  value={datosFiltro.estadoCuenta || "1"}
+                  onChange={(e) => onHandleChange(e)}
+                >
+                  <option value={"1"}>ACTIVO</option>
+                  <option value={"0"}>INACTIVO</option>
+                </select>
+                {error.estadoCuenta && (
+                  <small className="form-text font-weight-bold text-danger">
+                    {error.estadoCuenta}
+                  </small>
+                )}
+              </div>
+
+              <div>
+                <button className="btn btn-primary mx-2">Consultar</button>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={onClickRegistrarMentor}
+                >
+                  Registrar Mentor
+                </button>
+              </div>
+            </form>
+          </Card>
+        )}
+      </>
+
+      <>
+        {mentoresLoading ? (
+          <Ruta
+            style={{
+              padding: "0.5rem 2rem 1rem 2rem",
+              marginTop: "1rem",
+              marginLeft: "0rem",
+            }}
+          >
+            <p>Cargando...</p>
+          </Ruta>
+        ) : mentoresError || mentoresMessage ? (
+          <Ruta
+            style={{
+              padding: "0.5rem 2rem 1rem 2rem",
+              marginTop: "1rem",
+              marginLeft: "0rem",
+            }}
+          >
+            {mentoresError && <SubTitulo>{mentoresError}</SubTitulo>}
+
+            {mentoresMessage && <SubTitulo>{mentoresMessage}</SubTitulo>}
+          </Ruta>
+        ) : (
+          mentoresData && (
+            <Ruta
+              style={{
+                padding: "0.5rem 2rem 1rem 2rem",
+                marginTop: "1rem",
+                marginLeft: "0rem",
+              }}
             >
-              <option value={"-1"} disabled>
-                Selecciona...
-              </option>
-              {tiposDocumento.map((tipoDocumento, index) => {
-                return (
-                  <option key={index} value={tipoDocumento.id}>
-                    {tipoDocumento.nombre}
-                  </option>
-                );
-              })}
-            </select>
-            {error.tiposDocumento && (
-              <small className="form-text font-weight-bold text-danger">
-                {error.tiposDocumento}
-              </small>
-            )}
-          </div>
+              {datos && datos.length > 0 ? (
+                <FlexyTable
+                  datos={datos}
+                  titulo={"Mentores"}
+                  btn1={<img src={showIcon} width="auto" height="25" />}
+                  fun1={(mentorData) => {
+                    onHandleDetalleMentor(mentorData);
+                  }}
+                  btn2={<img src={editIcon} width="auto" height="25" />}
+                  fun2={(mentorData) => {
+                    onHandleDetalleMentor(mentorData);
+                  }}
+                  adicional={true}
+                />
+              ) : (
+                <SubTitulo>No hay mentores disponibles</SubTitulo>
+              )}
+            </Ruta>
+          )
+        )}
+      </>
 
-          {/* Numero de documento */}
-          <div className="col-md-6">
-            <Label htmlFor="numeroDocumento" className="form-label">
-              Número de documento
-            </Label>
-            <Input
-              type="text"
-              className="form-control inputDiag"
-              name="numeroDocumento"
-              id="numeroDocumento"
-              value={datos.numeroDocumento != null ? datos.numeroDocumento : ""}
-              onChange={(e) => onHandleChange(e)}
-            />
-            {error.numeroDocumento && (
-              <small className="form-text font-weight-bold text-danger">
-                {error.numeroDocumento}
-              </small>
-            )}
-          </div>
-
-          {/* Nombre(s) emprendedor */}
-          <div className="col-md-6">
-            <Label htmlFor="nombreEmprendedor" className="form-label">
-              Nombre(s):
-            </Label>
-            <Input
-              type="text"
-              className="form-control inputDiag"
-              name="nombreEmprendedor"
-              id="nombreEmprendedor"
-              value={
-                datos.nombreEmprendedor != null ? datos.nombreEmprendedor : ""
-              }
-              onChange={(e) => onHandleChange(e)}
-            />
-            {error.nombreEmprendedor && (
-              <small className="form-text font-weight-bold text-danger">
-                {error.nombreEmprendedor}
-              </small>
-            )}
-          </div>
-
-          {/* Apellido(s) emprendedor */}
-          <div className="col-md-6">
-            <Label htmlFor="apellidoEmprendedor" className="form-label">
-              Apellido(s):
-            </Label>
-            <Input
-              type="text"
-              className="form-control inputDiag"
-              name="apellidoEmprendedor"
-              id="apellidoEmprendedor"
-              value={
-                datos.apellidoEmprendedor != null
-                  ? datos.apellidoEmprendedor
-                  : ""
-              }
-              onChange={(e) => onHandleChange(e)}
-            />
-            {error.apellidoEmprendedor && (
-              <small className="form-text font-weight-bold text-danger">
-                {error.apellidoEmprendedor}
-              </small>
-            )}
-          </div>
-
-          <div>
-            <button className="btn btn-primary">Consultar</button>
-          </div>
-        </form>
-      </Card>
-
-      {mentoresData && (
-        <Ruta
-          style={{
-            padding: "0.5rem 2rem 1rem 2rem",
-            marginTop: "1rem",
-            marginLeft: "0rem",
-          }}
-        >
-          {datos.length > 0 ? (
-            <FlexyTable
-              datos={datos}
-              titulo={"Mentores"}
-              btn1={<img src={showIcon} width="auto" height="25" />}
-              fun1={(mentorData) => {
-                onHandleDetalleMentor(mentorData);
-              }}
-              btn2={<img src={editIcon} width="auto" height="25" />}
-              fun2={(mentorData) => {
-                onHandleDetalleMentor(mentorData);
-              }}
-              adicional={true}
-            />
-          ) : (
-            <SubTitulo>No hay mentores disponibles</SubTitulo>
-          )}
-        </Ruta>
+      {show.showForm && (
+        <RegistrarMentor
+          show={show.showForm}
+          onHide={() => setShow({ ...show, showForm: !show.showForm })}
+        />
       )}
+
+      {/* {show.showDetalle && (
+        <DetalleTareaAdmin
+          show={showPendientes.show}
+          data={showPendientes.data}
+          tipo={showPendientes.tipo}
+          onHide={() => setShowPendientes({ show: !showPendientes.show })}
+        />
+      )} */}
     </>
   );
 }

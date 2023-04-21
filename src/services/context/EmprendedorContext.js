@@ -1,3 +1,4 @@
+import { useLocation } from "react-router-dom";
 import { createContext, useEffect, useState } from "react";
 import {
   HTTP_METHOD_GET,
@@ -19,6 +20,7 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 const EmprendedorContext = createContext();
 
 function EmprendedorContextProvider({ children }) {
+  const location = useLocation();
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
   const [menuItemActive, setMenuItemActive] = useState(MENU_EMPRENDEDOR_INICIO);
@@ -47,7 +49,7 @@ function EmprendedorContextProvider({ children }) {
         },
       });
     }
-  }, [userInitialData, loadingUserInitialData]);
+  }, [userInitialData, loadingUserInitialData, location.key]);
 
   /**
    * Obtiene informacion del usuario y los proyectos asociados a el

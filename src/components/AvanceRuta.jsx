@@ -164,17 +164,13 @@ function AvanceRuta({ preloadData }) {
   ) {
     return (
       <>
-        <Titulo>Estado de la ruta de I&E de SINAPSIS UAO</Titulo>
-
         <CardRuta>
-          <Ruta>
-            <p>
-              {actRutaMessage ||
-                herrRutaMessage ||
-                actEmpRutaMessage ||
-                subActEmpRutaMessage}
-            </p>
-          </Ruta>
+          <p>
+            {actRutaMessage ||
+              herrRutaMessage ||
+              actEmpRutaMessage ||
+              subActEmpRutaMessage}
+          </p>
         </CardRuta>
       </>
     );
@@ -194,19 +190,19 @@ function AvanceRuta({ preloadData }) {
     );
   }
 
-  // console.log("test", {
-  //   actRutaLoading,
-  //   herrRutaLoading,
-  //   actEmpRutaLoading,
-  //   subActEmpRutaLoading,
-  //   inverso: {
-  //     actRutaData,
-  //     herrRutaData,
-  //     actEmpRutaData,
-  //     subActEmpRutaData,
-  //     actidadesEmprendedor,
-  //   },
-  // });
+  console.log("test", {
+    actRutaLoading,
+    herrRutaLoading,
+    actEmpRutaLoading,
+    subActEmpRutaLoading,
+    inverso: {
+      actRutaData,
+      herrRutaData,
+      actEmpRutaData,
+      subActEmpRutaData,
+      actidadesEmprendedor,
+    },
+  });
 
   return (
     <div id="avanceRutaComponent" className="container">

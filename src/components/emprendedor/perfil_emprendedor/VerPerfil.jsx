@@ -178,7 +178,7 @@ function VerPerfil({ preloadData }) {
           disabled
         />
       </div>
-      {preloadData.tipoContacto === T_SINAPSIS_TIPOS_CONTACTO_ESTUDIANTE ? (
+      {preloadData.tipoContactoId === T_SINAPSIS_TIPOS_CONTACTO_ESTUDIANTE ? (
         <>
           <div className="col-md-6">
             <Label htmlFor="codigoEstudiantil" className="form-label">
@@ -308,7 +308,8 @@ function VerPerfil({ preloadData }) {
             <></>
           )}
         </>
-      ) : preloadData.tipoContacto === T_SINAPSIS_TIPOS_CONTACTO_COLABORADOR ? (
+      ) : preloadData.tipoContactoId ===
+        T_SINAPSIS_TIPOS_CONTACTO_COLABORADOR ? (
         <>
           <div className="col-md-6">
             <Label htmlFor="cargoColaborador" className="form-label">
@@ -338,7 +339,7 @@ function VerPerfil({ preloadData }) {
             />
           </div>
         </>
-      ) : preloadData.tipoContacto === T_SINAPSIS_TIPOS_CONTACTO_EGRESADO ? (
+      ) : preloadData.tipoContactoId === T_SINAPSIS_TIPOS_CONTACTO_EGRESADO ? (
         <>
           <div className="col-md-6">
             <Label htmlFor="tipoEstudianteEgresado" className="form-label">

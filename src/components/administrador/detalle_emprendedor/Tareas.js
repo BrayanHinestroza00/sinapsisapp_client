@@ -337,24 +337,4 @@ function Tareas({ cedula, nombre, idProyectoEmprendimiento }) {
   );
 }
 
-const data = [
-  {
-    ID: "1",
-    "Tipo Doc.": "CC",
-    "Num Doc.": "1005943951",
-    Nombre: "Brayan Hinestroza",
-    Correo: "123@gmail.com",
-  },
-];
-
-const dataPendiente = [
-  {
-    ID: "1",
-    "Tipo Doc.": "CC",
-    "Num Doc.": "1005943951",
-    Nombre: "Brayan Hinestroza",
-    Correo: "123@gmail.com",
-  },
-];
-
 export default Tareas;

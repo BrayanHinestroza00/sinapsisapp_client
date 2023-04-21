@@ -26,6 +26,7 @@ import {
 } from "src/utils/apiConstants";
 import {
   SINAPSIS_APP_FORMATO_FECHA,
+  SINAPSIS_APP_FORMATO_FECHA_INPUT,
   T_SINAPSIS_MOD_TRABAJO_GRADO_NO,
   T_SINAPSIS_MOD_TRABAJO_GRADO_SI,
   T_SINAPSIS_NIVEL_ACADEMICO_EDUCACION_CONTINUA,
@@ -107,10 +108,12 @@ function InfoUsuario({ userData, ...props }) {
         apellidos: preloadData.apellidos,
         tipoDocumento: preloadData.acronimoTipoDocumento,
         numeroDocumento: preloadData.numeroDocumento,
-        fechaNacimiento: moment(
-          preloadData.fechaNacimiento,
-          "DD/MM/YYYY"
-        ).format(SINAPSIS_APP_FORMATO_FECHA),
+        fechaNacimiento: preloadData.fechaNacimiento
+          ? moment(
+              preloadData.fechaNacimiento,
+              SINAPSIS_APP_FORMATO_FECHA
+            ).format(SINAPSIS_APP_FORMATO_FECHA_INPUT)
+          : null,
         genero: preloadData.genero,
         correoPersonal: preloadData.correoPersonal,
         celular: preloadData.telefonoContacto,
@@ -144,7 +147,8 @@ function InfoUsuario({ userData, ...props }) {
 
   useEffect(() => {
     if (preloadData && props.datos.departamento != null) {
-      getMunicipios(props.datos.departamentoId)
+      const idDepartamento = props.datos.departamento;
+      getMunicipios(idDepartamento)
         .then((data) => {
           setMunicipios(data);
         })
@@ -261,9 +265,9 @@ function InfoUsuario({ userData, ...props }) {
             <option value={"-1"} disabled>
               Selecciona un género
             </option>
-            <option value="MASCULINO">Masculino</option>
-            <option value="FEMENINO">Femenino</option>
-            <option value="OTRO">Otro</option>
+            <option value="MASCULINO">MASCULINO</option>
+            <option value="FEMENINO">FEMENINO</option>
+            <option value="OTRO">OTRO</option>
           </select>
           {error.genero && (
             <small className="form-text font-weight-bold text-danger">
@@ -275,6 +279,7 @@ function InfoUsuario({ userData, ...props }) {
         <div className="col-md-6">
           <Label htmlFor="correoPersonal" className="form-label">
             Correo Personal
+            <span> (*)</span>
           </Label>
           <Input
             type="text"
@@ -293,7 +298,7 @@ function InfoUsuario({ userData, ...props }) {
 
         <div className="col-md-6">
           <Label htmlFor="celular" className="form-label">
-            Número Celular
+            Telefono de Contacto
           </Label>
           <Input
             type="text"
@@ -632,11 +637,13 @@ function InfoUsuario({ userData, ...props }) {
                         dataAsignaturas.length > 0 &&
                         dataAsignaturas.map((asignatura, index) => {
                           {
+                            /* {
                             console.log(
                               props.datos?.cursosEmprendimiento.includes(
                                 asignatura.codigo
                               )
                             );
+                          } */
                           }
                           return (
                             <div key={index}>
@@ -869,6 +876,7 @@ function InfoUsuario({ userData, ...props }) {
         <div className="col-12 d-flex flex-row-reverse">
           <BotonSiguiente
             type="button"
+            style={{ height: "auto" }}
             className="btn btn-primary"
             onClick={(e) => {
               onHandleSubmit(e);

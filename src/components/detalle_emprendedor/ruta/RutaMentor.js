@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import {
   Auxiliar,
@@ -15,12 +15,10 @@ import {
 } from "src/utils/apiConstants";
 import { obtenerNombreEtapa } from "src/utils/functions";
 import FinalizarAsesoramiento from "./FinalizarAsesoramiento";
-import { MentorContext } from "src/services/context/MentorContext";
 import { SINAPSIS_APP_ESTADO_RUTA_EMPRENDIMIENTO_PENDIENTE_APROBAR } from "src/utils/constants";
 
-function RutaMentor({ idProyectoEmprendimiento }) {
+function RutaMentor({ idProyectoEmprendimiento, userData }) {
   const [loadingComponent, setLoadingComponent] = useState(true);
-  const { userData } = useContext(MentorContext);
 
   // Custom Hooks
   const {
@@ -43,7 +41,7 @@ function RutaMentor({ idProyectoEmprendimiento }) {
     }).then(() => setLoadingComponent(false));
   }, []);
 
-  if (loadingFetch || loadingComponent || !preloadData) {
+  if (loadingFetch || loadingComponent /*|| !preloadData*/) {
     // console.log("RutaMentor", {
     //   loadingFetch,
     //   loadingComponent,

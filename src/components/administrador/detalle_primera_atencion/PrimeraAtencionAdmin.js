@@ -207,14 +207,16 @@ function PrimeraAtencionAdmin({ idProyectoEmprendimiento }) {
                   {data.descubrioSinapsis
                     .split(",")
                     .map((metodoDescubrio, index) => {
-                      if (metodoDescubrio == "OTRO") {
-                        return (
-                          <li
-                            key={index}
-                          >{`${metodoDescubrio} - ${data.cualOtroDescubrioSinapsis}`}</li>
-                        );
-                      } else {
-                        return <li key={index}>{metodoDescubrio}</li>;
+                      if (metodoDescubrio != "") {
+                        if (metodoDescubrio == "OTRO") {
+                          return (
+                            <li
+                              key={index}
+                            >{`${metodoDescubrio} - ${data.cualOtroDescubrioSinapsis}`}</li>
+                          );
+                        } else {
+                          return <li key={index}>{metodoDescubrio}</li>;
+                        }
                       }
                     })}
                 </ul>
