@@ -10,10 +10,20 @@ import { URL_OBTENER_CONSULTORIAS_PROGRAMADAS } from "src/utils/apiConstants";
 import { useFetch } from "src/services/hooks/useFetch";
 import { SINAPSIS_APP_FORMATO_FECHA } from "src/utils/constants";
 import { HTTP_METHOD_GET } from "src/utils/apiConstants";
+import CrearConsultoria from "./CrearConsultoria";
+import RevisarConsultoria from "./RevisarConsultoria";
 
-function Consultoria({ idEmprendedor }) {
+function Consultoria({
+  idEmprendedor,
+  idProyectoEmprendimiento,
+  idEtapaRuta,
+  tipoUsuario,
+  idUsuario,
+  estadoAsesoramiento,
+}) {
   const [consultorias, setConsultorias] = useState([]);
-  const [showConsultoriaModal, setShowConsultoriaModal] = useState(false);
+  const [showConsultorias, setShowConsultorias] = useState({ show: false });
+  const [showCrearConsultoria, setShowCrearConsultoria] = useState(false);
 
   // Custom Hooks
   const {
@@ -68,17 +78,25 @@ function Consultoria({ idEmprendedor }) {
     }
   }, [consultoriasData]);
 
-  const showModal = () => {
-    setShowConsultoriaModal(true);
+  const onClicRevisarConsultoria = (consultoria) => {
+    setShowConsultorias({
+      show: true,
+      data: consultoriasData[consultoria.n - 1],
+    });
   };
 
   return (
     <Card>
       <SubTitulo>Consultorías programadas</SubTitulo>
 
-      <Button className="btn btn-primary mx-4 my-3 w-25" onClick={showModal}>
-        Programar Consultoria
-      </Button>
+      {estadoAsesoramiento != "FINALIZADA" && (
+        <Button
+          className="btn btn-primary mx-4 my-3 w-25"
+          onClick={() => setShowCrearConsultoria(!showCrearConsultoria)}
+        >
+          Programar Consultoria
+        </Button>
+      )}
 
       <Ruta
         style={{
@@ -100,13 +118,35 @@ function Consultoria({ idEmprendedor }) {
           <FlexyTable
             datos={consultorias}
             titulo={"consultorías programadas"}
+            btn1={"Revisar"}
+            fun1={(consultoriaData) => {
+              onClicRevisarConsultoria(consultoriaData);
+            }}
+            adicional={true}
           />
         ) : (
           <h6>No hay consultorías programadas</h6>
         )}
       </Ruta>
 
-      {}
+      {showCrearConsultoria && (
+        <CrearConsultoria
+          show={showCrearConsultoria}
+          idProyectoEmprendimiento={idProyectoEmprendimiento}
+          tipoUsuario={tipoUsuario}
+          idUsuario={idUsuario}
+          idEtapaRuta={idEtapaRuta}
+          onHide={() => setShowCrearConsultoria(!showCrearConsultoria)}
+        />
+      )}
+
+      {showConsultorias.show && (
+        <RevisarConsultoria
+          show={showConsultorias.show}
+          data={showConsultorias.data}
+          onHide={() => setShowConsultorias({ show: !showConsultorias.show })}
+        />
+      )}
     </Card>
   );
 }

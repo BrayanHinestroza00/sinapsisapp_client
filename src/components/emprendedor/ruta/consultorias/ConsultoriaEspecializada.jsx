@@ -18,7 +18,10 @@ import {
   URL_OBTENER_CONSULTORIAS_PROYECTO_EMPRENDIMIENTO,
 } from "src/utils/apiConstants";
 import FlexyTable from "src/components/FlexyTable";
-import { SINAPSIS_APP_FORMATO_FECHA_HORA } from "src/utils/constants";
+import {
+  SINAPSIS_APP_FORMATO_FECHA,
+  SINAPSIS_APP_FORMATO_FECHA_HORA,
+} from "src/utils/constants";
 
 function ConsultoriaEspecializada() {
   const { userData, selectedProjectIndex } = useContext(EmprendedorContext);
@@ -68,7 +71,7 @@ function ConsultoriaEspecializada() {
             "Fecha Consultoria": moment(
               consultoriaData.fechaConsultoria,
               "YYYY-MM-DD hh:mm:ss"
-            ).format(SINAPSIS_APP_FORMATO_FECHA_HORA),
+            ).format(SINAPSIS_APP_FORMATO_FECHA),
             "Hora Inicio": consultoriaData.horaInicioConsultoria,
             "Hora Finalizacion": consultoriaData.horaFinConsultoria,
             "Creado Por":
@@ -151,8 +154,9 @@ function ConsultoriaEspecializada() {
                   <h5>
                     Fecha de consultoría:{" "}
                     <Auxiliar>
-                      {`${consultorias[0]["Fecha Consultoria"]} `}Viernes, 15 de
-                      diciembre del 2022
+                      {`${consultorias[0]["Fecha Consultoria"]} `}
+                      {/* Viernes, 15 de
+                      diciembre del 2022 */}
                     </Auxiliar>
                   </h5>
                   <h5>

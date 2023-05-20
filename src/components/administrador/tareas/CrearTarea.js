@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 
 import {
@@ -252,7 +252,7 @@ function CrearTarea({ show, onHide, idProyectoEmprendimiento }) {
             onHandleSubmit(e);
           }}
         >
-          Crear
+          Crear Tarea
         </Button>
       </Modal.Footer>
     </Modal>

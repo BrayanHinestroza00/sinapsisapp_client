@@ -47,8 +47,13 @@ export const URL_CREAR_TAREA_EMPRENDEDOR =
   HOST + "/ruta_innovacion/tareas/crear";
 export const URL_CALIFICAR_TAREA_EMPRENDEDOR =
   HOST + "/ruta_innovacion/tareas/calificar";
+export const URL_PROGRAMAR_CONSULTORIA_EMPRENDEDOR =
+  HOST + "/ruta_innovacion/consultorias/programar";
 
 export const URL_PUBLICAR_ANUNCIO = HOST + "/app/publicar_anuncio";
+
+export const URL_OBTENER_TEMATICAS_CONSULTORIAS_PROYECTO_EMPRENDIMIENTO =
+  HOST + "/app/tematicas_etapa";
 
 /**
  * Rutas usadas por el Emprendedor

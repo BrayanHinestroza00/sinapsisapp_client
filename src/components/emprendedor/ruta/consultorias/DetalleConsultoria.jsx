@@ -1,18 +1,7 @@
 import { useState } from "react";
-import { Modal } from "react-bootstrap";
-import Swal from "sweetalert2";
+import { Button, Form, Modal } from "react-bootstrap";
 
 function DetalleConsultoria(props) {
-  const [datosTarea, setDatosTarea] = useState({});
-  const [error, setError] = useState({});
-
-  const handleChangle = (e) => {
-    setDatosTarea({
-      ...datosTarea,
-      [e.target.name]: e.target.value,
-    });
-  };
-
   return (
     <Modal
       {...props}
@@ -34,87 +23,71 @@ function DetalleConsultoria(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <div className="container row">
-          <div className="col-md-12">
-            <h5>Asunto Consultoria</h5>
-            <p>{props.data.asuntoConsultoria}</p>
-          </div>
+        <Form className="container row">
+          <Form.Group className="col-md-12 mb-3">
+            <Form.Label>Asunto Consultoria</Form.Label>
+            <Form.Control value={props.data.asuntoConsultoria} />
+          </Form.Group>
 
-          <div className="col-md-6">
-            <h5>Tipo Consultoria</h5>
-            <p>
-              {props.data.tipoConsultoria == "E" ? "Especializada" : "Normal"}
-            </p>
-          </div>
+          <Form.Group className="col-md-6 mb-3">
+            <Form.Label>Tipo Consultoria</Form.Label>
+            <Form.Control
+              value={
+                props.data.tipoConsultoria == "E" ? "Especializada" : "Normal"
+              }
+            />
+          </Form.Group>
 
           {props.data.tipoConsultoria == "E" && (
-            <div className="col-md-6">
-              <h5>Tematica Consultoria</h5>
-              <p>{props.data.nombreSubActRuta}</p>
-            </div>
+            <Form.Group className="col-md-6 mb-3">
+              <Form.Label>Tematica Consultoria</Form.Label>
+              <Form.Control value={props.data.nombreSubActRuta} />
+            </Form.Group>
           )}
 
-          <div className="col-md-12">
-            <h5>Fecha de Consultoria</h5>
-            <p>{props.data.fechaConsultoria}</p>
-          </div>
+          <Form.Group className="col-md-12 mb-3">
+            <Form.Label>Fecha de Consultoria</Form.Label>
+            <Form.Control value={props.data.fechaConsultoria} />
+          </Form.Group>
 
-          <div className="col-md-6">
-            <h5>Hora Inicio</h5>
-            <p>{props.data.horaInicioConsultoria}</p>
-          </div>
-          <div className="col-md-6">
-            <h5>Hora Finalizacion</h5>
-            <p>{props.data.horaFinConsultoria}</p>
-          </div>
+          <Form.Group className="col-md-6 mb-3">
+            <Form.Label>Hora Inicio</Form.Label>
+            <Form.Control value={props.data.horaInicioConsultoria} />
+          </Form.Group>
 
-          <div className="col-md-12">
-            <h5>Mentor</h5>
-            <p>{`${props.data.nombreMentor} ${props.data.apellidoMentor}`}</p>
-          </div>
+          <Form.Group className="col-md-6 mb-3">
+            <Form.Label>Hora Finalizacion</Form.Label>
+            <Form.Control value={props.data.horaFinConsultoria} />
+          </Form.Group>
 
-          <div className="col-md-12">
-            <h5>Correo Mentor</h5>
-            <p>
-              {props.data.correoInstitucionalMentor || "Sin correo registrado"}
-            </p>
-          </div>
+          <Form.Group className="col-md-12 mb-3">
+            <Form.Label>Mentor</Form.Label>
+            <Form.Control
+              value={`${props.data.nombreMentor} ${props.data.apellidoMentor}`}
+            />
+          </Form.Group>
 
-          <div className="col-md-12">
-            <h5>Comentarios Consultoria</h5>
-            <p>{props.data.comentariosConsultoria || "Sin comentarios"}</p>
-          </div>
-        </div>
+          <Form.Group className="col-md-12 mb-3">
+            <Form.Label>Correo Mentor</Form.Label>
+            <Form.Control
+              value={
+                props.data.correoInstitucionalMentor || "Sin correo registrado"
+              }
+            />
+          </Form.Group>
+
+          <Form.Group className="col-md-12 mb-3">
+            <Form.Label>Comentarios Consultoria</Form.Label>
+            <Form.Control
+              value={props.data.comentariosConsultoria || "Sin comentarios"}
+            />
+          </Form.Group>
+        </Form>
       </Modal.Body>
       <Modal.Footer>
-        <button
-          className="buttonTable btn btn-primary"
-          onClick={(e) => {
-            Swal.fire({
-              title: "¿Estás seguro que deseas enviar la tarea?",
-              icon: "question",
-              iconColor: "#9a66a8",
-              confirmButtonText: "Enviar",
-              confirmButtonColor: "#9a66a8",
-              showConfirmButton: true,
-              showCancelButton: true,
-              cancelButtonText: "Cancelar",
-            }).then((res) => {
-              if (res.isConfirmed) {
-                //handleSubmit(e);
-                window.alert("SUBMITTED");
-              }
-            });
-          }}
-        >
-          Entregar
-        </button>
-        <button
-          className="buttonTableO btn btn-outline-primary"
-          onClick={props.onHide}
-        >
-          Cancelar
-        </button>
+        <Button className="btn btn-secondary" onClick={props.onHide}>
+          Cerrar
+        </Button>
       </Modal.Footer>
     </Modal>
   );

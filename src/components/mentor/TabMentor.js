@@ -30,7 +30,14 @@ function TabMentor() {
       </Tab>
 
       <Tab eventKey="consultorias" title="Consultorías Programadas">
-        <Consultorias idEmprendedor={state.idEmprendedor} />
+        <Consultorias
+          idEmprendedor={state.idEmprendedor}
+          idProyectoEmprendimiento={state.idProyectoEmprendimiento}
+          idEtapaRuta={state.idEstadoRuta}
+          tipoUsuario={"MENTOR"}
+          idUsuario={userData.id}
+          estadoAsesoramiento={state.estadoAsesoramiento}
+        />
       </Tab>
 
       <Tab eventKey="historial" title="Historial Consultorías">

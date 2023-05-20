@@ -62,7 +62,14 @@ function TabAdministrador() {
         </Tab>
 
         <Tab eventKey="consultorias" title="Consultorías Programadas">
-          <Consultorias idEmprendedor={state.emprendedorId} />
+          <Consultorias
+            idProyectoEmprendimiento={state.proyectoEmprendimientoId}
+            idEmprendedor={state.emprendedorId}
+            idEtapaRuta={state.idEstadoRuta}
+            tipoUsuario={"ADMINISTRADOR"}
+            idUsuario={userData.id}
+            estadoAsesoramiento={state.estadoAsesoramiento}
+          />
         </Tab>
 
         <Tab eventKey="historial" title="Historial Consultorías">

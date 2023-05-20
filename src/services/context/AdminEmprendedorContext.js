@@ -5,8 +5,8 @@ const AdminEmprendedorContext = createContext();
 function AdminEmprendedorContextProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState({
-    cedulaEmprendedor: 12345,
-    nombre: "Prueba",
+    idEmprendedor: 12345,
+    idProyectoEmprendimiento: 123,
   });
 
   return (

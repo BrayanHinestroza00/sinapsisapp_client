@@ -79,7 +79,6 @@ function Tareas({ idProyectoEmprendimiento }) {
 
   useEffect(() => {
     if (pendientesData || entregadasData) {
-      console.log("first");
       let newEntregadas = [];
       let newPendientes = [];
 
@@ -214,8 +213,6 @@ function Tareas({ idProyectoEmprendimiento }) {
       </>
     );
   }
-
-  console.log({ pendientes: { pendientes, pendientesData } });
 
   return (
     <Card>

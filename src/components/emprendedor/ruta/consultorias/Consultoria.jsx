@@ -145,8 +145,9 @@ function Consultoria() {
                   <h5>
                     Fecha de consultoría:{" "}
                     <Auxiliar>
-                      {`${consultorias[0]["Fecha Consultoria"]} `}Viernes, 15 de
-                      diciembre del 2022
+                      {`${consultorias[0]["Fecha Consultoria"]} `}
+                      {/* Viernes, 15 de
+                      diciembre del 2022 */}
                     </Auxiliar>
                   </h5>
                   <h5>
