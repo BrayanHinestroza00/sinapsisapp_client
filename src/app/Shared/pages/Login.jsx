@@ -8,19 +8,16 @@ import {
   LoginContainer,
   LoginLeftPanelImage,
   LoginRightPanelContainer,
-} from "./styled.js";
-import LoginFormComponent from "./LoginFormComponent.jsx";
-import {
-  HTTP_METHOD_POST,
-  URL_INICIAR_SESION,
-} from "../../utils/apiConstants.js";
-import { useFetch } from "../../services/hooks/useFetch.js";
+} from "../components/Login/styled.js";
+import LoginFormComponent from "../components/Login/LoginFormComponent.jsx";
+import { HTTP_METHOD_POST, URL_INICIAR_SESION } from "../utils/apiConstants.js";
+import { useFetch } from "../services/hooks/useFetch.js";
 import {
   getFromLocalStorage,
   insertIntoLocalStorage,
-} from "../../utils/localStorage.js";
-import { SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO } from "../../utils/constants.js";
-import { messageAlert } from "../../utils/messageAlerts.js";
+} from "../utils/localStorage.js";
+import { SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO } from "../utils/constants.js";
+import { messageAlert } from "../utils/messageAlerts.js";
 
 function Login() {
   let navigate = useNavigate();
