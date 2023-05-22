@@ -3,12 +3,13 @@ import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
 // import EditarCuentaPage from "src/pages/emprendedor/EditarCuentaPage";
-// import HomePage from "src/pages/emprendedor/HomePage";
+import AnunciosPage from "src/app/Shared/pages/Anuncios";
 // import PerfilPage from "src/pages/emprendedor/PerfilPage";
 // import PrimeraAtencionPage from "src/pages/emprendedor/PrimeraAtencionPage";
 // import RutaPage from "src/pages/emprendedor/RutaPage";
 // import SeleccionarProyectoPage from "src/components/emprendedor/SeleccionarProyectoModal";
 import Error404Page from "src/app/Shared/pages/error/Error404/Error404";
+
 import { SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO } from "src/app/Shared/utils/constants";
 import { HOST } from "src/app/Shared/utils/apiConstants";
 import {
@@ -54,8 +55,8 @@ function EmprendedorRoutes() {
     <EmprendedorContextProvider>
       <EmprendedorLayout sidebar={false}>
         <Routes>
-          {/* <Route exact path="/" element={<HomePage />} />
-          <Route
+          <Route exact path="/" element={<AnunciosPage />} />
+          {/* <Route
             exact
             path="/Seleccionar_Proyecto"
             element={<SeleccionarProyectoPage />}
@@ -68,7 +69,7 @@ function EmprendedorRoutes() {
           />
           <Route exact path="/Ruta/*" element={<RutaPage />} />
           <Route exact path="/Perfil" element={<PerfilPage />} /> */}
-          <Route path="/" element={<Error404Page />} />
+          <Route path="*" element={<Error404Page />} />
         </Routes>
       </EmprendedorLayout>
     </EmprendedorContextProvider>

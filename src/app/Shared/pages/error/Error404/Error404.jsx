@@ -18,15 +18,7 @@ function Error404() {
         <Error404Paragraph>
           Es posible que la página que está buscando se haya eliminado, cambiado
           el nombre o no está disponible temporalmente.
-          <Error404Anchor
-            href={`/${
-              localStorage.getItem("tipoUsuario") ||
-              sessionStorage.getItem("tipoUsuario") ||
-              "/"
-            }`}
-          >
-            Volver a inicio
-          </Error404Anchor>
+          <Error404Anchor href={`/`}>Volver a inicio</Error404Anchor>
         </Error404Paragraph>
       </Error404Container>
     </Error404>

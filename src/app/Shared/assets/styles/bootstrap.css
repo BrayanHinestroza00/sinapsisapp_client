@@ -1,0 +1,80 @@
+#accordionExample .accordion-button:not(.collapsed),
+#accordionExample .accordion-collapse-without-draw:focus {
+  background-color: #782a92;
+  color: #fff;
+  font-weight: bolder;
+}
+
+#accordionExample #collapseOne a,
+#accordionExample #collapseTwo a,
+#accordionExample #collapseThree a,
+#accordionExample #collapseFour a {
+  color: #fff;
+}
+
+#accordionExample .accordion-collapse-without-draw::after {
+  background-image: none !important;
+}
+
+#accordionExample .accordion-button.collapsed::after {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
+
+#accordionExample .accordion-button:not(.collapsed)::after {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
+
+#accordionExample .accordion-collapse .btn:focus,
+#accordionExample .accordion-collapse-without-draw .btn:focus {
+  font-weight: bolder;
+  background-color: #782a92;
+  color: #fff;
+}
+
+#dropdown_emprendedor button {
+  background-color: #782a92;
+}
+
+.active {
+  font-weight: bolder;
+}
+
+.btn-primary {
+  background-color: #9164a0;
+}
+
+.btn-primary:hover {
+  background-color: #803896;
+  border-color: #5a2e66;
+}
+
+.btn-secondary {
+  background-color: #fd9233;
+}
+
+.btn-secondary:hover {
+  background-color: #f57a0e;
+  border-color: #ff7802;
+}
+
+.table-primary-personalized {
+  --bs-table-bg: #f3eef5;
+  --bs-table-striped-bg: #f3eef5;
+  --bs-table-striped-color: #000;
+  --bs-table-active-bg: #eedef4;
+  --bs-table-active-color: #000;
+  --bs-table-hover-bg: #f3eef5;
+  --bs-table-hover-color: #000;
+  color: #000;
+  border-color: #eedef4;
+}
+
+/* AvanceRuta.jsx */
+#avanceRutaComponent .form-check-input:disabled ~ .form-check-label,
+.form-check-input:disabled .form-check-input[disabled] ~ .form-check-label {
+  opacity: 1;
+}
+
+#avanceRutaComponent .form-check-input:disabled {
+  opacity: 0.65;
+}

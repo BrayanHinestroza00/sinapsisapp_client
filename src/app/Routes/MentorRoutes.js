@@ -1,12 +1,14 @@
 import { Route, Routes } from "react-router-dom";
-// import ConsultoriasEspPage from "src/pages/mentor/ConsultoriasEspPage";
-// import ConsultoriasPage from "src/pages/mentor/ConsultoriasPage";
-// import DetalleEmprendedorPage from "src/pages/mentor/DetalleEmprendedorPage";
-// import EditarCuentaPage from "src/pages/mentor/EditarCuentaPage";
-// import EmprendedoresPage from "src/pages/mentor/EmprendedoresPage";
-// import HomePage from "src/pages/mentor/HomePage";
-// import ReportesConsultoriaPage from "src/pages/mentor/ReportesConsultoriaPage";
+
+import EditarCuenta from "src/app/Mentor/pages/EditarCuenta";
+import Emprendedores from "src/app/Mentor/pages/Emprendedores";
+import DetalleEmprendedor from "src/app/Mentor/pages/DetalleEmprendedor";
+import ConsultoriasNormales from "src/app/Mentor/pages/ConsultoriasNormales";
+import ConsultoriasEspecializadas from "src/app/Mentor/pages/ConsultoriasEspecializadas";
+import ReportesConsultoria from "src/app/Mentor/pages/ReportesConsultoria";
+import Anuncios from "src/app/Shared/pages/Anuncios";
 import Error404Page from "src/app/Shared/pages/error/Error404/Error404";
+
 import { MentorContextProvider } from "../Mentor/contexts/MentorContext";
 import MentorLayout from "../Mentor/layouts/MentorLayout";
 
@@ -15,30 +17,30 @@ function MentorRoutes() {
     <MentorContextProvider>
       <MentorLayout sidebar={true}>
         <Routes>
-          {/* <Route exact path="/" element={<HomePage />} />
-          <Route exact path="/Editar_Cuenta" element={<EditarCuentaPage />} />
+          <Route exact path="/" element={<Anuncios />} />
+          <Route exact path="/Editar_Cuenta" element={<EditarCuenta />} />
 
-          <Route exact path="/Emprendedores" element={<EmprendedoresPage />} />
+          <Route exact path="/Emprendedores" element={<Emprendedores />} />
           <Route
             exact
             path="/Emprendedor/:idEmprendedor"
-            element={<DetalleEmprendedorPage />}
+            element={<DetalleEmprendedor />}
           />
           <Route
             exact
             path="/Consultorias/Normales"
-            element={<ConsultoriasPage />}
+            element={<ConsultoriasNormales />}
           />
           <Route
             exact
             path="/Consultorias/Especializadas"
-            element={<ConsultoriasEspPage />}
+            element={<ConsultoriasEspecializadas />}
           />
           <Route
             exact
             path="/Reportes/Consultoria"
-            element={<ReportesConsultoriaPage />}
-          /> */}
+            element={<ReportesConsultoria />}
+          />
           <Route path="*" element={<Error404Page />} />
         </Routes>
       </MentorLayout>

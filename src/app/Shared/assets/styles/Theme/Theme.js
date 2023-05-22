@@ -5,7 +5,7 @@ export const theme = {
     tertiary: "#303030",
     background: "#fbf9fb",
     text: "#333333",
-    primaryTextColor: "#594F43",
+    primaryTextColor: "#9164a0",
     secondaryTextColor: "#777777",
     inputPlaceholder: "#C7C7C7",
     darkGrayText: "#303030",
@@ -17,6 +17,7 @@ export const theme = {
     light: "",
     danger: "",
     success: "#66A15A",
+    headerBackground: "#fff",
   },
   fonts: {
     montserrat: "Montserrat",

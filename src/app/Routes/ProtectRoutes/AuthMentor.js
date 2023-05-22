@@ -23,12 +23,7 @@ function AuthMentor() {
     return <Navigate to="/" />;
   }
 
-  // eslint-disable-next-line
-  if (datosUsuario.roles.length > 1 && datosUsuario.roles.contains(2)) {
-    return <MentorRoutes />;
-  }
-
-  return <Error404Page />;
+  return <MentorRoutes />;
 }
 
 export default AuthMentor;

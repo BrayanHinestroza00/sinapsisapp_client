@@ -6,7 +6,7 @@ import { Route, Routes } from "react-router-dom";
 // import GestionAnunciosPage from "src/pages/administrador/GestionAnunciosPage";
 // import GestionEmprendedoresPage from "src/pages/administrador/GestionEmprendedoresPage";
 // import GestionMentoresPage from "src/pages/administrador/GestionMentoresPage";
-// import HomePage from "src/pages/administrador/HomePage";
+import Anuncios from "src/app/Shared/pages/Anuncios";
 // import IndicadoresFormacionPage from "src/pages/administrador/IndicadoresFormacionPage";
 // import IndicadoresGestionPage from "src/pages/administrador/IndicadoresGestionPage";
 // import MentoresPage from "src/pages/administrador/MentoresPage";
@@ -25,8 +25,8 @@ function AdministradorRoutes() {
       <AdministradorLayout sidebar={true}>
         <AdminEmprendedorContextProvider>
           <Routes>
-            {/* <Route exact path="/" element={<HomePage />} />
-            <Route exact path="/Editar_Cuenta" element={<EditarCuentaPage />} />
+            <Route exact path="/" element={<Anuncios />} />
+            {/* <Route exact path="/Editar_Cuenta" element={<EditarCuentaPage />} />
             <Route
               exact
               path="/Emprendimientos"

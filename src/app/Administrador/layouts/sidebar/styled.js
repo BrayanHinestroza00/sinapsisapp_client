@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { devices } from "src/app/Shared/assets/styles/Breakpoints/Breakpoints";
 
 export const Sidebar = styled.div`
   padding: 0;
@@ -10,10 +11,10 @@ export const Sidebar = styled.div`
     rgba(145, 100, 160, 1) 85%
   );
   /* background-color: #9164a0; */
-  @media only screen and (max-width: 1024px) {
+  @media ${devices.lg} {
     max-width: 30vw;
   }
-  @media only screen and (max-width: 524px) {
+  @media ${devices.sm} {
     display: none;
   }
 `;
@@ -23,10 +24,10 @@ export const EtiquetaSidebar = styled.span`
   font-weight: bold;
   text-align: center;
   font-size: 1rem;
-  @media only screen and (max-width: 1024px) {
+  @media ${devices.lg} {
     font-size: 1.5rem;
   }
-  @media only screen and (max-width: 524px) {
+  @media ${devices.sm} {
     font-size: 1.5rem;
   }
 `;

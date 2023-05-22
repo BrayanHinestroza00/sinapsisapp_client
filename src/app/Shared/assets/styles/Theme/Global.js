@@ -10,7 +10,7 @@ export const GlobalStyles = createGlobalStyle`
 }
 
 html {
-  font-size: 100%;
+  font-size: 10px;
 }
 
 body {
@@ -39,6 +39,14 @@ dl,
 dd {
   padding: 0;
   margin: 0;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: ${({ theme }) => theme.colors.primaryTextColor};
 }
 button {
   border: none;
