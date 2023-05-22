@@ -9,7 +9,7 @@ import {
   TextArea,
 } from "src/app/Shared/assets/styles/Common.js";
 
-function ProyectoEmprendimiento({ datos, setDatos, redesData, editable }) {
+function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
   const [error, setError] = useState({});
 
   const handleChange = (event) => {
@@ -421,4 +421,4 @@ function ProyectoEmprendimiento({ datos, setDatos, redesData, editable }) {
   );
 }
 
-export default ProyectoEmprendimiento;
+export default EmprendimientoComponent;

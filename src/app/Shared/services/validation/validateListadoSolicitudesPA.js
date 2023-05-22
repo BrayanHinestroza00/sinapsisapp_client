@@ -3,14 +3,9 @@ import {
   REGEX_PATTERN_SOLO_LETRAS,
 } from "../../utils/regexPatterns";
 
-export const validarListadoEmprendedores = (datos) => {
+export const validarListadoSolicitudesPA = (datos) => {
   const errors = {};
-  const {
-    numeroDocumento,
-    nombreEmprendedor,
-    estadoAsesoramiento,
-    nombreEmprendimiento,
-  } = datos;
+  const { numeroDocumento, nombreEmprendedor, nombreEmprendimiento } = datos;
 
   //Validaciones para el numero de documento del emprendedor
   if (numeroDocumento) {
@@ -26,11 +21,6 @@ export const validarListadoEmprendedores = (datos) => {
     if (!RegExp.test(nombreEmprendedor)) {
       errors.nombreEmprendedor = "Solo se permiten letras";
     }
-  }
-
-  //Validaciones para el estado del emprendimiento
-  if (!estadoAsesoramiento) {
-    errors.estadoAsesoramiento = "Campo obligatorio";
   }
 
   //Validaciones para el nombre del emprendimiento

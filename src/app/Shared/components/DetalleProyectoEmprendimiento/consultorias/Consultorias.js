@@ -14,7 +14,7 @@ import {
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import { SINAPSIS_APP_FORMATO_FECHA } from "src/app/Shared/utils/constants";
 
-function Consultoria({
+function Consultorias({
   idEmprendedor,
   idProyectoEmprendimiento,
   idEtapaRuta,
@@ -152,4 +152,4 @@ function Consultoria({
   );
 }
 
-export default Consultoria;
+export default Consultorias;

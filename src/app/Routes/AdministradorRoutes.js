@@ -1,23 +1,25 @@
 import { Route, Routes } from "react-router-dom";
-// import DetalleSolicitudPage from "src/pages/administrador/DetalleSolicitudPage";
-// import DetalleProyectoEmprendimientoPage from "src/pages/administrador/DetalleProyectoEmprendimientoPage";
-// import EditarCuentaPage from "src/pages/administrador/EditarCuentaPage";
-// import EmprendedoresPage from "src/pages/administrador/EmprendedoresPage";
-// import GestionAnunciosPage from "src/pages/administrador/GestionAnunciosPage";
-// import GestionEmprendedoresPage from "src/pages/administrador/GestionEmprendedoresPage";
-// import GestionMentoresPage from "src/pages/administrador/GestionMentoresPage";
-import Anuncios from "src/app/Shared/pages/Anuncios";
-// import IndicadoresFormacionPage from "src/pages/administrador/IndicadoresFormacionPage";
-// import IndicadoresGestionPage from "src/pages/administrador/IndicadoresGestionPage";
-// import MentoresPage from "src/pages/administrador/MentoresPage";
-// import PrimeraAtencionPage from "src/pages/administrador/PrimeraAtencionPage";
-// import ProyectoEmprendimientosPage from "src/pages/administrador/ProyectoEmprendimientosPage";
-// import DetalleEmprendedorPage from "src/pages/administrador/DetalleEmprendedorPage";
-import Error404Page from "src/app/Shared/pages/error/Error404/Error404";
+
 import { AdministradorContextProvider } from "../Administrador/contexts/AdministradorContext";
 import { AdminEmprendedorContextProvider } from "../Administrador/contexts/AdminEmprendedorContext";
 import AdministradorLayout from "../Administrador/layouts/AdministradorLayout";
-// import DetalleMentorPage from "src/pages/administrador/DetalleMentorPage";
+
+import Anuncios from "src/app/Shared/pages/Anuncios";
+import Error404Page from "src/app/Shared/pages/error/Error404/Error404";
+import EditarCuentaPage from "../Administrador/pages/EditarCuentaPage";
+import ProyectoEmprendimientosPage from "../Administrador/pages/ProyectoEmprendimientosPage";
+import DetalleProyectoEmprendimientoPage from "../Administrador/pages/DetalleProyectoEmprendimientoPage";
+import PrimeraAtencionPage from "../Administrador/pages/PrimeraAtencionPage";
+import DetalleSolicitudPage from "../Administrador/pages/DetalleSolicitudPage";
+import EmprendedoresPage from "../Administrador/pages/EmprendedoresPage";
+import DetalleEmprendedorPage from "../Administrador/pages/DetalleEmprendedorPage";
+import MentoresPage from "../Administrador/pages/MentoresPage";
+import DetalleMentorPage from "../Administrador/pages/DetalleMentorPage";
+import IndicadoresFormacionPage from "../Administrador/pages/IndicadoresFormacionPage";
+import IndicadoresGestionPage from "../Administrador/pages/IndicadoresGestionPage";
+import GestionEmprendedoresPage from "../Administrador/pages/GestionEmprendedoresPage";
+import GestionMentoresPage from "../Administrador/pages/GestionMentoresPage";
+import GestionAnunciosPage from "../Administrador/pages/GestionAnunciosPage";
 
 function AdministradorRoutes() {
   return (
@@ -26,7 +28,7 @@ function AdministradorRoutes() {
         <AdminEmprendedorContextProvider>
           <Routes>
             <Route exact path="/" element={<Anuncios />} />
-            {/* <Route exact path="/Editar_Cuenta" element={<EditarCuentaPage />} />
+            <Route exact path="/Editar_Cuenta" element={<EditarCuentaPage />} />
             <Route
               exact
               path="/Emprendimientos"
@@ -87,7 +89,7 @@ function AdministradorRoutes() {
               exact
               path="/Gestion/Anuncios"
               element={<GestionAnunciosPage />}
-            /> */}
+            />
             <Route path="*" element={<Error404Page />} />
           </Routes>
         </AdminEmprendedorContextProvider>

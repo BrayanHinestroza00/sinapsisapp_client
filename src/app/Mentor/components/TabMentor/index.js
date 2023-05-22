@@ -3,9 +3,9 @@ import { Tabs, Tab } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 
 import RutaMentor from "src/app/Mentor/components/DetalleEmprendedor/Ruta/RutaMentor";
-import Consultorias from "src/app/Shared/components/DetalleEmprendedor/consultoria/Consultoria";
-import HistorialConsultoria from "src/app/Shared/components/DetalleEmprendedor/consultoria/HistorialConsultoria";
-import ProyectoMentor from "src/app/Mentor/components/DetalleEmprendedor/Ruta/Emprendimientos/ProyectoMentor";
+import Consultorias from "src/app/Shared/components/DetalleProyectoEmprendimiento/consultorias/Consultorias";
+import HistorialConsultoria from "src/app/Shared/components/DetalleProyectoEmprendimiento/consultorias/HistorialConsultoria";
+import Emprendimiento from "src/app/Shared/pages/DetalleProyectoEmprendimiento/Emprendimientos";
 
 import { MentorContext } from "src/app/Mentor/contexts/MentorContext.js";
 
@@ -27,7 +27,7 @@ function TabMentor() {
       </Tab>
 
       <Tab eventKey="emprendimientos" title="Emprendimientos">
-        <ProyectoMentor idEmprendimiento={state.idEmprendimiento} />
+        <Emprendimiento idEmprendimiento={state.idEmprendimiento} />
       </Tab>
 
       <Tab eventKey="consultorias" title="Consultorías Programadas">

@@ -9,7 +9,7 @@ import {
   URL_OBTENER_EMPRENDEDORES_ASOCIADOS,
 } from "src/app/Shared/utils/apiConstants.js";
 import { MentorContext } from "src/app/Mentor/contexts/MentorContext.js";
-import { validarListadoEmprendedoresMentor } from "src/app/Shared/services/validation/validateListadoEmprendedores.js";
+import { validarListadoEmprendedores } from "src/app/Shared/services/validation/validateListadoEmprendedores.js";
 import {
   SINAPSIS_APP_ESTADO_ASESORAMIENTO_EN_CURSO,
   SINAPSIS_APP_ESTADO_ASESORAMIENTO_FINALIZADO,
@@ -86,7 +86,7 @@ function Emprendedores() {
   const onHandleSubmit = (e) => {
     e.preventDefault();
 
-    let erroresFormulario = validarListadoEmprendedoresMentor(datosFiltro);
+    let erroresFormulario = validarListadoEmprendedores(datosFiltro);
     if (Object.keys(erroresFormulario).length) {
       setError(erroresFormulario);
     } else {

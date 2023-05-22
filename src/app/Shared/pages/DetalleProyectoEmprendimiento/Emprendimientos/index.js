@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 
-import ProyectoEmprendimiento from "src/app/Shared/components/DetalleEmprendedor/emprendimientos/ProyectoEmprendimiento";
+import FormEmprendimiento from "src/app/Shared/components/DetalleProyectoEmprendimiento/emprendimientos/FormEmprendimiento";
 
 import {
   SpanAuxiliar,
@@ -16,7 +16,7 @@ import {
   URL_OBTENER_REDES_SOCIALES,
 } from "src/app/Shared/utils/apiConstants";
 
-function ProyectoMentor({ idEmprendimiento }) {
+function Emprendimiento({ idEmprendimiento }) {
   const [loadingComponent, setLoadingComponent] = useState(true);
   const [datos, setDatos] = useState(null);
 
@@ -116,7 +116,7 @@ function ProyectoMentor({ idEmprendimiento }) {
               {datos.nombreEmprendimiento}
             </SpanAuxiliar>
           </Titulo>
-          <ProyectoEmprendimiento
+          <FormEmprendimiento
             datos={datos}
             redesData={redesData}
             editable={false}
@@ -127,4 +127,4 @@ function ProyectoMentor({ idEmprendimiento }) {
   );
 }
 
-export default ProyectoMentor;
+export default Emprendimiento;
