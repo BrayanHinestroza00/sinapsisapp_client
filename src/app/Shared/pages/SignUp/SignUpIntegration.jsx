@@ -1,7 +1,7 @@
-import React from "react";
+import SignUpIntegrationComponent from "../../components/SignUp/SignUpIntegration";
 
 function SignUpIntegration() {
-  return <div>SignUpIntegration</div>;
+  return <SignUpIntegrationComponent />;
 }
 
 export default SignUpIntegration;

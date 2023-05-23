@@ -52,7 +52,7 @@ export const SignUpExternoForm = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin: 20px 60px;
+  /* margin: 20px 60px; */
 `;
 
 export const SignUpExternoFormImageContainer = styled.figure`
@@ -79,6 +79,18 @@ export const SignUpExternoFormDescription = styled.p`
   color: #777;
 `;
 
+export const SignUpExternoFormContainers = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const SignUpExternoFormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
 export const SignUpExternoFormButton = styled.button`
   flex-direction: column;
   align-items: center;
@@ -103,4 +115,14 @@ export const SignUpExternoFormButton = styled.button`
     color: #fff;
     font-weight: bold;
   }
+`;
+
+export const SignUpExternoFormFieldError = styled.small`
+  color: #dc3545;
+  font-size: 14px;
+`;
+
+export const SignUpExternoErrorAPI = styled.p`
+  text-align: center;
+  color: #777;
 `;

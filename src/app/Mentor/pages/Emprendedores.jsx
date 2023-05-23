@@ -110,7 +110,7 @@ function Emprendedores() {
       <Titulo>Emprendedores</Titulo>
 
       <Card>
-        <Subtitulo>Filtros</Subtitulo>
+        <Subtitulo>Filtros de búsqueda</Subtitulo>
 
         <form onSubmit={onHandleSubmit} className="row g-3">
           {/* Numero de documento */}

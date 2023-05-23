@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Card } from "react-bootstrap";
 
 import FormEmprendimiento from "src/app/Shared/components/DetalleProyectoEmprendimiento/emprendimientos/FormEmprendimiento";
 
 import {
+  Card,
   SpanAuxiliar,
   CardRuta,
   Ruta,

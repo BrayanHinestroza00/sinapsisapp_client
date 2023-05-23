@@ -1,3 +1,8 @@
+.accordion {
+  --bs-accordion-bg: #814292;
+  --bs-accordion-border-color: #782a92;
+}
+
 #accordionExample .accordion-button:not(.collapsed),
 #accordionExample .accordion-collapse-without-draw:focus {
   background-color: #782a92;

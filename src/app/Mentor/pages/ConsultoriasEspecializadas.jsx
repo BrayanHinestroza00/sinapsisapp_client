@@ -1,5 +1,4 @@
 import moment from "moment";
-import { Card } from "react-bootstrap";
 import { useContext, useEffect, useState } from "react";
 // import ReactFlexyTable from "react-flexy-table";
 
@@ -7,7 +6,12 @@ import FlexyTable from "src/app/Shared/components/FlexyTable";
 import TablaHorarioDisponibilidad from "src/app/Mentor/components/TablaHorarioDisponibilidad";
 import EditarDisponibilidadModal from "src/app/Mentor/components//ModalHorarioDisponibilidad";
 
-import { Ruta, Subtitulo, Titulo } from "src/app/Shared/assets/styles/Common";
+import {
+  Card,
+  Ruta,
+  Subtitulo,
+  Titulo,
+} from "src/app/Shared/assets/styles/Common";
 import { MentorContext } from "src/app/Mentor/contexts/MentorContext.js";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import {
@@ -143,7 +147,7 @@ function ConsultoriasEspecializadas() {
   return (
     <>
       <Titulo>Consultorías Especializadas</Titulo>
-      <Card style={{ padding: "0.5rem 2rem 1rem 2rem" }}>
+      <Card>
         <Subtitulo>HORARIO DE DISPONIBILIDAD</Subtitulo>
         <form>
           <TablaHorarioDisponibilidad horarios={horariosData} />

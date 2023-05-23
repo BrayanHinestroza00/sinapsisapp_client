@@ -13,7 +13,10 @@ export const SpanAuxiliar = styled.span`
 `;
 
 export const Card = styled.div`
-  padding: "0.5rem 2rem 1rem 2rem";
+  padding-top: 0.5rem;
+  padding-right: 2rem;
+  padding-bottom: 1rem;
+  padding-left: 2rem;
   width: 100%;
   border-radius: 4px;
   box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.16);
@@ -42,7 +45,7 @@ export const Ruta = styled.div`
 `;
 
 export const Label = styled.label`
-  font-family: Roboto;
+  font-family: Montserrat, sans-serif;
   font-size: 1.5rem;
   font-weight: normal;
   font-stretch: normal;

@@ -1,9 +1,12 @@
 import { useEffect } from "react";
-import { Card } from "react-bootstrap";
 
 import PerfilEmprendedor from "src/app/Shared/components/PerfilEmprendedor";
 
-import { CardRuta, Subtitulo } from "src/app/Shared/assets/styles/Common.js";
+import {
+  Card,
+  CardRuta,
+  Subtitulo,
+} from "src/app/Shared/assets/styles/Common.js";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import {
   HTTP_METHOD_GET,

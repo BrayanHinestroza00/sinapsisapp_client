@@ -155,6 +155,7 @@ function LoginFormComponent({ onSubmit }) {
             <Form.Control
               id="password"
               name="password"
+              type="password"
               onChange={(e) => onHandleChange(e)}
             />
             {error.password && (

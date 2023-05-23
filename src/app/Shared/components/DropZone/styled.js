@@ -14,7 +14,7 @@ export const baseStyle = {
   transition: "border .24s ease-in-out",
   boxShadow: "rgba(0, 0, 0, 0.16) -1px 0px 6px 0px",
   height: "100px",
-  fontFamily: "Roboto",
+  fontFamily: "Montserrat, sans-serif",
   fontSize: "28px",
   color: "rgb(51 51 51 / 75%)",
   marginTop: "15px",

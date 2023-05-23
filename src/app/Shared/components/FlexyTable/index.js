@@ -7,7 +7,7 @@ function FlexyTable({ datos, adicional, ...props }) {
         <div className="card-body">
           <h3>Listado de {props.titulo}</h3>
           <ReactFlexyTable
-            className="table"
+            className="table react_flexy_table"
             data={datos}
             filteredDataText="Datos filtrados:"
             nextText="Siguiente"

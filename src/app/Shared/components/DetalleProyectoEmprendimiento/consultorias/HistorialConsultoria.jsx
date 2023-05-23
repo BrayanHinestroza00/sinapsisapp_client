@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import moment from "moment";
-import { Card } from "react-bootstrap";
 
 import DetalleConsultoria from "src/app/Shared/components/DetalleProyectoEmprendimiento/consultorias/DetalleConsultoria";
 import FlexyTable from "src/app/Shared/components/FlexyTable";
 
 import {
+  Card,
   CardRuta,
   Ruta,
   Subtitulo,

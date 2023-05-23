@@ -2,13 +2,6 @@ import styled, { createGlobalStyle, css } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
 
-/* Box sizing rules */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
 html {
   font-size: 10px;
 }
@@ -25,6 +18,7 @@ body {
   background-color: ${({ theme }) => theme.colors.background};
   line-height: 1;
 }
+
 h1,
 h2,
 h3,
@@ -40,6 +34,7 @@ dd {
   padding: 0;
   margin: 0;
 }
+
 h1,
 h2,
 h3,
@@ -47,7 +42,11 @@ h4,
 h5,
 h6 {
   color: ${({ theme }) => theme.colors.primaryTextColor};
+  font-family: Roboto, sans-serif !important;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
+
 button {
   border: none;
   background-color: transparent;
@@ -72,12 +71,6 @@ a:not([class]) {
   text-decoration-skip-ink: auto;
 }
 
-/* Make images easier to work with */
-img,
-picture {
-  max-width: 100%;
-  display: block;
-}
 
 /* Inherit fonts for inputs and buttons */
 input,

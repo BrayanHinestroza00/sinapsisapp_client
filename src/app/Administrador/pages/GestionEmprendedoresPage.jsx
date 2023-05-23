@@ -176,8 +176,8 @@ function GestionEmprendedoresPage() {
             )}
           </Ruta>
         ) : (
-          <Card style={{ padding: "0.5rem 2rem 1rem 2rem" }}>
-            <Subtitulo>Filtros</Subtitulo>
+          <Card>
+            <Subtitulo>Filtros de búsqueda</Subtitulo>
 
             <form onSubmit={onHandleSubmit} className="row g-3">
               {/* Numero de documento */}

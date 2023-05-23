@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { Card } from "react-bootstrap";
-
 import AvanceRuta from "src/app/Shared/components/DetalleProyectoEmprendimiento/ruta/AvanceRuta";
 import EstadoRuta from "src/app/Shared/components/DetalleProyectoEmprendimiento/ruta/EstadoRuta";
 import FinalizarAsesoramiento from "./FinalizarAsesoramiento";
 
 import {
+  Card,
   SpanAuxiliar,
   CardRuta,
   Ruta,

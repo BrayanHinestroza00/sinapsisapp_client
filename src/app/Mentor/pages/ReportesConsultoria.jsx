@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import { Card } from "react-bootstrap";
 
 import { MentorContext } from "src/app/Mentor/contexts/MentorContext";
 
@@ -15,6 +14,7 @@ import {
 import { getCurrentDate } from "src/app/Shared/utils/utilityFunctions";
 import { validarFiltroReporteConsultoriaMentor } from "src/app/Shared/services/validation/validateReportesConsultoria.js";
 import {
+  Card,
   Input,
   Label,
   Subtitulo,
@@ -105,8 +105,8 @@ function ReportesConsultoria() {
     <>
       <Titulo>Reportes Consultorias</Titulo>
 
-      <Card style={{ padding: "0.5rem 2rem 1rem 2rem" }}>
-        <Subtitulo>Filtros</Subtitulo>
+      <Card>
+        <Subtitulo>Filtros de búsqueda</Subtitulo>
 
         <form onSubmit={onHandleSubmit} className="row g-3">
           {/* Fecha de inicio */}

@@ -1,4 +1,4 @@
-import { Card } from "react-bootstrap";
+import { Card } from "src/app/Shared/assets/styles/Common.js";
 import { Titulo } from "src/app/Shared/assets/styles/Common";
 import LineChart from "src/app/Shared/components/ChartJS/LineChart";
 

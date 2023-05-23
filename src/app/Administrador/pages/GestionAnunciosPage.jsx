@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Card } from "react-bootstrap";
+import { Card } from "src/app/Shared/assets/styles/Common.js";
 
 import { Titulo } from "src/app/Shared/assets/styles/Common";
 import ListadoAnuncios from "src/app/Shared/components/ListadoAnuncios/ListadoAnuncios";

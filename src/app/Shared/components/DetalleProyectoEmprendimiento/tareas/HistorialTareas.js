@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Card } from "react-bootstrap";
 import moment from "moment";
 
 import FlexyTable from "src/app/Shared/components/FlexyTable";
@@ -12,6 +11,7 @@ import {
   URL_OBTENER_TAREAS_PROYECTO_EMPRENDIMIENTO,
 } from "src/app/Shared/utils/apiConstants";
 import {
+  Card,
   CardRuta,
   Ruta,
   Subtitulo,

@@ -2,12 +2,7 @@ import Axios from "axios";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
-// import EditarCuentaPage from "src/pages/emprendedor/EditarCuentaPage";
 import AnunciosPage from "src/app/Shared/pages/Anuncios";
-// import PerfilPage from "src/pages/emprendedor/PerfilPage";
-// import PrimeraAtencionPage from "src/pages/emprendedor/PrimeraAtencionPage";
-// import RutaPage from "src/pages/emprendedor/RutaPage";
-// import SeleccionarProyectoPage from "src/components/emprendedor/SeleccionarProyectoModal";
 import Error404Page from "src/app/Shared/pages/error/Error404/Error404";
 
 import { SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO } from "src/app/Shared/utils/constants";
@@ -19,6 +14,11 @@ import {
 } from "src/app/Shared/utils/localStorage.js";
 import EmprendedorLayout from "../Emprendedor/layouts/EmprendedorLayout";
 import { EmprendedorContextProvider } from "../Emprendedor/contexts/EmprendedorContext";
+import EditarCuentaPage from "../Emprendedor/pages/EditarCuentaPage";
+import SeleccionarProyectoPage from "../Emprendedor/pages/SeleccionarProyectoPage";
+import RutaPage from "../Emprendedor/pages/RutaPage";
+import PerfilPage from "../Emprendedor/pages/PerfilPage";
+import PrimeraAtencionPage from "../Emprendedor/pages/PrimeraAtencionPage";
 
 function EmprendedorRoutes() {
   useEffect(() => {
@@ -56,7 +56,7 @@ function EmprendedorRoutes() {
       <EmprendedorLayout sidebar={false}>
         <Routes>
           <Route exact path="/" element={<AnunciosPage />} />
-          {/* <Route
+          <Route
             exact
             path="/Seleccionar_Proyecto"
             element={<SeleccionarProyectoPage />}
@@ -68,7 +68,7 @@ function EmprendedorRoutes() {
             element={<PrimeraAtencionPage />}
           />
           <Route exact path="/Ruta/*" element={<RutaPage />} />
-          <Route exact path="/Perfil" element={<PerfilPage />} /> */}
+          <Route exact path="/Perfil" element={<PerfilPage />} />
           <Route path="*" element={<Error404Page />} />
         </Routes>
       </EmprendedorLayout>
