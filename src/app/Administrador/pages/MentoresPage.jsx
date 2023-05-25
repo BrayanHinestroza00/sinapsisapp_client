@@ -20,6 +20,7 @@ import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import { validarListadoMentores } from "src/app/Shared/services/validation/validateListadoMentores";
 
 import showIcon from "src/app/Shared/assets/images/icons/showIcon.png";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 function MentoresPage() {
   const navigate = useNavigate();
@@ -128,7 +129,7 @@ function MentoresPage() {
               marginLeft: "0rem",
             }}
           >
-            <p>Cargando...</p>
+            <LoadingSpinner width="5rem" height="5rem" />
           </Ruta>
         ) : etapasRutaMessage || etapasRutaError ? (
           <Ruta
@@ -190,7 +191,7 @@ function MentoresPage() {
               {/* Etapa del Mentor */}
               <div className="col-md-6">
                 <Label htmlFor="etapasRuta" className="form-label">
-                  Etapa de la Ruta de Innovacion & Emprendimiento
+                  Etapa de la Ruta de Innovación & Emprendimiento
                 </Label>
                 <select
                   id="etapasRuta"
@@ -234,7 +235,7 @@ function MentoresPage() {
               marginLeft: "0rem",
             }}
           >
-            <p>Cargando...</p>
+            <LoadingSpinner width="5rem" height="5rem" />
           </Ruta>
         ) : mentoresError || mentoresMessage ? (
           <Ruta

@@ -18,7 +18,7 @@ function GestionAnunciosPage() {
 
   return (
     <Card>
-      <Titulo>Gestion de Anuncios </Titulo>
+      <Titulo>Gestión de Anuncios </Titulo>
       <div className="container">
         <div className="row col-md-2">
           <button className="btn btn-primary mb-4" onClick={onClicCrearAnuncio}>

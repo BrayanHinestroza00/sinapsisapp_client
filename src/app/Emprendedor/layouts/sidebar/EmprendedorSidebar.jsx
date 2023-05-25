@@ -1,23 +1,23 @@
-import { Link } from "react-router-dom";
-import { AccordionItemSidebar, EtiquetaSidebar, Sidebar } from "./styled.js";
-
-import rutaMenuIcon from "src/app/Shared/assets/images/sidebar/ruta_main.png";
-import estadoIcon from "src/app/Shared/assets/images/sidebar/estado_ruta.png";
-import avanzarIcon from "src/app/Shared/assets/images/sidebar/avanzar_ruta.png";
-import mentoresIcon from "src/app/Shared/assets/images/sidebar/mentor.png";
-import tareasIcon from "src/app/Shared/assets/images/sidebar/tareas.png";
-import proyectoIcon from "src/app/Shared/assets/images/sidebar/project.png";
-import materialIcon from "src/app/Shared/assets/images/sidebar/material_apoyo.png";
-import consultoriaMenuIcon from "src/app/Shared/assets/images/sidebar/consultoria_main.png";
-import consultoriaIcon from "src/app/Shared/assets/images/sidebar/consultoria.png";
-import consultoriaEspIcon from "src/app/Shared/assets/images/sidebar/consultoria_especializada.png";
-import historialConsultoriaIcon from "src/app/Shared/assets/images/sidebar/historial_consultoria.png";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
+import { AccordionItemSidebar, EtiquetaSidebar, Sidebar } from "./styled.js";
 import {
   SIDEBAR_EMPRENDEDOR,
   SIDEBAR_EMPRENDEDOR_CONSULTORIAS_ITEM,
   SIDEBAR_EMPRENDEDOR_RUTA_ITEM,
 } from "src/app/Shared/utils/constants";
+
+import estadoIcon from "src/app/Shared/assets/images/sidebar/estado_ruta.png";
+import avanzarIcon from "src/app/Shared/assets/images/sidebar/avanzar_ruta.png";
+import mentoresIcon from "src/app/Shared/assets/images/sidebar/mentor.png";
+import tareasIcon from "src/app/Shared/assets/images/sidebar/tareas.png";
+import proyectoIcon from "src/app/Shared/assets/images/sidebar/project.png";
+import consultoriaMenuIcon from "src/app/Shared/assets/images/sidebar/consultoria_main.png";
+import consultoriaIcon from "src/app/Shared/assets/images/sidebar/consultoria.png";
+import consultoriaEspIcon from "src/app/Shared/assets/images/sidebar/consultoria_especializada.png";
+import historialConsultoriaIcon from "src/app/Shared/assets/images/sidebar/historial_consultoria.png";
+import emprendimientosIcon from "src/app/Shared/assets/images/sidebar/administrador_emprendimientos.png";
 
 function EmprendedorSidebar() {
   const [menuActive, setMenuActive] = useState("");
@@ -69,7 +69,7 @@ function EmprendedorSidebar() {
                 onClick={() => onChangeMenu(SIDEBAR_EMPRENDEDOR_RUTA_ITEM)}
               >
                 <img
-                  src={rutaMenuIcon}
+                  src={emprendimientosIcon}
                   style={{
                     width: "40px",
                     height: "40px",

@@ -8,6 +8,7 @@ import {
 } from "src/app/Shared/utils/constants";
 import { insertIntoLocalStorage } from "src/app/Shared/utils/utilityFunctions";
 import { EmprendedorContext } from "../contexts/EmprendedorContext";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 function SeleccionarProyectoPage() {
   let navigate = useNavigate();
@@ -38,7 +39,7 @@ function SeleccionarProyectoPage() {
   };
 
   if (loading) {
-    return <h1>LOADING...</h1>;
+    return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
   return (
@@ -53,7 +54,7 @@ function SeleccionarProyectoPage() {
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title" id="exampleModalLabel">
-              Elige tu proyecto de emprendimiento
+              Elige tú proyecto de emprendimiento
             </h5>
             <button
               type="button"

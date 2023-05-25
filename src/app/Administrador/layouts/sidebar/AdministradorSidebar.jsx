@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { AccordionItemSidebar, EtiquetaSidebar, Sidebar } from "./styled.js";
 
-import rutaMenuIcon from "src/app/Shared/assets/images/sidebar/ruta_main.png";
-import estadoIcon from "src/app/Shared/assets/images/sidebar/estado_ruta.png";
-import consultoriaMenuIcon from "src/app/Shared/assets/images/sidebar/consultoria_main.png";
-import consultoriaIcon from "src/app/Shared/assets/images/sidebar/consultoria.png";
-import consultoriaEspIcon from "src/app/Shared/assets/images/sidebar/consultoria_especializada.png";
+import { AccordionItemSidebar, EtiquetaSidebar, Sidebar } from "./styled.js";
 import {
   SIDEBAR_ADMINISTRADOR,
   SIDEBAR_ADMINISTRADOR_EMPRENDEDORES_ITEM,
@@ -15,6 +10,18 @@ import {
   SIDEBAR_ADMINISTRADOR_PRIMERA_ATENCION_ITEM,
   SIDEBAR_ADMINISTRADOR_REPORTES_ITEM,
 } from "src/app/Shared/utils/constants";
+
+import solicitudPAIcon from "src/app/Shared/assets/images/sidebar/administrador_solicitudes_pa.png";
+import usuariosIcon from "src/app/Shared/assets/images/sidebar/administrador_usuarios.png";
+import reportesIcon from "src/app/Shared/assets/images/sidebar/administrador_reportes.png";
+import reportesFormacionIcon from "src/app/Shared/assets/images/sidebar/administrador_reportes_formacion.png";
+import reportesGestionIcon from "src/app/Shared/assets/images/sidebar/administrador_reportes_gestion.png";
+import listadoEmprendimientosIcon from "src/app/Shared/assets/images/sidebar/administrador_listado_emprendimientos.png";
+import emprendimientosIcon from "src/app/Shared/assets/images/sidebar/administrador_emprendimientos.png";
+import emprendedoresIcon from "src/app/Shared/assets/images/sidebar/emprendedores.png";
+import mentoresIcon from "src/app/Shared/assets/images/sidebar/mentores.png";
+import consultoriaIcon from "src/app/Shared/assets/images/sidebar/consultoria.png";
+import consultoriaEspIcon from "src/app/Shared/assets/images/sidebar/consultoria_especializada.png";
 
 function AdministradorSidebar() {
   const [menuActive, setMenuActive] = useState("");
@@ -68,7 +75,7 @@ function AdministradorSidebar() {
                 }
               >
                 <img
-                  src={rutaMenuIcon}
+                  src={emprendimientosIcon}
                   style={{
                     width: "40px",
                     height: "40px",
@@ -104,7 +111,7 @@ function AdministradorSidebar() {
                   }}
                 >
                   <img
-                    src={estadoIcon}
+                    src={listadoEmprendimientosIcon}
                     style={{
                       width: "40px",
                       height: "40px",
@@ -125,7 +132,7 @@ function AdministradorSidebar() {
                   }}
                 >
                   <img
-                    src={estadoIcon}
+                    src={solicitudPAIcon}
                     style={{
                       width: "40px",
                       height: "40px",
@@ -133,7 +140,7 @@ function AdministradorSidebar() {
                       marginRight: "1rem",
                     }}
                   />
-                  Solicitudes Primera Atencion
+                  Solicitudes Primera Atención
                 </Link>
               </div>
             </div>
@@ -150,7 +157,7 @@ function AdministradorSidebar() {
                 aria-controls="collapseTwo"
               >
                 <img
-                  src={consultoriaMenuIcon}
+                  src={usuariosIcon}
                   style={{
                     width: "40px",
                     height: "40px",
@@ -188,7 +195,7 @@ function AdministradorSidebar() {
                   }}
                 >
                   <img
-                    src={consultoriaEspIcon}
+                    src={emprendedoresIcon}
                     style={{
                       width: "40px",
                       height: "40px",
@@ -209,7 +216,7 @@ function AdministradorSidebar() {
                   }}
                 >
                   <img
-                    src={consultoriaEspIcon}
+                    src={mentoresIcon}
                     style={{
                       width: "40px",
                       height: "40px",
@@ -234,7 +241,7 @@ function AdministradorSidebar() {
                 aria-controls="collapseThree"
               >
                 <img
-                  src={consultoriaMenuIcon}
+                  src={reportesIcon}
                   style={{
                     width: "40px",
                     height: "40px",
@@ -270,7 +277,7 @@ function AdministradorSidebar() {
                   }}
                 >
                   <img
-                    src={consultoriaIcon}
+                    src={reportesFormacionIcon}
                     style={{
                       width: "40px",
                       height: "40px",
@@ -291,7 +298,7 @@ function AdministradorSidebar() {
                   }}
                 >
                   <img
-                    src={consultoriaIcon}
+                    src={reportesGestionIcon}
                     style={{
                       width: "40px",
                       height: "40px",
@@ -320,7 +327,7 @@ function AdministradorSidebar() {
                 aria-controls="collapseFour"
               >
                 <img
-                  src={consultoriaMenuIcon}
+                  src={consultoriaEspIcon}
                   style={{
                     width: "40px",
                     height: "40px",
@@ -358,7 +365,7 @@ function AdministradorSidebar() {
                   }}
                 >
                   <img
-                    src={consultoriaIcon}
+                    src={emprendedoresIcon}
                     style={{
                       width: "40px",
                       height: "40px",
@@ -379,7 +386,7 @@ function AdministradorSidebar() {
                   }}
                 >
                   <img
-                    src={consultoriaIcon}
+                    src={mentoresIcon}
                     style={{
                       width: "40px",
                       height: "40px",

@@ -83,6 +83,10 @@ const BotonHeader = styled.button`
   }
 `;
 
+export const HeaderMenuItem = styled.span`
+  cursor: pointer;
+`;
+
 export const headerStyled = {
   PanelSuperior,
   ContenedorControlesUsuario,

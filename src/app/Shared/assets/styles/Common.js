@@ -9,6 +9,7 @@ export const Subtitulo = styled.h2`
 `;
 
 export const SpanAuxiliar = styled.span`
+  margin-left: 0.5rem;
   font-size: 1.2rem;
 `;
 

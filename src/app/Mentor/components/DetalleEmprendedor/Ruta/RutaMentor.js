@@ -17,6 +17,7 @@ import {
 } from "src/app/Shared/utils/apiConstants";
 import { obtenerNombreEtapa } from "src/app/Shared/utils/utilityFunctions.js";
 import { SINAPSIS_APP_ESTADO_RUTA_EMPRENDIMIENTO_PENDIENTE_APROBAR } from "src/app/Shared/utils/constants";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 function RutaMentor({ idProyectoEmprendimiento, userData }) {
   const [loadingComponent, setLoadingComponent] = useState(true);
@@ -48,7 +49,7 @@ function RutaMentor({ idProyectoEmprendimiento, userData }) {
     //   loadingComponent,
     //   dt: { preloadData, messageFetch, errorFetch },
     // });
-    return <>LOADING RutaMentor</>;
+    return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
   if (messageFetch) {
@@ -56,7 +57,7 @@ function RutaMentor({ idProyectoEmprendimiento, userData }) {
       <Card>
         <Subtitulo>Estado de la ruta de I&E de SINAPSIS UAO</Subtitulo>
 
-        <CardRuta style={{ marginTop: "0rem", marginBottom: "0rem" }}>
+        <CardRuta className="mb-3">
           <Ruta>
             <p>{messageFetch}</p>
           </Ruta>
@@ -77,10 +78,10 @@ function RutaMentor({ idProyectoEmprendimiento, userData }) {
   return (
     <Card>
       <Subtitulo>Estado de la ruta de I&E de SINAPSIS UAO</Subtitulo>
-      <CardRuta style={{ marginTop: "0rem", marginBottom: "0rem" }}>
+      <CardRuta className="mb-3">
         <Ruta>
           <Subtitulo>
-            Actualmente el emprendedor se encuentra en la etapa:{" "}
+            Actualmente el emprendedor se encuentra en la etapa:
             <SpanAuxiliar className="text-muted">
               {obtenerNombreEtapa(preloadData.idEtapa)}
             </SpanAuxiliar>
@@ -89,10 +90,10 @@ function RutaMentor({ idProyectoEmprendimiento, userData }) {
         </Ruta>
       </CardRuta>
 
-      <CardRuta style={{ marginTop: "0rem", marginBottom: "0rem" }}>
+      <CardRuta className="mb-3">
         <Ruta>
           <Subtitulo>
-            Avance en la ruta de I&E del emprendedor en la etapa:{" "}
+            Avance en la ruta de I&E del emprendedor en la etapa:
             <SpanAuxiliar className="text-muted">
               {obtenerNombreEtapa(preloadData.idEtapa)}
             </SpanAuxiliar>
@@ -104,7 +105,7 @@ function RutaMentor({ idProyectoEmprendimiento, userData }) {
       {preloadData.estadoRuta ==
         SINAPSIS_APP_ESTADO_RUTA_EMPRENDIMIENTO_PENDIENTE_APROBAR &&
         preloadData.idMentor == userData.id && (
-          <CardRuta style={{ marginTop: "0rem", marginBottom: "0rem" }}>
+          <CardRuta className="mb-2">
             <Ruta>
               <Subtitulo>Finalizar Acompañamiento: </Subtitulo>
               <FinalizarAsesoramiento preloadData={preloadData} />

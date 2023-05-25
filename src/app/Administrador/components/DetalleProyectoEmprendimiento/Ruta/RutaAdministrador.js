@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import AvanceRuta from "src/app/Shared/components/DetalleProyectoEmprendimiento/ruta/AvanceRuta";
 import EstadoRuta from "src/app/Shared/components/DetalleProyectoEmprendimiento/ruta/EstadoRuta";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 import {
   Card,
@@ -47,7 +48,7 @@ function RutaAdministrador({ idProyectoEmprendimiento }) {
     //   loadingComponent,
     //   dt: { preloadData, messageFetch, errorFetch },
     // });
-    return <>LOADING RutaAdministrador</>;
+    return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
   if (messageFetch) {
@@ -55,7 +56,7 @@ function RutaAdministrador({ idProyectoEmprendimiento }) {
       <Card>
         <Subtitulo>Estado de la ruta de I&E de SINAPSIS UAO</Subtitulo>
 
-        <CardRuta style={{ marginTop: "0rem", marginBottom: "0rem" }}>
+        <CardRuta className="mb-3">
           <Ruta>
             <p>{messageFetch}</p>
           </Ruta>
@@ -76,10 +77,10 @@ function RutaAdministrador({ idProyectoEmprendimiento }) {
   return (
     <Card>
       <Subtitulo>Estado de la ruta de I&E de SINAPSIS UAO</Subtitulo>
-      <CardRuta style={{ marginTop: "0rem", marginBottom: "0rem" }}>
+      <CardRuta className="mb-3">
         <Ruta>
           <Subtitulo>
-            Actualmente el emprendedor se encuentra en la etapa:{" "}
+            Actualmente el emprendedor se encuentra en la etapa:
             <SpanAuxiliar className="text-muted">
               {obtenerNombreEtapa(preloadData.idEtapa)}
             </SpanAuxiliar>
@@ -88,10 +89,10 @@ function RutaAdministrador({ idProyectoEmprendimiento }) {
         </Ruta>
       </CardRuta>
 
-      <CardRuta style={{ marginTop: "0rem", marginBottom: "0rem" }}>
+      <CardRuta className="mb-3">
         <Ruta>
           <Subtitulo>
-            Avance en la ruta de I&E del emprendedor en la etapa:{" "}
+            Avance en la ruta de I&E del emprendedor en la etapa:
             <SpanAuxiliar className="text-muted">
               {obtenerNombreEtapa(preloadData.idEtapa)}
             </SpanAuxiliar>

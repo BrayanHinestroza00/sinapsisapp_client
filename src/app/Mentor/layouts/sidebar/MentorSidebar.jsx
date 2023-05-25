@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { AccordionItemSidebar, EtiquetaSidebar, Sidebar } from "./styled.js";
 
-import rutaMenuIcon from "src/app/Shared/assets/images/sidebar/ruta_main.png";
-import estadoIcon from "src/app/Shared/assets/images/sidebar/estado_ruta.png";
-import consultoriaMenuIcon from "src/app/Shared/assets/images/sidebar/consultoria_main.png";
-import consultoriaIcon from "src/app/Shared/assets/images/sidebar/consultoria.png";
-import consultoriaEspIcon from "src/app/Shared/assets/images/sidebar/consultoria_especializada.png";
+import { AccordionItemSidebar, EtiquetaSidebar, Sidebar } from "./styled.js";
 import {
   SIDEBAR_MENTOR,
   SIDEBAR_MENTOR_CONSULTORIAS_ITEM,
   SIDEBAR_MENTOR_EMPRENDEDORES_ITEM,
   SIDEBAR_MENTOR_REPORTES_ITEM,
 } from "src/app/Shared/utils/constants";
+
+import consultoriaMenuIcon from "src/app/Shared/assets/images/sidebar/consultoria_main.png";
+import consultoriaIcon from "src/app/Shared/assets/images/sidebar/consultoria.png";
+import consultoriaEspIcon from "src/app/Shared/assets/images/sidebar/consultoria_especializada.png";
+import emprendimientosIcon from "src/app/Shared/assets/images/sidebar/administrador_emprendimientos.png";
+import listadoEmprendimientosIcon from "src/app/Shared/assets/images/sidebar/administrador_listado_emprendimientos.png";
+import reportesIcon from "src/app/Shared/assets/images/sidebar/administrador_reportes.png";
 
 function MentorSidebar() {
   const [menuActive, setMenuActive] = useState("");
@@ -61,7 +63,7 @@ function MentorSidebar() {
                 onClick={() => onChangeMenu(SIDEBAR_MENTOR_EMPRENDEDORES_ITEM)}
               >
                 <img
-                  src={rutaMenuIcon}
+                  src={emprendimientosIcon}
                   style={{
                     width: "40px",
                     height: "40px",
@@ -97,7 +99,7 @@ function MentorSidebar() {
                   }}
                 >
                   <img
-                    src={estadoIcon}
+                    src={listadoEmprendimientosIcon}
                     style={{
                       width: "40px",
                       height: "40px",
@@ -147,7 +149,7 @@ function MentorSidebar() {
                 aria-label="Basic example"
               >
                 <Link
-                  to={"/Mentor/Consultorias/Especializadas"}
+                  to={"/Mentor/Consultorias"}
                   className="btn d-flex align-items-center"
                   style={{
                     textAlign: "left",
@@ -164,7 +166,7 @@ function MentorSidebar() {
                       marginRight: "1rem",
                     }}
                   />
-                  Consultorías Especializadas
+                  Consultorías Programadas
                 </Link>
               </div>
             </div>
@@ -181,7 +183,7 @@ function MentorSidebar() {
                 aria-controls="collapseThree"
               >
                 <img
-                  src={consultoriaMenuIcon}
+                  src={reportesIcon}
                   style={{
                     width: "40px",
                     height: "40px",

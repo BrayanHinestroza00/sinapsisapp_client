@@ -8,6 +8,7 @@ import {
   Label,
   TextArea,
 } from "src/app/Shared/assets/styles/Common.js";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
 function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
   const [error, setError] = useState({});
@@ -58,7 +59,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
   };
 
   if (!datos || !redesData) {
-    return <h1>LOADING...</h1>;
+    return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
   // console.log("ProyectoEmprendimiento", { datos, redesData });
@@ -268,7 +269,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
           <div className="row">
             <div className="col-md-6 mb-3">
               <Label htmlFor="estaConstituida" className="form-label">
-                Esta constituida
+                ¿Está constituida?
                 <span> (*)</span>
               </Label>
               <select

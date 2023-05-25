@@ -82,7 +82,7 @@ function InfoPrimeraAtencion(props) {
 
         <div className="col-md-6 mb-3">
           <Label htmlFor="evidenciaProducto" className="form-label">
-            ¿Cual es la evidencia de su producto/servicio?
+            ¿Cuál es la evidencia de su producto/servicio?
           </Label>
           <Input
             type="text"
@@ -101,7 +101,7 @@ function InfoPrimeraAtencion(props) {
 
         <div className="col-md-6 mb-3">
           <Label htmlFor="obtencionMateriasPrimas" className="form-label">
-            ¿Donde consigue la materia prima?
+            ¿Dónde consigue la materia prima?
           </Label>
           <Input
             type="text"
@@ -133,7 +133,7 @@ function InfoPrimeraAtencion(props) {
             <option value={"-1"} disabled>
               Seleccione...
             </option>
-            <option value="S">SI</option>
+            <option value="S">SÍ</option>
             <option value="N">NO</option>
           </select>
           {error.equipoTrabajo && (
@@ -146,7 +146,7 @@ function InfoPrimeraAtencion(props) {
         {props.datos.equipoTrabajo == "S" ? (
           <div className="col-md-6 mb-3">
             <Label htmlFor="cualEquipoTrabajo" className="form-label">
-              ¿Cual es su equipo de trabajo?
+              ¿Cuál es su equipo de trabajo?
               <span> (*)</span>
             </Label>
             <Input
@@ -189,7 +189,7 @@ function InfoPrimeraAtencion(props) {
 
         <div className="col-md-6 mb-3">
           <Label htmlFor="desdeFechaEjecucion" className="form-label">
-            ¿Desde cuando lleva ejecutando la idea?
+            ¿Desde cuándo lleva ejecutando la idea?
           </Label>
           <Input
             type="date"
@@ -209,7 +209,7 @@ function InfoPrimeraAtencion(props) {
 
         <div className="col-md-6 mb-3">
           <Label htmlFor="horasSemanales" className="form-label">
-            Número de horas dedicas a la semana
+            Número de horas dedicadas a la semana
             <span> (*)</span>
           </Label>
           <Input
@@ -283,7 +283,7 @@ function InfoPrimeraAtencion(props) {
                     htmlFor="cualOtroDescubrioSinapsis"
                     className="form-label"
                   >
-                    ¿Cuál fue el Otro Medio?
+                    ¿Cuál fue el otro medio?
                   </Label>
                   <Input
                     type="text"

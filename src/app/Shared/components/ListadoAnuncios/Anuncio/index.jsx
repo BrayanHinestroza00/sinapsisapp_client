@@ -1,10 +1,13 @@
 import { HOST } from "src/app/Shared/utils/apiConstants";
 
-import { AnuncioSpanHelper } from "./styled.js";
+import { AnuncioParrafo, AnuncioSpanHelper } from "./styled.js";
+import { Card } from "src/app/Shared/assets/styles/Common.js";
+import moment from "moment";
+import { SINAPSIS_APP_FORMATO_FECHA_HORA } from "src/app/Shared/utils/constants";
 
 function Anuncio({ dataAnuncio, ...props }) {
   return (
-    <div className="container-fluid my-3 text-center">
+    <Card className="container-fluid my-3 text-center">
       <div
         style={{
           display: "flex",
@@ -13,15 +16,21 @@ function Anuncio({ dataAnuncio, ...props }) {
         }}
         className="row"
       >
-        <h5 className="col-md-6">{dataAnuncio.titulo}</h5>
+        <h2 className="col-md-6">{dataAnuncio.titulo}</h2>
         <p className="col-md-6">
           <AnuncioSpanHelper>Fecha de publicación:</AnuncioSpanHelper>
           {/* <span className="text-muted">21 de noviembre a las 11:39</span> */}
-          <span className="text-muted">{dataAnuncio.fechaCreacion}</span>
+          <span className="text-muted">
+            {moment
+              .utc(dataAnuncio.fechaCreacion)
+              .format(SINAPSIS_APP_FORMATO_FECHA_HORA)}
+          </span>
         </p>
       </div>
       <div className="row col-md-12">
-        <p>{dataAnuncio.descripcion}</p>
+        <AnuncioParrafo className="mb-3">
+          {dataAnuncio.descripcion}
+        </AnuncioParrafo>
         {/* <p>
             La Gran Vitrina Verde, se llevará a cabo el 25 de noviembre en el
             Bulevar del Río Cali, evento de región que tendrá productos y servicios
@@ -38,7 +47,7 @@ function Anuncio({ dataAnuncio, ...props }) {
           />
         </div>
       </div>
-    </div>
+    </Card>
   );
 }
 

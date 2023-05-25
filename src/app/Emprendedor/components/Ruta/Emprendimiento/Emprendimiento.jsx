@@ -10,6 +10,7 @@ import {
   URL_OBTENER_EMPRENDEDIMIENTO,
   URL_OBTENER_REDES_SOCIALES,
 } from "src/app/Shared/utils/apiConstants";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 function Emprendimiento() {
   const {
@@ -97,7 +98,7 @@ function Emprendimiento() {
     !preloadData ||
     !datos
   ) {
-    return <h1>LOADING...</h1>;
+    return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
   if (error || redesError) {

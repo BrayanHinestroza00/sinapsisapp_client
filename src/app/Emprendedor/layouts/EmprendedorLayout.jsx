@@ -4,6 +4,7 @@ import { useContext } from "react";
 import EmprendedorNavbar from "./navbar/EmprendedorNavbar";
 import EmprendedorContentLayout from "./content/EmprendedorContentLayout";
 import EmprendedorHeader from "./header/EmprendedorHeader";
+
 import { EmprendedorContext } from "../contexts/EmprendedorContext";
 
 const Layout = styled.div`

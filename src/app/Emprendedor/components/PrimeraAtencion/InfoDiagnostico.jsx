@@ -67,14 +67,14 @@ function InfoDiagnostico(props) {
 
           <div>
             <h4>
-              Sube tu archivo diligenciado <span> (*)</span>
+              Sube tú archivo diligenciado <span> (*)</span>
             </h4>
             <DropZoneComponent
               upFiles={onGetFiles}
               files={props?.fileDiagnostico}
-              accept={{
-                "application/vnd.ms-excel.sheet.macroEnabled.12": [".xlsm"],
-              }}
+              // accept={{
+              //   "application/vnd.ms-excel.sheet.macroEnabled.12": [".xlsm"],
+              // }}
             />
 
             {error.fileDiagnostico && (

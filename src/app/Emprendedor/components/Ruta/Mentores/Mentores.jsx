@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import moment from "moment";
 
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
+
 import {
   SpanAuxiliar,
   CardRuta,
@@ -20,7 +22,6 @@ import { HOST } from "src/app/Shared/utils/apiConstants";
 
 import imagen from "src/app/Shared/assets/images/panel_lateral.png";
 import logoSinapsis from "src/app/Shared/assets/images/logo_sinapsis.png";
-import logoUser from "src/app/Shared/assets/images/header/emprendedor/user.svg";
 
 function Mentores() {
   const { userData, selectedProjectIndex } = useContext(EmprendedorContext);
@@ -77,37 +78,14 @@ function Mentores() {
   }, [userData, selectedProjectIndex]);
 
   if (loadingComponent || mentorAsignadoLoading || historicoMentoresLoading) {
-    return <h1>LOADING Mentores</h1>;
+    return <LoadingSpinner width="5rem" height="5rem" />;
   }
-
-  // if (mentorAsignadoMessage || historicoMentoresMessage) {
-  //   return (
-  //     <>
-  //       <Titulo>Estado de la ruta de I&E de SINAPSIS UAO</Titulo>
-
-  //       <CardRuta>
-  //         <Ruta>
-  //           <p>{mentorAsignadoMessage || historicoMentoresMessage}</p>
-  //         </Ruta>
-  //       </CardRuta>
-  //     </>
-  //   );
-  // }
-
-  // if (mentorAsignadoError || historicoMentoresError) {
-  //   return (
-  //     <>
-  //       <h1>ERROR</h1>
-  //       <p>{mentorAsignadoError || historicoMentoresError}</p>
-  //     </>
-  //   );
-  // }
 
   return (
     <>
       <Titulo>Mis Mentores</Titulo>
 
-      <CardRuta>
+      <CardRuta className="mb-3">
         <Ruta>
           <Subtitulo>Mentor Asignado</Subtitulo>
 
@@ -117,26 +95,26 @@ function Mentores() {
             <div className="d-flex justify-content-between align-items-center">
               <div>
                 <h5>
-                  Mentor:{" "}
+                  Mentor:
                   <SpanAuxiliar>
                     {`${mentorAsignado.nombresMentor} ${mentorAsignado.apellidosMentor}`}
                   </SpanAuxiliar>
                 </h5>
                 <h5>
-                  Correo:{" "}
+                  Correo:
                   <SpanAuxiliar>{`${
                     mentorAsignado.correoInstitucionalMentor || "NA"
                   }`}</SpanAuxiliar>
                 </h5>
                 <h5>
-                  Cargo:{" "}
+                  Cargo:
                   <SpanAuxiliar>{`${
                     mentorAsignado.cargoMentor || "NA"
                   }`}</SpanAuxiliar>
                 </h5>
                 {mentorAsignado.facultadMentor && (
                   <h5>
-                    Facultad:{" "}
+                    Facultad:
                     <SpanAuxiliar>{`${
                       mentorAsignado.facultadMentor || "NA"
                     }`}</SpanAuxiliar>
@@ -145,7 +123,7 @@ function Mentores() {
 
                 {mentorAsignado.dependenciaMentor && (
                   <h5>
-                    Dependencia:{" "}
+                    Dependencia:
                     <SpanAuxiliar>{`${
                       mentorAsignado.dependenciaMentor || "NA"
                     }`}</SpanAuxiliar>
@@ -197,7 +175,7 @@ function Mentores() {
                         <div className="card-body">
                           <h5 className="card-title">{`${mentor.nombresMentor} ${mentor.apellidosMentor}`}</h5>
                           <p className="card-text">
-                            Fecha de inicio:{" "}
+                            Fecha de inicio:
                             <span className="d-block">{`${moment(
                               mentor.fechaInicio,
                               "YYYY-MM-DD hh:mm:ss"

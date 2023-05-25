@@ -20,7 +20,7 @@ function TabSolicitudes() {
       <Tab eventKey="emprendimientos" title="Emprendimientos">
         <EmprendimientoTab idEmprendimiento={state.emprendimientoId} />
       </Tab>
-      <Tab eventKey="primera_atencion" title="Primera Atencion">
+      <Tab eventKey="primera_atencion" title="Primera Atención">
         <PrimeraAtencionTab
           idProyectoEmprendimiento={state.proyectoEmprendimientoId}
         />

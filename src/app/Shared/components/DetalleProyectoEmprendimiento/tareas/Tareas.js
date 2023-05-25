@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Card } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import moment from "moment";
 import Axios from "axios";
 import swal from "sweetalert2";
@@ -8,6 +8,7 @@ import CrearTarea from "./CrearTarea";
 import RevisarTarea from "./RevisarTarea";
 import DetalleTareaAdmin from "./DetalleTareaAdmin";
 import FlexyTable from "src/app/Shared/components/FlexyTable";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
 import { SINAPSIS_APP_FORMATO_FECHA_HORA } from "src/app/Shared/utils/constants";
 import { HOST } from "src/app/Shared/utils/apiConstants";
@@ -16,11 +17,14 @@ import {
   HTTP_METHOD_GET,
   URL_OBTENER_TAREAS_PROYECTO_EMPRENDIMIENTO,
 } from "src/app/Shared/utils/apiConstants";
-import { CardRuta, Ruta, Subtitulo } from "src/app/Shared/assets/styles/Common";
+import {
+  Card,
+  CardRuta,
+  Ruta,
+  Subtitulo,
+} from "src/app/Shared/assets/styles/Common";
 
-// import "../../../styles/TareasMentor.css";
-
-function Tareas({ idProyectoEmprendimiento }) {
+function Tareas({ idProyectoEmprendimiento, idUsuario, tipoUsuario }) {
   const [loadingComponent, setLoadingComponent] = useState(true);
   const [pendientes, setPendientes] = useState([]);
   const [entregadas, setEntregadas] = useState([]);
@@ -80,8 +84,8 @@ function Tareas({ idProyectoEmprendimiento }) {
         newEntregadas = entregadasData.map((entregadaData, index) => {
           return {
             n: index + 1,
-            titulo: entregadaData.titulo,
-            "Fecha Limite": moment(
+            título: entregadaData.titulo,
+            "Fecha Límite": moment(
               entregadaData.fechaLimiteEntrega,
               "YYYY-MM-DD hh:mm:ss"
             ).format(SINAPSIS_APP_FORMATO_FECHA_HORA),
@@ -97,8 +101,8 @@ function Tareas({ idProyectoEmprendimiento }) {
         newPendientes = pendientesData.map((pendienteData, index) => {
           return {
             n: index + 1,
-            titulo: pendienteData.titulo,
-            "Fecha Limite": moment(
+            título: pendienteData.titulo,
+            "Fecha Límite": moment(
               pendienteData.fechaLimiteEntrega,
               "YYYY-MM-DD hh:mm:ss"
             ).format(SINAPSIS_APP_FORMATO_FECHA_HORA),
@@ -179,7 +183,7 @@ function Tareas({ idProyectoEmprendimiento }) {
     entregadasLoading
     // || !pendientesData
   ) {
-    return <h1>LOADING Tareas</h1>;
+    return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
   if (
@@ -219,7 +223,7 @@ function Tareas({ idProyectoEmprendimiento }) {
         Crear tarea
       </Button>
 
-      <CardRuta style={{ marginTop: "1rem", marginBottom: "0rem" }}>
+      <CardRuta style={{ marginTop: "1rem", marginBottom: "1rem" }}>
         <Ruta>
           {entregadas.length > 0 ? (
             <FlexyTable
@@ -277,6 +281,8 @@ function Tareas({ idProyectoEmprendimiento }) {
           show={showCrearTarea}
           idProyectoEmprendimiento={idProyectoEmprendimiento}
           onHide={() => setShowCrearTarea(!showCrearTarea)}
+          idUsuario={idUsuario}
+          tipoUsuario={tipoUsuario}
         />
       )}
     </Card>

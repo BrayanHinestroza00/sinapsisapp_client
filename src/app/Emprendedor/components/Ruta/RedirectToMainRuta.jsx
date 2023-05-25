@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-function RedirectToEstado() {
+function RedirectToMainRuta() {
   let navigate = useNavigate();
   useEffect(() => {
-    navigate("/Emprendedor/Ruta/Estado");
+    navigate("/Emprendedor/Ruta/Avanzar");
   }, []);
 
-  return <div>RedirectToEstado</div>;
+  return <div>RedirectToMainRuta</div>;
 }
 
-export default RedirectToEstado;
+export default RedirectToMainRuta;

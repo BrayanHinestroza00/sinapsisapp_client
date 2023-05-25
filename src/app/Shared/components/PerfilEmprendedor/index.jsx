@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+
 import { Input, Label } from "src/app/Shared/assets/styles/Common.js";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import {
@@ -27,7 +29,7 @@ function PerfilEmprendedor({ preloadData }) {
   }, []);
 
   if (loading) {
-    return <h1>LOADING...</h1>;
+    return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
   if (error) {
@@ -151,7 +153,7 @@ function PerfilEmprendedor({ preloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="direccion" className="form-label">
-          Direccion de Residencia
+          Dirección de Residencia
           <span> (*)</span>
         </Label>
         <Input
@@ -180,7 +182,7 @@ function PerfilEmprendedor({ preloadData }) {
         <>
           <div className="col-md-6">
             <Label htmlFor="codigoEstudiantil" className="form-label">
-              Codigo Estudiantil
+              Código Estudiantil
               <span> (*)</span>
             </Label>
             <Input
@@ -208,7 +210,7 @@ function PerfilEmprendedor({ preloadData }) {
 
           <div className="col-md-6">
             <Label htmlFor="programaAcademico" className="form-label">
-              Programa Academico
+              Programa Académico
               <span> (*)</span>
             </Label>
             <Input

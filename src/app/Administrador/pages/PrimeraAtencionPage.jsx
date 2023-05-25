@@ -2,6 +2,9 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
+import FlexyTable from "src/app/Shared/components/FlexyTable";
+
 import {
   Card,
   Ruta,
@@ -11,17 +14,16 @@ import {
   Label,
 } from "src/app/Shared/assets/styles/Common.js";
 
-import showIcon from "src/app/Shared/assets/images/icons/showIcon.png";
-
 import {
   HTTP_METHOD_GET,
   URL_OBTENER_PRIMERAS_ATENCIONES_PENDIENTES,
   URL_OBTENER_TIPOS_DOCUMENTO,
 } from "src/app/Shared/utils/apiConstants";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
-import FlexyTable from "src/app/Shared/components/FlexyTable";
 import { SINAPSIS_APP_FORMATO_FECHA } from "src/app/Shared/utils/constants";
 import { validarListadoSolicitudesPA } from "src/app/Shared/services/validation/validateListadoSolicitudesPA";
+
+import showIcon from "src/app/Shared/assets/images/icons/showIcon.png";
 
 function PrimeraAtencionPage() {
   const navigate = useNavigate();
@@ -72,7 +74,7 @@ function PrimeraAtencionPage() {
                 "YYYY-MM-DD hh:mm:ss"
               ).format(SINAPSIS_APP_FORMATO_FECHA),
               "Correo Contacto": primeraAtencion.correoEmprendedor,
-              "Telefono Contacto": primeraAtencion.telefonoContacto || "N/R",
+              "Teléfono Contacto": primeraAtencion.telefonoContacto || "N/R",
             };
           }
         );
@@ -130,7 +132,7 @@ function PrimeraAtencionPage() {
               marginLeft: "0rem",
             }}
           >
-            <p>Cargando...</p>
+            <LoadingSpinner width="5rem" height="5rem" />
           </Ruta>
         ) : tiposDocumentoMessage || tiposDocumentoError ? (
           <Ruta
@@ -260,7 +262,7 @@ function PrimeraAtencionPage() {
               marginLeft: "0rem",
             }}
           >
-            <p>Cargando...</p>
+            <LoadingSpinner width="10rem" height="10rem" />
           </Ruta>
         ) : primerasAtencionesMessage || primerasAtencionesError ? (
           <Ruta

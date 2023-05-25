@@ -2,6 +2,7 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 
 import DropZoneComponent from "src/app/Shared/components/DropZone/DropZoneComponent";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 import {
   BotonSiguiente,
@@ -171,7 +172,7 @@ function InfoUsuario({ userData, ...props }) {
   };
 
   if (loadingFetch || !preloadData) {
-    return <h1>LOADING...</h1>;
+    return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
   if (errorFetch) {
@@ -404,6 +405,11 @@ function InfoUsuario({ userData, ...props }) {
             name="vinculoConU"
             className="form-select"
             value={props.datos.vinculoConU ? props.datos.vinculoConU : "-1"}
+            disabled={
+              props.datos.vinculoConU && props.datos.vinculoConU == "4"
+                ? true
+                : false
+            }
             onChange={(e) => {
               onHandleChange(e);
             }}
@@ -414,7 +420,16 @@ function InfoUsuario({ userData, ...props }) {
             <option value="1">Estudiante</option>
             <option value="2">Egresado</option>
             <option value="3">Colaborador</option>
-            <option value="4">Externo</option>
+            <option
+              value="4"
+              disabled={
+                props.datos.vinculoConU && props.datos.vinculoConU != "4"
+                  ? true
+                  : false
+              }
+            >
+              Externo
+            </option>
           </select>
           {error.vinculoConU && (
             <small className="form-text font-weight-bold text-danger">
@@ -501,7 +516,7 @@ function InfoUsuario({ userData, ...props }) {
                 onChange={(e) => props.handleChange(e)}
               >
                 <option value={"-1"} disabled>
-                  Selecciona tu programa
+                  Selecciona tú programa
                 </option>
 
                 {dataProgramasAcademicos &&
@@ -769,7 +784,7 @@ function InfoUsuario({ userData, ...props }) {
                 onChange={(e) => props.handleChange(e)}
               >
                 <option value={"-1"} disabled>
-                  Selecciona tu programa
+                  Selecciona tú programa
                 </option>
 
                 {dataProgramasAcademicos &&

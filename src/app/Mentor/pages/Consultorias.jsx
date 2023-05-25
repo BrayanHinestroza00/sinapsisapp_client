@@ -1,10 +1,10 @@
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
-// import ReactFlexyTable from "react-flexy-table";
 
 import FlexyTable from "src/app/Shared/components/FlexyTable";
 import TablaHorarioDisponibilidad from "src/app/Mentor/components/TablaHorarioDisponibilidad";
 import EditarDisponibilidadModal from "src/app/Mentor/components//ModalHorarioDisponibilidad";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 import {
   Card,
@@ -21,7 +21,7 @@ import {
 } from "src/app/Shared/utils/apiConstants.js";
 import { SINAPSIS_APP_FORMATO_FECHA } from "src/app/Shared/utils/constants.js";
 
-function ConsultoriasEspecializadas() {
+function Consultorias() {
   const { userData, loadingUserData } = useContext(MentorContext);
 
   const [loadingComponent, setLoadingComponent] = useState(true);
@@ -78,17 +78,22 @@ function ConsultoriasEspecializadas() {
       let newConsultorias = [];
 
       if (consultoriasData.length > 0) {
+        console.log("consultoriasData", consultoriasData);
         newConsultorias = consultoriasData.map((consultoriaData, index) => {
           return {
             n: index + 1,
-            titulo: consultoriaData.tituloConsultoria,
-            Tematica: consultoriaData.nombreSubActRuta || "N/A",
-            "Fecha Consultoria": moment(
+            título: consultoriaData.tituloConsultoria,
+            "Tipo Consultoría":
+              consultoriaData.tipoConsultoria == "E"
+                ? "Especializada"
+                : "Normal",
+            Temática: consultoriaData.nombreSubActRuta || "N/A",
+            "Fecha Consultoría": moment(
               consultoriaData.fechaConsultoria,
               "YYYY-MM-DD hh:mm:ss"
             ).format(SINAPSIS_APP_FORMATO_FECHA),
             "Hora Inicio": consultoriaData.horaInicioConsultoria,
-            "Hora Finalizacion": consultoriaData.horaFinConsultoria,
+            "Hora Finalización": consultoriaData.horaFinConsultoria,
             Emprendedor:
               consultoriaData.nombreEmprendedor +
               " " +
@@ -118,13 +123,13 @@ function ConsultoriasEspecializadas() {
     consultoriasLoading ||
     !horariosData
   ) {
-    return <>LOADING ConsultoriasEspPageMentor</>;
+    return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
   if (horariosMessage || consultoriasMessage) {
     return (
       <>
-        <Titulo>Estado de la ruta de I&E de SINAPSIS UAO</Titulo>
+        <Titulo>Consultorías Programadas</Titulo>
 
         <Card>
           <Ruta>
@@ -146,9 +151,9 @@ function ConsultoriasEspecializadas() {
 
   return (
     <>
-      <Titulo>Consultorías Especializadas</Titulo>
-      <Card>
-        <Subtitulo>HORARIO DE DISPONIBILIDAD</Subtitulo>
+      <Titulo>Consultorías Programadas</Titulo>
+      {/* <Card>
+        <Subtitulo>Horario de disponibilidad</Subtitulo>
         <form>
           <TablaHorarioDisponibilidad horarios={horariosData} />
           <button
@@ -159,7 +164,7 @@ function ConsultoriasEspecializadas() {
             Editar disponibilidad
           </button>
         </form>
-      </Card>
+      </Card> */}
 
       <Ruta
         style={{
@@ -168,17 +173,17 @@ function ConsultoriasEspecializadas() {
           marginLeft: "0rem",
         }}
       >
-        <Subtitulo>CONSULTARÍAS PROGRAMADAS</Subtitulo>
         {consultorias.length > 0 ? (
           <FlexyTable
             datos={consultorias}
-            titulo={"Listado de Emprendedores"}
+            titulo={"consultorías normales y especializadas"}
             adicional={false}
           />
         ) : (
-          <>No hay consultorías programadas</>
+          <Subtitulo>No hay consultorías programadas</Subtitulo>
         )}
       </Ruta>
+
       {showEditarDisponibilidad && (
         <EditarDisponibilidadModal
           show={showEditarDisponibilidad}
@@ -190,29 +195,4 @@ function ConsultoriasEspecializadas() {
   );
 }
 
-// const data = [
-//   {
-//     ID: "1",
-//     "Tipo Doc.": "CC",
-//     "Num Doc.": "1005943951",
-//     Nombre: "Brayan Hinestroza",
-//     Correo: "123@gmail.com",
-//   },
-// ];
-
-// const horarios = {
-//   lunes: [{ id: 1, inicio: "02:30 p.m.", fin: "04:00 p.m." }],
-//   martes: [{ id: 1, inicio: "10:30 a.m.", fin: "12:00 p.m." }],
-//   miercoles: [
-//     { id: 1, inicio: "10:30 a.m.", fin: "12:00 p.m." },
-//     { id: 2, inicio: "02:30 p.m.", fin: "04:00 p.m." },
-//   ],
-//   jueves: [{ id: 1, inicio: "10:30 a.m.", fin: "12:00 p.m." }],
-//   viernes: [],
-//   sabado: [
-//     { id: 1, inicio: "10:30 a.m.", fin: "12:00 p.m." },
-//     { id: 2, inicio: "02:30 p.m.", fin: "04:00 p.m." },
-//   ],
-// };
-
-export default ConsultoriasEspecializadas;
+export default Consultorias;

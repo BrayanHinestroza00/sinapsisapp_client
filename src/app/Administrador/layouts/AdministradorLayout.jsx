@@ -1,4 +1,5 @@
 import styled from "styled-components";
+
 import AdministradorHeader from "./header/AdministradorHeader";
 import AdministradorContentLayout from "./content/AdministradorContentLayout";
 

@@ -16,6 +16,7 @@ import {
   Ruta,
   Subtitulo,
 } from "src/app/Shared/assets/styles/Common.js";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
 function HistorialTareas({ idProyectoEmprendimiento }) {
   const [historial, setHistorial] = useState([]);
@@ -51,9 +52,9 @@ function HistorialTareas({ idProyectoEmprendimiento }) {
         newHistorial = historialData.map((entregadaData, index) => {
           return {
             n: index + 1,
-            titulo: entregadaData.titulo,
-            "Fecha Limite": moment(
-              entregadaData.fechaLimiteEntrega,
+            título: entregadaData.titulo,
+            "Fecha Entrega": moment(
+              entregadaData.fechaEntrega,
               "YYYY-MM-DD hh:mm:ss"
             ).format(SINAPSIS_APP_FORMATO_FECHA_HORA),
             "Creado Por":
@@ -76,7 +77,7 @@ function HistorialTareas({ idProyectoEmprendimiento }) {
   };
 
   if (historialLoading) {
-    return <h1>LOADING HistorialTareas</h1>;
+    return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
   if (historialMessage && historialMessage != "Sin datos") {

@@ -3,6 +3,7 @@ import moment from "moment";
 
 import FlexyTable from "src/app/Shared/components/FlexyTable";
 import DetalleTarea from "./DetalleTarea";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 import { CardRuta, Ruta, Titulo } from "src/app/Shared/assets/styles/Common.js";
 import { EmprendedorContext } from "src/app/Emprendedor/contexts/EmprendedorContext";
@@ -105,8 +106,8 @@ function Tareas() {
         newEntregadas = entregadasData.map((entregadaData, index) => {
           return {
             n: index + 1,
-            titulo: entregadaData.titulo,
-            "Fecha Limite": moment(
+            título: entregadaData.titulo,
+            "Fecha Límite": moment(
               entregadaData.fechaLimiteEntrega,
               "YYYY-MM-DD hh:mm:ss"
             ).format(SINAPSIS_APP_FORMATO_FECHA_HORA),
@@ -121,8 +122,8 @@ function Tareas() {
         newPendientes = pendientesData.map((pendienteData, index) => {
           return {
             n: index + 1,
-            titulo: pendienteData.titulo,
-            "Fecha Limite": moment(
+            título: pendienteData.titulo,
+            "Fecha Límite": moment(
               pendienteData.fechaLimiteEntrega,
               "YYYY-MM-DD hh:mm:ss"
             ).format(SINAPSIS_APP_FORMATO_FECHA_HORA),
@@ -137,13 +138,13 @@ function Tareas() {
         newTodos = todasData.map((todaData, index) => {
           return {
             n: index + 1,
-            titulo: todaData.titulo,
-            "Fecha Limite": moment(
-              todaData.fechaLimiteEntrega,
+            título: todaData.titulo,
+            "Fecha Entregada": moment(
+              todaData.fechaEntrega,
               "YYYY-MM-DD hh:mm:ss"
             ).format(SINAPSIS_APP_FORMATO_FECHA_HORA),
             "Creado Por": todaData.nombresCrea + " " + todaData.apellidosCrea,
-            "Correo Contacto": todaData.correoInstitucionalCrea,
+            Calificación: todaData.calificacion,
           };
         });
       }
@@ -188,10 +189,9 @@ function Tareas() {
     todasLoading ||
     loading ||
     loadingComponent ||
-    entregadasLoading /*||
-    !pendientesData*/
+    entregadasLoading
   ) {
-    return <h1>LOADING Tareas</h1>;
+    return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
   if (
@@ -226,7 +226,7 @@ function Tareas() {
       <Titulo>Mis Tareas</Titulo>
 
       {entregadas && entregadas.length > 0 && (
-        <CardRuta>
+        <CardRuta className="mb-3">
           <Ruta>
             <FlexyTable
               datos={entregadas}
@@ -242,7 +242,7 @@ function Tareas() {
       )}
 
       {pendientes && pendientes.length > 0 && (
-        <CardRuta>
+        <CardRuta className="mb-3">
           <Ruta>
             <FlexyTable
               datos={pendientes}

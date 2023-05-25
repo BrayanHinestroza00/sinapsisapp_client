@@ -24,6 +24,7 @@ import {
   Subtitulo,
   Titulo,
 } from "src/app/Shared/assets/styles/Common";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 function Emprendedores() {
   const { userData } = useContext(MentorContext);
@@ -216,7 +217,7 @@ function Emprendedores() {
             marginLeft: "0rem",
           }}
         >
-          <p>Cargando...</p>
+          <LoadingSpinner width="5rem" height="5rem" />
         </Ruta>
       ) : emprendedoresMessage || emprendedoresError ? (
         <Ruta

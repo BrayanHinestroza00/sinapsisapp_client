@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 
 import PerfilEmprendedor from "src/app/Shared/components/PerfilEmprendedor";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
 import {
   Card,
@@ -35,7 +36,7 @@ function EmprendedorTab({ idEmprendedor }) {
   }, []);
 
   if (loadingFetch || !preloadData) {
-    return <h1>LOADING...</h1>;
+    return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
   if (errorFetch) {

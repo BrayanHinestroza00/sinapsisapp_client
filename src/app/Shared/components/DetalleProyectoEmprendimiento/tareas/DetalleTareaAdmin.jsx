@@ -58,7 +58,7 @@ function DetalleTareaAdmin(props) {
 
           {props?.tipo == "historial" && props.data.urlArchivosEntrega && (
             <div className="row mb-3">
-              <h5>Recursos entregado por Emprendedor</h5>
+              <h5>Recursos entregados por el Emprendedor</h5>
               <div className="text-center">
                 <a
                   href={`${HOST}/${props.data.urlArchivosEntrega}`}
@@ -84,7 +84,7 @@ function DetalleTareaAdmin(props) {
                     <td>{props.data.calificacion || "SIN ENTREGAR"}</td>
                   </tr>
                   <tr>
-                    <td>Fecha Limite de Entrega</td>
+                    <td>Fecha Límite de Entrega</td>
                     <td>
                       {props.data.fechaLimiteEntrega
                         ? moment(
@@ -156,7 +156,7 @@ function DetalleTareaAdmin(props) {
         </div>
       </Modal.Body>
       <Modal.Footer style={{ backgroundColor: "#fbf6fc" }}>
-        <button className="btn btn-outline-primary" onClick={props.onHide}>
+        <button className="btn btn-secondary" onClick={props.onHide}>
           Cerrar
         </button>
       </Modal.Footer>

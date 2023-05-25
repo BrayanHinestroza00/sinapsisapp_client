@@ -2,8 +2,9 @@ import moment from "moment";
 import { useState } from "react";
 import { Modal, Form } from "react-bootstrap";
 
+import DropZoneComponent from "src/app/Shared/components/DropZone/DropZoneComponent";
+
 import {
-  HOST,
   HTTP_METHOD_POST,
   URL_PUBLICAR_ANUNCIO,
 } from "src/app/Shared/utils/apiConstants";
@@ -18,7 +19,6 @@ import {
   SINAPSIS_APP_FORMATO_FECHA,
   SINAPSIS_APP_FORMATO_FECHA_INPUT,
 } from "src/app/Shared/utils/constants";
-import DropZoneComponent from "src/app/Shared/components/DropZone/DropZoneComponent";
 
 function AnuncioModal(props) {
   const [datos, setDatos] = useState({});
@@ -35,7 +35,7 @@ function AnuncioModal(props) {
     });
   };
 
-  const onHandleChangle = (e) => {
+  const onHandleChange = (e) => {
     setDatos({
       ...datos,
       [e.target.name]: e.target.value,
@@ -69,7 +69,6 @@ function AnuncioModal(props) {
         Object.values(datos)[index] != undefined
       ) {
         if (Object.keys(datos)[index] == "fileAnuncio") {
-          console.log("AQUI", Object.values(datos)[index][0]);
           form.append("flyerAnuncio", Object.values(datos)[index][0]);
         } else if (Object.keys(datos)[index] == "fechaHasta") {
           const fechaHasta = moment(
@@ -148,11 +147,11 @@ function AnuncioModal(props) {
         <div className="container">
           <form encType="multipart/form-data">
             <Form.Group className="mb-3">
-              <Form.Label>Titulo de Anuncio </Form.Label>
+              <Form.Label>Título de Anuncio </Form.Label>
               <Form.Control
                 name="tituloAnuncio"
                 className="form-control"
-                onChange={(e) => onHandleChangle(e)}
+                onChange={(e) => onHandleChange(e)}
               />
 
               {error.tituloAnuncio && (
@@ -169,7 +168,7 @@ function AnuncioModal(props) {
                 rows={3}
                 name="descripcionAnuncio"
                 className="form-control"
-                onChange={(e) => onHandleChangle(e)}
+                onChange={(e) => onHandleChange(e)}
               />
 
               {error.descripcionAnuncio && (
@@ -192,7 +191,7 @@ function AnuncioModal(props) {
                   type={"radio"}
                   id={`inline-radio-permanente`}
                   checked={datos.permanente == 1}
-                  onChange={(e) => onHandleChangle(e)}
+                  onChange={(e) => onHandleChange(e)}
                 />
 
                 <Form.Check
@@ -203,7 +202,7 @@ function AnuncioModal(props) {
                   type={"radio"}
                   id={`inline-radio-no-permanente`}
                   checked={datos.permanente == 0}
-                  onChange={(e) => onHandleChangle(e)}
+                  onChange={(e) => onHandleChange(e)}
                 />
               </div>
               {error.permanente && (
@@ -216,13 +215,13 @@ function AnuncioModal(props) {
             {datos.permanente == 0 && (
               <Form.Group className="mb-3">
                 <Form.Label>
-                  Fecha Hasta de Visualización del Anuncio{" "}
+                  Fecha Hasta de Visualización del Anuncio
                 </Form.Label>
                 <Form.Control
                   type="date"
                   name="fechaHasta"
                   className="form-control"
-                  onChange={(e) => onHandleChangle(e)}
+                  onChange={(e) => onHandleChange(e)}
                 />
 
                 {error.fechaHasta && (
@@ -239,6 +238,10 @@ function AnuncioModal(props) {
                 upFiles={getFiles}
                 files={datos?.fileAnuncio}
                 filesUrl={datos?.urlAnuncio}
+                accept={{
+                  "image/jpeg": [],
+                  "image/png": [],
+                }}
               />
 
               {error.fileAnuncio && (
@@ -252,10 +255,10 @@ function AnuncioModal(props) {
       </Modal.Body>
       <Modal.Footer style={{ backgroundColor: "#fbf6fc" }}>
         <button className="btn btn-primary" onClick={onHandleSubmit}>
-          Entregar Tarea
+          Publicar Anuncio
         </button>
 
-        <button className="btn btn-outline-primary" onClick={props.onHide}>
+        <button className="btn btn-secondary" onClick={props.onHide}>
           Cerrar
         </button>
       </Modal.Footer>

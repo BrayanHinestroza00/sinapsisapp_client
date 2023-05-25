@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
+
 import {
   Card,
   CardRuta,
@@ -7,7 +9,6 @@ import {
   Input,
   Label,
 } from "src/app/Shared/assets/styles/Common.js";
-
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import {
   HTTP_METHOD_GET,
@@ -35,7 +36,7 @@ function PrimeraAtencion({ idProyectoEmprendimiento }) {
     //   inverted: { data },
     // });
 
-    return <h1>LOADING...</h1>;
+    return <LoadingSpinner width="10rem" height="10rem" />;
   }
 
   if (error) {
@@ -59,7 +60,7 @@ function PrimeraAtencion({ idProyectoEmprendimiento }) {
             padding: "15px 16px 30px 14px",
           }}
         >
-          <Subtitulo>Datos de Primera Atencion</Subtitulo>
+          <Subtitulo>Datos de Primera Atención</Subtitulo>
           <form className="row g-3">
             <div className="col-md-6 mb-3">
               <Label htmlFor="nombreProducto" className="form-label">
@@ -89,7 +90,7 @@ function PrimeraAtencion({ idProyectoEmprendimiento }) {
 
             <div className="col-md-6 mb-3">
               <Label htmlFor="evidenciaProducto" className="form-label">
-                ¿Cual es la evidencia de su producto/servicio?
+                ¿Cuál es la evidencia de su producto/servicio?
               </Label>
               <Input
                 type="text"
@@ -102,7 +103,7 @@ function PrimeraAtencion({ idProyectoEmprendimiento }) {
 
             <div className="col-md-6 mb-3">
               <Label htmlFor="obtencionMateriasPrimas" className="form-label">
-                ¿Donde consigue la materia prima?
+                ¿Dónde consigue la materia prima?
               </Label>
               <Input
                 type="text"
@@ -134,7 +135,7 @@ function PrimeraAtencion({ idProyectoEmprendimiento }) {
             {data.equipoTrabajo == "S" && (
               <div className="col-md-6 mb-3">
                 <Label htmlFor="cualEquipoTrabajo" className="form-label">
-                  ¿Cual es su equipo de trabajo?
+                  ¿Cuál es su equipo de trabajo?
                 </Label>
                 <Input
                   type="text"
@@ -161,7 +162,7 @@ function PrimeraAtencion({ idProyectoEmprendimiento }) {
 
             <div className="col-md-6 mb-3">
               <Label htmlFor="desdeFechaEjecucion" className="form-label">
-                ¿Desde cuando lleva ejecutando la idea?
+                ¿Desde cuándo lleva ejecutando la idea?
               </Label>
               <Input
                 type="date"

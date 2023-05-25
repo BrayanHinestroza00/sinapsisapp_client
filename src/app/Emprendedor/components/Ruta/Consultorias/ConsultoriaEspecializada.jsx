@@ -4,6 +4,7 @@ import moment from "moment";
 
 import DetalleConsultoria from "./DetalleConsultoria";
 import FlexyTable from "src/app/Shared/components/FlexyTable";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 import {
   SpanAuxiliar,
@@ -19,10 +20,7 @@ import {
   HTTP_METHOD_GET,
   URL_OBTENER_CONSULTORIAS_PROYECTO_EMPRENDIMIENTO,
 } from "src/app/Shared/utils/apiConstants";
-import {
-  SINAPSIS_APP_FORMATO_FECHA,
-  SINAPSIS_APP_FORMATO_FECHA_HORA,
-} from "src/app/Shared/utils/constants";
+import { SINAPSIS_APP_FORMATO_FECHA } from "src/app/Shared/utils/constants";
 
 import logoSinapsis from "src/app/Shared/assets/images/logo_sinapsis.png";
 
@@ -69,14 +67,14 @@ function ConsultoriaEspecializada() {
         newConsultorias = consultoriasData.map((consultoriaData, index) => {
           return {
             n: index + 1,
-            titulo: consultoriaData.tituloConsultoria,
-            tematica: consultoriaData.nombreSubActRuta,
-            "Fecha Consultoria": moment(
+            título: consultoriaData.tituloConsultoria,
+            Temática: consultoriaData.nombreSubActRuta,
+            "Fecha Consultoría": moment(
               consultoriaData.fechaConsultoria,
               "YYYY-MM-DD hh:mm:ss"
             ).format(SINAPSIS_APP_FORMATO_FECHA),
             "Hora Inicio": consultoriaData.horaInicioConsultoria,
-            "Hora Finalizacion": consultoriaData.horaFinConsultoria,
+            "Hora Finalización": consultoriaData.horaFinConsultoria,
             "Creado Por":
               consultoriaData.nombreMentor +
               " " +
@@ -98,7 +96,7 @@ function ConsultoriaEspecializada() {
   };
 
   if (loadingComponent || consultoriasLoading) {
-    return <h1>LOADING ConsultoriaEspecializada</h1>;
+    return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
   if (consultoriasMessage) {
@@ -127,7 +125,7 @@ function ConsultoriaEspecializada() {
   return (
     <>
       <Titulo>
-        Consultorías Especializadas{" "}
+        Consultorías Especializadas
         <SpanAuxiliar>
           <Link to={"/Emprendedor/Ruta/Consultoria/Historial"}>
             Ver historial
@@ -139,37 +137,37 @@ function ConsultoriaEspecializada() {
         <>
           <CardRuta>
             <Ruta>
-              <Subtitulo>Proxima Consultoría:</Subtitulo>
+              <Subtitulo>Próxima Consultoría:</Subtitulo>
               <div className="d-flex justify-content-between align-items-center">
                 <div>
                   <h5>
-                    Mentor:{" "}
+                    Mentor:
                     <SpanAuxiliar>{`${consultorias[0]["Creado Por"]}`}</SpanAuxiliar>
                   </h5>
                   <h5>
-                    Correo:{" "}
+                    Correo:
                     <SpanAuxiliar>{`${consultorias[0]["Correo Contacto"]}`}</SpanAuxiliar>
                   </h5>
                   <h5>
-                    Temática:{" "}
-                    <SpanAuxiliar>{`${consultorias[0]["tematica"]}`}</SpanAuxiliar>
+                    Temática:
+                    <SpanAuxiliar>{`${consultorias[0]["Temática"]}`}</SpanAuxiliar>
                   </h5>
                   <h5>
-                    Fecha de consultoría:{" "}
+                    Fecha de consultoría:
                     <SpanAuxiliar>
-                      {`${consultorias[0]["Fecha Consultoria"]} `}
+                      {`${consultorias[0]["Fecha Consultoría"]} `}
                       {/* Viernes, 15 de
                       diciembre del 2022 */}
                     </SpanAuxiliar>
                   </h5>
                   <h5>
-                    Hora de inicio:{" "}
+                    Hora de inicio:
                     <SpanAuxiliar>{`${consultorias[0]["Hora Inicio"]}.`}</SpanAuxiliar>
                   </h5>
                   <h5>
-                    Hora de finalización:{" "}
+                    Hora de finalización:
                     <SpanAuxiliar>
-                      {`${consultorias[0]["Hora Finalizacion"]}.`}
+                      {`${consultorias[0]["Hora Finalización"]}.`}
                     </SpanAuxiliar>
                   </h5>
                 </div>

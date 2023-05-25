@@ -1,11 +1,10 @@
 import moment from "moment";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 
 import DropZoneComponent from "../../DropZone/DropZoneComponent";
 
 import {
-  HOST,
   HTTP_METHOD_POST,
   URL_CREAR_TAREA_EMPRENDEDOR,
 } from "src/app/Shared/utils/apiConstants";
@@ -21,10 +20,15 @@ import {
   messageAlertWithoutText,
 } from "src/app/Shared/utils/messageAlerts";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
-import { AdministradorContext } from "src/app/Administrador/contexts/AdministradorContext";
+import { getCurrentDateTime } from "src/app/Shared/utils/utilityFunctions";
 
-function CrearTarea({ show, onHide, idProyectoEmprendimiento }) {
-  const { userData } = useContext(AdministradorContext);
+function CrearTarea({
+  show,
+  onHide,
+  idProyectoEmprendimiento,
+  idUsuario,
+  tipoUsuario,
+}) {
   const [datos, setDatos] = useState({});
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
@@ -77,7 +81,14 @@ function CrearTarea({ show, onHide, idProyectoEmprendimiento }) {
     );
     form.append("idProyectoEmprendimiento", idProyectoEmprendimiento);
     form.append("fileTarea", fileTarea[0]);
-    form.append("usuarioCrea", userData.id);
+    form.append("usuarioCrea", idUsuario);
+
+    console.log(
+      "hora",
+      moment(fechaEntrega, SINAPSIS_APP_FORMATO_FECHA_HORA_INPUT).format(
+        SINAPSIS_APP_FORMATO_FECHA_HORA
+      )
+    );
 
     setLoading(true);
     fetchAPI({
@@ -101,7 +112,7 @@ function CrearTarea({ show, onHide, idProyectoEmprendimiento }) {
   } else if (loading && messageAPI) {
     if (messageAPI == "OK") {
       messageAlertWithoutText({
-        title: "Tarea Creada Exitosamente",
+        title: "Tarea creada exitosamente",
         icon: "success",
         confirmButtonText: "Aceptar",
         onConfirm: () => {
@@ -163,7 +174,7 @@ function CrearTarea({ show, onHide, idProyectoEmprendimiento }) {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Descripcion de la Tarea</Form.Label>
+              <Form.Label>Descripción de la Tarea</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
@@ -183,12 +194,13 @@ function CrearTarea({ show, onHide, idProyectoEmprendimiento }) {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Fecha Limite de Entrega</Form.Label>
+              <Form.Label>Fecha Límite de Entrega</Form.Label>
               <Form.Control
                 name="fechaEntrega"
                 className="form-control"
-                placeholder="Fecha Limite de Entrega"
+                placeholder="Fecha Límite de Entrega"
                 type="datetime-local"
+                min={getCurrentDateTime({ space: false })}
                 onChange={(e) => {
                   onHandleChange(e);
                 }}

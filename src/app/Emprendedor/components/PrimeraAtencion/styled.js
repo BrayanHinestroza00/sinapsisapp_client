@@ -87,8 +87,8 @@ export const BotonSiguiente = styled.button`
   font-size: 17px;
   /* width: 15rem;
   height: 2.5rem;
-  margin-top: 2rem;
-  margin-left: 2rem; */
+  margin-top: 2rem;*/
+  margin-left: 2rem;
   border-radius: 5px;
   background-color: #9a66a8;
   border-color: #9a66a8;

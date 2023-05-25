@@ -68,7 +68,7 @@ function Login() {
 
   if (loading && errorAPI) {
     messageAlert({
-      title: "Inicio de sesion fallido",
+      title: "Inicio de sesión fallido",
       text: errorAPI,
       icon: "error",
       confirmButtonText: "Aceptar",
@@ -97,7 +97,7 @@ function Login() {
       }
     } else {
       messageAlert({
-        title: "Inicio de sesion fallido",
+        title: "Inicio de sesión fallido",
         text: messageAPI,
         icon: "warning",
         confirmButtonText: "Aceptar",

@@ -42,3 +42,26 @@ export const validarListadoEmprendedores = (datos) => {
   }
   return errors;
 };
+
+export const validarListadoEmprendedoresAdmin = (datos) => {
+  const errors = {};
+  const { numeroDocumento, nombreEmprendedor } = datos;
+
+  //Validaciones para el numero de documento del emprendedor
+  if (numeroDocumento) {
+    const RegExp = REGEX_PATTERN_NUMERO_DOCUMENTO;
+    if (!RegExp.test(numeroDocumento)) {
+      errors.numeroDocumento = "Solo se permiten números entre 5 a 11 dígitos";
+    }
+  }
+
+  //Validaciones para el nombre del emprendedor
+  if (nombreEmprendedor) {
+    const RegExp = REGEX_PATTERN_SOLO_LETRAS;
+    if (!RegExp.test(nombreEmprendedor)) {
+      errors.nombreEmprendedor = "Solo se permiten letras";
+    }
+  }
+
+  return errors;
+};

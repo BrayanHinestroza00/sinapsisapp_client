@@ -20,7 +20,7 @@ export const validarRevisionConsultoria = (datos, tipo) => {
   return errors;
 };
 
-export const validarCreacionConsultoria = (datos) => {
+export const validarCreacionConsultoria = (datos, tipoUsuario) => {
   const errors = {};
   const {
     tituloConsultoria,
@@ -29,24 +29,25 @@ export const validarCreacionConsultoria = (datos) => {
     fechaConsultoria,
     horaFinalizacion,
     horaInicio,
+    mentor,
   } = datos;
 
   if (!tituloConsultoria) {
     errors.tituloConsultoria = "Campo Obligatorio";
   }
 
-  if (!tipoConsultoria) {
+  if (!mentor && tipoUsuario == "ADMINISTRADOR") {
+    errors.mentor = "Campo Obligatorio";
+  }
+
+  if (!tipoConsultoria && tipoUsuario == "ADMINISTRADOR") {
     errors.tipoConsultoria = "Campo Obligatorio";
   } else {
     if (tipoConsultoria == "E") {
-      const { subActividadRuta, mentor } = datos;
+      const { subActividadRuta } = datos;
 
       if (!subActividadRuta) {
         errors.subActividadRuta = "Campo Obligatorio";
-      }
-
-      if (!mentor) {
-        errors.mentor = "Campo Obligatorio";
       }
     }
   }

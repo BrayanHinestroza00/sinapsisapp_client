@@ -147,13 +147,15 @@ function SignUpIntegration() {
             </SignUpIntegrationFormTitulo>
 
             <SignUpIntegrationFormDescription className="text-muted text-center mb-3">
-              <span>
+              <span className="mb-2">
                 Bienvenido al formulario de registro de la comunidad UAO.
               </span>
               <br />
-              <span>Utilizamos su usuario universitario para el registro.</span>
+              <span className="mb-2">
+                Utilizamos su usuario universitario para el registro.
+              </span>
               <br />
-              <span>
+              <span className="mb-4">
                 <span style={{ fontWeight: "bold" }}>IMPORTANTE.</span> Todos
                 los campos son obligatorios
               </span>
@@ -163,7 +165,7 @@ function SignUpIntegration() {
               <Form>
                 <Form.Group className="mb-3">
                   <Form.Label htmlFor="usuario">
-                    Nombre(s)
+                    Usuario Universitario
                     <span className="text-danger"> (*)</span>
                   </Form.Label>
                   <Form.Control
@@ -343,7 +345,7 @@ function SignUpIntegration() {
                   </span>
                   <br />
                   <span>
-                    <span style={{ fontWeight: "bold" }}>IMPORTANTE.</span>{" "}
+                    <span style={{ fontWeight: "bold" }}>IMPORTANTE.</span>
                     Todos los campos son obligatorios
                   </span>
                 </p>
@@ -362,7 +364,7 @@ function SignUpIntegration() {
                         autoFocus
                         onChange={(e) => handleChange(e)}
                         value={datos.usuario}
-                      />{" "}
+                      />
                       <br />
                       {error.usuario && (
                         <signUpStyled.SmallError className="form-text font-weight-bold text-danger">
@@ -374,7 +376,7 @@ function SignUpIntegration() {
 
                   <div className="form-controls">
                     <signUpStyled.Label htmlFor="tipoDocumento">
-                      Tipo de documento{" "}
+                      Tipo de documento
                       <span className="text-danger"> (*)</span>
                     </signUpStyled.Label>
                     <signUpStyled.InputContainerRegistro>
@@ -397,7 +399,7 @@ function SignUpIntegration() {
                               </option>
                             );
                           })}
-                      </signUpStyled.InputSelect>{" "}
+                      </signUpStyled.InputSelect>
                       <br />
                       {error.tipoDocumento && (
                         <signUpStyled.SmallError className="form-text font-weight-bold text-danger">
@@ -409,7 +411,7 @@ function SignUpIntegration() {
 
                   <div className="form-controls">
                     <signUpStyled.Label htmlFor="numeroDocumento">
-                      Numero de documento{" "}
+                      Numero de documento
                       <span className="text-danger"> (*)</span>
                     </signUpStyled.Label>
                     <signUpStyled.InputContainerRegistro>
@@ -420,7 +422,7 @@ function SignUpIntegration() {
                         id="numeroDocumento"
                         onChange={(e) => handleChange(e)}
                         value={datos.numeroDocumento}
-                      />{" "}
+                      />
                       <br />
                       {error.numeroDocumento && (
                         <signUpStyled.SmallError className="form-text font-weight-bold text-danger error-class">
@@ -442,7 +444,7 @@ function SignUpIntegration() {
                         id="contrasena"
                         onChange={(e) => handleChange(e)}
                         value={datos.contrasena}
-                      />{" "}
+                      />
                       <br />
                       {error.contrasena && (
                         <signUpStyled.SmallError className="form-text font-weight-bold text-danger">
@@ -454,7 +456,7 @@ function SignUpIntegration() {
 
                   <div className="form-controls">
                     <signUpStyled.Label htmlFor="confirmContrasena">
-                      Confirmar contraseña{" "}
+                      Confirmar contraseña
                       <span className="text-danger"> (*)</span>
                     </signUpStyled.Label>
                     <signUpStyled.InputContainerRegistro>
@@ -465,7 +467,7 @@ function SignUpIntegration() {
                         id="confirmContrasena"
                         onChange={(e) => handleChange(e)}
                         value={datos.confirmContrasena}
-                      />{" "}
+                      />
                       <br />
                       {error.confirmContrasena && (
                         <signUpStyled.SmallError className="form-text font-weight-bold text-danger">
@@ -479,15 +481,15 @@ function SignUpIntegration() {
                       className="btn btn-primary"
                       type=" submit"
                     >
-                      {" "}
-                      Registrarse{" "}
+                      
+                      Registrarse
                     </signUpStyled.Boton>
                     <p>
-                      ¿Eres externo de la UAO?{" "}
+                      ¿Eres externo de la UAO?
                       <Link to="/Signup/Externo">Registrarte aquí</Link>
                     </p>
                     <p>
-                      ¿Ya tienes una cuenta?{" "}
+                      ¿Ya tienes una cuenta?
                       <Link to="/Login">Iniciar sesión</Link>
                     </p>
                   </signUpStyled.BotonesContainer>

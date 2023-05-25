@@ -1,9 +1,7 @@
-import ReactFlexyTable from "react-flexy-table";
-import Axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import FlexyTable from "src/app/Shared/components/FlexyTable";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 import {
   Card,
@@ -15,13 +13,12 @@ import {
 } from "src/app/Shared/assets/styles/Common.js";
 
 import {
-  HOST,
   HTTP_METHOD_GET,
   URL_OBTENER_EMPRENDEDORES,
   URL_OBTENER_TIPOS_CONTACTO,
 } from "src/app/Shared/utils/apiConstants";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
-import { validarListadoEmprendedores } from "src/app/Shared/services/validation/validateListadoEmprendedores.js";
+import { validarListadoEmprendedoresAdmin } from "src/app/Shared/services/validation/validateListadoEmprendedores.js";
 
 import showIcon from "src/app/Shared/assets/images/icons/showIcon.png";
 import editIcon from "src/app/Shared/assets/images/icons/editIcon.png";
@@ -64,7 +61,7 @@ function GestionEmprendedoresPage() {
         newEmprendedores = emprendedoresData.map((emprendedorData, index) => {
           return {
             n: index + 1,
-            "Numero Documento": emprendedorData.numeroDocumento,
+            "Número Documento": emprendedorData.numeroDocumento,
             "Nombre Emprendedor": emprendedorData.nombreCompleto,
             "Tipo Contacto": emprendedorData.tipoContacto,
             "Correo Contacto":
@@ -78,22 +75,6 @@ function GestionEmprendedoresPage() {
     setDatos(newEmprendedores);
   }, [emprendedoresData]);
 
-  // useEffect(() => {
-  //   Axios.get(`${HOST}/app/tipoDocumento`)
-  //     .then(({ data }) => {
-  //       if (data.code == 1) {
-  //         setTiposDocumento(data.response);
-  //       }
-
-  //       if (data.code == -1) {
-  //         console.log(data.message);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
-
   const onHandleChange = (event) => {
     setDatosFiltro({
       ...datosFiltro,
@@ -103,7 +84,7 @@ function GestionEmprendedoresPage() {
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    let erroresFormulario = validarListadoEmprendedores(datosFiltro);
+    let erroresFormulario = validarListadoEmprendedoresAdmin(datosFiltro);
     if (Object.keys(erroresFormulario).length) {
       setError(erroresFormulario);
     } else {
@@ -125,27 +106,6 @@ function GestionEmprendedoresPage() {
     const data = emprendedoresData[emprendedor.n - 1];
   };
 
-  // if (loading) {
-  //   return <h1>LOADING EmprendedoresPage</h1>;
-  // }
-
-  // if (emprendedoresMessage) {
-  //   return (
-  //     <>
-  //       <p>{emprendedoresMessage}</p>
-  //     </>
-  //   );
-  // }
-
-  // if (emprendedoresError) {
-  //   return (
-  //     <>
-  //       <h1>ERROR</h1>
-  //       <p>{emprendedoresError}</p>
-  //     </>
-  //   );
-  // }
-
   return (
     <>
       <Titulo>Emprendedores </Titulo>
@@ -159,7 +119,7 @@ function GestionEmprendedoresPage() {
               marginLeft: "0rem",
             }}
           >
-            <p>Cargando...</p>
+            <LoadingSpinner width="5rem" height="5rem" />
           </Ruta>
         ) : tiposContactoMessage || tiposContactoError ? (
           <Ruta
@@ -219,10 +179,10 @@ function GestionEmprendedoresPage() {
                   </small>
                 )}
               </div>
-              {/* Estado en la Ruta de Innovacion & Emprendimiento */}
+              {/* Estado en la Ruta de Innovación & Emprendimiento */}
               <div className="col-md-6">
                 <Label htmlFor="estadosRuta" className="form-label">
-                  Estado en la Ruta de Innovacion & Emprendimiento
+                  Estado en la Ruta de Innovación & Emprendimiento
                 </Label>
                 <select
                   id="estadosRuta"

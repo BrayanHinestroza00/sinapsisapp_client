@@ -12,6 +12,7 @@ import {
   SIDEBAR_EMPRENDEDOR_SUBMENU,
 } from "src/app/Shared/utils/constants";
 import { EmprendedorContext } from "../../contexts/EmprendedorContext";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 function EmprendedorNavbar() {
   const {
@@ -46,7 +47,7 @@ function EmprendedorNavbar() {
   };
 
   if (loading) {
-    return <h1>Loading Navbar</h1>;
+    return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
   return (
@@ -89,7 +90,6 @@ function EmprendedorNavbar() {
                   }
                   to="/Emprendedor/primeraAtencion"
                 >
-                  {" "}
                   PRIMERA ATENCIÓN
                 </Link>
               </li>

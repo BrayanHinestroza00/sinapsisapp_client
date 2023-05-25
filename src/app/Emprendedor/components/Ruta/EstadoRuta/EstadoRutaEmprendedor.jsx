@@ -17,6 +17,7 @@ import {
 } from "src/app/Shared/utils/apiConstants";
 import { obtenerNombreEtapa } from "src/app/Shared/utils/utilityFunctions";
 import { EmprendedorContext } from "src/app/Emprendedor/contexts/EmprendedorContext";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 function EstadoRutaEmprendedor() {
   const { userData, selectedProjectIndex, loading } =
@@ -50,7 +51,7 @@ function EstadoRutaEmprendedor() {
   }, [userData, selectedProjectIndex]);
 
   if (loadingFetch || loading || loadingComponent || !preloadData) {
-    return <>LOADING EstadoRutaEmprendedor</>;
+    return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
   if (messageFetch) {
@@ -82,7 +83,7 @@ function EstadoRutaEmprendedor() {
       <CardRuta>
         <Ruta>
           <Subtitulo>
-            Actualmente se encuentra en la etapa:{" "}
+            Actualmente se encuentra en la etapa:
             <SpanAuxiliar className="text-muted">
               {obtenerNombreEtapa(preloadData.idEtapa)}
             </SpanAuxiliar>
@@ -94,7 +95,7 @@ function EstadoRutaEmprendedor() {
       <CardRuta>
         <Ruta>
           <Subtitulo>
-            Mi Avance en la ruta de I&E en la etapa:{" "}
+            Mi Avance en la ruta de I&E en la etapa:
             <SpanAuxiliar className="text-muted">
               {obtenerNombreEtapa(preloadData.idEtapa)}
             </SpanAuxiliar>

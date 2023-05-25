@@ -11,6 +11,7 @@ import {
   URL_OBTENER_INFO_EMPRENDEDOR,
 } from "src/app/Shared/utils/apiConstants";
 import { Button } from "react-bootstrap";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 function PerfilPage() {
   const { userData } = useContext(EmprendedorContext);
@@ -39,7 +40,7 @@ function PerfilPage() {
   }, [userData]);
 
   if (loadingFetch || !preloadData) {
-    return <h1>LOADING...</h1>;
+    return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
   if (errorFetch) {

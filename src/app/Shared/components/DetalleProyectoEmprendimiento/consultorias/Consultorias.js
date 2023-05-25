@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
-import { Button, Card } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import moment from "moment";
 
 import FlexyTable from "src/app/Shared/components/FlexyTable";
 import CrearConsultoria from "./CrearConsultoria";
 import RevisarConsultoria from "./RevisarConsultoria";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
-import { Ruta, Subtitulo } from "src/app/Shared/assets/styles/Common.js";
+import { Card, Ruta, Subtitulo } from "src/app/Shared/assets/styles/Common.js";
 import {
   URL_OBTENER_CONSULTORIAS_PROGRAMADAS,
   HTTP_METHOD_GET,
 } from "src/app/Shared/utils/apiConstants";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import { SINAPSIS_APP_FORMATO_FECHA } from "src/app/Shared/utils/constants";
+
+import showIcon from "src/app/Shared/assets/images/icons/detalleConsultoriaIcon.svg";
 
 function Consultorias({
   idEmprendedor,
@@ -56,14 +59,14 @@ function Consultorias({
         newConsultorias = consultoriasData.map((consultoriaData, index) => {
           return {
             n: index + 1,
-            titulo: consultoriaData.tituloConsultoria,
-            Tematica: consultoriaData.nombreSubActRuta || "N/A",
-            "Fecha Consultoria": moment(
+            título: consultoriaData.tituloConsultoria,
+            Temática: consultoriaData.nombreSubActRuta || "N/A",
+            "Fecha Consultoría": moment(
               consultoriaData.fechaConsultoria,
               "YYYY-MM-DD hh:mm:ss"
             ).format(SINAPSIS_APP_FORMATO_FECHA),
             "Hora Inicio": consultoriaData.horaInicioConsultoria,
-            "Hora Finalizacion": consultoriaData.horaFinConsultoria,
+            "Hora Finalización": consultoriaData.horaFinConsultoria,
             Emprendedor:
               consultoriaData.nombreEmprendedor +
               " " +
@@ -95,19 +98,13 @@ function Consultorias({
           className="btn btn-primary mx-4 my-3 w-25"
           onClick={() => setShowCrearConsultoria(!showCrearConsultoria)}
         >
-          Programar Consultoria
+          Programar Consultoría
         </Button>
       )}
 
-      <Ruta
-        style={{
-          padding: "0rem 2rem 1rem 2rem",
-          marginTop: "0rem",
-          marginLeft: "0rem",
-        }}
-      >
+      <Ruta>
         {consultoriasLoading ? (
-          <h6>Cargando...</h6>
+          <LoadingSpinner width="5rem" height="5rem" />
         ) : consultoriasError ||
           (consultoriasMessage && consultoriasMessage != "Sin datos") ? (
           <>
@@ -119,7 +116,7 @@ function Consultorias({
           <FlexyTable
             datos={consultorias}
             titulo={"consultorías programadas"}
-            btn1={"Revisar"}
+            btn1={<img src={showIcon} width="auto" height="25" />}
             fun1={(consultoriaData) => {
               onClicRevisarConsultoria(consultoriaData);
             }}

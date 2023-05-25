@@ -8,6 +8,7 @@ import {
   URL_OBTENER_HERRAMIENTAS_ETAPA_RUTA,
   URL_OBTENER_SUB_ACTIVIDADES_EMPRENDEDOR,
 } from "src/app/Shared/utils/apiConstants";
+import LoadingSpinner from "../../../LoadingSpinner/LoadingSpinner";
 
 function AvanceRuta({ preloadData }) {
   const [actidadesEmprendedor, setActidadesEmprendedor] = useState(null);
@@ -149,7 +150,7 @@ function AvanceRuta({ preloadData }) {
     //     actidadesEmprendedor,
     //   },
     // });
-    return <>LOADING AvanceRuta</>;
+    return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
   if (

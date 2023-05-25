@@ -4,6 +4,7 @@ import moment from "moment";
 
 import DetalleConsultoria from "./DetalleConsultoria";
 import FlexyTable from "src/app/Shared/components/FlexyTable";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 import { EmprendedorContext } from "src/app/Emprendedor/contexts/EmprendedorContext";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
@@ -19,6 +20,7 @@ import {
   Titulo,
 } from "src/app/Shared/assets/styles/Common.js";
 import { SINAPSIS_APP_FORMATO_FECHA } from "src/app/Shared/utils/constants";
+
 import logoSinapsis from "src/app/Shared/assets/images/logo_sinapsis.png";
 
 function Consultoria() {
@@ -64,13 +66,13 @@ function Consultoria() {
         newConsultorias = consultoriasData.map((consultoriaData, index) => {
           return {
             n: index + 1,
-            titulo: consultoriaData.tituloConsultoria,
-            "Fecha Consultoria": moment(
+            título: consultoriaData.tituloConsultoria,
+            "Fecha Consultoría": moment(
               consultoriaData.fechaConsultoria,
               "YYYY-MM-DD hh:mm:ss"
             ).format(SINAPSIS_APP_FORMATO_FECHA),
             "Hora Inicio": consultoriaData.horaInicioConsultoria,
-            "Hora Finalizacion": consultoriaData.horaFinConsultoria,
+            "Hora Finalización": consultoriaData.horaFinConsultoria,
             "Creado Por":
               consultoriaData.nombreMentor +
               " " +
@@ -92,7 +94,7 @@ function Consultoria() {
   };
 
   if (loadingComponent || consultoriasLoading) {
-    return <h1>LOADING EstadoRutaEmprendedor</h1>;
+    return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
   if (consultoriasMessage) {
@@ -133,19 +135,19 @@ function Consultoria() {
         <>
           <CardRuta>
             <Ruta>
-              <Subtitulo>Proxima Consultoría:</Subtitulo>
+              <Subtitulo>Próxima Consultoría:</Subtitulo>
               <div className="d-flex justify-content-between align-items-center">
                 <div>
                   <h5>
-                    Mentor:{" "}
+                    Mentor:
                     <SpanAuxiliar>{`${consultorias[0]["Creado Por"]}`}</SpanAuxiliar>
                   </h5>
                   <h5>
-                    Correo:{" "}
+                    Correo:
                     <SpanAuxiliar>{`${consultorias[0]["Correo Contacto"]}`}</SpanAuxiliar>
                   </h5>
                   <h5>
-                    Fecha de consultoría:{" "}
+                    Fecha de consultoría:
                     <SpanAuxiliar>
                       {`${consultorias[0]["Fecha Consultoria"]} `}
                       {/* Viernes, 15 de
@@ -153,13 +155,13 @@ function Consultoria() {
                     </SpanAuxiliar>
                   </h5>
                   <h5>
-                    Hora de inicio:{" "}
+                    Hora de inicio:
                     <SpanAuxiliar>{`${consultorias[0]["Hora Inicio"]}.`}</SpanAuxiliar>
                   </h5>
                   <h5>
-                    Hora de finalización:{" "}
+                    Hora de finalización:
                     <SpanAuxiliar>
-                      {`${consultorias[0]["Hora Finalizacion"]}.`}
+                      {`${consultorias[0]["Hora Finalización"]}.`}
                     </SpanAuxiliar>
                   </h5>
                 </div>
@@ -176,7 +178,7 @@ function Consultoria() {
             <Ruta>
               <FlexyTable
                 datos={consultorias}
-                titulo={"Consultorias"}
+                titulo={"Consultorías"}
                 // btn1={"Ver Detalle"}
                 // fun1={(consultoriaData) => {
                 //   onClicDetalleConsultoria(consultoriaData);
@@ -188,7 +190,7 @@ function Consultoria() {
         </>
       ) : (
         <CardRuta>
-          <Ruta>No hay proximas consultorias</Ruta>
+          <Ruta>No hay próximas consultorias</Ruta>
         </CardRuta>
       )}
 

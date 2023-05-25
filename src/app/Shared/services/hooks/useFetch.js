@@ -42,24 +42,14 @@ export function useFetch() {
             setError(ERR_MESSAGE_CODE_NOT_VALID);
             break;
         }
-      } else {
-        // Es un reporte por lo tanto, se debe descargar el archivo.
-        if (responseAPI.data.type == "attachment") {
-          const documentName =
-            responseAPI.headers["content-type"].split("=")[1];
-          setData(responseAPI.data);
-          setMessage(documentName);
-        } else {
-          const response = await new Response(responseAPI.data).text();
-          const { message } = await JSON.parse(response);
-          setMessage(message);
-        }
       }
     } catch (err) {
       if (err.code == "ERR_NETWORK") {
         setError(ERR_MESSAGE_CODE_NOT_NETWORK);
+      } else if (err.hasOwnProperty("response")) {
+        setError(err.response.data.message);
       } else {
-        setError(err.message);
+        setError(err);
       }
     } finally {
       setLoading(false);

@@ -44,6 +44,26 @@ export function getCurrentTime(separator = ":") {
   return `${hour}${separator}${min}`;
 }
 
+export function getCurrentDateTime({
+  monthSeparator = "-",
+  separator = ":",
+  space = true,
+}) {
+  let newDate = new Date();
+  let date = newDate.getDate();
+  let month = newDate.getMonth() + 1;
+  let year = newDate.getFullYear();
+
+  let hour = newDate.getHours();
+  let min = newDate.getMinutes();
+
+  return `${year}${monthSeparator}${
+    month < 10 ? `0${month}` : `${month}`
+  }${monthSeparator}${date < 10 ? `0${date}` : `${date}`}${
+    space ? " " : "T"
+  }${hour}${separator}${min}`;
+}
+
 export function insertIntoLocalStorage(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
 }

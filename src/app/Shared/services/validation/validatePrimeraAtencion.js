@@ -180,13 +180,8 @@ export const validacionesPrimeraAtencionPA = (datos) => {
   const errors = {};
   const {
     nombreProducto,
-    promedioVentas,
-    evidenciaProducto,
-    obtencionMateriasPrimas,
     equipoTrabajo,
-
     dedicacion,
-    desdeFechaEjecucion,
     horasSemanales,
     motivacion,
     descubrioSinapsis,

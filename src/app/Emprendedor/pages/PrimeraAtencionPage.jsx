@@ -187,7 +187,7 @@ function PrimeraAtencionPage() {
     if (messageAPI == "OK") {
       messageAlert({
         title: "Primera atención enviada correctamente",
-        text: "Ahora debes esperar a que un administrador te asigne tu ruta de emprendimiento y un mentor para seguirte guiando dentro de SINAPSIS UAO",
+        text: "Ahora debes esperar a que un administrador te asigne tú ruta de emprendimiento y un mentor para seguirte guiando dentro de SINAPSIS UAO",
         icon: "success",
         confirmButtonText: "Aceptar",
         onConfirm: () => navigate("/Emprendedor"),

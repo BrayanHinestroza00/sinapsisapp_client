@@ -9,6 +9,7 @@ import {
 
 import Anuncio from "./Anuncio";
 import { ListadoAnuncioSubtitulo } from "./styled.js";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 function ListadoAnuncios() {
   // Custom Hooks
@@ -24,7 +25,7 @@ function ListadoAnuncios() {
   }, []);
 
   if (loading) {
-    return <h1>LOADING MentoresPage</h1>;
+    return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
   if (message) {

@@ -134,17 +134,18 @@ export const validacionesSignUpComunidadUAO = (datos) => {
   //Validaciones para el usuario
   if (!usuario) {
     errors.usuario = "Campo obligatorio";
-  } else {
-    const RegExp = /^[A-Za-z ]{1,255}$/;
-    if (!RegExp.test(usuario)) {
-      errors.usuario = "Solo se permiten letras";
-    } else {
-      const RegExp = /^[A-Za-z ]{1,50}$/;
-      if (!RegExp.test(usuario)) {
-        errors.nombres = "Mínimo 1 y máximo 50 caracteres.";
-      }
-    }
   }
+  // else {
+  //   const RegExp = /^[A-Za-z ]{1,255}$/;
+  //   if (!RegExp.test(usuario)) {
+  //     errors.usuario = "Solo se permiten letras";
+  //   } else {
+  //     const RegExp = /^[A-Za-z ]{1,50}$/;
+  //     if (!RegExp.test(usuario)) {
+  //       errors.usuario = "Mínimo 1 y máximo 50 caracteres.";
+  //     }
+  //   }
+  // }
 
   //Validaciones para la contrasena
   if (!contrasena) {

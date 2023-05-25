@@ -15,7 +15,7 @@ function Confirmacion(props) {
     e.preventDefault();
 
     confirmAlertWithText({
-      title: "¿Estas seguro que deseas continuar con el registro?",
+      title: "¿Estás seguro que deseas continuar con el registro?",
       text: "Este proceso no se puede deshacer",
       confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",
@@ -41,18 +41,18 @@ function Confirmacion(props) {
         <div className="text-center">
           <img src={sinapsisLogo} alt="Logo SINAPSIS UAO" />
 
-          <p>
-            A continuación, finalizaras el proceso de primera atención con
+          <p className="mb-2">
+            A continuación, finalizarás el proceso de primera atención con
             SINAPSIS UAO.
           </p>
 
-          <p>
+          <p className="mb-2">
             Debes estar atento a tu correo electrónico en donde recibirás
             información de los próximos pasos.
           </p>
 
-          <p>
-            Un mentor te sera asignado cuando SINAPSIS complete tu registro.
+          <p className="mb-4">
+            Un mentor te será asignado cuando SINAPSIS complete tu registro.
           </p>
         </div>
 

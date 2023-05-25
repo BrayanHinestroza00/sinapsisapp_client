@@ -12,6 +12,7 @@ import {
 } from "src/app/Shared/utils/apiConstants";
 import { SINAPSIS_APP_FORMATO_FECHA } from "src/app/Shared/utils/constants";
 import { EmprendedorContext } from "src/app/Emprendedor/contexts/EmprendedorContext";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 function HistorialConsultoria() {
   const { userData, selectedProjectIndex } = useContext(EmprendedorContext);
@@ -56,8 +57,8 @@ function HistorialConsultoria() {
         newConsultorias = consultoriasData.map((consultoriaData, index) => {
           return {
             n: index + 1,
-            titulo: consultoriaData.tituloConsultoria,
-            "Fecha Consultoria": moment(
+            título: consultoriaData.tituloConsultoria,
+            "Fecha Consultoría": moment(
               consultoriaData.fechaConsultoria,
               "YYYY-MM-DD hh:mm:ss"
             ).format(SINAPSIS_APP_FORMATO_FECHA),
@@ -84,7 +85,7 @@ function HistorialConsultoria() {
   };
 
   if (loadingComponent || consultoriasLoading) {
-    return <h1>LOADING HISTORICO CONSULTORIA</h1>;
+    return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
   if (consultoriasMessage) {

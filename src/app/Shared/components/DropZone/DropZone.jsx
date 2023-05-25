@@ -63,7 +63,8 @@ function DropZone(props) {
     <section className="container">
       <div {...getRootProps({ className: "dropzone", style })}>
         <input {...getInputProps()} />
-        <p>Clickea o Arrastra y suelta el archivo aqui</p>
+        <p>Clickea o Arrastra y suelta el archivo aquí</p>
+        <em>(Máximo 1 archivo)</em>
       </div>
       {/* <aside style={thumbsContainer}>{thumbs}</aside> */}
     </section>

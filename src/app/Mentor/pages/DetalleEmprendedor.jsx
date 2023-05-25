@@ -10,7 +10,7 @@ function DetalleEmprendedor() {
   return (
     <MentorEmprendedorContextProvider>
       <Titulo>
-        Detalle Asesoramiento Del Emprendedor:{" "}
+        Detalle Asesoramiento Del Emprendedor:
         <SpanAuxiliar>{`${state.nombres} ${state.apellidos}`}</SpanAuxiliar>
       </Titulo>
       <TabMentor />

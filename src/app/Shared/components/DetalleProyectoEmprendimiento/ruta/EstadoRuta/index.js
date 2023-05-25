@@ -8,6 +8,7 @@ import {
   T_SINAPSIS_ETAPAS_RUTA_SONAR,
   T_SINAPSIS_ETAPAS_RUTA_TESTEAR,
 } from "src/app/Shared/utils/constants";
+import LoadingSpinner from "../../../LoadingSpinner/LoadingSpinner.jsx";
 
 function EstadoRuta({ etapa }) {
   const [loading, setLoading] = useState(true);
@@ -141,7 +142,7 @@ function EstadoRuta({ etapa }) {
   }, [etapa]);
 
   if (loading) {
-    return <>Loading</>;
+    return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
   return (

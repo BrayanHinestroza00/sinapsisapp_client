@@ -15,6 +15,7 @@ import {
   URL_OBTENER_EMPRENDEDIMIENTO,
   URL_OBTENER_REDES_SOCIALES,
 } from "src/app/Shared/utils/apiConstants";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 function Emprendimiento({ idEmprendimiento }) {
   const [loadingComponent, setLoadingComponent] = useState(true);
@@ -85,14 +86,7 @@ function Emprendimiento({ idEmprendimiento }) {
   }, [preloadData, redesData]);
 
   if (loading || loadingComponent || redesLoading || !preloadData || !datos) {
-    // console.log("ProyectoMentor", {
-    //   loading,
-    //   loadingComponent,
-    //   redesLoading,
-    //   inverted: { preloadData, datos },
-    // });
-
-    return <h1>LOADING...</h1>;
+    return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
   if (error || redesError) {
@@ -103,8 +97,6 @@ function Emprendimiento({ idEmprendimiento }) {
       </>
     );
   }
-
-  // console.log(preloadData);
 
   return (
     <Card>

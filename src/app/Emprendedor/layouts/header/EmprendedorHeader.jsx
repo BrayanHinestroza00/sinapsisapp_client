@@ -1,13 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { headerStyled } from "./styled.js";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner.jsx";
+import SeleccionarProyectoPage from "../../pages/SeleccionarProyectoPage.jsx";
+
+import { HeaderMenuItem, headerStyled } from "./styled.js";
+import { EmprendedorContext } from "../../contexts/EmprendedorContext";
 
 import logo from "src/app/Shared/assets/images/header/sinapsis.png";
 import exit from "src/app/Shared/assets/images/header/exit.svg";
 import user from "src/app/Shared/assets/images/header/emprendedor/emprendedor_header.png";
-import { EmprendedorContext } from "../../contexts/EmprendedorContext";
-// import SeleccionarProyectoPage from "src/components/emprendedor/SeleccionarProyectoModal";
 
 function EmprendedorHeader() {
   let navigate = useNavigate();
@@ -29,7 +31,7 @@ function EmprendedorHeader() {
   };
 
   if (loading) {
-    return <h1>Loading</h1>;
+    return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
   return (
@@ -63,17 +65,16 @@ function EmprendedorHeader() {
               {userData.proyectosEmprendimiento?.length > 0 && (
                 <>
                   <li>
-                    <h6 className="dropdown-header">Elige tu proyecto</h6>
+                    <h6 className="dropdown-header">Elige tú proyecto</h6>
                   </li>
                   <li>
-                    <span
-                      id="label_select_project"
+                    <HeaderMenuItem
                       className="dropdown-item"
                       data-bs-toggle="modal"
                       data-bs-target="#exampleModal"
                     >
                       <span className="mx-2">Seleccionar Proyecto</span>
-                    </span>
+                    </HeaderMenuItem>
                   </li>
                 </>
               )}
@@ -95,14 +96,14 @@ function EmprendedorHeader() {
                     alt=""
                     onClick={() => cerrarSesion()}
                   />
-                  <span className="mx-2">Cerrar Sesion</span>
+                  <span className="mx-2">Cerrar Sesión</span>
                 </Link>
               </li>
             </ul>
           </div>
         </headerStyled.ContenedorControlesUsuario>
       </headerStyled.PanelSuperior>
-      {/* <SeleccionarProyectoPage /> */}
+      <SeleccionarProyectoPage />
     </>
   );
 }

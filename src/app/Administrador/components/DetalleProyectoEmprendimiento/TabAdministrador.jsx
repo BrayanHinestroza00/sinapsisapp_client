@@ -20,13 +20,13 @@ function TabAdministrador() {
 
   return (
     <Tabs activeKey={key} onSelect={(key) => setKey(key)}>
-      <Tab eventKey="ruta" title="Ruta">
+      <Tab eventKey="ruta" title="Estado Ruta">
         <RutaAdministrador
           idProyectoEmprendimiento={state.proyectoEmprendimientoId}
         />
       </Tab>
 
-      <Tab eventKey="emprendimientos" title="Emprendimientos">
+      <Tab eventKey="emprendimientos" title="Información del Emprendimiento">
         <Emprendimiento idEmprendimiento={state.emprendimientoId} />
       </Tab>
 
@@ -48,7 +48,11 @@ function TabAdministrador() {
       </Tab>
 
       <Tab eventKey="tareas" title="Tareas">
-        <Tareas idProyectoEmprendimiento={state.proyectoEmprendimientoId} />
+        <Tareas
+          idProyectoEmprendimiento={state.proyectoEmprendimientoId}
+          tipoUsuario={"ADMINISTRADOR"}
+          idUsuario={userData.id}
+        />
       </Tab>
 
       <Tab eventKey="historial_tareas" title="Historial Tareas">

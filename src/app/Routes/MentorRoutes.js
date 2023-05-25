@@ -3,8 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import EditarCuenta from "src/app/Mentor/pages/EditarCuenta";
 import Emprendedores from "src/app/Mentor/pages/Emprendedores";
 import DetalleEmprendedor from "src/app/Mentor/pages/DetalleEmprendedor";
-import ConsultoriasNormales from "src/app/Mentor/pages/ConsultoriasNormales";
-import ConsultoriasEspecializadas from "src/app/Mentor/pages/ConsultoriasEspecializadas";
+import Consultorias from "src/app/Mentor/pages/Consultorias";
 import ReportesConsultoria from "src/app/Mentor/pages/ReportesConsultoria";
 import Anuncios from "src/app/Shared/pages/Anuncios";
 import Error404Page from "src/app/Shared/pages/error/Error404/Error404";
@@ -26,16 +25,7 @@ function MentorRoutes() {
             path="/Emprendedor/:idEmprendedor"
             element={<DetalleEmprendedor />}
           />
-          <Route
-            exact
-            path="/Consultorias/Normales"
-            element={<ConsultoriasNormales />}
-          />
-          <Route
-            exact
-            path="/Consultorias/Especializadas"
-            element={<ConsultoriasEspecializadas />}
-          />
+          <Route exact path="/Consultorias" element={<Consultorias />} />
           <Route
             exact
             path="/Reportes/Consultoria"

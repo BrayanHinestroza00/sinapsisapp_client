@@ -25,27 +25,41 @@ function ReportesConsultoria() {
   const { userData } = useContext(MentorContext);
   const [error, setError] = useState({});
   const [datos, setDatos] = useState({});
+  const [loading, setLoading] = useState(false);
 
   // Custom Hooks
-  const { data, message, error: errorAPI, fetchAPI } = useFetch();
+  const { data, message: messageAPI, error: errorAPI, fetchAPI } = useFetch();
 
   useEffect(() => {
-    if (errorAPI) {
-    } else {
-      if (message) {
-      }
+    if (data) {
+      var blob = new Blob([data.file], { type: "application/vnd.ms-excel" });
 
-      if (data) {
-        const link = document.createElement("a");
-        const url = URL.createObjectURL(data);
-        link.href = url;
-        link.download = message;
-        link.click();
-      }
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+      link.href = url;
+      link.download = data.filename;
+      link.click();
     }
-  }, [data]);
 
-  const onHandleSubmit = (e) => {
+    if (messageAPI && messageAPI != "OK") {
+      messageAlertWithoutText({
+        title: messageAPI,
+        icon: "warning",
+        confirmButtonText: "Aceptar",
+      });
+    }
+
+    if (errorAPI) {
+      messageAlert({
+        title: "Algo ha fallado",
+        text: errorAPI,
+        icon: "error",
+        confirmButtonText: "Aceptar",
+      });
+    }
+  }, [data, messageAPI, errorAPI]);
+
+  const onHandleSubmit = async (e) => {
     e.preventDefault();
 
     let erroresFormulario = validarFiltroReporteConsultoriaMentor(datos);
@@ -53,11 +67,12 @@ function ReportesConsultoria() {
       setError(erroresFormulario);
     } else {
       setError({});
-      fetchAPI({
+      setLoading(true);
+      const response = await fetchAPI({
         URL: URL_OBTENER_REPORTE_CONSULTORIAS_POR_MENTOR,
         requestOptions: {
           method: HTTP_METHOD_POST,
-          responseType: "blob",
+          // responseType: "blob",
           data: {
             idMentor: userData.id,
             fechaInicio: datos.fechaInicio,
@@ -66,22 +81,7 @@ function ReportesConsultoria() {
         },
       });
 
-      if (errorAPI) {
-        messageAlert({
-          title: "Algo ha fallado",
-          text: errorAPI,
-          icon: "error",
-          confirmButtonText: "Aceptar",
-        });
-      }
-
-      if (message) {
-        messageAlertWithoutText({
-          title: "No se encontraron resultados",
-          icon: "info",
-          confirmButtonText: "Aceptar",
-        });
-      }
+      console.log("response", response);
     }
   };
 
@@ -92,18 +92,39 @@ function ReportesConsultoria() {
     });
   };
 
-  if (errorAPI) {
-    return (
-      <>
-        <h1>ERROR</h1>
-        <p>{errorAPI}</p>
-      </>
-    );
-  }
+  // if (loading && errorAPI) {
+  //   messageAlert({
+  //     title: "Algo ha fallado",
+  //     text: errorAPI,
+  //     icon: "error",
+  //     confirmButtonText: "Aceptar",
+  //   });
+  //   setLoading(false);
+  // } else if (loading && messageAPI) {
+  //   if (messageAPI == "OK") {
+  //     console.log("API REPORTES", {
+  //       data,
+  //     });
+  //     var blob = new Blob([data.file], { type: "application/vnd.ms-excel" });
+
+  //     const link = document.createElement("a");
+  //     const url = URL.createObjectURL(blob);
+  //     link.href = url;
+  //     link.download = data.filename;
+  //     link.click();
+  //   } else {
+  //     messageAlertWithoutText({
+  //       title: messageAPI,
+  //       icon: "warning",
+  //       confirmButtonText: "Aceptar",
+  //     });
+  //   }
+  //   setLoading(false);
+  // }
 
   return (
     <>
-      <Titulo>Reportes Consultorias</Titulo>
+      <Titulo>Reportes Consultorías</Titulo>
 
       <Card>
         <Subtitulo>Filtros de búsqueda</Subtitulo>

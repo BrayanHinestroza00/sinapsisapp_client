@@ -24,6 +24,7 @@ import { validarListadoMentores } from "src/app/Shared/services/validation/valid
 
 import showIcon from "src/app/Shared/assets/images/icons/showIcon.png";
 import editIcon from "src/app/Shared/assets/images/icons/editIcon.png";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 function GestionMentoresPage() {
   const navigate = useNavigate();
@@ -69,7 +70,7 @@ function GestionMentoresPage() {
         newMentores = mentoresData.map((mentorData, index) => {
           return {
             n: index + 1,
-            "Numero Documento": `${mentorData.acronimoTipoDocumento} - ${mentorData.numeroDocumento}`,
+            "Número Documento": `${mentorData.acronimoTipoDocumento} - ${mentorData.numeroDocumento}`,
             "Nombre Mentor": mentorData.nombreCompleto,
             Cargo: mentorData.cargoMentor,
             "Dependencia/Facultad":
@@ -132,7 +133,7 @@ function GestionMentoresPage() {
               marginLeft: "0rem",
             }}
           >
-            <p>Cargando...</p>
+            <LoadingSpinner width="5rem" height="5rem" />
           </Ruta>
         ) : etapasRutaMessage || etapasRutaError ? (
           <Ruta
@@ -194,7 +195,7 @@ function GestionMentoresPage() {
               {/* Etapa del Mentor */}
               <div className="col-md-6">
                 <Label htmlFor="etapasRuta" className="form-label">
-                  Etapa de la Ruta de Innovacion & Emprendimiento
+                  Etapa de la Ruta de Innovación & Emprendimiento
                 </Label>
                 <select
                   id="etapasRuta"
@@ -267,7 +268,7 @@ function GestionMentoresPage() {
               marginLeft: "0rem",
             }}
           >
-            <p>Cargando...</p>
+            <LoadingSpinner width="5rem" height="5rem" />
           </Ruta>
         ) : mentoresError || mentoresMessage ? (
           <Ruta

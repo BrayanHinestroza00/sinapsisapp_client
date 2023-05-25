@@ -98,6 +98,7 @@ function RevisarTarea({ show, data, onHide }) {
       centered
       show={show}
       backdrop="static"
+      onHide={onHide}
     >
       <Modal.Header
         style={{
@@ -114,7 +115,7 @@ function RevisarTarea({ show, data, onHide }) {
 
       <Modal.Body style={{ backgroundColor: "#fbf6fc" }}>
         <div>
-          <h4 className="text-center">Descripcion de la tarea</h4>
+          <h4 className="text-center">Descripción de la tarea</h4>
           <p>{data.descripcionTarea}</p>
         </div>
         {data.urlArchivosEntrega && (
@@ -123,7 +124,7 @@ function RevisarTarea({ show, data, onHide }) {
             <div className="text-center">
               <h4>Tarea entregada por el emprendedor</h4>
               <p>
-                Descarga el archivo y realiza la retroalimentacion al
+                Descarga el archivo y realiza la retroalimentación al
                 emprendedor
               </p>
               <a
@@ -140,15 +141,15 @@ function RevisarTarea({ show, data, onHide }) {
               </a>
               <br />
               <label className="form-label mt-3">
-                Da click{" "}
+                Da click
                 <a
                   rel="noreferrer"
                   className="text-center"
                   href={`${HOST}/${data.urlArchivosEntrega}`}
                   target="_blank"
                 >
-                  Aqui
-                </a>{" "}
+                  Aquí
+                </a>
                 o en la imagen para descargar
               </label>
               <br />
@@ -238,7 +239,7 @@ function RevisarTarea({ show, data, onHide }) {
         <Button className="btn btn-primary" onClick={(e) => onHandleSubmit(e)}>
           Calificar
         </Button>
-        <button className="btn btn-outline-primary" onClick={onHide}>
+        <button className="btn btn-secondary" onClick={onHide}>
           Cancelar
         </button>
       </Modal.Footer>

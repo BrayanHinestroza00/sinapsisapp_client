@@ -92,7 +92,7 @@ function AdministradorHeader() {
                     alt=""
                     onClick={() => cerrarSesion()}
                   />
-                  <span className="mx-2">Cerrar Sesion</span>
+                  <span className="mx-2">Cerrar Sesión</span>
                 </Link>
               </li>
             </ul>

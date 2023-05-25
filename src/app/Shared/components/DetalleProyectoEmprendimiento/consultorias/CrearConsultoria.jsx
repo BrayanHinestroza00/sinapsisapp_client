@@ -24,6 +24,7 @@ import {
   SINAPSIS_APP_FORMATO_FECHA_HORA,
   SINAPSIS_APP_FORMATO_FECHA_INPUT,
 } from "src/app/Shared/utils/constants";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
 function CrearConsultoria({
   show,
@@ -71,18 +72,20 @@ function CrearConsultoria({
           },
         },
       });
-
-      fetchApiMentores({
-        URL: URL_OBTENER_MENTORES,
-        requestOptions: {
-          method: HTTP_METHOD_GET,
-          params: {
-            idEtapaRutaInnovacion: idEtapaRuta,
-          },
-        },
-      });
     }
   }, [datos.tipoConsultoria]);
+
+  useEffect(() => {
+    fetchApiMentores({
+      URL: URL_OBTENER_MENTORES,
+      requestOptions: {
+        method: HTTP_METHOD_GET,
+        params: {
+          idEtapaRutaInnovacion: idEtapaRuta,
+        },
+      },
+    });
+  }, []);
 
   const onHandleChange = (e) => {
     setDatos({
@@ -93,70 +96,31 @@ function CrearConsultoria({
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    let erroresFormulario = validarCreacionConsultoria(datos);
+    let erroresFormulario = validarCreacionConsultoria(datos, tipoUsuario);
+    console.log(erroresFormulario);
     if (Object.keys(erroresFormulario).length) {
       setError(erroresFormulario);
     } else {
       setError({});
       confirmAlertWithText({
-        title: "¿Estás seguro que deseas programar la consultoria?",
+        title: "¿Estás seguro que deseas programar la consultoría?",
         text: "Esta acción no se puede deshacer",
-        confirmButtonText: "Programar Consultoria",
+        confirmButtonText: "Programar Consultoría",
         cancelButtonText: "Cancelar",
-        onConfirm: () =>
-          //   console.log("CREAR CONSULTORIA", {
-          //     datos,
-          //     tipoUsuario,
-          //     idUsuario,
-          //     idProyectoEmprendimiento,
-          //   }),
-          submitForm(),
+        onConfirm: () => submitForm(),
       });
-      //   Axios.post(
-      //     `${HOST}/Mentor/CrearConsultoria`,
-      //     {
-      //       ...datos,
-      //       cedulaEmprendedor,
-      //     },
-      //     {
-      //       headers: {
-      //         Authorization:
-      //           localStorage.getItem("token") || sessionStorage.getItem("token"),
-      //       },
-      //     }
-      //   )
-      //     .then((res) => {
-      //       if (res.data.affectedRows > 0) {
-      //         swal
-      //           .fire({
-      //             title: "Consultoria programada correctamente",
-      //             text: "Se ha programado correctamente la consultoria con el emprendedor",
-      //             icon: "success",
-      //             iconColor: "#9a66a8",
-      //             confirmButtonText: "Aceptar",
-      //             confirmButtonColor: "#9a66a8",
-      //             showConfirmButton: true,
-      //           })
-      //           .then(() => (window.location.href = window.location.pathname));
-      //       }
-      //     })
-      //     .catch((err) => {
-      //       swal.fire({
-      //         title: "Creacion de consultoria fallida",
-      //         text: err.response.data.message,
-      //         icon: "error",
-      //         iconColor: "#9a66a8",
-      //         confirmButtonText: "Aceptar",
-      //         confirmButtonColor: "#9a66a8",
-      //         showConfirmButton: true,
-      //       });
-      //     });
     }
   };
 
   const submitForm = () => {
     setLoading(true);
-    const idMentor = datos.tipoConsultoria == "E" ? datos.mentor : idUsuario;
+    const idMentor =
+      tipoUsuario == "ADMINISTRADOR" && datos.tipoConsultoria == "E"
+        ? datos.mentor
+        : idUsuario;
+
+    const tipoConsultoria =
+      tipoUsuario == "ADMINISTRADOR" ? datos.tipoConsultoria : "N";
 
     fetchAPI({
       URL: URL_PROGRAMAR_CONSULTORIA_EMPRENDEDOR,
@@ -166,10 +130,11 @@ function CrearConsultoria({
           ...datos,
           mentor: idMentor,
           titulo: datos.tituloConsultoria,
-          //   fechaConsultoria: moment(
-          //     datos.fechaConsultoria,
-          //     SINAPSIS_APP_FORMATO_FECHA_INPUT
-          //   ).format(SINAPSIS_APP_FORMATO_FECHA_HORA),
+          tipoConsultoria: tipoConsultoria,
+          fechaConsultoria: moment(
+            datos.fechaConsultoria,
+            SINAPSIS_APP_FORMATO_FECHA_INPUT
+          ).format(SINAPSIS_APP_FORMATO_FECHA_HORA),
           proyectoEmprendimiento: idProyectoEmprendimiento,
           usuarioCrea: idUsuario,
         },
@@ -189,7 +154,7 @@ function CrearConsultoria({
   } else if (loading && messageAPI) {
     if (messageAPI == "OK") {
       messageAlertWithoutText({
-        title: "Consultoria Creada Exitosamente",
+        title: "Consultoría Creada Exitosamente",
         icon: "success",
         confirmButtonText: "Aceptar",
         onConfirm: () => {
@@ -224,19 +189,19 @@ function CrearConsultoria({
         }}
       >
         <Modal.Title>
-          <h1 style={{ color: "#FFF" }}>Programar Consultoria</h1>
+          <h1 style={{ color: "#FFF" }}>Programar Consultoría</h1>
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form encType="multipart/form-data">
           <Form.Group className="mb-3">
             <Form.Label className="form-label">
-              Titulo de Consultoria
+              Titulo de Consultoría
             </Form.Label>
             <Form.Control
               name="tituloConsultoria"
               className="form-control"
-              placeholder="Titulo de Consultoria"
+              placeholder="Titulo de Consultoría"
               type="text"
               onChange={(e) => {
                 onHandleChange(e);
@@ -253,14 +218,14 @@ function CrearConsultoria({
           {tipoUsuario == "ADMINISTRADOR" && (
             <>
               <Form.Group className="mb-3">
-                <Form.Label>Tipo de Consultoria</Form.Label>
+                <Form.Label>Tipo de Consultoría</Form.Label>
                 <Form.Select
                   name="tipoConsultoria"
                   type="text"
                   onChange={(e) => onHandleChange(e)}
                 >
                   <option disabled selected>
-                    Seleccione el tipo de consultoria...
+                    Seleccione el tipo de consultoría...
                   </option>
                   <option value="N">Normal</option>
                   <option value="E">Especializada</option>
@@ -275,19 +240,19 @@ function CrearConsultoria({
               {datos?.tipoConsultoria == "E" && (
                 <>
                   {tematicasEtapaLoading ? (
-                    <p>Cargando...</p>
+                    <LoadingSpinner width="5rem" height="5rem" />
                   ) : tematicasEtapaMessage || tematicasEtapaError ? (
                     <p>{tematicasEtapaMessage || tematicasEtapaError}</p>
                   ) : (
                     <Form.Group className="mb-3">
-                      <Form.Label>Tematica de Consultoria</Form.Label>
+                      <Form.Label>Temática de Consultoría</Form.Label>
                       <Form.Select
                         name="subActividadRuta"
                         type="text"
                         onChange={(e) => onHandleChange(e)}
                       >
                         <option disabled selected>
-                          Seleccione la Tematica...
+                          Seleccione la Temática...
                         </option>
                         {tematicasEtapaData &&
                           tematicasEtapaData.length > 0 &&
@@ -307,54 +272,54 @@ function CrearConsultoria({
                       )}
                     </Form.Group>
                   )}
-
-                  {mentoresLoading ? (
-                    <p>Cargando...</p>
-                  ) : mentoresMessage || mentoresError ? (
-                    <p>{mentoresMessage || mentoresError}</p>
-                  ) : (
-                    <Form.Group className="mb-3">
-                      <Form.Label>Mentor de Consultoria</Form.Label>
-                      <Form.Select
-                        name="mentor"
-                        type="text"
-                        onChange={(e) => onHandleChange(e)}
-                      >
-                        <option disabled selected>
-                          Seleccione el mentor...
-                        </option>
-                        {mentoresData &&
-                          mentoresData.length > 0 &&
-                          mentoresData.map((mentor, index) => (
-                            <option key={index} value={mentor.id}>
-                              {`${mentor.nombreCompleto} / ${
-                                mentor.cargoMentor || "Sin especialidad"
-                              }`}
-                            </option>
-                          ))}
-                      </Form.Select>
-                      {error.mentor && (
-                        <small className="form-text font-weight-bold text-danger">
-                          {error.mentor}
-                        </small>
-                      )}
-                    </Form.Group>
-                  )}
                 </>
+              )}
+
+              {mentoresLoading ? (
+                <LoadingSpinner width="5rem" height="5rem" />
+              ) : mentoresMessage || mentoresError ? (
+                <p>{mentoresMessage || mentoresError}</p>
+              ) : (
+                <Form.Group className="mb-3">
+                  <Form.Label>Mentor de Consultoría</Form.Label>
+                  <Form.Select
+                    name="mentor"
+                    type="text"
+                    onChange={(e) => onHandleChange(e)}
+                  >
+                    <option disabled selected>
+                      Seleccione el mentor...
+                    </option>
+                    {mentoresData &&
+                      mentoresData.length > 0 &&
+                      mentoresData.map((mentor, index) => (
+                        <option key={index} value={mentor.id}>
+                          {`${mentor.nombreCompleto} / ${
+                            mentor.cargoMentor || "Sin especialidad"
+                          }`}
+                        </option>
+                      ))}
+                  </Form.Select>
+                  {error.mentor && (
+                    <small className="form-text font-weight-bold text-danger">
+                      {error.mentor}
+                    </small>
+                  )}
+                </Form.Group>
               )}
             </>
           )}
 
           <Form.Group className="mb-3">
             <Form.Label className="form-label">
-              Asunto de Consultoria
+              Asunto de Consultoría
             </Form.Label>
             <Form.Control
               as="textarea"
               cols={3}
               name="asuntoConsultoria"
               className="form-control"
-              placeholder="Asunto de Consultoria"
+              placeholder="Asunto de Consultoría"
               type="text"
               onChange={(e) => {
                 onHandleChange(e);
@@ -369,7 +334,7 @@ function CrearConsultoria({
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label className="form-label">Fecha de consultoria</Form.Label>
+            <Form.Label className="form-label">Fecha de consultoría</Form.Label>
             <Form.Control
               name="fechaConsultoria"
               className="form-control"
@@ -389,7 +354,7 @@ function CrearConsultoria({
 
           <Form.Group className="mb-3">
             <Form.Label className="form-label">
-              Hora de inicio consultoria
+              Hora de inicio consultoría
             </Form.Label>
             <Form.Control
               name="horaInicio"
@@ -411,7 +376,7 @@ function CrearConsultoria({
 
           <Form.Group className="mb-3">
             <Form.Label className="form-label">
-              Hora de fin consultoria
+              Hora de fin consultoría
             </Form.Label>
             <Form.Control
               name="horaFinalizacion"
@@ -444,7 +409,7 @@ function CrearConsultoria({
             onHandleSubmit(e);
           }}
         >
-          Programar Consultoria
+          Programar Consultoría
         </Button>
       </Modal.Footer>
     </Modal>

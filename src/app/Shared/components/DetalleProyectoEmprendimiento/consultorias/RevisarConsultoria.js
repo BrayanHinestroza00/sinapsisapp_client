@@ -1,164 +1,14 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
+import moment from "moment";
 import { Button, Form, Modal } from "react-bootstrap";
 
 import { confirmAlertWithText } from "src/app/Shared/utils/confirmAlerts";
 import { validarRevisionConsultoria } from "src/app/Shared/services/validation/validateConsultoria.js";
+import { SINAPSIS_APP_FORMATO_FECHA } from "src/app/Shared/utils/constants";
 
 function RevisarConsultoria({ data, show, onHide }) {
   const [datos, setDatos] = useState({});
   const [error, setError] = useState({});
-  const [loading, setLoading] = useState(false);
-
-  // const [loading, data, error] = useAPI_GET(`${HOST}/Mentor/Consultoria`, {
-  //   headers: {
-  //     Authorization:
-  //       localStorage.getItem("token") || sessionStorage.getItem("token"),
-  //   },
-  //   params: {
-  //     idConsultoria,
-  //   },
-  // });
-
-  // useEffect(() => {
-  //   if (data) {
-  //     const resultado = data[0];
-  //     if (resultado.estadoConsultoria != "Programada") {
-  //       setEstadoConsultoria(true);
-  //     }
-  //     setDatos(resultado);
-  //   }
-  // }, [data]);
-
-  // const onHandleSubmit = (e) => {
-  //   //Volverla a Pendiente
-  //   if (!estadoConsultoria) {
-  //     swal
-  //       .fire({
-  //         title: "¿Estás seguro que deseas iniciar la consultoria?",
-  //         icon: "question",
-  //         iconColor: "#9a66a8",
-  //         confirmButtonText: "Iniciar",
-  //         confirmButtonColor: "#9a66a8",
-  //         showConfirmButton: true,
-  //         showCancelButton: true,
-  //         cancelButtonText: "Cancelar",
-  //       })
-  //       .then((res) => {
-  //         if (res.isConfirmed) {
-  //           let today = new Date();
-  //           var horaInicio = today.getHours() + ":" + today.getMinutes();
-  //           const { idConsultoria } = datos;
-  //           Axios.put(
-  //             `${HOST}/Mentor/Consultoria`,
-  //             {
-  //               idConsultoria,
-  //               estadoConsultoria: "En curso",
-  //               horaInicio,
-  //             },
-  //             {
-  //               headers: {
-  //                 Authorization:
-  //                   localStorage.getItem("token") ||
-  //                   sessionStorage.getItem("token"),
-  //               },
-  //             }
-  //           ).then((respuesta) => {
-  //             if (respuesta.data.affectedRows > 0) {
-  //               swal
-  //                 .fire({
-  //                   title: "Consultoria iniciada",
-  //                   text: "Se ha iniciado correctamente la consultoria",
-  //                   icon: "success",
-  //                   iconColor: "#9a66a8",
-  //                   confirmButtonText: "Aceptar",
-  //                   confirmButtonColor: "#9a66a8",
-  //                   showConfirmButton: true,
-  //                 })
-  //                 .then(() => {
-  //                   setEstadoConsultoria(true);
-  //                   window.location.href = window.location.pathname;
-  //                 });
-  //             }
-  //           });
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //         console.log(err.response);
-  //       });
-  //   } else {
-  //     //Volver a Terminado
-  //     swal
-  //       .fire({
-  //         title: "¿Estás seguro que deseas dar por terminada la consultoria?",
-  //         icon: "question",
-  //         iconColor: "#9a66a8",
-  //         confirmButtonText: "Terminar",
-  //         confirmButtonColor: "#9a66a8",
-  //         showConfirmButton: true,
-  //         showCancelButton: true,
-  //         cancelButtonText: "Cancelar",
-  //       })
-  //       .then((res) => {
-  //         if (res.isConfirmed) {
-  //           const { idConsultoria } = datos;
-  //           let today = new Date();
-  //           var horaFin = today.getHours() + ":" + today.getMinutes();
-  //           Axios.put(
-  //             `${HOST}/Mentor/Consultoria`,
-  //             {
-  //               idConsultoria,
-  //               estadoConsultoria: "Terminada",
-  //               comentariosConsultoria,
-  //               horaFin,
-  //             },
-  //             {
-  //               headers: {
-  //                 Authorization:
-  //                   localStorage.getItem("token") ||
-  //                   sessionStorage.getItem("token"),
-  //               },
-  //             }
-  //           ).then((respuesta) => {
-  //             if (respuesta.data.affectedRows > 0) {
-  //               swal
-  //                 .fire({
-  //                   title: "Consultoria Finalizada",
-  //                   text: "Se ha registrado correctamente la consultoria",
-  //                   icon: "success",
-  //                   iconColor: "#9a66a8",
-  //                   confirmButtonText: "Aceptar",
-  //                   confirmButtonColor: "#9a66a8",
-  //                   showConfirmButton: true,
-  //                 })
-  //                 .then(() => {
-  //                   window.location.href = window.location.pathname;
-  //                 });
-  //             }
-  //           });
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //         console.log(err.response);
-  //       });
-  //   }
-  // };
-
-  // if (loading) {
-  //   return <div>Cargando</div>;
-  // }
-
-  // if (error) {
-  //   swal.fire({
-  //     title: error.response.data.message,
-  //     icon: "warning",
-  //     confirmButtonText: "Aceptar",
-  //     confirmButtonColor: "#9a66a8",
-  //     showConfirmButton: true,
-  //     showCloseButton: true,
-  //   });
-  // }
 
   const onHandleChange = (e) => {
     setDatos({
@@ -174,9 +24,9 @@ function RevisarConsultoria({ data, show, onHide }) {
     } else {
       setError({});
       confirmAlertWithText({
-        title: "¿Estás seguro que deseas iniciar/terminar la consultoria?",
+        title: "¿Estás seguro que deseas iniciar/terminar la consultoría?",
         text: "Esta acción no se puede deshacer",
-        confirmButtonText: "Iniciar/Terminar Consultoria",
+        confirmButtonText: "Iniciar/Terminar Consultoría",
         cancelButtonText: "Cancelar",
         onConfirm: () => submitForm(),
       });
@@ -209,6 +59,7 @@ function RevisarConsultoria({ data, show, onHide }) {
       centered
       show={show}
       backdrop="static"
+      onHide={onHide}
     >
       <Modal.Header
         style={{
@@ -222,15 +73,15 @@ function RevisarConsultoria({ data, show, onHide }) {
           <h1 style={{ color: "#FFF" }}>{data.tituloConsultoria}</h1>
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body style={{ backgroundColor: "#fbf6fc" }}>
+      <Modal.Body style={{ backgroundColor: "#faedfc" }}>
         <Form className="container row">
           <Form.Group className="col-md-12 mb-3">
-            <Form.Label>Asunto Consultoria</Form.Label>
+            <Form.Label>Asunto Consultoría</Form.Label>
             <Form.Control value={data.asuntoConsultoria} disabled />
           </Form.Group>
 
           <Form.Group className="col-md-6 mb-3">
-            <Form.Label>Tipo Consultoria</Form.Label>
+            <Form.Label>Tipo Consultoría</Form.Label>
             <Form.Control
               value={data.tipoConsultoria == "E" ? "Especializada" : "Normal"}
               disabled
@@ -239,14 +90,20 @@ function RevisarConsultoria({ data, show, onHide }) {
 
           {data.tipoConsultoria == "E" && (
             <Form.Group className="col-md-6 mb-3">
-              <Form.Label>Tematica Consultoria</Form.Label>
+              <Form.Label>Temática Consultoría</Form.Label>
               <Form.Control value={data.nombreSubActRuta} disabled />
             </Form.Group>
           )}
 
           <Form.Group className="col-md-12 mb-3">
-            <Form.Label>Fecha de Consultoria</Form.Label>
-            <Form.Control value={data.fechaConsultoria} disabled />
+            <Form.Label>Fecha de Consultoría</Form.Label>
+            <Form.Control
+              value={moment(
+                data.fechaConsultoria,
+                "YYYY-MM-DD hh:mm:ss"
+              ).format(SINAPSIS_APP_FORMATO_FECHA)}
+              disabled
+            />
           </Form.Group>
 
           <Form.Group className="col-md-6 mb-3">
@@ -255,7 +112,7 @@ function RevisarConsultoria({ data, show, onHide }) {
           </Form.Group>
 
           <Form.Group className="col-md-6 mb-3">
-            <Form.Label>Hora Finalizacion</Form.Label>
+            <Form.Label>Hora Finalización</Form.Label>
             <Form.Control value={data.horaFinConsultoria} disabled />
           </Form.Group>
 
@@ -276,7 +133,7 @@ function RevisarConsultoria({ data, show, onHide }) {
           </Form.Group>
 
           <Form.Group className="col-md-12 mb-3">
-            <Form.Label>Comentarios Consultoria</Form.Label>
+            <Form.Label>Comentarios Consultoría</Form.Label>
             <Form.Control
               as="textarea"
               cols={3}
@@ -305,7 +162,7 @@ function RevisarConsultoria({ data, show, onHide }) {
                 onHandleSubmit(e);
               }}
             >
-              INICIAR CONSULTORIA
+              INICIAR CONSULTORÍA
             </Button>
 
             <Button
@@ -326,7 +183,7 @@ function RevisarConsultoria({ data, show, onHide }) {
               onHandleSubmit(e);
             }}
           >
-            Terminar Consultoria
+            Terminar Consultoría
           </Button>
         )}
 

@@ -331,7 +331,7 @@ function InfoEmprendimiento(props) {
 
         <div className="col-md-6 mb-3">
           <Label htmlFor="estaConstituida" className="form-label">
-            Esta constituida
+            Está constituida
             <span> (*)</span>
           </Label>
           <select

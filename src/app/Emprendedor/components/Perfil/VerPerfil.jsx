@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
+
 import { Input, Label } from "src/app/Shared/assets/styles/Common";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import {
@@ -27,7 +29,7 @@ function VerPerfil({ preloadData }) {
   }, []);
 
   if (loading) {
-    return <h1>LOADING...</h1>;
+    return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
   if (error) {

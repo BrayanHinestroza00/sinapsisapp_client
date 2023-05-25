@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import FlexyTable from "src/app/Shared/components/FlexyTable";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 import {
   Card,
@@ -19,7 +20,8 @@ import {
 } from "src/app/Shared/utils/apiConstants";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import { validarListadoProyectoEmprendimiento } from "src/app/Shared/services/validation/validateListadoProyectoEmprendimiento.js";
-import showIcon from "src/app/Shared/assets/images/icons/showIcon.png";
+
+import showIcon from "src/app/Shared/assets/images/icons/detalleIcon.svg";
 
 function ProyectoEmprendimientosPage() {
   const navigate = useNavigate();
@@ -126,7 +128,7 @@ function ProyectoEmprendimientosPage() {
               marginLeft: "0rem",
             }}
           >
-            <p>Cargando...</p>
+            <LoadingSpinner width="5rem" height="5rem" />
           </Ruta>
         ) : etapasRutaMessage || etapasRutaError ? (
           <Ruta
@@ -185,10 +187,10 @@ function ProyectoEmprendimientosPage() {
                 )}
               </div>
 
-              {/* Estado en la Ruta de Innovacion & Emprendimiento */}
+              {/* Estado en la Ruta de Innovación & Emprendimiento */}
               <div className="col-md-6">
                 <Label htmlFor="estadosRuta" className="form-label">
-                  Estado en la Ruta de Innovacion & Emprendimiento
+                  Estado en la Ruta de Innovación & Emprendimiento
                 </Label>
                 <select
                   id="estadosRuta"
@@ -208,10 +210,10 @@ function ProyectoEmprendimientosPage() {
                 )}
               </div>
 
-              {/* Etapa en la Ruta de Innovacion & Emprendimiento */}
+              {/* Etapa en la Ruta de Innovación & Emprendimiento */}
               <div className="col-md-6">
                 <Label htmlFor="etapasRuta" className="form-label">
-                  Etapa en la Ruta de Innovacion & Emprendimiento:
+                  Etapa en la Ruta de Innovación & Emprendimiento:
                 </Label>
                 <select
                   id="etapasRuta"
@@ -254,7 +256,7 @@ function ProyectoEmprendimientosPage() {
               marginLeft: "0rem",
             }}
           >
-            <p>Cargando...</p>
+            <LoadingSpinner width="5rem" height="5rem" />
           </Ruta>
         ) : emprendimientosMessage || emprendimientosError ? (
           <Ruta

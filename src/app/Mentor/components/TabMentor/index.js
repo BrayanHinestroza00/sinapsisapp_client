@@ -6,6 +6,8 @@ import RutaMentor from "src/app/Mentor/components/DetalleEmprendedor/Ruta/RutaMe
 import Consultorias from "src/app/Shared/components/DetalleProyectoEmprendimiento/consultorias/Consultorias";
 import HistorialConsultoria from "src/app/Shared/components/DetalleProyectoEmprendimiento/consultorias/HistorialConsultoria";
 import Emprendimiento from "src/app/Shared/pages/DetalleProyectoEmprendimiento/Emprendimientos";
+import Tareas from "src/app/Shared/components/DetalleProyectoEmprendimiento/tareas/Tareas";
+import HistorialTareas from "src/app/Shared/components/DetalleProyectoEmprendimiento/tareas/HistorialTareas";
 
 import { MentorContext } from "src/app/Mentor/contexts/MentorContext.js";
 
@@ -19,14 +21,14 @@ function TabMentor() {
 
   return (
     <Tabs activeKey={key} onSelect={(key) => setKey(key)}>
-      <Tab eventKey="ruta" title="Ruta">
+      <Tab eventKey="ruta" title="Estado en Ruta">
         <RutaMentor
           idProyectoEmprendimiento={state.idProyectoEmprendimiento}
           userData={userData}
         />
       </Tab>
 
-      <Tab eventKey="emprendimientos" title="Emprendimientos">
+      <Tab eventKey="emprendimientos" title="Información del Emprendimiento">
         <Emprendimiento idEmprendimiento={state.idEmprendimiento} />
       </Tab>
 
@@ -43,6 +45,20 @@ function TabMentor() {
 
       <Tab eventKey="historial" title="Historial Consultorías">
         <HistorialConsultoria
+          idProyectoEmprendimiento={state.idProyectoEmprendimiento}
+        />
+      </Tab>
+
+      <Tab eventKey="tareas" title="Tareas">
+        <Tareas
+          idProyectoEmprendimiento={state.idProyectoEmprendimiento}
+          idUsuario={userData.id}
+          tipoUsuario={"MENTOR"}
+        />
+      </Tab>
+
+      <Tab eventKey="historial_tareas" title="Historial Tareas">
+        <HistorialTareas
           idProyectoEmprendimiento={state.idProyectoEmprendimiento}
         />
       </Tab>

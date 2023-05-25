@@ -4,10 +4,10 @@ import { img, thumb, thumbInner, thumbsContainer } from "./styled";
 
 import { HOST } from "src/app/Shared/utils/apiConstants";
 
-function DropZoneComponent({ upFiles, files, filesUrl, ...props }) {
+function DropZoneComponent({ upFiles, files, filesUrl, accept, ...props }) {
   return (
     <>
-      <DropZone upFiles={upFiles} files={files} props={props} />
+      <DropZone upFiles={upFiles} files={files} accept={accept} />
       {(files || filesUrl) && (
         <aside style={thumbsContainer}>
           <div style={thumb}>

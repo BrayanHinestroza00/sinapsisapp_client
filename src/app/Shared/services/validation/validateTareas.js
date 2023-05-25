@@ -21,7 +21,7 @@ export const validarCreacionTarea = (datos) => {
 
     if (new Date(fechaEntrega) < new Date()) {
       errors.fechaEntrega =
-        "La fecha limite de entrega NO puede ser menor de HOY";
+        "La fecha límite de entrega NO puede ser menor de HOY";
     }
   }
 

@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import FlexyTable from "src/app/Shared/components/FlexyTable";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 import {
   Card,
@@ -17,9 +18,10 @@ import {
   URL_OBTENER_EMPRENDEDORES,
   URL_OBTENER_TIPOS_CONTACTO,
 } from "src/app/Shared/utils/apiConstants";
-import showIcon from "src/app/Shared/assets/images/icons/showIcon.png";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
-import { validarListadoEmprendedores } from "src/app/Shared/services/validation/validateListadoEmprendedores.js";
+import { validarListadoEmprendedoresAdmin } from "src/app/Shared/services/validation/validateListadoEmprendedores.js";
+
+import showIcon from "src/app/Shared/assets/images/icons/showIcon.png";
 
 function EmprendedoresPage() {
   const navigate = useNavigate();
@@ -83,7 +85,7 @@ function EmprendedoresPage() {
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    let erroresFormulario = validarListadoEmprendedores(datosFiltro);
+    let erroresFormulario = validarListadoEmprendedoresAdmin(datosFiltro);
     if (Object.keys(erroresFormulario).length) {
       setError(erroresFormulario);
     } else {
@@ -124,7 +126,7 @@ function EmprendedoresPage() {
               marginLeft: "0rem",
             }}
           >
-            <p>Cargando...</p>
+            <LoadingSpinner width="5rem" height="5rem" />
           </Ruta>
         ) : tiposContactoMessage || tiposContactoError ? (
           <Ruta
@@ -141,7 +143,7 @@ function EmprendedoresPage() {
             )}
           </Ruta>
         ) : (
-          <Card id="aquihe">
+          <Card>
             <Subtitulo>Filtros de búsqueda</Subtitulo>
 
             <form onSubmit={onHandleSubmit} className="row g-3">
@@ -184,10 +186,10 @@ function EmprendedoresPage() {
                   </small>
                 )}
               </div>
-              {/* Estado en la Ruta de Innovacion & Emprendimiento */}
+              {/* Estado en la Ruta de Innovación & Emprendimiento */}
               <div className="col-md-6">
                 <Label htmlFor="estadosRuta" className="form-label">
-                  Estado en la Ruta de Innovacion & Emprendimiento
+                  Estado en la Ruta de Innovación & Emprendimiento
                 </Label>
                 <select
                   id="estadosRuta"

@@ -1,4 +1,7 @@
+import moment from "moment";
 import { Button, Form, Modal } from "react-bootstrap";
+
+import { SINAPSIS_APP_FORMATO_FECHA } from "src/app/Shared/utils/constants";
 
 function DetalleConsultoria(props) {
   return (
@@ -8,6 +11,7 @@ function DetalleConsultoria(props) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
       show={props.show}
+      onHide={props.onHide}
     >
       <Modal.Header
         closeButton
@@ -24,45 +28,53 @@ function DetalleConsultoria(props) {
       <Modal.Body>
         <Form className="container row">
           <Form.Group className="col-md-12 mb-3">
-            <Form.Label>Asunto Consultoria</Form.Label>
-            <Form.Control value={props.data.asuntoConsultoria} />
+            <Form.Label>Asunto Consultoría</Form.Label>
+            <Form.Control value={props.data.asuntoConsultoria} disabled />
           </Form.Group>
 
           <Form.Group className="col-md-6 mb-3">
-            <Form.Label>Tipo Consultoria</Form.Label>
+            <Form.Label>Tipo Consultoría</Form.Label>
             <Form.Control
               value={
                 props.data.tipoConsultoria == "E" ? "Especializada" : "Normal"
               }
+              disabled
             />
           </Form.Group>
 
           {props.data.tipoConsultoria == "E" && (
             <Form.Group className="col-md-6 mb-3">
-              <Form.Label>Tematica Consultoria</Form.Label>
-              <Form.Control value={props.data.nombreSubActRuta} />
+              <Form.Label>Temática Consultoría</Form.Label>
+              <Form.Control value={props.data.nombreSubActRuta} disabled />
             </Form.Group>
           )}
 
           <Form.Group className="col-md-12 mb-3">
-            <Form.Label>Fecha de Consultoria</Form.Label>
-            <Form.Control value={props.data.fechaConsultoria} />
+            <Form.Label>Fecha de Consultoría</Form.Label>
+            <Form.Control
+              value={moment(
+                props.data.fechaConsultoria,
+                "YYYY-MM-DD hh:mm:ss"
+              ).format(SINAPSIS_APP_FORMATO_FECHA)}
+              disabled
+            />
           </Form.Group>
 
           <Form.Group className="col-md-6 mb-3">
             <Form.Label>Hora Inicio</Form.Label>
-            <Form.Control value={props.data.horaInicioConsultoria} />
+            <Form.Control value={props.data.horaInicioConsultoria} disabled />
           </Form.Group>
 
           <Form.Group className="col-md-6 mb-3">
-            <Form.Label>Hora Finalizacion</Form.Label>
-            <Form.Control value={props.data.horaFinConsultoria} />
+            <Form.Label>Hora Finalización</Form.Label>
+            <Form.Control value={props.data.horaFinConsultoria} disabled />
           </Form.Group>
 
           <Form.Group className="col-md-12 mb-3">
             <Form.Label>Mentor</Form.Label>
             <Form.Control
               value={`${props.data.nombreMentor} ${props.data.apellidoMentor}`}
+              disabled
             />
           </Form.Group>
 
@@ -72,13 +84,15 @@ function DetalleConsultoria(props) {
               value={
                 props.data.correoInstitucionalMentor || "Sin correo registrado"
               }
+              disabled
             />
           </Form.Group>
 
           <Form.Group className="col-md-12 mb-3">
-            <Form.Label>Comentarios Consultoria</Form.Label>
+            <Form.Label>Comentarios Consultoría</Form.Label>
             <Form.Control
               value={props.data.comentariosConsultoria || "Sin comentarios"}
+              disabled
             />
           </Form.Group>
         </Form>
