@@ -30,6 +30,9 @@ export const SINAPSIS_APP_DIA_SEMANA_JUEVES = "jueves";
 export const SINAPSIS_APP_DIA_SEMANA_VIERNES = "viernes";
 export const SINAPSIS_APP_DIA_SEMANA_SABADO = "sabado";
 
+export const SINAPSIS_APP_PERFIL_ADMINISTRADOR = 1;
+export const SINAPSIS_APP_PERFIL_MENTOR = 2;
+
 /** CONSTANTES EMPRENDEDOR */
 export const MENU_EMPRENDEDOR = "sinapsisapp_menu_item_active";
 export const MENU_EMPRENDEDOR_INICIO = "inicio";

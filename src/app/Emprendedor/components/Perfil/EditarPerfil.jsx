@@ -176,7 +176,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit }) {
     } else {
       setError({});
       confirmAlertWithText({
-        title: "¿Estas seguro que deseas actualizar tú perfil?",
+        title: "¿Estás seguro que deseas actualizar tu perfil?",
         text: "La información se puede modificar en cualquier momento",
         confirmButtonText: "Actualizar",
         cancelButtonText: "Cancelar",
@@ -557,7 +557,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit }) {
               onChange={(e) => onHandleChange(e)}
             >
               <option value={"-1"} disabled>
-                Selecciona tú programa
+                Selecciona tu programa
               </option>
 
               {dataProgramasAcademicos &&
@@ -817,7 +817,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit }) {
               onChange={(e) => onHandleChange(e)}
             >
               <option value={"-1"} disabled>
-                Selecciona tú programa
+                Selecciona tu programa
               </option>
 
               {dataProgramasAcademicos &&

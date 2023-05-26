@@ -8,6 +8,7 @@ import HistorialConsultoria from "src/app/Shared/components/DetalleProyectoEmpre
 import Emprendimiento from "src/app/Shared/pages/DetalleProyectoEmprendimiento/Emprendimientos";
 import Tareas from "src/app/Shared/components/DetalleProyectoEmprendimiento/tareas/Tareas";
 import HistorialTareas from "src/app/Shared/components/DetalleProyectoEmprendimiento/tareas/HistorialTareas";
+import Emprendedor from "src/app/Shared/components/DetalleProyectoEmprendimiento/emprendedor";
 
 import { MentorContext } from "src/app/Mentor/contexts/MentorContext.js";
 
@@ -26,6 +27,10 @@ function TabMentor() {
           idProyectoEmprendimiento={state.idProyectoEmprendimiento}
           userData={userData}
         />
+      </Tab>
+
+      <Tab eventKey="emprendedor" title="Información del Emprendedor">
+        <Emprendedor emprendedorId={state.idEmprendedor} />
       </Tab>
 
       <Tab eventKey="emprendimientos" title="Información del Emprendimiento">

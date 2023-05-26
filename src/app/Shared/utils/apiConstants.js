@@ -30,6 +30,7 @@ export const URL_STATIC_UPLOAD_IMAGES = HOST + "/app_static/upload.png";
 /**
  * Rutas usadas por el Administrador
  */
+export const URL_OBTENER_INFO_ADMINISTRADOR = HOST + "/app/info_usuario";
 export const URL_OBTENER_PRIMERAS_ATENCIONES_PENDIENTES =
   HOST + "/ruta_innovacion/primeraAtencion/pendientes";
 export const URL_OBTENER_PROYECTOS_EMPRENDIMIENTO =
@@ -90,6 +91,8 @@ export const URL_OBTENER_CONSULTORIAS_PROGRAMADAS =
 /**
  * Rutas usadas por el Mentor
  */
+export const URL_OBTENER_INFO_MENTOR = HOST + "/app/info_usuario";
+
 export const URL_OBTENER_MENTORES_POR_PROYECTO_EMPRENDIMIENTO =
   HOST + "/mentores/proyecto_emprendimiento";
 
@@ -117,6 +120,7 @@ export const URL_OBTENER_TIPOS_DOCUMENTO = HOST + "/app/tipoDocumento";
 export const URL_OBTENER_TIPOS_CONTACTO = HOST + "/app/tipoContacto";
 export const URL_OBTENER_ETAPAS_RUTA_INNOVACION_EMPRENDIMIENTO =
   HOST + "/app/etapas_ruta";
+export const URL_ACTUALIZAR_PERFIL_USUARIO = HOST + "/app/actualizar_perfil";
 
 /**
  * Rutas de reportes

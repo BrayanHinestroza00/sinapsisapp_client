@@ -8,6 +8,7 @@ import {
   CardRuta,
   Ruta,
   Titulo,
+  Subtitulo,
 } from "src/app/Shared/assets/styles/Common.js";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import {
@@ -100,21 +101,17 @@ function Emprendimiento({ idEmprendimiento }) {
 
   return (
     <Card>
-      <CardRuta style={{ marginTop: "1rem", marginBottom: "0rem" }}>
-        <Ruta>
-          <Titulo>
-            Información del proyecto de emprendimiento:
-            <SpanAuxiliar className="text-muted">
-              {datos.nombreEmprendimiento}
-            </SpanAuxiliar>
-          </Titulo>
-          <FormEmprendimiento
-            datos={datos}
-            redesData={redesData}
-            editable={false}
-          />
-        </Ruta>
-      </CardRuta>
+      <Subtitulo>
+        Información del proyecto de emprendimiento:
+        <SpanAuxiliar className="text-muted">
+          {datos.nombreEmprendimiento}
+        </SpanAuxiliar>
+      </Subtitulo>
+      <FormEmprendimiento
+        datos={datos}
+        redesData={redesData}
+        editable={false}
+      />
     </Card>
   );
 }

@@ -1,4 +1,5 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
+
 import { useLocalStorage } from "src/app/Shared/services/hooks/useLocalStorage";
 import {
   SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO,
@@ -7,6 +8,7 @@ import {
 
 const MentorContext = createContext();
 function MentorContextProvider({ children }) {
+  const [showSidebar, setShowSidebar] = useState(true);
   // Custom Hooks
   const { data: userData, loading: loadingUserData } = useLocalStorage(
     SINAPSIS_APP_LOCALSTORAGE_OPERACION_GET,
@@ -22,6 +24,8 @@ function MentorContextProvider({ children }) {
       value={{
         userData,
         loadingUserData,
+        showSidebar,
+        setShowSidebar,
       }}
     >
       {children}

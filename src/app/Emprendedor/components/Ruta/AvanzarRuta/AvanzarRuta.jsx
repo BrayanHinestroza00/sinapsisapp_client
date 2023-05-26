@@ -47,7 +47,7 @@ function AvanzarRuta() {
 
           <div>
             <Subtitulo className="mx-0">
-              Continua tú progreso en la etapa:
+              Continua tu progreso en la etapa:
               <SpanAuxiliar>{etapaActual}</SpanAuxiliar>
             </Subtitulo>
           </div>
@@ -79,7 +79,7 @@ function AvanzarRuta() {
                     <SeccionAvanzarRuta
                       idSeccion={"ConectarPotencializarPE"}
                       tituloSeccion={
-                        "Conectar y potencializar tú perfil como emprendedor "
+                        "Conectar y potencializar tu perfil como emprendedor "
                       }
                     />
 

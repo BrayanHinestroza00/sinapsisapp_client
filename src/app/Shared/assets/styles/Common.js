@@ -68,3 +68,7 @@ export const TextArea = styled.textarea`
   height: 6rem;
   resize: vertical;
 `;
+
+export const HeaderMenuItem = styled.span`
+  cursor: pointer;
+`;

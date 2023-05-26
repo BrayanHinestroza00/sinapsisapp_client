@@ -54,7 +54,7 @@ function SeleccionarProyectoPage() {
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title" id="exampleModalLabel">
-              Elige tú proyecto de emprendimiento
+              Elige tu proyecto de emprendimiento
             </h5>
             <button
               type="button"

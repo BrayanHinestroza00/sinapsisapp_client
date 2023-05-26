@@ -210,7 +210,7 @@ function DetalleTarea(props) {
             <Form encType="multipart/form-data">
               <div className="row">
                 <Form.Group className="mb-3">
-                  <h6>Sube tú tarea</h6>
+                  <h6>Sube tu tarea</h6>
                   <DropZoneComponent
                     upFiles={getFiles}
                     files={datosTarea?.files}
@@ -225,7 +225,7 @@ function DetalleTarea(props) {
               </div>
               <div className="row">
                 <Form.Group className="mb-3">
-                  <h5>Comentarios de tú entrega</h5>
+                  <h5>Comentarios de tu entrega</h5>
                   <Form.Label>Comentario </Form.Label>
                   <br />
                   <Form.Control

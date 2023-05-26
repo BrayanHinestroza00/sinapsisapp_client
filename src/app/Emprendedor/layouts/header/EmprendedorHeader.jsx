@@ -4,12 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner.jsx";
 import SeleccionarProyectoPage from "../../pages/SeleccionarProyectoPage.jsx";
 
-import { HeaderMenuItem, headerStyled } from "./styled.js";
+import { headerStyled } from "./styled.js";
 import { EmprendedorContext } from "../../contexts/EmprendedorContext";
 
 import logo from "src/app/Shared/assets/images/header/sinapsis.png";
 import exit from "src/app/Shared/assets/images/header/exit.svg";
 import user from "src/app/Shared/assets/images/header/emprendedor/emprendedor_header.png";
+import { HeaderMenuItem } from "src/app/Shared/assets/styles/Common.js";
 
 function EmprendedorHeader() {
   let navigate = useNavigate();
@@ -65,7 +66,7 @@ function EmprendedorHeader() {
               {userData.proyectosEmprendimiento?.length > 0 && (
                 <>
                   <li>
-                    <h6 className="dropdown-header">Elige tú proyecto</h6>
+                    <h6 className="dropdown-header">Elige tu proyecto</h6>
                   </li>
                   <li>
                     <HeaderMenuItem

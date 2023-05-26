@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import {
   SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO,
   SINAPSIS_APP_LOCALSTORAGE_OPERACION_GET,
@@ -8,6 +8,7 @@ import { useLocalStorage } from "src/app/Shared/services/hooks/useLocalStorage";
 const AdministradorContext = createContext();
 
 function AdministradorContextProvider({ children }) {
+  const [showSidebar, setShowSidebar] = useState(true);
   // Custom Hooks
   const { data: userData, loading: loadingUserData } = useLocalStorage(
     SINAPSIS_APP_LOCALSTORAGE_OPERACION_GET,
@@ -23,6 +24,8 @@ function AdministradorContextProvider({ children }) {
       value={{
         userData,
         loadingUserData,
+        showSidebar,
+        setShowSidebar,
       }}
     >
       {children}

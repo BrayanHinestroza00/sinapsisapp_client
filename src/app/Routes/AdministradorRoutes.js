@@ -20,6 +20,7 @@ import IndicadoresGestionPage from "../Administrador/pages/IndicadoresGestionPag
 import GestionEmprendedoresPage from "../Administrador/pages/GestionEmprendedoresPage";
 import GestionMentoresPage from "../Administrador/pages/GestionMentoresPage";
 import GestionAnunciosPage from "../Administrador/pages/GestionAnunciosPage";
+import VerPerfilPage from "../Administrador/pages/VerPerfilPage";
 
 function AdministradorRoutes() {
   return (
@@ -90,6 +91,10 @@ function AdministradorRoutes() {
               path="/Gestion/Anuncios"
               element={<GestionAnunciosPage />}
             />
+
+            <Route exact path="/Perfil" element={<VerPerfilPage />} />
+
+            {/* <Route exact path="/Perfil/Ver" element={<VerPerfil />} /> */}
             <Route path="*" element={<Error404Page />} />
           </Routes>
         </AdminEmprendedorContextProvider>

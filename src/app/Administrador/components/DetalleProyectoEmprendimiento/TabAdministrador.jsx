@@ -1,15 +1,17 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Tabs, Tab } from "react-bootstrap";
-
 import { useLocation } from "react-router-dom";
-import { AdministradorContext } from "src/app/Administrador/contexts/AdministradorContext";
 
-import RutaAdministrador from "./Ruta/RutaAdministrador";
-import Emprendimiento from "src/app/Shared/pages/DetalleProyectoEmprendimiento/Emprendimientos";
+import RutaAdministrador from "src/app/Administrador/components/DetalleProyectoEmprendimiento/Ruta/RutaAdministrador";
+import PrimeraAtencion from "src/app/Administrador/components/DetalleProyectoEmprendimiento/PrimeraAtencion";
 import Consultorias from "src/app/Shared/components/DetalleProyectoEmprendimiento/consultorias/Consultorias";
 import HistorialConsultoria from "src/app/Shared/components/DetalleProyectoEmprendimiento/consultorias/HistorialConsultoria";
 import Tareas from "src/app/Shared/components/DetalleProyectoEmprendimiento/tareas/Tareas";
 import HistorialTareas from "src/app/Shared/components/DetalleProyectoEmprendimiento/tareas/HistorialTareas";
+import Emprendimiento from "src/app/Shared/pages/DetalleProyectoEmprendimiento/Emprendimientos";
+import Emprendedor from "src/app/Shared/components/DetalleProyectoEmprendimiento/emprendedor";
+
+import { AdministradorContext } from "src/app/Administrador/contexts/AdministradorContext";
 
 function TabAdministrador() {
   const { userData } = useContext(AdministradorContext);
@@ -26,8 +28,18 @@ function TabAdministrador() {
         />
       </Tab>
 
+      <Tab eventKey="emprendedor" title="Información del Emprendedor">
+        <Emprendedor emprendedorId={state.emprendedorId} />
+      </Tab>
+
       <Tab eventKey="emprendimientos" title="Información del Emprendimiento">
         <Emprendimiento idEmprendimiento={state.emprendimientoId} />
+      </Tab>
+
+      <Tab eventKey="primera_atencion" title="Información de Primera Atención">
+        <PrimeraAtencion
+          idProyectoEmprendimiento={state.proyectoEmprendimientoId}
+        />
       </Tab>
 
       <Tab eventKey="consultorias" title="Consultorías Programadas">

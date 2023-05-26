@@ -7,9 +7,10 @@ import Consultorias from "src/app/Mentor/pages/Consultorias";
 import ReportesConsultoria from "src/app/Mentor/pages/ReportesConsultoria";
 import Anuncios from "src/app/Shared/pages/Anuncios";
 import Error404Page from "src/app/Shared/pages/error/Error404/Error404";
+import VerPerfil from "../Mentor/pages/VerPerfil";
 
-import { MentorContextProvider } from "../Mentor/contexts/MentorContext";
 import MentorLayout from "../Mentor/layouts/MentorLayout";
+import { MentorContextProvider } from "../Mentor/contexts/MentorContext";
 
 function MentorRoutes() {
   return (
@@ -31,6 +32,8 @@ function MentorRoutes() {
             path="/Reportes/Consultoria"
             element={<ReportesConsultoria />}
           />
+          <Route exact path="/Perfil/Ver" element={<VerPerfil />} />
+
           <Route path="*" element={<Error404Page />} />
         </Routes>
       </MentorLayout>

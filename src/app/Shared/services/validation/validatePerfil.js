@@ -6,6 +6,7 @@ import {
   T_SINAPSIS_TIPOS_CONTACTO_EXTERNO,
 } from "../../utils/constants";
 import {
+  REGEX_PATTERN_CARATERETES,
   REGEX_PATTERN_CORREO_ELECTRONICO,
   REGEX_PATTERN_NUMERO_TELEFONO,
 } from "../../utils/regexPatterns";
@@ -104,5 +105,68 @@ export const validacionesEditarPerfil = (datos) => {
         break;
     }
   }
+  return errors;
+};
+
+export const validacionesEditarPerfilUsuario = (datos) => {
+  // idUsuario: preloadData.id,
+  // nombres: preloadData.nombres,
+  // apellidos: preloadData.apellidos,
+  // nombreCompleto: preloadData.nombreCompleto,
+  // tipoDocumento: preloadData.acronimoTipoDocumento,
+  // numeroDocumento: preloadData.numeroDocumento,
+  // correoInstitucional: preloadData.correoInstitucional,
+  // correoPersonal: preloadData.correoPersonal,
+  // telefonoContacto: preloadData.telefonoContacto,
+  // cargo: preloadData.cargo,
+  // dependencia: preloadData.dependencia,
+  // facultad: preloadData.facultad,
+  // fotoUrl: preloadData.fotoUrl,
+  // tipoUsuario: tipoUsuario,
+
+  const errors = {};
+  const { correoPersonal, telefonoContacto, dependencia, facultad, cargo } =
+    datos;
+
+  if (correoPersonal) {
+    // eslint-disable-next-line
+    const RegExp = REGEX_PATTERN_CORREO_ELECTRONICO;
+    if (!RegExp.test(correoPersonal)) {
+      errors.correo = "El correo no es válido";
+    }
+  }
+
+  if (telefonoContacto) {
+    const RegExp = REGEX_PATTERN_NUMERO_TELEFONO;
+    if (!RegExp.test(telefonoContacto)) {
+      errors.telefonoContacto = "Solo se permiten números y máximo 10 dígitos";
+    }
+  }
+
+  if (dependencia) {
+    // eslint-disable-next-line
+    const RegExp = REGEX_PATTERN_CARATERETES;
+    if (!RegExp.test(dependencia)) {
+      errors.dependencia = "Máximo 200 caracteres";
+    }
+  }
+
+  if (facultad) {
+    // eslint-disable-next-line
+    const RegExp = REGEX_PATTERN_CORREO_ELECTRONICO;
+    if (!RegExp.test(facultad)) {
+      errors.facultad = "Máximo 200 caracteres";
+    }
+  }
+
+  if (!cargo) {
+    errors.cargo = "Campo Obligatorio";
+  } else {
+    const RegExp = REGEX_PATTERN_CARATERETES;
+    if (!RegExp.test(cargo)) {
+      errors.cargo = "Máximo 200 caracteres";
+    }
+  }
+
   return errors;
 };

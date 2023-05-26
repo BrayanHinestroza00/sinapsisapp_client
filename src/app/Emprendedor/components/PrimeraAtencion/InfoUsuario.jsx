@@ -516,7 +516,7 @@ function InfoUsuario({ userData, ...props }) {
                 onChange={(e) => props.handleChange(e)}
               >
                 <option value={"-1"} disabled>
-                  Selecciona tú programa
+                  Selecciona tu programa
                 </option>
 
                 {dataProgramasAcademicos &&
@@ -784,7 +784,7 @@ function InfoUsuario({ userData, ...props }) {
                 onChange={(e) => props.handleChange(e)}
               >
                 <option value={"-1"} disabled>
-                  Selecciona tú programa
+                  Selecciona tu programa
                 </option>
 
                 {dataProgramasAcademicos &&

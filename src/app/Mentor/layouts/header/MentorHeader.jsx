@@ -3,14 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { headerStyled } from "./styled.js";
 
+import { getFromLocalStorage } from "src/app/Shared/utils/localStorage";
+import { SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO } from "src/app/Shared/utils/constants";
+
 import logo from "src/app/Shared/assets/images/header/sinapsis.png";
 import exit from "src/app/Shared/assets/images/header/exit.svg";
 import user from "src/app/Shared/assets/images/header/emprendedor/emprendedor_header.png";
 import imagenActiva from "src/app/Shared/assets/images/tmp/notificacion_active.png";
 import imagenInactiva from "src/app/Shared/assets/images/tmp/notificacion_inactive.png";
-
-import { getFromLocalStorage } from "src/app/Shared/utils/localStorage";
-import { SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO } from "src/app/Shared/utils/constants";
 
 const notificacion = false;
 
@@ -71,6 +71,26 @@ function MentorHeader() {
               className="dropdown-menu dropdown-menu-end"
               aria-labelledby="dropdownMenuButton1"
             >
+              <>
+                <li>
+                  <h6 className="dropdown-header">Mi Perfil</h6>
+                </li>
+                <li className="mb-2">
+                  <Link className="dropdown-item" to="/Mentor/Perfil/Ver">
+                    <span className="mx-2">Ver Perfil</span>
+                  </Link>
+                </li>
+                <li className="mb-2">
+                  <Link className="dropdown-item" to="/Mentor/Perfil/Editar">
+                    <span className="mx-2">Editar Perfil</span>
+                  </Link>
+                </li>
+              </>
+
+              <li>
+                <hr className="dropdown-divider" />
+              </li>
+
               <li>
                 <h6 className="dropdown-header">Configuraciones</h6>
               </li>
