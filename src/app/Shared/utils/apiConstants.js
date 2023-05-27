@@ -56,6 +56,9 @@ export const URL_PUBLICAR_ANUNCIO = HOST + "/app/publicar_anuncio";
 export const URL_OBTENER_TEMATICAS_CONSULTORIAS_PROYECTO_EMPRENDIMIENTO =
   HOST + "/app/tematicas_etapa";
 
+export const URL_OBTENER_EMPRENDEDIMIENTOS_MENTOR =
+  HOST + "/mentores/emprendimientos";
+
 /**
  * Rutas usadas por el Emprendedor
  */
