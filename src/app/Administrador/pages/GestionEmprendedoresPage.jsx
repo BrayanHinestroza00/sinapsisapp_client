@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 
-import FlexyTable from "src/app/Shared/components/FlexyTable";
+import FlexyTable from "src/app/Administrador/components/GestionUsuarios/FlexyTable";
 import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
+import VerPerfil from "src/app/Administrador/components/GestionUsuarios/VerPerfilEmprendedor";
 
 import {
   Card,
@@ -14,19 +15,30 @@ import {
 
 import {
   HTTP_METHOD_GET,
+  HTTP_METHOD_POST,
   URL_OBTENER_EMPRENDEDORES,
   URL_OBTENER_TIPOS_CONTACTO,
+  URL_RESTABLECER_CONTRASEÑA,
+  URL_DESACTIVAR_CUENTA,
 } from "src/app/Shared/utils/apiConstants";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import { validarListadoEmprendedoresAdmin } from "src/app/Shared/services/validation/validateListadoEmprendedores.js";
+import {
+  messageAlert,
+  messageAlertWithoutText,
+} from "src/app/Shared/utils/messageAlerts";
+import { confirmAlertWithText } from "src/app/Shared/utils/confirmAlerts";
 
-import showIcon from "src/app/Shared/assets/images/icons/showIcon.png";
-import editIcon from "src/app/Shared/assets/images/icons/editIcon.png";
+import deleteUserIcon from "src/app/Shared/assets/images/icons/delete_user.png";
+import detalleIcon from "src/app/Shared/assets/images/icons/detalle_perfil.png";
+import resetPasswordIcon from "src/app/Shared/assets/images/icons/reset_password.png";
 
 function GestionEmprendedoresPage() {
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState({});
   const [datos, setDatos] = useState({});
   const [datosFiltro, setDatosFiltro] = useState({});
+  const [showDetalle, setShowDetalle] = useState({ show: false });
 
   // Custom Hooks
   const {
@@ -34,6 +46,20 @@ function GestionEmprendedoresPage() {
     message: emprendedoresMessage,
     error: emprendedoresError,
     fetchAPI: fetchApiEmprendedores,
+  } = useFetch();
+
+  const {
+    data: restablecerData,
+    message: restablecerMessage,
+    error: restablecerError,
+    fetchAPI: fetchApiRestablecer,
+  } = useFetch();
+
+  const {
+    data: desactivarData,
+    message: desactivarMessage,
+    error: desactivarError,
+    fetchAPI: fetchApiDesactivar,
   } = useFetch();
 
   const {
@@ -104,7 +130,90 @@ function GestionEmprendedoresPage() {
   const onHandleDetalleEmprendedor = (emprendedor) => {
     // Show Modal with the info
     const data = emprendedoresData[emprendedor.n - 1];
+    setShowDetalle({ datos: data, show: true });
   };
+  const onResetPasswordEmprendedor = (emprendedor) => {
+    // Show Modal with the info
+    const data = emprendedoresData[emprendedor.n - 1];
+
+    confirmAlertWithText({
+      title: "¿Estás seguro que deseas reiniciar la contraseña del usuario?",
+      text: "Esta acción no se puede deshacer",
+      confirmButtonText: "Continuar",
+      cancelButtonText: "Cancelar",
+      onConfirm: () => {
+        setLoading(true);
+        fetchApiRestablecer({
+          URL: URL_RESTABLECER_CONTRASEÑA,
+          requestOptions: {
+            method: HTTP_METHOD_POST,
+            data: {
+              idUsuario: data.id,
+            },
+          },
+        });
+      },
+    });
+  };
+  const onDeleteEmprendedor = (emprendedor) => {
+    // Show Modal with the info
+    const data = emprendedoresData[emprendedor.n - 1];
+
+    confirmAlertWithText({
+      title: "¿Estás seguro que deseas desactivar la cuenta del usuario?",
+      text: "Esta acción no se puede deshacer",
+      confirmButtonText: "Continuar",
+      cancelButtonText: "Cancelar",
+      onConfirm: () => {
+        setLoading(true);
+        fetchApiRestablecer({
+          URL: URL_DESACTIVAR_CUENTA,
+          requestOptions: {
+            method: HTTP_METHOD_POST,
+            data: {
+              idUsuario: data.id,
+            },
+          },
+        });
+      },
+    });
+  };
+
+  if (loading && (restablecerError || desactivarError)) {
+    messageAlert({
+      title: "Algo ha fallado",
+      text: restablecerError || desactivarError,
+      icon: "error",
+      confirmButtonText: "Aceptar",
+    });
+    setLoading(false);
+  } else if (loading && (restablecerMessage || desactivarMessage)) {
+    if (restablecerMessage == "OK" || desactivarMessage == "OK") {
+      messageAlertWithoutText({
+        title: "Realizado Correctamente!",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        onConfirm: () => {
+          fetchApiEmprendedores({
+            URL: URL_OBTENER_EMPRENDEDORES,
+            requestOptions: {
+              method: HTTP_METHOD_GET,
+              params: {
+                ...datosFiltro,
+              },
+            },
+          });
+        },
+      });
+    } else {
+      messageAlertWithoutText({
+        title: restablecerMessage || desactivarMessage,
+        icon: "warning",
+        confirmButtonText: "Aceptar",
+      });
+    }
+    setLoading(false);
+  }
 
   return (
     <>
@@ -251,20 +360,35 @@ function GestionEmprendedoresPage() {
             <FlexyTable
               datos={datos}
               titulo={"Emprendedores"}
-              btn1={<img src={showIcon} width="auto" height="25" />}
+              btn1={<img src={detalleIcon} width="auto" height="25" />}
               fun1={(emprendedorData) => {
                 onHandleDetalleEmprendedor(emprendedorData);
               }}
-              btn2={<img src={editIcon} width="auto" height="25" />}
-              fun2={(mentorData) => {
-                onHandleDetalleEmprendedor(mentorData);
+              btn2={<img src={resetPasswordIcon} width="auto" height="25" />}
+              fun2={(emprendedorData) => {
+                onResetPasswordEmprendedor(emprendedorData);
               }}
-              adicional={true}
+              btn3={<img src={deleteUserIcon} width="auto" height="25" />}
+              fun3={(emprendedorData) => {
+                onDeleteEmprendedor(emprendedorData);
+              }}
             />
           ) : (
             <Subtitulo>No hay emprendedores disponibles</Subtitulo>
           )}
         </Ruta>
+      )}
+      {showDetalle.show && (
+        <VerPerfil
+          show={showDetalle.show}
+          datos={showDetalle.datos}
+          onHide={() =>
+            setShowDetalle({
+              ...showDetalle,
+              show: !showDetalle.show,
+            })
+          }
+        />
       )}
     </>
   );

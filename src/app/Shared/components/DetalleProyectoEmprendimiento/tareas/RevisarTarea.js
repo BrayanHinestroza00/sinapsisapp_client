@@ -235,7 +235,7 @@ function RevisarTarea({ show, data, onHide }) {
         </div>
       </Modal.Body>
 
-      <Modal.Footer>
+      <Modal.Footer style={{ backgroundColor: "#fbf6fc" }}>
         <Button className="btn btn-primary" onClick={(e) => onHandleSubmit(e)}>
           Calificar
         </Button>

@@ -72,7 +72,6 @@ function PerfilEmprendedor({ preloadData }) {
       <div className="col-md-6">
         <Label htmlFor="fechaNacimiento" className="form-label">
           Fecha de Nacimiento
-          <span> (*)</span>
         </Label>
         <Input
           type="text"
@@ -86,7 +85,6 @@ function PerfilEmprendedor({ preloadData }) {
       <div className="col-md-6">
         <Label htmlFor="genero" className="form-label">
           Género
-          <span> (*)</span>
         </Label>
         <Input
           type="text"
@@ -126,7 +124,6 @@ function PerfilEmprendedor({ preloadData }) {
       <div className="col-md-6">
         <Label htmlFor="departamento" className="form-label">
           Departamento de Residencia
-          <span> (*)</span>
         </Label>
         <Input
           type="text"
@@ -140,7 +137,6 @@ function PerfilEmprendedor({ preloadData }) {
       <div className="col-md-6">
         <Label htmlFor="municipio" className="form-label">
           Municipio de Residencia
-          <span> (*)</span>
         </Label>
         <Input
           type="text"
@@ -154,7 +150,6 @@ function PerfilEmprendedor({ preloadData }) {
       <div className="col-md-6">
         <Label htmlFor="direccion" className="form-label">
           Dirección de Residencia
-          <span> (*)</span>
         </Label>
         <Input
           type="text"
@@ -168,7 +163,6 @@ function PerfilEmprendedor({ preloadData }) {
       <div className="col-md-6">
         <Label htmlFor="vinculoConU" className="form-label">
           Vinculo con la Universidad
-          <span> (*)</span>
         </Label>
         <Input
           type="text"
@@ -183,7 +177,6 @@ function PerfilEmprendedor({ preloadData }) {
           <div className="col-md-6">
             <Label htmlFor="codigoEstudiantil" className="form-label">
               Código Estudiantil
-              <span> (*)</span>
             </Label>
             <Input
               type="text"
@@ -197,7 +190,6 @@ function PerfilEmprendedor({ preloadData }) {
           <div className="col-md-6">
             <Label htmlFor="nivelAcademico" className="form-label">
               Tipo de estudiante
-              <span> (*)</span>
             </Label>
             <Input
               type="text"
@@ -211,7 +203,6 @@ function PerfilEmprendedor({ preloadData }) {
           <div className="col-md-6">
             <Label htmlFor="programaAcademico" className="form-label">
               Programa Académico
-              <span> (*)</span>
             </Label>
             <Input
               type="text"
@@ -232,7 +223,6 @@ function PerfilEmprendedor({ preloadData }) {
               <div className="col-md-6">
                 <Label className="form-label">
                   Modalidad de Emprendimiento como Trabajo de Grado
-                  <span> (*)</span>
                 </Label>
 
                 <div className="form-check">
@@ -242,6 +232,7 @@ function PerfilEmprendedor({ preloadData }) {
                     id="modTrabajoGradoTrue"
                     value={1}
                     checked={preloadData?.modalidadTrabajoGrado == 1}
+                    disabled
                   />
                   <label
                     className="form-check-label"
@@ -258,6 +249,7 @@ function PerfilEmprendedor({ preloadData }) {
                     id="modTrabajoGradoFalse"
                     value={0}
                     checked={preloadData?.modalidadTrabajoGrado == 0}
+                    disabled
                   />
                   <label
                     className="form-check-label"
@@ -271,7 +263,6 @@ function PerfilEmprendedor({ preloadData }) {
               <div className="col-md-6">
                 <Label htmlFor="cursosEmprendimiento" className="form-label">
                   Asignaturas de Emprendimiento Cursadas
-                  <span> (*)</span>
                 </Label>
                 <div>
                   <div className="form-check form-check-inline">
@@ -279,16 +270,20 @@ function PerfilEmprendedor({ preloadData }) {
                       dataAsignaturas.length > 0 &&
                       dataAsignaturas.map((asignatura, index) => {
                         return (
-                          <div key={index}>
+                          <div className="m-2" key={index}>
                             <input
                               key={index}
                               className="form-check-input"
                               type="checkbox"
                               id={`cursosEmprendimiento${asignatura.id}`}
                               value={asignatura.codigo}
-                              checked={preloadData.asignaturasEmprendedor.includes(
-                                asignatura.codigo
-                              )}
+                              checked={
+                                preloadData.asignaturasEmprendedor &&
+                                preloadData.asignaturasEmprendedor.length > 0 &&
+                                preloadData.asignaturasEmprendedor.includes(
+                                  asignatura.codigo
+                                )
+                              }
                               disabled
                             />
                             <label
@@ -314,7 +309,6 @@ function PerfilEmprendedor({ preloadData }) {
           <div className="col-md-6">
             <Label htmlFor="cargoColaborador" className="form-label">
               Cargo de Colaborador
-              <span> (*)</span>
             </Label>
             <Input
               type="text"
@@ -328,7 +322,6 @@ function PerfilEmprendedor({ preloadData }) {
           <div className="col-md-6">
             <Label htmlFor="dependenciaColaborador" className="form-label">
               Dependencia
-              <span> (*)</span>
             </Label>
             <Input
               type="text"
@@ -344,7 +337,6 @@ function PerfilEmprendedor({ preloadData }) {
           <div className="col-md-6">
             <Label htmlFor="tipoEstudianteEgresado" className="form-label">
               Tipo de estudiante
-              <span> (*)</span>
             </Label>
             <Input
               type="text"
@@ -358,7 +350,6 @@ function PerfilEmprendedor({ preloadData }) {
           <div className="col-md-6">
             <Label htmlFor="profesionEgresado" className="form-label">
               Profesión
-              <span> (*)</span>
             </Label>
             <Input
               type="text"

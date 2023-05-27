@@ -124,12 +124,18 @@ function RegistrarMentor({ show, onHide }) {
 
   return (
     <Modal show={(show = true)} style={{ padding: "1rem" }} size="lg">
-      <Modal.Header className="modalHeader">
+      <Modal.Header
+        style={{
+          color: "#FFF",
+          backgroundColor: "#752a88",
+          fontWeight: "bold",
+        }}
+      >
         <Modal.Title>
-          <Subtitulo>Registrar Mentor</Subtitulo>
+          <Subtitulo style={{ color: "#FFF" }}>Registrar Mentor</Subtitulo>
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body className="modalBody">
+      <Modal.Body style={{ backgroundColor: "#fbf6fc" }}>
         <Container>
           <Form>
             <figure
@@ -291,7 +297,7 @@ function RegistrarMentor({ show, onHide }) {
           </Form>
         </Container>
       </Modal.Body>
-      <Modal.Footer className="modalFooter_revisarConsultoria">
+      <Modal.Footer style={{ backgroundColor: "#fbf6fc" }}>
         <Button className="btn btn-primary" onClick={onHandleSubmit}>
           Registrar
         </Button>

@@ -73,7 +73,7 @@ function RevisarConsultoria({ data, show, onHide }) {
           <h1 style={{ color: "#FFF" }}>{data.tituloConsultoria}</h1>
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body style={{ backgroundColor: "#faedfc" }}>
+      <Modal.Body style={{ backgroundColor: "#fbf6fc" }}>
         <Form className="container row">
           <Form.Group className="col-md-12 mb-3">
             <Form.Label>Asunto Consultoría</Form.Label>
@@ -153,7 +153,7 @@ function RevisarConsultoria({ data, show, onHide }) {
           </Form.Group>
         </Form>
       </Modal.Body>
-      <Modal.Footer>
+      <Modal.Footer style={{ backgroundColor: "#fbf6fc" }}>
         {data.estadoConsultoria === "PROGRAMADA" && (
           <>
             <Button

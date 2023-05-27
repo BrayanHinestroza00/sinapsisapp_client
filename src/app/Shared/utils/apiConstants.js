@@ -59,6 +59,9 @@ export const URL_OBTENER_TEMATICAS_CONSULTORIAS_PROYECTO_EMPRENDIMIENTO =
 export const URL_OBTENER_EMPRENDEDIMIENTOS_MENTOR =
   HOST + "/mentores/emprendimientos";
 
+export const URL_RESTABLECER_CONTRASEÑA = HOST + "/restablecer_password";
+export const URL_DESACTIVAR_CUENTA = HOST + "/desactivar_usuario";
+
 /**
  * Rutas usadas por el Emprendedor
  */

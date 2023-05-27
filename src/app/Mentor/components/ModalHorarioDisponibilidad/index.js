@@ -304,7 +304,7 @@ function EditarDisponibilidadModal({ show, setShow, horarios = [] }) {
           </form>
         </Container>
       </SinapsisModalBody>
-      <Modal.Footer className="modalFooter_revisarConsultoria">
+      <Modal.Footer style={{ backgroundColor: "#fbf6fc" }}>
         <Button onClick={onSubmitDisponibilidad} className="btn btn-primary">
           Actualizar disponibilidad
         </Button>

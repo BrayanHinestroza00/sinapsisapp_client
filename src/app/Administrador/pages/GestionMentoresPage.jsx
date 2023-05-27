@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import FlexyTable from "src/app/Shared/components/FlexyTable";
+import FlexyTable from "src/app/Administrador/components/GestionUsuarios/FlexyTable";
 import RegistrarMentor from "src/app/Administrador/components/SignUpMentor";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
+import VerPerfil from "src/app/Administrador/components/GestionUsuarios/VerPerfilMentor";
 
 import {
   Card,
@@ -14,27 +16,36 @@ import {
 } from "src/app/Shared/assets/styles/Common.js";
 
 import {
-  HOST,
   HTTP_METHOD_GET,
+  HTTP_METHOD_POST,
   URL_OBTENER_ETAPAS_RUTA_INNOVACION_EMPRENDIMIENTO,
   URL_OBTENER_MENTORES,
+  URL_RESTABLECER_CONTRASEÑA,
+  URL_DESACTIVAR_CUENTA,
 } from "src/app/Shared/utils/apiConstants";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import { validarListadoMentores } from "src/app/Shared/services/validation/validateListadoMentores";
+import {
+  messageAlert,
+  messageAlertWithoutText,
+} from "src/app/Shared/utils/messageAlerts";
+import { confirmAlertWithText } from "src/app/Shared/utils/confirmAlerts";
 
-import showIcon from "src/app/Shared/assets/images/icons/showIcon.png";
-import editIcon from "src/app/Shared/assets/images/icons/editIcon.png";
-import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
+import deleteUserIcon from "src/app/Shared/assets/images/icons/delete_user.png";
+import detalleIcon from "src/app/Shared/assets/images/icons/detalle_perfil.png";
+import resetPasswordIcon from "src/app/Shared/assets/images/icons/reset_password.png";
 
 function GestionMentoresPage() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState({});
   const [datos, setDatos] = useState({});
   const [datosFiltro, setDatosFiltro] = useState({ estadoCuenta: "1" });
   const [show, setShow] = useState({
     showForm: false,
-    showDetalle: false,
   });
+
+  const [showDetalle, setShowDetalle] = useState({ show: false });
 
   // Custom Hooks
   const {
@@ -51,6 +62,20 @@ function GestionMentoresPage() {
     error: etapasRutaError,
     loading: etapasRutaLoading,
     fetchAPI: fetchApiEtapasRuta,
+  } = useFetch();
+
+  const {
+    data: restablecerData,
+    message: restablecerMessage,
+    error: restablecerError,
+    fetchAPI: fetchApiRestablecer,
+  } = useFetch();
+
+  const {
+    data: desactivarData,
+    message: desactivarMessage,
+    error: desactivarError,
+    fetchAPI: fetchApiDesactivar,
   } = useFetch();
 
   useEffect(() => {
@@ -114,11 +139,104 @@ function GestionMentoresPage() {
   const onHandleDetalleMentor = (mentor) => {
     // Show Modal with the info
     const data = mentoresData[mentor.n - 1];
+    setShowDetalle({
+      datos: {
+        ...data,
+        dependencia: data.dependenciaMentor,
+        cargo: data.cargoMentor,
+        facultad: data.facultadMentor,
+      },
+      show: true,
+    });
+  };
+
+  const onResetPasswordMentor = (mentor) => {
+    // Show Modal with the info
+    const data = mentoresData[mentor.n - 1];
+
+    confirmAlertWithText({
+      title: "¿Estás seguro que deseas reiniciar la contraseña del usuario?",
+      text: "Esta acción no se puede deshacer",
+      confirmButtonText: "Continuar",
+      cancelButtonText: "Cancelar",
+      onConfirm: () => {
+        setLoading(true);
+        fetchApiRestablecer({
+          URL: URL_RESTABLECER_CONTRASEÑA,
+          requestOptions: {
+            method: HTTP_METHOD_POST,
+            data: {
+              idUsuario: data.id,
+            },
+          },
+        });
+      },
+    });
+  };
+
+  const onDeleteMentor = (mentor) => {
+    // Show Modal with the info
+    const data = mentoresData[mentor.n - 1];
+
+    confirmAlertWithText({
+      title: "¿Estás seguro que deseas desactivar la cuenta del usuario?",
+      text: "Esta acción no se puede deshacer",
+      confirmButtonText: "Continuar",
+      cancelButtonText: "Cancelar",
+      onConfirm: () => {
+        setLoading(true);
+        fetchApiRestablecer({
+          URL: URL_DESACTIVAR_CUENTA,
+          requestOptions: {
+            method: HTTP_METHOD_POST,
+            data: {
+              idUsuario: data.id,
+            },
+          },
+        });
+      },
+    });
   };
 
   const onClickRegistrarMentor = () => {
     setShow({ ...show, showForm: !show.showForm });
   };
+
+  if (loading && (restablecerError || desactivarError)) {
+    messageAlert({
+      title: "Algo ha fallado",
+      text: restablecerError || desactivarError,
+      icon: "error",
+      confirmButtonText: "Aceptar",
+    });
+    setLoading(false);
+  } else if (loading && (restablecerMessage || desactivarMessage)) {
+    if (restablecerMessage == "OK" || desactivarMessage == "OK") {
+      messageAlertWithoutText({
+        title: "Realizado Correctamente!",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        onConfirm: () => {
+          fetchApiMentores({
+            URL: URL_OBTENER_MENTORES,
+            requestOptions: {
+              method: HTTP_METHOD_GET,
+              params: {
+                ...datosFiltro,
+              },
+            },
+          });
+        },
+      });
+    } else {
+      messageAlertWithoutText({
+        title: restablecerMessage || desactivarMessage,
+        icon: "warning",
+        confirmButtonText: "Aceptar",
+      });
+    }
+    setLoading(false);
+  }
 
   return (
     <>
@@ -295,15 +413,20 @@ function GestionMentoresPage() {
                 <FlexyTable
                   datos={datos}
                   titulo={"Mentores"}
-                  btn1={<img src={showIcon} width="auto" height="25" />}
+                  btn1={<img src={detalleIcon} width="auto" height="25" />}
                   fun1={(mentorData) => {
                     onHandleDetalleMentor(mentorData);
                   }}
-                  btn2={<img src={editIcon} width="auto" height="25" />}
+                  btn2={
+                    <img src={resetPasswordIcon} width="auto" height="25" />
+                  }
                   fun2={(mentorData) => {
-                    onHandleDetalleMentor(mentorData);
+                    onResetPasswordMentor(mentorData);
                   }}
-                  adicional={true}
+                  btn3={<img src={deleteUserIcon} width="auto" height="25" />}
+                  fun3={(mentorData) => {
+                    onDeleteMentor(mentorData);
+                  }}
                 />
               ) : (
                 <Subtitulo>No hay mentores disponibles</Subtitulo>
@@ -320,14 +443,18 @@ function GestionMentoresPage() {
         />
       )}
 
-      {/* {show.showDetalle && (
-        <DetalleTareaAdmin
-          show={showPendientes.show}
-          data={showPendientes.data}
-          tipo={showPendientes.tipo}
-          onHide={() => setShowPendientes({ show: !showPendientes.show })}
+      {showDetalle.show && (
+        <VerPerfil
+          show={showDetalle.show}
+          datos={showDetalle.datos}
+          onHide={() =>
+            setShowDetalle({
+              ...showDetalle,
+              show: !showDetalle.show,
+            })
+          }
         />
-      )} */}
+      )}
     </>
   );
 }

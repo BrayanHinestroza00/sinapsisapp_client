@@ -230,7 +230,7 @@ function CrearTarea({
           </form>
         </div>
       </Modal.Body>
-      <Modal.Footer>
+      <Modal.Footer style={{ backgroundColor: "#fbf6fc" }}>
         <Button className="btn btn-secondary" onClick={onHide}>
           Cancelar
         </Button>

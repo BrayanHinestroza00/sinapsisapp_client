@@ -192,7 +192,7 @@ function CrearConsultoria({
           <h1 style={{ color: "#FFF" }}>Programar Consultoría</h1>
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body style={{ backgroundColor: "#fbf6fc" }}>
         <Form encType="multipart/form-data">
           <Form.Group className="mb-3">
             <Form.Label className="form-label">
@@ -398,7 +398,7 @@ function CrearConsultoria({
         </Form>
       </Modal.Body>
 
-      <Modal.Footer className="modalFooter_crearConsultoria">
+      <Modal.Footer style={{ backgroundColor: "#fbf6fc" }}>
         <Button className="btn btn-secondary" onClick={onHide}>
           Cancelar
         </Button>

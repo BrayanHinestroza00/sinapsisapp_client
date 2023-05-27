@@ -15,6 +15,9 @@ import {
   T_SINAPSIS_TIPOS_CONTACTO_EGRESADO,
   T_SINAPSIS_TIPOS_CONTACTO_ESTUDIANTE,
 } from "src/app/Shared/utils/constants";
+import { HOST } from "src/app/Shared/utils/apiConstants";
+
+import default_image from "src/app/Shared/assets/images/default_profile_picture.png";
 
 function VerPerfil({ preloadData }) {
   const { data: dataAsignaturas, error, loading, fetchAPI } = useFetch();
@@ -41,8 +44,22 @@ function VerPerfil({ preloadData }) {
     );
   }
 
+  console.log("preloadData", preloadData);
+
   return (
     <form className="row g-3 mt-1">
+      <div className="col-md-12 text-center mb-3">
+        <img
+          src={
+            preloadData.fotoUrl
+              ? `${HOST}/${preloadData.fotoUrl}`
+              : default_image
+          }
+          alt="Foto de perfil"
+          width={"30%"}
+        />
+      </div>
+
       <div className="col-md-6">
         <Label htmlFor="nombreCompleto" className="form-label">
           Nombre Completo
@@ -72,7 +89,6 @@ function VerPerfil({ preloadData }) {
       <div className="col-md-6">
         <Label htmlFor="fechaNacimiento" className="form-label">
           Fecha de Nacimiento
-          <span> (*)</span>
         </Label>
         <Input
           type="text"
@@ -86,7 +102,6 @@ function VerPerfil({ preloadData }) {
       <div className="col-md-6">
         <Label htmlFor="genero" className="form-label">
           Género
-          <span> (*)</span>
         </Label>
         <Input
           type="text"
@@ -112,7 +127,7 @@ function VerPerfil({ preloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="celular" className="form-label">
-          Número Celular
+          Teléfono de Contacto
         </Label>
         <Input
           type="text"
@@ -126,7 +141,6 @@ function VerPerfil({ preloadData }) {
       <div className="col-md-6">
         <Label htmlFor="departamento" className="form-label">
           Departamento de Residencia
-          <span> (*)</span>
         </Label>
         <Input
           type="text"
@@ -140,7 +154,6 @@ function VerPerfil({ preloadData }) {
       <div className="col-md-6">
         <Label htmlFor="municipio" className="form-label">
           Municipio de Residencia
-          <span> (*)</span>
         </Label>
         <Input
           type="text"
@@ -153,8 +166,7 @@ function VerPerfil({ preloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="direccion" className="form-label">
-          Direccion de Residencia
-          <span> (*)</span>
+          Dirección de Residencia
         </Label>
         <Input
           type="text"
@@ -168,7 +180,6 @@ function VerPerfil({ preloadData }) {
       <div className="col-md-6">
         <Label htmlFor="vinculoConU" className="form-label">
           Vinculo con la Universidad
-          <span> (*)</span>
         </Label>
         <Input
           type="text"
@@ -182,8 +193,7 @@ function VerPerfil({ preloadData }) {
         <>
           <div className="col-md-6">
             <Label htmlFor="codigoEstudiantil" className="form-label">
-              Codigo Estudiantil
-              <span> (*)</span>
+              Código Estudiantil
             </Label>
             <Input
               type="text"
@@ -197,7 +207,6 @@ function VerPerfil({ preloadData }) {
           <div className="col-md-6">
             <Label htmlFor="nivelAcademico" className="form-label">
               Tipo de estudiante
-              <span> (*)</span>
             </Label>
             <Input
               type="text"
@@ -210,8 +219,7 @@ function VerPerfil({ preloadData }) {
 
           <div className="col-md-6">
             <Label htmlFor="programaAcademico" className="form-label">
-              Programa Academico
-              <span> (*)</span>
+              Programa Académico
             </Label>
             <Input
               type="text"
@@ -232,7 +240,6 @@ function VerPerfil({ preloadData }) {
               <div className="col-md-6">
                 <Label className="form-label">
                   Modalidad de Emprendimiento como Trabajo de Grado
-                  <span> (*)</span>
                 </Label>
 
                 <div className="form-check">
@@ -271,7 +278,6 @@ function VerPerfil({ preloadData }) {
               <div className="col-md-6">
                 <Label htmlFor="cursosEmprendimiento" className="form-label">
                   Asignaturas de Emprendimiento Cursadas
-                  <span> (*)</span>
                 </Label>
                 <div>
                   <div className="form-check form-check-inline">
@@ -279,16 +285,20 @@ function VerPerfil({ preloadData }) {
                       dataAsignaturas.length > 0 &&
                       dataAsignaturas.map((asignatura, index) => {
                         return (
-                          <div key={index}>
+                          <div className="m-2" key={index}>
                             <input
                               key={index}
                               className="form-check-input"
                               type="checkbox"
                               id={`cursosEmprendimiento${asignatura.id}`}
                               value={asignatura.codigo}
-                              checked={preloadData.asignaturasEmprendedor.includes(
-                                asignatura.codigo
-                              )}
+                              checked={
+                                preloadData.asignaturasEmprendedor &&
+                                preloadData.asignaturasEmprendedor.length > 0 &&
+                                preloadData.asignaturasEmprendedor.includes(
+                                  asignatura.codigo
+                                )
+                              }
                               disabled
                             />
                             <label
@@ -314,7 +324,6 @@ function VerPerfil({ preloadData }) {
           <div className="col-md-6">
             <Label htmlFor="cargoColaborador" className="form-label">
               Cargo de Colaborador
-              <span> (*)</span>
             </Label>
             <Input
               type="text"
@@ -328,7 +337,6 @@ function VerPerfil({ preloadData }) {
           <div className="col-md-6">
             <Label htmlFor="dependenciaColaborador" className="form-label">
               Dependencia
-              <span> (*)</span>
             </Label>
             <Input
               type="text"
@@ -344,7 +352,6 @@ function VerPerfil({ preloadData }) {
           <div className="col-md-6">
             <Label htmlFor="tipoEstudianteEgresado" className="form-label">
               Tipo de estudiante
-              <span> (*)</span>
             </Label>
             <Input
               type="text"
@@ -358,7 +365,6 @@ function VerPerfil({ preloadData }) {
           <div className="col-md-6">
             <Label htmlFor="profesionEgresado" className="form-label">
               Profesión
-              <span> (*)</span>
             </Label>
             <Input
               type="text"
