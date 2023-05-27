@@ -3,12 +3,12 @@ import EmprendedorSidebar from "../sidebar/EmprendedorSidebar";
 function EmprendedorContentLayout({ children, sidebar }) {
   return (
     <div className="container-fluid" style={{ marginTop: "7.5rem" }}>
-      <div className="row flex-nowrap">
+      <div className="row flex-wrap">
         {sidebar ? (
           <>
             <EmprendedorSidebar />
             <div
-              className="col py-3"
+              className="col-10 py-3"
               style={{
                 backgroundColor: "#FFEDED",
                 maginLeft: "16.6666666667%",

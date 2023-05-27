@@ -24,12 +24,12 @@ function DetalleConsultoria(props) {
       <Modal.Body>
         <Form className="container row">
           <Form.Group className="col-md-12 mb-3">
-            <Form.Label>Asunto Consultoria</Form.Label>
+            <Form.Label>Asunto Consultoría</Form.Label>
             <Form.Control value={props.data.asuntoConsultoria} />
           </Form.Group>
 
           <Form.Group className="col-md-6 mb-3">
-            <Form.Label>Tipo Consultoria</Form.Label>
+            <Form.Label>Tipo Consultoría</Form.Label>
             <Form.Control
               value={
                 props.data.tipoConsultoria == "E" ? "Especializada" : "Normal"
@@ -39,7 +39,7 @@ function DetalleConsultoria(props) {
 
           {props.data.tipoConsultoria == "E" && (
             <Form.Group className="col-md-6 mb-3">
-              <Form.Label>Tematica Consultoria</Form.Label>
+              <Form.Label>Temática Consultoria</Form.Label>
               <Form.Control value={props.data.nombreSubActRuta} />
             </Form.Group>
           )}
@@ -50,12 +50,12 @@ function DetalleConsultoria(props) {
           </Form.Group>
 
           <Form.Group className="col-md-6 mb-3">
-            <Form.Label>Hora Inicio</Form.Label>
+            <Form.Label>Hora Inicio Programada</Form.Label>
             <Form.Control value={props.data.horaInicioConsultoria} />
           </Form.Group>
 
           <Form.Group className="col-md-6 mb-3">
-            <Form.Label>Hora Finalizacion</Form.Label>
+            <Form.Label>Hora Finalización Programada</Form.Label>
             <Form.Control value={props.data.horaFinConsultoria} />
           </Form.Group>
 
@@ -76,7 +76,7 @@ function DetalleConsultoria(props) {
           </Form.Group>
 
           <Form.Group className="col-md-12 mb-3">
-            <Form.Label>Comentarios Consultoria</Form.Label>
+            <Form.Label>Comentarios Consultoría</Form.Label>
             <Form.Control
               value={props.data.comentariosConsultoria || "Sin comentarios"}
             />

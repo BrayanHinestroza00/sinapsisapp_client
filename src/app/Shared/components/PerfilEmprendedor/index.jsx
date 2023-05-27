@@ -112,7 +112,7 @@ function PerfilEmprendedor({ preloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="celular" className="form-label">
-          Número Celular
+          Teléfono Contacto
         </Label>
         <Input
           type="text"

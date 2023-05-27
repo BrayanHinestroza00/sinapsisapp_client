@@ -39,7 +39,7 @@ function MentorSidebar() {
   };
 
   return (
-    <Sidebar className="p-1">
+    <Sidebar className="p-1 col-2">
       <div className="d-flex flex-column align-items-center align-items-sm-start text-white min-vh-100">
         <EtiquetaSidebar>Ruta de Innovación y Emprendimiento</EtiquetaSidebar>
 

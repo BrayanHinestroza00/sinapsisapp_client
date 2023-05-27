@@ -3,12 +3,12 @@ import AdministradorSidebar from "../sidebar/AdministradorSidebar";
 function AdministradorContentLayout({ children, sidebar }) {
   return (
     <div className="container-fluid" style={{ marginTop: "4rem" }}>
-      <div className="row flex-nowrap">
+      <div className="row flex-wrap">
         {sidebar ? (
           <>
             <AdministradorSidebar />
             <div
-              className="col py-3"
+              className="col-10 py-3"
               style={{
                 backgroundColor: "#FFEDED",
                 maginLeft: "16.6666666667%",

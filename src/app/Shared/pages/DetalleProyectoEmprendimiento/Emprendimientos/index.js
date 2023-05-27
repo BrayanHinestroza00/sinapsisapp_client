@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 
 import FormEmprendimiento from "src/app/Shared/components/DetalleProyectoEmprendimiento/emprendimientos/FormEmprendimiento";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 import {
   Card,
   SpanAuxiliar,
-  CardRuta,
-  Ruta,
-  Titulo,
   Subtitulo,
 } from "src/app/Shared/assets/styles/Common.js";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
@@ -16,7 +14,6 @@ import {
   URL_OBTENER_EMPRENDEDIMIENTO,
   URL_OBTENER_REDES_SOCIALES,
 } from "src/app/Shared/utils/apiConstants";
-import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 function Emprendimiento({ idEmprendimiento }) {
   const [loadingComponent, setLoadingComponent] = useState(true);

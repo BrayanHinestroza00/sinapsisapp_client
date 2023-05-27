@@ -3,7 +3,7 @@ import { devices } from "src/app/Shared/assets/styles/Breakpoints/Breakpoints";
 
 export const Sidebar = styled.div`
   padding: 0;
-  width: max-content;
+  /* width: max-content; */
   background: rgb(117, 42, 136);
   background: linear-gradient(
     180deg,

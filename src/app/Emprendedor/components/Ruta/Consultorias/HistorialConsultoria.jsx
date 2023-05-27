@@ -62,8 +62,8 @@ function HistorialConsultoria() {
               consultoriaData.fechaConsultoria,
               "YYYY-MM-DD hh:mm:ss"
             ).format(SINAPSIS_APP_FORMATO_FECHA),
-            "Hora Inicio": consultoriaData.horaInicioConsultoria,
-            "Hora Finalizacion": consultoriaData.horaFinConsultoria,
+            "Hora Inicio Programada": consultoriaData.horaInicioConsultoria,
+            "Hora Finalización Programada": consultoriaData.horaFinConsultoria,
             "Creado Por":
               consultoriaData.nombreMentor +
               " " +

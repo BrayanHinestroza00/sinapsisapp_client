@@ -107,12 +107,12 @@ function RevisarConsultoria({ data, show, onHide }) {
           </Form.Group>
 
           <Form.Group className="col-md-6 mb-3">
-            <Form.Label>Hora Inicio</Form.Label>
+            <Form.Label>Hora Inicio Programada</Form.Label>
             <Form.Control value={data.horaInicioConsultoria} disabled />
           </Form.Group>
 
           <Form.Group className="col-md-6 mb-3">
-            <Form.Label>Hora Finalización</Form.Label>
+            <Form.Label>Hora Finalización Programada</Form.Label>
             <Form.Control value={data.horaFinConsultoria} disabled />
           </Form.Group>
 

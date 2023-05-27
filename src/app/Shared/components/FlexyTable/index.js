@@ -62,23 +62,20 @@ function FlexyTable({ datos, adicional, ...props }) {
       <div className="card_flexy">
         <div className="card-body">
           <h3>Lista de {props.titulo}</h3>
-          <div className="table-responsive">
-            <div className="table">
-              <ReactFlexyTable
-                data={datos}
-                filteredDataText="Datos filtrados:"
-                nextText="Siguiente"
-                previousText="Anterior"
-                totalDataText="Total datos:"
-                rowsText="Número de filas"
-                pageText="Página"
-                ofText=" de"
-                sortable={true}
-                filterable
-                additionalCols={ColumnaAcciones}
-              />
-            </div>
-          </div>
+
+          <ReactFlexyTable
+            data={datos}
+            filteredDataText="Datos filtrados:"
+            nextText="Siguiente"
+            previousText="Anterior"
+            totalDataText="Total datos:"
+            rowsText="Número de filas"
+            pageText="Página"
+            ofText=" de"
+            sortable={true}
+            filterable
+            additionalCols={ColumnaAcciones}
+          />
         </div>
       </div>
     );

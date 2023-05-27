@@ -71,8 +71,8 @@ function Consultoria() {
               consultoriaData.fechaConsultoria,
               "YYYY-MM-DD hh:mm:ss"
             ).format(SINAPSIS_APP_FORMATO_FECHA),
-            "Hora Inicio": consultoriaData.horaInicioConsultoria,
-            "Hora Finalización": consultoriaData.horaFinConsultoria,
+            "Hora Inicio Programada": consultoriaData.horaInicioConsultoria,
+            "Hora Finalización Programada": consultoriaData.horaFinConsultoria,
             "Creado Por":
               consultoriaData.nombreMentor +
               " " +
@@ -156,12 +156,12 @@ function Consultoria() {
                   </h5>
                   <h5>
                     Hora de inicio:
-                    <SpanAuxiliar>{`${consultorias[0]["Hora Inicio"]}.`}</SpanAuxiliar>
+                    <SpanAuxiliar>{`${consultorias[0]["Hora Inicio Programada"]}.`}</SpanAuxiliar>
                   </h5>
                   <h5>
                     Hora de finalización:
                     <SpanAuxiliar>
-                      {`${consultorias[0]["Hora Finalización"]}.`}
+                      {`${consultorias[0]["Hora Finalización Programada"]}.`}
                     </SpanAuxiliar>
                   </h5>
                 </div>

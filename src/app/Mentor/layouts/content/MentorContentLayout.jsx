@@ -3,12 +3,12 @@ import MentorSidebar from "../sidebar/MentorSidebar";
 function MentorContentLayout({ children, sidebar }) {
   return (
     <div className="container-fluid p-0">
-      <div className="row flex-nowrap">
+      <div className="row flex-wrap">
         {sidebar ? (
           <>
             <MentorSidebar />
             <div
-              className="col py-3"
+              className="col-10 py-3"
               style={{
                 backgroundColor: "#FFEDED",
                 maginLeft: "16.6666666667%",
