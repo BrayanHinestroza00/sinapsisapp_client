@@ -1,6 +1,8 @@
 import { useState } from "react";
+import moment from "moment";
 
 import DropZoneComponent from "../../DropZone/DropZoneComponent";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
 import {
   Subtitulo,
@@ -8,12 +10,41 @@ import {
   Label,
   TextArea,
 } from "src/app/Shared/assets/styles/Common.js";
-import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
+import { validacionesPrimeraAtencionEmprendimiento } from "src/app/Shared/services/validation/validatePrimeraAtencion";
+import {
+  HTTP_METHOD_POST,
+  URL_ACTUALIZAR_EMPRENDIMIENTO,
+} from "src/app/Shared/utils/apiConstants";
+import {
+  SINAPSIS_APP_FORMATO_FECHA,
+  SINAPSIS_APP_FORMATO_FECHA_INPUT,
+} from "src/app/Shared/utils/constants";
+import { confirmAlertWithText } from "src/app/Shared/utils/confirmAlerts";
+import { useFetch } from "src/app/Shared/services/hooks/useFetch";
+import {
+  messageAlert,
+  messageAlertWithoutText,
+} from "src/app/Shared/utils/messageAlerts";
 
-function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
+function EmprendimientoComponent({
+  datos,
+  setDatos,
+  redesData,
+  editable,
+  reloadData,
+}) {
   const [error, setError] = useState({});
+  const [loading, setLoading] = useState(false);
 
-  const handleChange = (event) => {
+  // Custom Hooks
+  const {
+    data: dataAPI,
+    message: messageAPI,
+    error: errorAPI,
+    fetchAPI,
+  } = useFetch();
+
+  const onHandleChange = (event) => {
     if (setDatos) {
       if (event.target.name == "redesSociales") {
         const redSocialId = event.target.id.split("_")[1];
@@ -24,6 +55,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
             ...redesSociales,
             [redSocialId]: {
               ...[redSocialId],
+              idRedSocial: redSocialId,
               enlace: event.target.value,
             },
           },
@@ -38,17 +70,80 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
     }
   };
 
-  const handleSubmit = (e) => {
+  const onHandleSubmit = (e) => {
     e.preventDefault();
-    // let erroresFormulario = validacionesPrimeraAtencionEmprendimiento(
-    //   datos
-    // );
-    // if (Object.keys(erroresFormulario).length) {
-    //   setError(erroresFormulario);
-    // } else {
-    //   setError({});
-    //   nextStep();
-    // }
+    let erroresFormulario = validacionesPrimeraAtencionEmprendimiento(datos);
+    if (Object.keys(erroresFormulario).length) {
+      setError(erroresFormulario);
+    } else {
+      setError({});
+      confirmAlertWithText({
+        title: "¿Estás seguro que deseas actualizar el emprendimiento?",
+        text: "La información se puede modificar en cualquier momento",
+        confirmButtonText: "Actualizar",
+        cancelButtonText: "Cancelar",
+        onConfirm: () => submitForm(),
+      });
+    }
+  };
+
+  const submitForm = () => {
+    // console.log("datos", datos);
+    const form = new FormData();
+
+    for (let index = 0; index < Object.values(datos).length; index++) {
+      if (
+        Object.values(datos)[index] != null ||
+        Object.values(datos)[index] != undefined
+      ) {
+        if (Object.keys(datos)[index] == "logoEmpresa") {
+          form.append(
+            Object.keys(datos)[index],
+            Object.values(datos)[index][0]
+          );
+        } else if (Object.keys(datos)[index] == "fechaConstitucion") {
+          const fechaConstitucion = moment(
+            Object.values(datos)[index],
+            SINAPSIS_APP_FORMATO_FECHA_INPUT
+          ).format(SINAPSIS_APP_FORMATO_FECHA);
+
+          form.append("fechaConstitucion", fechaConstitucion);
+        } else if (Object.keys(datos)[index] == "redesSociales") {
+          const redesSociales = Object.values(datos)[index];
+
+          if (Object.keys(redesSociales).length > 0) {
+            let arrayOfRedesSociales = [];
+            for (
+              let index = 0;
+              index < Object.keys(redesSociales).length;
+              index++
+            ) {
+              const element = redesSociales[Object.keys(redesSociales)[index]];
+              arrayOfRedesSociales.push({
+                idRedSocial: Object.keys(redesSociales)[index],
+                enlace: element.enlace,
+              });
+            }
+
+            form.append(
+              Object.keys(datos)[index],
+              JSON.stringify(arrayOfRedesSociales)
+            );
+          }
+        } else {
+          form.append(Object.keys(datos)[index], Object.values(datos)[index]);
+        }
+      }
+    }
+
+    setLoading(true);
+    fetchAPI({
+      URL: URL_ACTUALIZAR_EMPRENDIMIENTO,
+      requestOptions: {
+        method: HTTP_METHOD_POST,
+        data: form,
+      },
+    });
   };
 
   const onGetFiles = (logoEmpresa) => {
@@ -62,7 +157,31 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
     return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
-  // console.log("ProyectoEmprendimiento", { datos, redesData });
+  if (loading && errorAPI) {
+    messageAlert({
+      title: "Algo ha fallado",
+      text: errorAPI,
+      icon: "error",
+      confirmButtonText: "Aceptar",
+    });
+    setLoading(false);
+  } else if (loading && messageAPI) {
+    if (messageAPI == "OK") {
+      messageAlertWithoutText({
+        title: "Actualizado correctamente!",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        onConfirm: () => reloadData(),
+      });
+    } else {
+      messageAlertWithoutText({
+        title: messageAPI,
+        icon: "warning",
+        confirmButtonText: "Aceptar",
+      });
+    }
+    setLoading(false);
+  }
 
   return (
     <div>
@@ -80,7 +199,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
               id="nombreEmprendimiento"
               name="nombreEmprendimiento"
               placeholder="Nombre del emprendimiento"
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => onHandleChange(e)}
               value={datos.nombreEmprendimiento || ""}
               disabled={!editable}
             />
@@ -100,7 +219,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
               id="descripcionProducto"
               name="descripcionProducto"
               placeholder="Descripción del producto"
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => onHandleChange(e)}
               value={datos.descripcionProducto || ""}
               disabled={!editable}
             />
@@ -120,7 +239,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
               id="necesidadesIdentificadas"
               name="necesidadesIdentificadas"
               placeholder="Necesidades Identificadas"
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => onHandleChange(e)}
               value={datos.necesidadesIdentificadas || ""}
               disabled={!editable}
             />
@@ -141,7 +260,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
               id="descripcionClientes"
               name="descripcionClientes"
               placeholder="Principal cliente o usuario"
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => onHandleChange(e)}
               value={datos.descripcionClientes || ""}
               disabled={!editable}
             />
@@ -153,7 +272,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
           </div>
           <div className="mb-3">
             <Label htmlFor="materiasPrimas" className="form-label">
-              Materias primas<span className="text-danger"> (*)</span>
+              Materias primas
             </Label>
             <TextArea
               type="text"
@@ -161,7 +280,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
               id="materiasPrimas"
               name="materiasPrimas"
               placeholder="Materias primas"
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => onHandleChange(e)}
               value={datos.materiasPrimas || ""}
               disabled={!editable}
             />
@@ -174,7 +293,6 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
           <div className="mb-3">
             <Label htmlFor="enfoqueSocial" className="form-label">
               Enfoque Social del Emprendimiento
-              <span className="text-danger"> (*)</span>
             </Label>
             <TextArea
               type="text"
@@ -182,7 +300,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
               id="enfoqueSocial"
               name="enfoqueSocial"
               placeholder="Enfoque Social"
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => onHandleChange(e)}
               value={datos.enfoqueSocial || ""}
               disabled={!editable}
             />
@@ -202,7 +320,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
               id="sectorEmprendimiento"
               name="sectorEmprendimiento"
               placeholder="Sitio Web"
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => onHandleChange(e)}
               value={datos.sectorEmprendimiento || ""}
               disabled={!editable}
             />
@@ -222,7 +340,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
               id="sitioWeb"
               name="sitioWeb"
               placeholder="Sitio Web"
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => onHandleChange(e)}
               value={datos.sitioWeb || ""}
               disabled={!editable}
             />
@@ -250,7 +368,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
                       className="form-control"
                       id={`redSocial_${redSocial.id}`}
                       name={`redesSociales`}
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => onHandleChange(e)}
                       value={
                         datos.redesSociales[`${redSocial.id}`]
                           ? datos.redesSociales[`${redSocial.id}`]?.enlace || ""
@@ -279,7 +397,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
                 className="form-select"
                 name="estaConstituida"
                 value={datos.estaConstituida || "-1"}
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => onHandleChange(e)}
                 disabled={!editable}
               >
                 <option value={"-1"} disabled>
@@ -300,6 +418,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
                 <div className="col-md-6 mb-3">
                   <Label htmlFor="fechaConstitucion" className="form-label">
                     Fecha de constitución
+                    <span className="text-danger"> (*)</span>
                   </Label>
                   <Input
                     type="date"
@@ -307,7 +426,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
                     name="fechaConstitucion"
                     id="fechaConstitucion"
                     value={datos.fechaConstitucion || undefined}
-                    onChange={(e) => handleChange(e)}
+                    onChange={(e) => onHandleChange(e)}
                     disabled={!editable}
                   />
                   {error.fechaConstitucion && (
@@ -320,6 +439,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
                 <div className="col-md-6 mb-3">
                   <Label htmlFor="nitEmpresa" className="form-label">
                     NIT
+                    <span className="text-danger"> (*)</span>
                   </Label>
                   <Input
                     type="text"
@@ -327,7 +447,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
                     id="nitEmpresa"
                     name="nitEmpresa"
                     placeholder="NIT"
-                    onChange={(e) => handleChange(e)}
+                    onChange={(e) => onHandleChange(e)}
                     value={datos.nitEmpresa || ""}
                     disabled={!editable}
                   />
@@ -341,6 +461,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
                 <div className="col-md-6 mb-3">
                   <Label htmlFor="nombreEmpresa" className="form-label">
                     Nombre de empresa
+                    <span className="text-danger"> (*)</span>
                   </Label>
                   <Input
                     type="text"
@@ -348,7 +469,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
                     id="nombreEmpresa"
                     name="nombreEmpresa"
                     placeholder="Nombre de la empresa"
-                    onChange={(e) => handleChange(e)}
+                    onChange={(e) => onHandleChange(e)}
                     value={datos.nombreEmpresa || ""}
                     disabled={!editable}
                   />
@@ -362,6 +483,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
                 <div className="col-md-6 mb-3">
                   <Label htmlFor="razonSocialEmpresa" className="form-label">
                     Razón social
+                    <span className="text-danger"> (*)</span>
                   </Label>
                   <Input
                     type="text"
@@ -369,7 +491,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
                     id="razonSocialEmpresa"
                     name="razonSocialEmpresa"
                     placeholder="Razón social"
-                    onChange={(e) => handleChange(e)}
+                    onChange={(e) => onHandleChange(e)}
                     value={datos.razonSocialEmpresa || ""}
                     disabled={!editable}
                   />
@@ -413,7 +535,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
             type="button"
             className="btn btn-primary w-25"
             onClick={(e) => {
-              handleSubmit(e);
+              onHandleSubmit(e);
             }}
           >
             Actualizar Emprendimiento

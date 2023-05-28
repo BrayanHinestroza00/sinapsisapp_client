@@ -71,6 +71,8 @@ export const URL_ACTUALIZAR_PERFIL_EMPRENDEDOR = HOST + "/emprendedor";
 export const URL_OBTENER_INFO_EMPRENDEDOR = HOST + "/emprendedor";
 export const URL_OBTENER_EMPRENDEDIMIENTO =
   HOST + "/emprendedor/emprendimiento";
+export const URL_ACTUALIZAR_EMPRENDIMIENTO =
+  HOST + "/emprendedor/emprendimiento";
 export const URL_OBTENER_EMPRENDEDIMIENTOS =
   HOST + "/emprendedor/emprendimientos";
 export const URL_OBTENER_INFO_SESION_EMPRENDEDOR =

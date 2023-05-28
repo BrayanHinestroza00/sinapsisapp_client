@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import DropZoneComponent from "src/app/Shared/components/DropZone/DropZoneComponent";
 
@@ -15,9 +15,33 @@ import {
 } from "./styled";
 import { Subtitulo } from "src/app/Shared/assets/styles/Common";
 import { validacionesPrimeraAtencionEmprendimiento } from "src/app/Shared/services/validation/validatePrimeraAtencion";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
+import {
+  HTTP_METHOD_GET,
+  URL_OBTENER_REDES_SOCIALES,
+} from "src/app/Shared/utils/apiConstants";
+import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 
 function InfoEmprendimiento(props) {
   const [error, setError] = useState({});
+
+  // Custom Hooks
+  const {
+    data: redesData,
+    error: redesError,
+    message: redesMessage,
+    loading: redesLoading,
+    fetchAPI: fetchApiRedes,
+  } = useFetch();
+
+  useEffect(() => {
+    fetchApiRedes({
+      URL: URL_OBTENER_REDES_SOCIALES,
+      requestOptions: {
+        method: HTTP_METHOD_GET,
+      },
+    });
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -214,117 +238,48 @@ function InfoEmprendimiento(props) {
 
         <Subtitulo>Redes Sociales</Subtitulo>
 
-        <div className="col-md-6 mb-3">
-          <Label htmlFor="redSocialFacebook" className="form-label">
-            Facebook
-          </Label>
-          <Input
-            type="text"
-            className="form-control"
-            id="redSocialFacebook"
-            name="redSocialFacebook"
-            onChange={(e) => props.handleChange(e)}
-            value={props.datos.redSocialFacebook || ""}
-          />
-          {error.redSocialFacebook && (
-            <small className="form-text font-weight-bold text-danger">
-              {error.redSocialFacebook}
-            </small>
-          )}
-        </div>
+        <div className="row">
+          {redesLoading ? (
+            <LoadingSpinner width="25px" height="25px" />
+          ) : redesError || redesMessage ? (
+            <>
+              {redesError && <p>{redesError}</p>}
 
-        <div className="col-md-6 mb-3">
-          <Label htmlFor="redSocialInstagram" className="form-label">
-            Instagram
-          </Label>
-          <Input
-            type="text"
-            className="form-control"
-            id="redSocialInstagram"
-            name="redSocialInstagram"
-            onChange={(e) => props.handleChange(e)}
-            value={props.datos.redSocialInstagram || ""}
-          />
-          {error.redSocialInstagram && (
-            <small className="form-text font-weight-bold text-danger">
-              {error.redSocialInstagram}
-            </small>
-          )}
-        </div>
-
-        <div className="col-md-6 mb-3">
-          <Label htmlFor="redSocialTwitter" className="form-label">
-            Twitter
-          </Label>
-          <Input
-            type="text"
-            className="form-control"
-            id="redSocialTwitter"
-            name="redSocialTwitter"
-            onChange={(e) => props.handleChange(e)}
-            value={props.datos.redSocialTwitter || ""}
-          />
-          {error.redSocialTwitter && (
-            <small className="form-text font-weight-bold text-danger">
-              {error.redSocialTwitter}
-            </small>
-          )}
-        </div>
-
-        <div className="col-md-6 mb-3">
-          <Label htmlFor="redSocialTiktok" className="form-label">
-            TikTok
-          </Label>
-          <Input
-            type="text"
-            className="form-control"
-            id="redSocialTiktok"
-            name="redSocialTiktok"
-            onChange={(e) => props.handleChange(e)}
-            value={props.datos.redSocialTiktok || ""}
-          />
-          {error.redSocialTiktok && (
-            <small className="form-text font-weight-bold text-danger">
-              {error.redSocialTiktok}
-            </small>
-          )}
-        </div>
-
-        <div className="col-md-6 mb-3">
-          <Label htmlFor="redSocialYouTube" className="form-label">
-            YouTube
-          </Label>
-          <Input
-            type="text"
-            className="form-control"
-            id="redSocialYouTube"
-            name="redSocialYouTube"
-            onChange={(e) => props.handleChange(e)}
-            value={props.datos.redSocialYouTube || ""}
-          />
-          {error.redSocialYouTube && (
-            <small className="form-text font-weight-bold text-danger">
-              {error.redSocialYouTube}
-            </small>
-          )}
-        </div>
-
-        <div className="col-md-6 mb-3">
-          <Label htmlFor="redSocialWhatsApp" className="form-label">
-            WhatsApp
-          </Label>
-          <Input
-            type="text"
-            className="form-control"
-            id="redSocialWhatsApp"
-            name="redSocialWhatsApp"
-            onChange={(e) => props.handleChange(e)}
-            value={props.datos.redSocialWhatsApp || ""}
-          />
-          {error.redSocialWhatsApp && (
-            <small className="form-text font-weight-bold text-danger">
-              {error.redSocialWhatsApp}
-            </small>
+              {redesMessage && <p>{redesMessage}</p>}
+            </>
+          ) : (
+            redesData &&
+            redesData.length > 0 &&
+            redesData.map((redSocial, index) => {
+              return (
+                <div key={index} className="col-md-6 mb-3">
+                  <Label
+                    htmlFor={`redSocial${redSocial.id}`}
+                    className="form-label"
+                  >
+                    {redSocial.nombre}
+                  </Label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    id={`redSocial_${redSocial.id}`}
+                    name={`redesSociales`}
+                    onChange={(e) => props.handleChange(e)}
+                    value={
+                      props.datos.redesSociales[`${redSocial.id}`]
+                        ? props.datos?.redesSociales[`${redSocial.id}`]
+                            ?.enlace || ""
+                        : ""
+                    }
+                  />
+                  {error.redesSociales && (
+                    <small className="form-text font-weight-bold text-danger">
+                      {error.redesSociales}
+                    </small>
+                  )}
+                </div>
+              );
+            })
           )}
         </div>
 

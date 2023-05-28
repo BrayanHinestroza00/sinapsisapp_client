@@ -90,6 +90,20 @@ function Emprendimiento() {
     }
   }, [preloadData, redesData]);
 
+  const reloadData = () => {
+    fetchAPI({
+      URL: URL_OBTENER_EMPRENDEDIMIENTO,
+      requestOptions: {
+        method: HTTP_METHOD_GET,
+        params: {
+          idEmprendimiento:
+            userData.proyectosEmprendimiento[selectedProjectIndex]
+              .idEmprendimiento,
+        },
+      },
+    });
+  };
+
   if (
     loadingContext ||
     loading ||
@@ -121,6 +135,7 @@ function Emprendimiento() {
             setDatos={setDatos}
             redesData={redesData}
             editable={true}
+            reloadData={reloadData}
           />
         </Ruta>
       </CardRuta>

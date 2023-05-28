@@ -66,6 +66,23 @@ function PrimeraAtencionPage() {
       return;
     }
 
+    if (event.target.name == "redesSociales") {
+      const redSocialId = event.target.id.split("_")[1];
+      const redesSociales = datos[event.target.name];
+      setDatos({
+        ...datos,
+        redesSociales: {
+          ...redesSociales,
+          [redSocialId]: {
+            ...[redSocialId],
+            idRedSocial: redSocialId,
+            enlace: event.target.value,
+          },
+        },
+      });
+      return;
+    }
+
     setDatos({
       ...datos,
       [event.target.name]: event.target.value,
@@ -127,6 +144,28 @@ function PrimeraAtencionPage() {
           ).format(SINAPSIS_APP_FORMATO_FECHA);
 
           form.append("fechaConstitucion", fechaConstitucion);
+        } else if (Object.keys(datos)[index] == "redesSociales") {
+          const redesSociales = Object.values(datos)[index];
+
+          if (Object.keys(redesSociales).length > 0) {
+            let arrayOfRedesSociales = [];
+            for (
+              let index = 0;
+              index < Object.keys(redesSociales).length;
+              index++
+            ) {
+              const element = redesSociales[Object.keys(redesSociales)[index]];
+              arrayOfRedesSociales.push({
+                idRedSocial: Object.keys(redesSociales)[index],
+                enlace: element.enlace,
+              });
+            }
+
+            form.append(
+              Object.keys(datos)[index],
+              JSON.stringify(arrayOfRedesSociales)
+            );
+          }
         } else if (Object.keys(datos)[index] == "desdeFechaEjecucion") {
           const desdeFechaEjecucion = moment(
             Object.values(datos)[index],
