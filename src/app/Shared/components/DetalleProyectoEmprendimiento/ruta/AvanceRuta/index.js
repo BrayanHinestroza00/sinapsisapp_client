@@ -187,20 +187,6 @@ function AvanceRuta({ preloadData }) {
     );
   }
 
-  console.log("test", {
-    actRutaLoading,
-    herrRutaLoading,
-    actEmpRutaLoading,
-    subActEmpRutaLoading,
-    inverso: {
-      actRutaData,
-      herrRutaData,
-      actEmpRutaData,
-      subActEmpRutaData,
-      actidadesEmprendedor,
-    },
-  });
-
   return (
     <div id="avanceRutaComponent" className="container">
       <div className="row">

@@ -62,6 +62,7 @@ function HistorialConsultoria({ idProyectoEmprendimiento }) {
               " " +
               consultoriaData.apellidoMentor,
             "Correo Contacto": consultoriaData.correoInstitucionalMentor,
+            Estado: consultoriaData.estadoConsultoria,
           };
         });
       }

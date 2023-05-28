@@ -1,7 +1,10 @@
 import moment from "moment";
 import { Button, Form, Modal } from "react-bootstrap";
 
-import { SINAPSIS_APP_FORMATO_FECHA } from "src/app/Shared/utils/constants";
+import {
+  SINAPSIS_APP_FORMATO_FECHA,
+  SINAPSIS_APP_FORMATO_FECHA_HORA,
+} from "src/app/Shared/utils/constants";
 
 function DetalleConsultoria(props) {
   return (
@@ -69,6 +72,45 @@ function DetalleConsultoria(props) {
             <Form.Label>Hora Finalización Programada</Form.Label>
             <Form.Control value={props.data.horaFinConsultoria} disabled />
           </Form.Group>
+
+          <Form.Group className="col-md-6 mb-3">
+            <Form.Label>Estado de Consultoria</Form.Label>
+            <Form.Control value={props.data.estadoConsultoria} disabled />
+          </Form.Group>
+
+          {props.data.estadoConsultoria != "PROGRAMADA" && (
+            <>
+              <Form.Group className="col-md-6 mb-3">
+                <Form.Label>Fecha de Inicio Real</Form.Label>
+                <Form.Control
+                  value={
+                    props.data.fechaInicioReal
+                      ? moment(
+                          props.data.fechaInicioReal,
+                          "YYYY-MM-DD hh:mm:ss"
+                        ).format(SINAPSIS_APP_FORMATO_FECHA_HORA)
+                      : ""
+                  }
+                  disabled
+                />
+              </Form.Group>
+
+              <Form.Group className="col-md-6 mb-3">
+                <Form.Label>Fecha de Finalización Real</Form.Label>
+                <Form.Control
+                  value={
+                    props.data.fechaFinalizacionReal
+                      ? moment(
+                          props.data.fechaFinalizacionReal,
+                          "YYYY-MM-DD hh:mm:ss"
+                        ).format(SINAPSIS_APP_FORMATO_FECHA_HORA)
+                      : ""
+                  }
+                  disabled
+                />
+              </Form.Group>
+            </>
+          )}
 
           <Form.Group className="col-md-12 mb-3">
             <Form.Label>Mentor</Form.Label>

@@ -69,6 +69,7 @@ function HistorialConsultoria() {
               " " +
               consultoriaData.apellidoMentor,
             "Correo Contacto": consultoriaData.correoInstitucionalMentor,
+            Estado: consultoriaData.estadoConsultoria,
           };
         });
       }

@@ -74,6 +74,7 @@ function Consultorias({
             "Correo Contacto":
               consultoriaData.correoInstitucionalEmprendedor ||
               consultoriaData.correoPersonalEmprendedor,
+            Estado: consultoriaData.estadoConsultoria,
           };
         });
       }
@@ -88,6 +89,8 @@ function Consultorias({
       data: consultoriasData[consultoria.n - 1],
     });
   };
+
+  console.log(consultoriasData);
 
   return (
     <Card>

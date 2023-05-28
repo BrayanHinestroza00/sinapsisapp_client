@@ -64,6 +64,7 @@ function Consultorias({ idMentor }) {
             "Correo Contacto":
               consultoriaData.correoInstitucionalEmprendedor ||
               consultoriaData.correoPersonalEmprendedor,
+            Estado: consultoriaData.estadoConsultoria,
           };
         });
       }

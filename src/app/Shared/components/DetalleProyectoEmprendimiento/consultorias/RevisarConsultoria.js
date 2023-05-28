@@ -4,11 +4,30 @@ import { Button, Form, Modal } from "react-bootstrap";
 
 import { confirmAlertWithText } from "src/app/Shared/utils/confirmAlerts";
 import { validarRevisionConsultoria } from "src/app/Shared/services/validation/validateConsultoria.js";
-import { SINAPSIS_APP_FORMATO_FECHA } from "src/app/Shared/utils/constants";
+import {
+  SINAPSIS_APP_FORMATO_FECHA,
+  SINAPSIS_APP_FORMATO_FECHA_HORA,
+} from "src/app/Shared/utils/constants";
+import { compareWithCurrentDate } from "src/app/Shared/utils/utilityFunctions";
+import {
+  HTTP_METHOD_POST,
+  URL_INICIAR_CONSULTORIA,
+  URL_MARCAR_INASISTENCIA_CONSULTORIA,
+  URL_TERMINAR_CONSULTORIA,
+} from "src/app/Shared/utils/apiConstants";
+import { useFetch } from "src/app/Shared/services/hooks/useFetch";
+import {
+  messageAlert,
+  messageAlertWithoutText,
+} from "src/app/Shared/utils/messageAlerts";
 
 function RevisarConsultoria({ data, show, onHide }) {
   const [datos, setDatos] = useState({});
   const [error, setError] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  // Custom Hooks
+  const { message: messageAPI, error: errorAPI, fetchAPI } = useFetch();
 
   const onHandleChange = (e) => {
     setDatos({
@@ -24,11 +43,11 @@ function RevisarConsultoria({ data, show, onHide }) {
     } else {
       setError({});
       confirmAlertWithText({
-        title: "¿Estás seguro que deseas iniciar/terminar la consultoría?",
+        title: "¿Estás seguro que deseas iniciar la consultoría?",
         text: "Esta acción no se puede deshacer",
-        confirmButtonText: "Iniciar/Terminar Consultoría",
+        confirmButtonText: "Iniciar Consultoría",
         cancelButtonText: "Cancelar",
-        onConfirm: () => submitForm(),
+        onConfirm: () => submitForm("I"),
       });
     }
   };
@@ -49,8 +68,88 @@ function RevisarConsultoria({ data, show, onHide }) {
     }
   };
 
-  const submitForm = () => {};
-  const submitFormInasistencia = () => {};
+  const onHandleSubmitTerminar = (e) => {
+    let erroresFormulario = validarRevisionConsultoria(datos, "A");
+    if (Object.keys(erroresFormulario).length) {
+      setError(erroresFormulario);
+    } else {
+      setError({});
+      confirmAlertWithText({
+        title: "¿Estás seguro que deseas terminar la consultoría?",
+        text: "Esta acción no se puede deshacer",
+        confirmButtonText: "Terminar Consultoría",
+        cancelButtonText: "Cancelar",
+        onConfirm: () => submitForm("T"),
+      });
+    }
+  };
+
+  const submitForm = (tipo) => {
+    setLoading(true);
+    const idConsultoria = data.idConsultoria;
+
+    fetchAPI({
+      URL: tipo == "I" ? URL_INICIAR_CONSULTORIA : URL_TERMINAR_CONSULTORIA,
+      requestOptions: {
+        method: HTTP_METHOD_POST,
+        data:
+          tipo == "I"
+            ? {
+                idConsultoria,
+              }
+            : {
+                idConsultoria,
+                comentariosConsultoria: datos.comentariosConsultoria,
+              },
+      },
+    });
+  };
+  const submitFormInasistencia = () => {
+    setLoading(true);
+    const idConsultoria = data.idConsultoria;
+
+    fetchAPI({
+      URL: URL_MARCAR_INASISTENCIA_CONSULTORIA,
+      requestOptions: {
+        method: HTTP_METHOD_POST,
+        data: {
+          idConsultoria,
+          comentariosConsultoria: datos.comentariosConsultoria,
+        },
+      },
+    });
+  };
+
+  if (loading && errorAPI) {
+    messageAlert({
+      title: "Algo ha fallado",
+      text: errorAPI,
+      icon: "error",
+      confirmButtonText: "Aceptar",
+    });
+
+    setLoading(false);
+  } else if (loading && messageAPI) {
+    if (messageAPI == "OK") {
+      messageAlertWithoutText({
+        title: "Realizado correctamente!",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        onConfirm: () => {
+          onHide();
+          window.location.reload();
+        },
+      });
+      setDatos({});
+    } else {
+      messageAlertWithoutText({
+        title: messageAPI,
+        icon: "warning",
+        confirmButtonText: "Aceptar",
+      });
+    }
+    setLoading(false);
+  }
 
   return (
     <Modal
@@ -116,6 +215,45 @@ function RevisarConsultoria({ data, show, onHide }) {
             <Form.Control value={data.horaFinConsultoria} disabled />
           </Form.Group>
 
+          <Form.Group className="col-md-6 mb-3">
+            <Form.Label>Estado de Consultoria</Form.Label>
+            <Form.Control value={data.estadoConsultoria} disabled />
+          </Form.Group>
+
+          {data.estadoConsultoria != "PROGRAMADA" && (
+            <>
+              <Form.Group className="col-md-6 mb-3">
+                <Form.Label>Fecha de Inicio Real</Form.Label>
+                <Form.Control
+                  value={
+                    data.fechaInicioReal
+                      ? moment(
+                          data.fechaInicioReal,
+                          "YYYY-MM-DD hh:mm:ss"
+                        ).format(SINAPSIS_APP_FORMATO_FECHA_HORA)
+                      : ""
+                  }
+                  disabled
+                />
+              </Form.Group>
+
+              <Form.Group className="col-md-6 mb-3">
+                <Form.Label>Fecha de Finalización Real</Form.Label>
+                <Form.Control
+                  value={
+                    data.fechaFinalizacionReal
+                      ? moment(
+                          data.fechaFinalizacionReal,
+                          "YYYY-MM-DD hh:mm:ss"
+                        ).format(SINAPSIS_APP_FORMATO_FECHA_HORA)
+                      : ""
+                  }
+                  disabled
+                />
+              </Form.Group>
+            </>
+          )}
+
           <Form.Group className="col-md-12 mb-3">
             <Form.Label>Mentor</Form.Label>
             <Form.Control
@@ -132,62 +270,69 @@ function RevisarConsultoria({ data, show, onHide }) {
             />
           </Form.Group>
 
-          <Form.Group className="col-md-12 mb-3">
-            <Form.Label>Comentarios Consultoría</Form.Label>
-            <Form.Control
-              as="textarea"
-              cols={3}
-              name="comentariosConsultoria"
-              onChange={(e) => onHandleChange(e)}
-              value={
-                datos.comentariosConsultoria ||
-                data.comentariosConsultoria ||
-                ""
-              }
-            />
-            {error.comentariosConsultoria && (
-              <small className="form-text font-weight-bold text-danger">
-                {error.comentariosConsultoria}
-              </small>
-            )}
-          </Form.Group>
+          {data.estadoConsultoria == "EN CURSO" && (
+            <Form.Group className="col-md-12 mb-3">
+              <Form.Label>Comentarios Consultoría</Form.Label>
+              <Form.Control
+                as="textarea"
+                cols={3}
+                name="comentariosConsultoria"
+                onChange={(e) => onHandleChange(e)}
+                value={
+                  datos.comentariosConsultoria ||
+                  data.comentariosConsultoria ||
+                  ""
+                }
+              />
+              {error.comentariosConsultoria && (
+                <small className="form-text font-weight-bold text-danger">
+                  {error.comentariosConsultoria}
+                </small>
+              )}
+            </Form.Group>
+          )}
         </Form>
       </Modal.Body>
       <Modal.Footer style={{ backgroundColor: "#fbf6fc" }}>
-        {data.estadoConsultoria === "PROGRAMADA" && (
-          <>
-            <Button
-              className="btn btn-primary"
-              onClick={(e) => {
-                onHandleSubmit(e);
-              }}
-            >
-              INICIAR CONSULTORÍA
-            </Button>
+        {data.estadoConsultoria === "PROGRAMADA" &&
+          compareWithCurrentDate(
+            moment(data.fechaConsultoria, "YYYY-MM-DD hh:mm:ss").format(
+              SINAPSIS_APP_FORMATO_FECHA
+            )
+          ) && (
+            <>
+              <Button
+                className="btn btn-primary"
+                onClick={(e) => {
+                  onHandleSubmit(e);
+                }}
+              >
+                INICIAR CONSULTORÍA
+              </Button>
 
-            <Button
-              className="btn btn-secondary"
-              onClick={(e) => {
-                onHandleSubmitInasistencia(e);
-              }}
-            >
-              MARCAR INASISTENCIA
-            </Button>
-          </>
-        )}
+              <Button
+                className="btn btn-secondary"
+                onClick={(e) => {
+                  onHandleSubmitInasistencia(e);
+                }}
+              >
+                MARCAR INASISTENCIA
+              </Button>
+            </>
+          )}
 
         {data.estadoConsultoria === "EN CURSO" && (
           <Button
             className="btn btn-primary"
             onClick={(e) => {
-              onHandleSubmit(e);
+              onHandleSubmitTerminar(e);
             }}
           >
             Terminar Consultoría
           </Button>
         )}
 
-        <Button className="btn bg-danger" onClick={onHide}>
+        <Button className="btn btn-secondary" onClick={onHide}>
           Cancelar
         </Button>
       </Modal.Footer>

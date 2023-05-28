@@ -128,6 +128,13 @@ export const URL_OBTENER_ETAPAS_RUTA_INNOVACION_EMPRENDIMIENTO =
   HOST + "/app/etapas_ruta";
 export const URL_ACTUALIZAR_PERFIL_USUARIO = HOST + "/app/actualizar_perfil";
 
+export const URL_INICIAR_CONSULTORIA =
+  HOST + "/ruta_innovacion/consultorias/iniciar";
+export const URL_MARCAR_INASISTENCIA_CONSULTORIA =
+  HOST + "/ruta_innovacion/consultorias/inasistencia";
+export const URL_TERMINAR_CONSULTORIA =
+  HOST + "/ruta_innovacion/consultorias/terminar";
+
 /**
  * Rutas de reportes
  */

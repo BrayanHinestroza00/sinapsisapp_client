@@ -78,7 +78,6 @@ function Consultorias() {
       let newConsultorias = [];
 
       if (consultoriasData.length > 0) {
-        console.log("consultoriasData", consultoriasData);
         newConsultorias = consultoriasData.map((consultoriaData, index) => {
           return {
             n: index + 1,
@@ -101,6 +100,7 @@ function Consultorias() {
             "Correo Contacto":
               consultoriaData.correoInstitucionalEmprendedor ||
               consultoriaData.correoPersonalEmprendedor,
+            Estado: consultoriaData.estadoConsultoria,
           };
         });
       }

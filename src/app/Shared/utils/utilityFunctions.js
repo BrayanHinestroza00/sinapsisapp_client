@@ -14,8 +14,10 @@ import {
   T_SINAPSIS_ETAPAS_RUTA_SONAR_NOMBRE,
   T_SINAPSIS_ETAPAS_RUTA_TESTEAR,
   T_SINAPSIS_ETAPAS_RUTA_TESTEAR_NOMBRE,
+  SINAPSIS_APP_FORMATO_FECHA,
 } from "src/app/Shared/utils/constants.js";
 import { HOST } from "src/app/Shared/utils/apiConstants.js";
+import moment from "moment";
 
 export function getCurrentDateForBirth(separator = "-") {
   let newDate = new Date();
@@ -62,6 +64,16 @@ export function getCurrentDateTime({
   }${monthSeparator}${date < 10 ? `0${date}` : `${date}`}${
     space ? " " : "T"
   }${hour}${separator}${min}`;
+}
+
+export function compareWithCurrentDate(fecha) {
+  let actualDate = moment(
+    moment().format(SINAPSIS_APP_FORMATO_FECHA),
+    SINAPSIS_APP_FORMATO_FECHA
+  );
+  let dateA = moment(fecha, SINAPSIS_APP_FORMATO_FECHA);
+
+  return dateA.isSame(actualDate);
 }
 
 export function insertIntoLocalStorage(key, value) {
