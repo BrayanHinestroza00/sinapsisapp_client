@@ -80,7 +80,7 @@ function EstadoRutaEmprendedor() {
   return (
     <>
       <Titulo>Estado de la ruta de I&E de SINAPSIS UAO</Titulo>
-      <CardRuta>
+      <CardRuta className="mb-3">
         <Ruta>
           <Subtitulo>
             Actualmente se encuentra en la etapa:

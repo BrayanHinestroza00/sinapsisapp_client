@@ -39,6 +39,19 @@ function PerfilPage() {
     }
   }, [userData]);
 
+  const reloadData = () => {
+    fetchAPI({
+      URL: URL_OBTENER_INFO_EMPRENDEDOR,
+      requestOptions: {
+        method: HTTP_METHOD_GET,
+        params: {
+          idUsuario: userData.id,
+        },
+      },
+    });
+    setAllowEdit(false);
+  };
+
   if (loadingFetch || !preloadData) {
     return <LoadingSpinner width="5rem" height="5rem" />;
   }
@@ -77,6 +90,7 @@ function PerfilPage() {
                 allowEdit={allowEdit}
                 setAllowEdit={setAllowEdit}
                 preloadData={preloadData}
+                reloadData={reloadData}
               />
             ) : (
               <VerPerfil preloadData={preloadData} />

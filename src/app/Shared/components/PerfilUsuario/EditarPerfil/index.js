@@ -272,7 +272,7 @@ function EditarPerfil({
       <div className="col-md-6">
         <Label htmlFor="cargo" className="form-label">
           Cargo
-          <span> (*)</span>
+          <span className="text-danger"> (*)</span>
         </Label>
         <Input
           type="text"

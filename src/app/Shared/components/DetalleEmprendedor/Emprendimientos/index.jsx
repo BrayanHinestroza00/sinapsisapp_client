@@ -137,7 +137,7 @@ function Emprendimientos({ idEmprendedor }) {
                 }}
               >
                 <Subtitulo>
-                  Información del proyecto:{" "}
+                  Información del proyecto:
                   <SpanAuxiliar className="text-muted">
                     {datos.nombreEmprendimiento}
                   </SpanAuxiliar>

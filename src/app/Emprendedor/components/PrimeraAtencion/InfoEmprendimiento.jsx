@@ -53,7 +53,7 @@ function InfoEmprendimiento(props) {
         <div className="mb-3">
           <Label htmlFor="nombreEmprendimiento" className="form-label">
             Nombre del emprendimiento
-            <span> (*)</span>
+            <span className="text-danger"> (*)</span>
           </Label>
           <Input
             type="text"
@@ -73,7 +73,7 @@ function InfoEmprendimiento(props) {
 
         <div className="mb-3">
           <Label htmlFor="descripcionProducto" className="form-label">
-            Descripción del producto <span> (*)</span>
+            Descripción del producto <span className="text-danger"> (*)</span>
           </Label>
           <TextArea
             type="text"
@@ -93,7 +93,7 @@ function InfoEmprendimiento(props) {
 
         <div className="mb-3">
           <Label htmlFor="necesidadesIdentificadas" className="form-label">
-            Necesidades Identificadas <span> (*)</span>
+            Necesidades Identificadas <span className="text-danger"> (*)</span>
           </Label>
           <TextArea
             type="text"
@@ -113,7 +113,8 @@ function InfoEmprendimiento(props) {
 
         <div className="mb-3">
           <Label htmlFor="descripcionClientes" className="form-label">
-            Principal cliente o usuario <span> (*)</span>
+            Principal cliente o usuario
+            <span className="text-danger"> (*)</span>
           </Label>
           <TextArea
             type="text"
@@ -332,7 +333,7 @@ function InfoEmprendimiento(props) {
         <div className="col-md-6 mb-3">
           <Label htmlFor="estaConstituida" className="form-label">
             Está constituida
-            <span> (*)</span>
+            <span className="text-danger"> (*)</span>
           </Label>
           <select
             id="estaConstituida"
@@ -358,7 +359,7 @@ function InfoEmprendimiento(props) {
           <>
             <div className="col-md-6 mb-3">
               <Label htmlFor="fechaConstitucion" className="form-label">
-                Fecha de constitución <span> (*)</span>
+                Fecha de constitución <span className="text-danger"> (*)</span>
               </Label>
               <Input
                 type="date"
@@ -377,7 +378,7 @@ function InfoEmprendimiento(props) {
 
             <div className="col-md-6 mb-3">
               <Label htmlFor="nitEmpresa" className="form-label">
-                NIT <span> (*)</span>
+                NIT <span className="text-danger"> (*)</span>
               </Label>
               <Input
                 type="text"
@@ -397,7 +398,7 @@ function InfoEmprendimiento(props) {
 
             <div className="col-md-6 mb-3">
               <Label htmlFor="nombreEmpresa" className="form-label">
-                Nombre de empresa <span> (*)</span>
+                Nombre de empresa <span className="text-danger"> (*)</span>
               </Label>
               <Input
                 type="text"
@@ -417,7 +418,7 @@ function InfoEmprendimiento(props) {
 
             <div className="col-md-6 mb-3">
               <Label htmlFor="razonSocialEmpresa" className="form-label">
-                Razón social <span> (*)</span>
+                Razón social <span className="text-danger"> (*)</span>
               </Label>
               <Input
                 type="text"

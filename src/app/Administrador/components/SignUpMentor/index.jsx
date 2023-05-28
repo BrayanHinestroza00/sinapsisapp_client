@@ -179,7 +179,7 @@ function RegistrarMentor({ show, onHide }) {
                   </span>
                   <br />
                   <span>
-                    <span style={{ fontWeight: "bold" }}>IMPORTANTE.</span>{" "}
+                    <span style={{ fontWeight: "bold" }}>IMPORTANTE.</span>
                     Todos los campos son obligatorios
                   </span>
                 </p>
@@ -187,7 +187,7 @@ function RegistrarMentor({ show, onHide }) {
                 <div>
                   <Form.Group className="col-md-12 mb-3">
                     <Form.Label htmlFor="usuario">
-                      Usuario Institucional{" "}
+                      Usuario Institucional
                       <span className="text-danger"> (*)</span>
                     </Form.Label>
                     <Form.Control
@@ -263,7 +263,7 @@ function RegistrarMentor({ show, onHide }) {
 
                   <Form.Group className="col-md-12 mb-3">
                     <Form.Label htmlFor="etapaRuta">
-                      Etapa en la Ruta de I&E del Mentor{" "}
+                      Etapa en la Ruta de I&E del Mentor
                       <span className="text-danger"> (*)</span>
                     </Form.Label>
                     <Form.Select

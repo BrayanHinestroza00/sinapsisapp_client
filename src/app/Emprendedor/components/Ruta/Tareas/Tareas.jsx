@@ -5,7 +5,12 @@ import FlexyTable from "src/app/Shared/components/FlexyTable";
 import DetalleTarea from "./DetalleTarea";
 import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
-import { CardRuta, Ruta, Titulo } from "src/app/Shared/assets/styles/Common.js";
+import {
+  CardRuta,
+  Ruta,
+  Subtitulo,
+  Titulo,
+} from "src/app/Shared/assets/styles/Common.js";
 import { EmprendedorContext } from "src/app/Emprendedor/contexts/EmprendedorContext";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import {
@@ -272,6 +277,19 @@ function Tareas() {
           </Ruta>
         </CardRuta>
       )}
+
+      {entregadas &&
+        entregadas.length <= 0 &&
+        pendientes &&
+        pendientes.length <= 0 &&
+        todos &&
+        todos.length <= 0 && (
+          <CardRuta>
+            <Ruta>
+              <Subtitulo>No hay tareas asociadas</Subtitulo>
+            </Ruta>
+          </CardRuta>
+        )}
 
       {showEntregadas.show && (
         <DetalleTarea

@@ -100,7 +100,8 @@ function FinalizarAsesoramiento({ preloadData }) {
       <Form>
         <Form.Group className="mb-3">
           <Form.Label>
-            Observaciones del Acompañamiento <span> (*)</span>
+            Observaciones del Acompañamiento
+            <span className="text-danger"> (*)</span>
           </Form.Label>
           <Form.Control
             as="textarea"

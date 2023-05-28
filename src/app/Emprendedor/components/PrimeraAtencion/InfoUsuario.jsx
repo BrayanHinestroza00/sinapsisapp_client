@@ -226,7 +226,7 @@ function InfoUsuario({ userData, ...props }) {
         <div className="col-md-6">
           <Label htmlFor="fechaNacimiento" className="form-label">
             Fecha de Nacimiento
-            <span> (*)</span>
+            <span className="text-danger"> (*)</span>
           </Label>
           <Input
             type="date"
@@ -249,7 +249,7 @@ function InfoUsuario({ userData, ...props }) {
         <div className="col-md-6">
           <Label htmlFor="genero" className="form-label">
             Género
-            <span> (*)</span>
+            <span className="text-danger"> (*)</span>
           </Label>
           <select
             id="genero"
@@ -275,7 +275,7 @@ function InfoUsuario({ userData, ...props }) {
         <div className="col-md-6">
           <Label htmlFor="correoPersonal" className="form-label">
             Correo Personal
-            <span> (*)</span>
+            <span className="text-danger"> (*)</span>
           </Label>
           <Input
             type="text"
@@ -294,7 +294,7 @@ function InfoUsuario({ userData, ...props }) {
 
         <div className="col-md-6">
           <Label htmlFor="celular" className="form-label">
-            Telefono de Contacto
+            Teléfono de Contacto
           </Label>
           <Input
             type="text"
@@ -314,7 +314,7 @@ function InfoUsuario({ userData, ...props }) {
         <div className="col-md-6">
           <Label htmlFor="departamento" className="form-label">
             Departamento de Residencia
-            <span> (*)</span>
+            <span className="text-danger"> (*)</span>
           </Label>
           <select
             id="departamento"
@@ -345,7 +345,7 @@ function InfoUsuario({ userData, ...props }) {
         <div className="col-md-6">
           <Label htmlFor="municipioId" className="form-label">
             Municipio de Residencia
-            <span> (*)</span>
+            <span className="text-danger"> (*)</span>
           </Label>
           <select
             id="municipioId"
@@ -377,8 +377,8 @@ function InfoUsuario({ userData, ...props }) {
 
         <div className="col-md-6">
           <Label htmlFor="direccion" className="form-label">
-            Direccion de Residencia
-            <span> (*)</span>
+            Dirección de Residencia
+            <span className="text-danger"> (*)</span>
           </Label>
           <Input
             type="text"
@@ -398,7 +398,7 @@ function InfoUsuario({ userData, ...props }) {
         <div className="col-md-6">
           <Label htmlFor="vinculoConU" className="form-label">
             Vinculo con la Universidad
-            <span> (*)</span>
+            <span className="text-danger"> (*)</span>
           </Label>
           <select
             id="vinculoConU"
@@ -445,7 +445,7 @@ function InfoUsuario({ userData, ...props }) {
                 className="form-label nombreInput"
               >
                 Código Estudiantil
-                <span> (*)</span>
+                <span className="text-danger"> (*)</span>
               </label>
               <input
                 type="text"
@@ -468,7 +468,7 @@ function InfoUsuario({ userData, ...props }) {
                 className="form-label nombreInput"
               >
                 Tipo de estudiante
-                <span> (*)</span>
+                <span className="text-danger"> (*)</span>
               </label>
               <select
                 id="tipoEstudiante"
@@ -506,7 +506,7 @@ function InfoUsuario({ userData, ...props }) {
                 className="form-label nombreInput"
               >
                 Programa Académico
-                <span> (*)</span>
+                <span className="text-danger"> (*)</span>
               </label>
               <select
                 id="programaAcademico"
@@ -554,7 +554,7 @@ function InfoUsuario({ userData, ...props }) {
                   className="form-label"
                 >
                   ¿Cuál Otro?
-                  <span> (*)</span>
+                  <span className="text-danger"> (*)</span>
                 </Label>
                 <Input
                   type="text"
@@ -582,7 +582,7 @@ function InfoUsuario({ userData, ...props }) {
                 <div className="col-md-6">
                   <label className="form-label nombreInput">
                     Modalidad de Emprendimiento como Trabajo de Grado
-                    <span> (*)</span>
+                    <span className="text-danger"> (*)</span>
                   </label>
 
                   <div className="form-check">
@@ -639,7 +639,7 @@ function InfoUsuario({ userData, ...props }) {
                     className="form-label nombreInput"
                   >
                     Asignaturas de Emprendimiento Cursadas
-                    <span> (*)</span>
+                    <span className="text-danger"> (*)</span>
                   </label>
                   <div>
                     <div className="form-check form-check-inline">
@@ -697,7 +697,7 @@ function InfoUsuario({ userData, ...props }) {
             <div className="col-md-6">
               <Label htmlFor="cargoColaborador" className="form-label">
                 Cargo de Colaborador
-                <span> (*)</span>
+                <span className="text-danger"> (*)</span>
               </Label>
               <Input
                 type="text"
@@ -717,7 +717,7 @@ function InfoUsuario({ userData, ...props }) {
             <div className="col-md-6">
               <Label htmlFor="dependenciaColaborador" className="form-label">
                 Dependencia
-                <span> (*)</span>
+                <span className="text-danger"> (*)</span>
               </Label>
               <Input
                 type="text"
@@ -739,7 +739,7 @@ function InfoUsuario({ userData, ...props }) {
             <div className="col-md-6">
               <Label htmlFor="tipoEstudianteEgresado" className="form-label">
                 Tipo de estudiante
-                <span> (*)</span>
+                <span className="text-danger"> (*)</span>
               </Label>
               <select
                 id="tipoEstudianteEgresado"
@@ -774,7 +774,7 @@ function InfoUsuario({ userData, ...props }) {
             <div className="col-md-6">
               <Label htmlFor="profesionEgresado" className="form-label">
                 Profesión
-                <span> (*)</span>
+                <span className="text-danger"> (*)</span>
               </Label>
               <select
                 id="profesionEgresado"
@@ -822,7 +822,7 @@ function InfoUsuario({ userData, ...props }) {
                   className="form-label"
                 >
                   ¿Cuál Otro?
-                  <span> (*)</span>
+                  <span className="text-danger"> (*)</span>
                 </Label>
                 <Input
                   type="text"

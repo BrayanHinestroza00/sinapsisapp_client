@@ -44,7 +44,7 @@ function InfoPrimeraAtencion(props) {
         <div className="col-md-6 mb-3">
           <Label htmlFor="nombreProducto" className="form-label">
             Producto o Servicio
-            <span> (*)</span>
+            <span className="text-danger"> (*)</span>
           </Label>
           <Input
             type="text"
@@ -121,7 +121,7 @@ function InfoPrimeraAtencion(props) {
         <div className="col-md-6 mb-3">
           <Label htmlFor="equipoTrabajo" className="form-label">
             ¿Tiene equipo de trabajo?
-            <span> (*)</span>
+            <span className="text-danger"> (*)</span>
           </Label>
           <select
             className="form-select"
@@ -147,7 +147,7 @@ function InfoPrimeraAtencion(props) {
           <div className="col-md-6 mb-3">
             <Label htmlFor="cualEquipoTrabajo" className="form-label">
               ¿Cuál es su equipo de trabajo?
-              <span> (*)</span>
+              <span className="text-danger"> (*)</span>
             </Label>
             <Input
               type="text"
@@ -170,7 +170,7 @@ function InfoPrimeraAtencion(props) {
         <div className="col-md-6">
           <Label htmlFor="dedicacion" className="form-label">
             ¿A qué se dedica?
-            <span> (*)</span>
+            <span className="text-danger"> (*)</span>
           </Label>
           <Input
             type="text"
@@ -210,7 +210,7 @@ function InfoPrimeraAtencion(props) {
         <div className="col-md-6 mb-3">
           <Label htmlFor="horasSemanales" className="form-label">
             Número de horas dedicadas a la semana
-            <span> (*)</span>
+            <span className="text-danger"> (*)</span>
           </Label>
           <Input
             type="text"
@@ -230,7 +230,7 @@ function InfoPrimeraAtencion(props) {
         <div className="col-md-6 mb-3">
           <Label htmlFor="motivacion" className="form-label">
             ¿Cuál es su motivación?
-            <span> (*)</span>
+            <span className="text-danger"> (*)</span>
           </Label>
           <Input
             type="text"
@@ -250,7 +250,7 @@ function InfoPrimeraAtencion(props) {
         <div className="col-md-6 mb-3">
           <Label htmlFor="descubrioSinapsis" className="form-label">
             ¿Cómo se enteró de los servicios de SINAPSIS UAO?
-            <span> (*)</span>
+            <span className="text-danger"> (*)</span>
           </Label>
           <SelectMultiple
             // className="form-select"

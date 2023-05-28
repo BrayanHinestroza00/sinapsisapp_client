@@ -104,7 +104,7 @@ function FormEditarCuenta({ idUsuario }) {
               <Form.Group className="col-md-12">
                 <Form.Label htmlFor="oldPassword" className="form-label">
                   Contraseña Antigua
-                  <span> (*)</span>
+                  <span className="text-danger"> (*)</span>
                 </Form.Label>
                 <InputGroup>
                   <Form.Control
@@ -139,7 +139,7 @@ function FormEditarCuenta({ idUsuario }) {
               <Form.Group className="col-md-12">
                 <Form.Label htmlFor="newPassword" className="form-label">
                   Contraseña Nueva
-                  <span> (*)</span>
+                  <span className="text-danger"> (*)</span>
                 </Form.Label>
                 <InputGroup>
                   <Form.Control
@@ -174,7 +174,7 @@ function FormEditarCuenta({ idUsuario }) {
               <Form.Group className="col-md-12">
                 <Form.Label htmlFor="newPasswordConfirm" className="form-label">
                   Confirmación Contraseña Nueva
-                  <span> (*)</span>
+                  <span className="text-danger"> (*)</span>
                 </Form.Label>
                 <InputGroup>
                   <Form.Control

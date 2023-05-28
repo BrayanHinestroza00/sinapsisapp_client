@@ -1,5 +1,5 @@
 import moment from "moment";
-import { Modal } from "react-bootstrap";
+import { Form, Modal } from "react-bootstrap";
 
 import {
   img,
@@ -12,6 +12,7 @@ import downloadIcon from "src/app/Shared/assets/images/icons/download_icon.png";
 
 import { HOST } from "src/app/Shared/utils/apiConstants";
 import { SINAPSIS_APP_FORMATO_FECHA_HORA } from "src/app/Shared/utils/constants";
+import { Label, Table } from "./styled";
 
 function DetalleTareaAdmin(props) {
   console.log(props);
@@ -36,63 +37,75 @@ function DetalleTareaAdmin(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body style={{ backgroundColor: "#fbf6fc" }}>
-        <div className="container">
-          <div className="row mb-3">
-            <h5>Descripción</h5>
-            <p>{props.data.descripcionTarea}</p>
-          </div>
+        <Form className="container" encType="multipart/form-data">
+          <h5>Información de tarea</h5>
+          <Form.Group className="row mb-3">
+            <Form.Label>Descripción</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              value={props.data.descripcionTarea}
+              disabled
+            />
+          </Form.Group>
 
           {props.data.urlMaterialApoyo && (
-            <div className="row mb-3">
-              <h5>Recursos del docente</h5>
+            <Form.Group className="row mb-3">
+              <Label>Recursos entregados por el docente</Label>
+              <br />
               <div className="text-center">
                 <a
+                  className="text-center"
                   href={`${HOST}/${props.data.urlMaterialApoyo}`}
                   target="_blank"
                 >
                   <img src={downloadIcon} width="25%" alt="downloadIcon" />
                 </a>
+                <br />
               </div>
-            </div>
+            </Form.Group>
           )}
 
           {props?.tipo == "historial" && props.data.urlArchivosEntrega && (
-            <div className="row mb-3">
-              <h5>Recursos entregados por el Emprendedor</h5>
+            <Form.Group className="row mb-3">
+              <Label>Recursos entregados por el Emprendedor</Label>
+              <br />
               <div className="text-center">
                 <a
+                  className="text-center"
                   href={`${HOST}/${props.data.urlArchivosEntrega}`}
                   target="_blank"
                 >
                   <img src={downloadIcon} width="25%" alt="downloadIcon" />
                 </a>
+                <br />
               </div>
-            </div>
+            </Form.Group>
           )}
 
-          <div className="row mb-3">
-            <h5>Estado de Entrega</h5>
+          <Form.Group className="row mb-3">
+            <Label>Estado de Entrega</Label>
             <div>
-              <table className="table table-bordered">
+              <Table className="table table-bordered">
                 <tbody>
                   <tr>
                     <td>Estado de la Entrega</td>
                     <td>{props.data.estadoEntrega}</td>
                   </tr>
+                  {props.data.estadoEntrega == "PENDIENTE" && (
+                    <tr>
+                      <td>Fecha Límite de Entrega</td>
+                      <td>
+                        {moment(
+                          props.data.fechaLimiteEntrega,
+                          "YYYY-MM-DD hh:mm:ss"
+                        ).format(SINAPSIS_APP_FORMATO_FECHA_HORA)}
+                      </td>
+                    </tr>
+                  )}
                   <tr>
                     <td>Estado de la Calificación</td>
                     <td>{props.data.calificacion || "SIN ENTREGAR"}</td>
-                  </tr>
-                  <tr>
-                    <td>Fecha Límite de Entrega</td>
-                    <td>
-                      {props.data.fechaLimiteEntrega
-                        ? moment(
-                            props.data.fechaLimiteEntrega,
-                            "YYYY-MM-DD hh:mm:ss"
-                          ).format(SINAPSIS_APP_FORMATO_FECHA_HORA)
-                        : "SIN ENTREGAR"}
-                    </td>
                   </tr>
                   <tr>
                     <td>Fecha de Entrega</td>
@@ -129,7 +142,7 @@ function DetalleTareaAdmin(props) {
                   )}
 
                   <tr>
-                    <td>Comentarios de la Entrega de Emprendedor</td>
+                    <td>Comentarios de la entrega por Emprendedor</td>
                     <td>
                       {props.data.comentariosEntregaEmprendedor ||
                         "SIN COMENTARIOS"}
@@ -137,23 +150,38 @@ function DetalleTareaAdmin(props) {
                   </tr>
 
                   <tr>
-                    <td>Comentarios de la Entrega de Usuario</td>
+                    <td>Comentarios de la entrega por Docente</td>
                     <td>
                       {props.data.comentariosEntrega || "SIN COMENTARIOS"}
                     </td>
                   </tr>
-
-                  <tr>
-                    <td>Asignada por</td>
-                    <td>
-                      {`${props.data.nombresCrea} ${props.data.apellidosCrea}`}
-                    </td>
-                  </tr>
                 </tbody>
-              </table>
+              </Table>
             </div>
+          </Form.Group>
+          <div className="row mb-3">
+            <h5>Información de docente</h5>
+            <br />
+            <Form.Group className="mb-3">
+              <Label>Docente </Label>
+              <Form.Control
+                value={`${props.data.nombresCrea} ${props.data.apellidosCrea}`}
+                disabled
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Label>Correo Docente </Label>
+              <Form.Control
+                value={
+                  props.data.correoInstitucionalCrea ||
+                  props.data.correoPersonalCrea
+                }
+                disabled
+              />
+            </Form.Group>
           </div>
-        </div>
+        </Form>
       </Modal.Body>
       <Modal.Footer style={{ backgroundColor: "#fbf6fc" }}>
         <button className="btn btn-secondary" onClick={props.onHide}>

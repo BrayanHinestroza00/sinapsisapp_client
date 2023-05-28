@@ -3,6 +3,7 @@ export const theme = {
     background: "#fbf9fb",
     text: "#333333",
     primaryTextColor: "#9164a0",
+    white: "#FFF",
   },
   fonts: {
     montserrat: "Montserrat",

@@ -1,5 +1,6 @@
+import moment from "moment";
 import { useState } from "react";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Button, Form, Modal, Table } from "react-bootstrap";
 
 import {
   HOST,
@@ -7,6 +8,12 @@ import {
   URL_CALIFICAR_TAREA_EMPRENDEDOR,
   URL_STATIC_UPLOAD_IMAGES,
 } from "src/app/Shared/utils/apiConstants";
+import {
+  img,
+  thumb,
+  thumbInner,
+  thumbsContainer,
+} from "src/app/Shared/components/DropZone/styled.js";
 import { confirmAlertWithText } from "src/app/Shared/utils/confirmAlerts.js";
 import {
   messageAlert,
@@ -14,6 +21,8 @@ import {
 } from "src/app/Shared/utils/messageAlerts";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import { validarCalificacionTarea } from "src/app/Shared/services/validation/validateTareas";
+import { Label } from "./styled";
+import { SINAPSIS_APP_FORMATO_FECHA_HORA } from "src/app/Shared/utils/constants";
 
 function RevisarTarea({ show, data, onHide }) {
   const [datosTarea, setDatosTarea] = useState({});
@@ -72,7 +81,7 @@ function RevisarTarea({ show, data, onHide }) {
   } else if (loading && messageAPI) {
     if (messageAPI == "OK") {
       messageAlertWithoutText({
-        title: "Tarea Calificada Exitosamente",
+        title: "Tarea calificada exitosamente",
         icon: "success",
         confirmButtonText: "Aceptar",
         onConfirm: () => {
@@ -114,16 +123,23 @@ function RevisarTarea({ show, data, onHide }) {
       </Modal.Header>
 
       <Modal.Body style={{ backgroundColor: "#fbf6fc" }}>
-        <div>
-          <h4 className="text-center">Descripción de la tarea</h4>
-          <p>{data.descripcionTarea}</p>
-        </div>
-        {data.urlArchivosEntrega && (
-          <>
-            <hr />
-            <div className="text-center">
-              <h4>Tarea entregada por el emprendedor</h4>
-              <p>
+        <Form className="container">
+          <h5>Información de tarea</h5>
+          <Form.Group className="row mb-3">
+            <Label>Descripción</Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              value={data.descripcionTarea}
+              disabled
+            />
+          </Form.Group>
+
+          <hr />
+          {data.urlArchivosEntrega && (
+            <Form.Group className="text-center">
+              <Label>Tarea entregada por el emprendedor</Label>
+              <p className="m-2">
                 Descarga el archivo y realiza la retroalimentación al
                 emprendedor
               </p>
@@ -141,10 +157,10 @@ function RevisarTarea({ show, data, onHide }) {
               </a>
               <br />
               <label className="form-label mt-3">
-                Da click
+                Da clic
                 <a
                   rel="noreferrer"
-                  className="text-center"
+                  className="text-center m-1"
                   href={`${HOST}/${data.urlArchivosEntrega}`}
                   target="_blank"
                 >
@@ -153,86 +169,94 @@ function RevisarTarea({ show, data, onHide }) {
                 o en la imagen para descargar
               </label>
               <br />
-            </div>
-          </>
-        )}
+            </Form.Group>
+          )}
 
-        <hr />
-        <div>
-          <h5>Estado de Entrega</h5>
-          <div>
-            <table className="table table-bordered">
-              <tbody>
-                <tr>
-                  <td>Estado de la Entrega</td>
-                  <td>{data.estadoEntrega}</td>
-                </tr>
-                <tr>
-                  <td>Estado de la Calificación</td>
-                  <td>{data.calificacion || "SIN CALIFICAR"}</td>
-                </tr>
-                <tr>
-                  <td>Fecha de Entrega</td>
-                  <td>{data.fechaEntrega || "SIN ENTREGAR"}</td>
-                </tr>
-                {!data.urlArchivosEntrega && (
+          <hr />
+          <Form.Group>
+            <Label>Estado de Entrega</Label>
+            <div>
+              <Table className="table table-bordered">
+                <tbody>
                   <tr>
-                    <td>Archivos Enviados</td>
-                    <td>SIN ARCHIVOS ENVIADOS</td>
+                    <td>Estado de la Entrega</td>
+                    <td>{data.estadoEntrega}</td>
                   </tr>
-                )}
+                  <tr>
+                    <td>Fecha Límite de Entrega</td>
+                    <td>
+                      {moment(
+                        data.fechaLimiteEntrega,
+                        "YYYY-MM-DD hh:mm:ss"
+                      ).format(SINAPSIS_APP_FORMATO_FECHA_HORA)}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Estado de la Calificación</td>
+                    <td>{data.calificacion || "SIN CALIFICAR"}</td>
+                  </tr>
+                  <tr>
+                    <td>Fecha de Entrega</td>
+                    <td>
+                      {data.fechaEntrega
+                        ? moment(
+                            data.fechaEntrega,
+                            "YYYY-MM-DD hh:mm:ss"
+                          ).format(SINAPSIS_APP_FORMATO_FECHA_HORA)
+                        : "SIN ENTREGAR"}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Comentarios de la entrega por Emprendedor</td>
+                    <td>
+                      {data.comentariosEntregaEmprendedor || "SIN COMENTARIOS"}
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            </div>
+          </Form.Group>
+          <hr />
 
-                <tr>
-                  <td>Comentarios del Emprendedor</td>
-                  <td>
-                    {data.comentariosEntregaEmprendedor || "SIN COMENTARIOS"}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <hr />
-        <div>
-          <h4 className="text-center">Retroalimentación</h4>
-          <Form>
-            <Form.Group className="mb-3">
-              <Form.Label>Calificación de la Entrega</Form.Label>
-              <Form.Select
-                name="calificacionEntrega"
-                type="text"
-                onChange={(e) => onHandleChange(e)}
-              >
-                <option disabled selected>
-                  Calificación de tarea
-                </option>
-                <option value="A">Aprobada</option>
-                <option value="R">Reprobada</option>
-              </Form.Select>
-              {error.calificacionEntrega && (
-                <small className="form-text font-weight-bold text-danger">
-                  {error.calificacionEntrega}
-                </small>
-              )}
-            </Form.Group>
+          <h5 className="text-center">Retroalimentación</h5>
+          <Form.Group className="mb-3">
+            <Label>
+              Calificación de la Entrega{" "}
+              <span className="text-danger"> (*)</span>
+            </Label>
+            <Form.Select
+              name="calificacionEntrega"
+              type="text"
+              onChange={(e) => onHandleChange(e)}
+            >
+              <option disabled selected>
+                Seleccione la calificación
+              </option>
+              <option value="A">Aprobada</option>
+              <option value="R">Reprobada</option>
+            </Form.Select>
+            {error.calificacionEntrega && (
+              <small className="form-text font-weight-bold text-danger">
+                {error.calificacionEntrega}
+              </small>
+            )}
+          </Form.Group>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Comentarios de la Entrega</Form.Label>
-              <br />
-              <Form.Control
-                as="textarea"
-                cols={3}
-                name="comentariosEntrega"
-                onChange={(e) => onHandleChange(e)}
-              />
-              {error.comentariosEntrega && (
-                <small className="form-text font-weight-bold text-danger">
-                  {error.comentariosEntrega}
-                </small>
-              )}
-            </Form.Group>
-          </Form>
-        </div>
+          <Form.Group className="mb-3">
+            <Label>Comentarios de la Entrega</Label>
+            <Form.Control
+              as="textarea"
+              cols={3}
+              name="comentariosEntrega"
+              onChange={(e) => onHandleChange(e)}
+            />
+            {error.comentariosEntrega && (
+              <small className="form-text font-weight-bold text-danger">
+                {error.comentariosEntrega}
+              </small>
+            )}
+          </Form.Group>
+        </Form>
       </Modal.Body>
 
       <Modal.Footer style={{ backgroundColor: "#fbf6fc" }}>

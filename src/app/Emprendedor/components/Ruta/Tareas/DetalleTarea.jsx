@@ -24,6 +24,9 @@ import {
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 
 import downloadIcon from "src/app/Shared/assets/images/icons/download_icon.png";
+import { Label, Table } from "./styled";
+import { SINAPSIS_APP_FORMATO_FECHA_HORA } from "src/app/Shared/utils/constants";
+import moment from "moment";
 
 function DetalleTarea(props) {
   const [datosTarea, setDatosTarea] = useState({});
@@ -94,7 +97,7 @@ function DetalleTarea(props) {
   } else if (loading && messageAPI) {
     if (messageAPI == "OK") {
       messageAlertWithoutText({
-        title: "Tarea Entregada Exitosamente",
+        title: "Tarea entregada exitosamente",
         icon: "success",
         confirmButtonText: "Aceptar",
         onConfirm: () => {
@@ -112,6 +115,8 @@ function DetalleTarea(props) {
     }
     setLoading(false);
   }
+
+  console.log(props.data);
 
   return (
     <Modal
@@ -134,15 +139,21 @@ function DetalleTarea(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body style={{ backgroundColor: "#fbf6fc" }}>
-        <div className="container">
-          <div className="row">
-            <h5>Descripción</h5>
-            <p>{props.data.descripcionTarea}</p>
-          </div>
+        <Form className="container" encType="multipart/form-data">
+          <h5>Información de tarea</h5>
+          <Form.Group className="row mb-3">
+            <Label>Descripción</Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              value={props.data.descripcionTarea}
+              disabled
+            />
+          </Form.Group>
 
           {props.data.urlMaterialApoyo && (
-            <div className="row">
-              <h5>Recursos del docente</h5>
+            <Form.Group className="row mb-3">
+              <Label>Recursos entregados por el docente</Label>
               <br />
               <div className="text-center">
                 <a
@@ -154,25 +165,43 @@ function DetalleTarea(props) {
                 </a>
                 <br />
               </div>
-            </div>
+            </Form.Group>
           )}
 
-          <div className="row">
-            <h5>Estado de Entrega</h5>
+          <Form.Group className="row mb-3">
+            <Label>Estado de Entrega</Label>
             <div>
-              <table className="table table-bordered">
+              <Table className="table table-bordered">
                 <tbody>
                   <tr>
                     <td>Estado de la Entrega</td>
                     <td>{props.data.estadoEntrega}</td>
                   </tr>
+                  {props.data.estadoEntrega == "PENDIENTE" && (
+                    <tr>
+                      <td>Fecha Límite de Entrega</td>
+                      <td>
+                        {moment(
+                          props.data.fechaLimiteEntrega,
+                          "YYYY-MM-DD hh:mm:ss"
+                        ).format(SINAPSIS_APP_FORMATO_FECHA_HORA)}
+                      </td>
+                    </tr>
+                  )}
                   <tr>
                     <td>Estado de la Calificación</td>
                     <td>{props.data.calificacion || "SIN ENTREGAR"}</td>
                   </tr>
                   <tr>
                     <td>Fecha de Entrega</td>
-                    <td>{props.data.fechaEntrega || "SIN ENTREGAR"}</td>
+                    <td>
+                      {props.data.fechaEntrega
+                        ? moment(
+                            props.data.fechaEntrega,
+                            "YYYY-MM-DD hh:mm:ss"
+                          ).format(SINAPSIS_APP_FORMATO_FECHA_HORA)
+                        : "SIN ENTREGAR"}
+                    </td>
                   </tr>
                   <tr>
                     <td>Archivos Enviados</td>
@@ -202,15 +231,43 @@ function DetalleTarea(props) {
                     </td>
                   </tr>
                 </tbody>
-              </table>
+              </Table>
             </div>
+          </Form.Group>
+
+          <div className="row mb-3">
+            <h5>Información de docente</h5>
+            <br />
+            <Form.Group className="mb-3">
+              <Label>Docente </Label>
+              <Form.Control
+                value={`${props.data.nombresCrea} ${props.data.apellidosCrea}`}
+                disabled
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Label>Correo Docente </Label>
+              <Form.Control
+                value={
+                  props.data.correoInstitucionalCrea ||
+                  props.data.correoPersonalCrea
+                }
+                disabled
+              />
+            </Form.Group>
           </div>
 
           {props.tipo == "PENDIENTES" && (
-            <Form encType="multipart/form-data">
-              <div className="row">
+            <>
+              <hr />
+              <h5>Realiza tu entrega</h5>
+              <br />
+              <div className="row mb-3">
                 <Form.Group className="mb-3">
-                  <h6>Sube tu tarea</h6>
+                  <Label>
+                    Sube tu tarea <span className="text-danger"> (*)</span>
+                  </Label>
                   <DropZoneComponent
                     upFiles={getFiles}
                     files={datosTarea?.files}
@@ -223,11 +280,11 @@ function DetalleTarea(props) {
                   )}
                 </Form.Group>
               </div>
-              <div className="row">
+              <div className="row mb-3">
+                <h5>Comentarios de tu entrega</h5>
+                <br />
                 <Form.Group className="mb-3">
-                  <h5>Comentarios de tu entrega</h5>
-                  <Form.Label>Comentario </Form.Label>
-                  <br />
+                  <Label>Comentario </Label>
                   <Form.Control
                     as="textarea"
                     cols={3}
@@ -237,9 +294,9 @@ function DetalleTarea(props) {
                   />
                 </Form.Group>
               </div>
-            </Form>
+            </>
           )}
-        </div>
+        </Form>
       </Modal.Body>
       <Modal.Footer style={{ backgroundColor: "#fbf6fc" }}>
         {props.tipo == "PENDIENTES" && (

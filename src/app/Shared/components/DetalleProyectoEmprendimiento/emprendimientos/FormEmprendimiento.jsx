@@ -72,7 +72,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
           <div className="mb-3">
             <Label htmlFor="nombreEmprendimiento" className="form-label">
               Nombre del emprendimiento
-              <span> (*)</span>
+              <span className="text-danger"> (*)</span>
             </Label>
             <Input
               type="text"
@@ -92,7 +92,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
           </div>
           <div className="mb-3">
             <Label htmlFor="descripcionProducto" className="form-label">
-              Descripción del producto<span> (*)</span>
+              Descripción del producto<span className="text-danger"> (*)</span>
             </Label>
             <TextArea
               type="text"
@@ -112,7 +112,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
           </div>
           <div className="mb-3">
             <Label htmlFor="necesidadesIdentificadas" className="form-label">
-              Necesidades Identificadas<span> (*)</span>
+              Necesidades Identificadas<span className="text-danger"> (*)</span>
             </Label>
             <TextArea
               type="text"
@@ -132,7 +132,8 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
           </div>
           <div className="mb-3">
             <Label htmlFor="descripcionClientes" className="form-label">
-              Principal cliente o usuario<span> (*)</span>
+              Principal cliente o usuario
+              <span className="text-danger"> (*)</span>
             </Label>
             <TextArea
               type="text"
@@ -152,7 +153,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
           </div>
           <div className="mb-3">
             <Label htmlFor="materiasPrimas" className="form-label">
-              Materias primas<span> (*)</span>
+              Materias primas<span className="text-danger"> (*)</span>
             </Label>
             <TextArea
               type="text"
@@ -172,7 +173,8 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
           </div>
           <div className="mb-3">
             <Label htmlFor="enfoqueSocial" className="form-label">
-              Enfoque Social del Emprendimiento<span> (*)</span>
+              Enfoque Social del Emprendimiento
+              <span className="text-danger"> (*)</span>
             </Label>
             <TextArea
               type="text"
@@ -270,7 +272,7 @@ function EmprendimientoComponent({ datos, setDatos, redesData, editable }) {
             <div className="col-md-6 mb-3">
               <Label htmlFor="estaConstituida" className="form-label">
                 ¿Está constituida?
-                <span> (*)</span>
+                <span className="text-danger"> (*)</span>
               </Label>
               <select
                 id="estaConstituida"

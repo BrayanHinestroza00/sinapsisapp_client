@@ -67,7 +67,8 @@ function InfoDiagnostico(props) {
 
           <div>
             <h4>
-              Sube tu archivo diligenciado <span> (*)</span>
+              Sube tu archivo diligenciado
+              <span className="text-danger"> (*)</span>
             </h4>
             <DropZoneComponent
               upFiles={onGetFiles}
