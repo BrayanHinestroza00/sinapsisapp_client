@@ -188,7 +188,7 @@ function ProyectoEmprendimientosPage() {
               </div>
 
               {/* Estado en la Ruta de Innovación & Emprendimiento */}
-              <div className="col-md-6">
+              <div className="col-md-4">
                 <Label htmlFor="estadosRuta" className="form-label">
                   Estado en la Ruta de Innovación & Emprendimiento
                 </Label>
@@ -211,7 +211,7 @@ function ProyectoEmprendimientosPage() {
               </div>
 
               {/* Etapa en la Ruta de Innovación & Emprendimiento */}
-              <div className="col-md-6">
+              <div className="col-md-4">
                 <Label htmlFor="etapasRuta" className="form-label">
                   Etapa en la Ruta de Innovación & Emprendimiento:
                 </Label>
@@ -236,6 +236,29 @@ function ProyectoEmprendimientosPage() {
                 {error.etapasRuta && (
                   <small className="form-text font-weight-bold text-danger">
                     {error.etapasRuta}
+                  </small>
+                )}
+              </div>
+
+              {/* Tiene mentor principal */}
+              <div className="col-md-4">
+                <Label htmlFor="mentorAsociado" className="form-label">
+                  Mentor asociado:
+                </Label>
+                <select
+                  id="mentorAsociado"
+                  className="form-select"
+                  name="mentorAsociado"
+                  value={datosFiltro.mentorAsociado || "-1"}
+                  onChange={(e) => onHandleChange(e)}
+                >
+                  <option value={"-1"}>TODAS...</option>
+                  <option value={"1"}>CON MENTOR ASOCIADO</option>
+                  <option value={"2"}>SIN MENTOR ASOCIADO</option>
+                </select>
+                {error.mentorAsociado && (
+                  <small className="form-text font-weight-bold text-danger">
+                    {error.mentorAsociado}
                   </small>
                 )}
               </div>

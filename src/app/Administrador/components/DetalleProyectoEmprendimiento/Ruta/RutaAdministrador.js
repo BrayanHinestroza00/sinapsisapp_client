@@ -17,8 +17,13 @@ import {
   URL_OBTENER_ETAPA_PROYECTO_EMPRENDEDOR,
 } from "src/app/Shared/utils/apiConstants";
 import { obtenerNombreEtapa } from "src/app/Shared/utils/utilityFunctions.js";
+import AsignarMentor from "./MentorPrincipal";
 
-function RutaAdministrador({ idProyectoEmprendimiento }) {
+function RutaAdministrador({
+  idProyectoEmprendimiento,
+  idAsesoramiento,
+  idMentorAsesoramiento,
+}) {
   const [loadingComponent, setLoadingComponent] = useState(true);
 
   // Custom Hooks
@@ -74,6 +79,8 @@ function RutaAdministrador({ idProyectoEmprendimiento }) {
     );
   }
 
+  console.log("idAsesoramiento", idAsesoramiento);
+
   return (
     <Card>
       <Subtitulo>Estado de la ruta de I&E de SINAPSIS UAO</Subtitulo>
@@ -100,6 +107,20 @@ function RutaAdministrador({ idProyectoEmprendimiento }) {
           <AvanceRuta preloadData={preloadData} />
         </Ruta>
       </CardRuta>
+
+      {!idAsesoramiento && (
+        <CardRuta className="mb-3">
+          <Ruta>
+            <Subtitulo>
+              Asignar mentor en la ruta de I&E para la etapa:{" "}
+              <SpanAuxiliar className="text-muted">
+                {obtenerNombreEtapa(preloadData.idEtapa)}
+              </SpanAuxiliar>
+            </Subtitulo>
+            <AsignarMentor preloadData={preloadData} />
+          </Ruta>
+        </CardRuta>
+      )}
     </Card>
   );
 }

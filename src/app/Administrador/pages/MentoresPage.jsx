@@ -62,7 +62,7 @@ function MentoresPage() {
         newMentores = mentoresData.map((mentorData, index) => {
           return {
             n: index + 1,
-            "Numero Documento": `${mentorData.acronimoTipoDocumento} - ${mentorData.numeroDocumento}`,
+            "Número Documento": `${mentorData.acronimoTipoDocumento} - ${mentorData.numeroDocumento}`,
             "Nombre Mentor": mentorData.nombreCompleto,
             Cargo: mentorData.cargoMentor,
             "Dependencia/Facultad":

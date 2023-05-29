@@ -20,11 +20,15 @@ function TabAdministrador() {
   // const [key, setKey] = useLocalStorage("key_for_tab", "ruta");
   // const { userData } = useContext(AdminEmprendedorContext);
 
+  console.log(state);
+
   return (
     <Tabs activeKey={key} onSelect={(key) => setKey(key)}>
       <Tab eventKey="ruta" title="Estado Ruta">
         <RutaAdministrador
           idProyectoEmprendimiento={state.proyectoEmprendimientoId}
+          idAsesoramiento={state.asesoramientoId}
+          idMentorAsesoramiento={state.mentorAsesoramientoId}
         />
       </Tab>
 

@@ -62,7 +62,7 @@ function EmprendedoresPage() {
         newEmprendedores = emprendedoresData.map((emprendedorData, index) => {
           return {
             n: index + 1,
-            "Numero Documento": emprendedorData.numeroDocumento,
+            "Número Documento": emprendedorData.numeroDocumento,
             "Nombre Emprendedor": emprendedorData.nombreCompleto,
             "Tipo Contacto": emprendedorData.tipoContacto,
             "Correo Contacto":

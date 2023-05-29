@@ -44,6 +44,7 @@ export const URL_OBTENER_EMPRENDEDORES =
   HOST + "/ruta_innovacion/emprendedores";
 export const URL_ASIGNAR_ETAPA_INICIAL =
   HOST + "/ruta_innovacion/primeraAtencion";
+export const URL_ASIGNAR_MENTOR = HOST + "/ruta_innovacion/asignar_mentor";
 export const URL_CREAR_TAREA_EMPRENDEDOR =
   HOST + "/ruta_innovacion/tareas/crear";
 export const URL_CALIFICAR_TAREA_EMPRENDEDOR =
