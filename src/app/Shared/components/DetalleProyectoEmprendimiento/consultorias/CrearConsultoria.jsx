@@ -114,10 +114,6 @@ function CrearConsultoria({
 
   const submitForm = () => {
     setLoading(true);
-    const idMentor =
-      tipoUsuario == "ADMINISTRADOR" && datos.tipoConsultoria == "E"
-        ? datos.mentor
-        : idUsuario;
 
     const tipoConsultoria =
       tipoUsuario == "ADMINISTRADOR" ? datos.tipoConsultoria : "N";
@@ -128,7 +124,7 @@ function CrearConsultoria({
         method: HTTP_METHOD_POST,
         data: {
           ...datos,
-          mentor: idMentor,
+          mentor: datos.mentor,
           titulo: datos.tituloConsultoria,
           tipoConsultoria: tipoConsultoria,
           fechaConsultoria: moment(

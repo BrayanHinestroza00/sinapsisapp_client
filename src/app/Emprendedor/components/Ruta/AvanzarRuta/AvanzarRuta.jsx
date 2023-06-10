@@ -5,7 +5,7 @@ import {
   Subtitulo,
   Titulo,
 } from "src/app/Shared/assets/styles/Common";
-import DescubrirseEmprendedor from "./sonar/ser_emprendedor/conectar_y_potencializar_perfil/DescubrirseEmprendedor";
+// import DescubrirseEmprendedor from "./sonar_z/ser_emprendedor/conectar_y_potencializar_perfil/DescubrirseEmprendedor";
 import SeccionAvanzarRuta from "./SeccionAvanzarRuta";
 
 const etapaActual = "Pensar";

@@ -39,7 +39,7 @@ function DescubrirseEmprendedor() {
       <h6 className="mx-0">Herramientas del conocimiento</h6>
 
       <p>
-        Las siguientes Herramientas te ayudaran con la apropiación de los
+        Las siguientes herramientas te ayudaran con la apropiación de los
         conceptos mencionados anteriormente
       </p>
 

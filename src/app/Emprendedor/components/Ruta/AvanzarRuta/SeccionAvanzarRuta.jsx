@@ -1,4 +1,4 @@
-import DescubrirseEmprendedor from "./sonar/ser_emprendedor/conectar_y_potencializar_perfil/DescubrirseEmprendedor";
+// import DescubrirseEmprendedor from "./sonar/ser_emprendedor/conectar_y_potencializar_perfil/DescubrirseEmprendedor";
 
 function SeccionAvanzarRuta({ idSeccion, tituloSeccion }) {
   return (
@@ -23,7 +23,7 @@ function SeccionAvanzarRuta({ idSeccion, tituloSeccion }) {
           data-bs-parent={`#accordion${idSeccion}`}
         >
           <div className="accordion-body">
-            {1 == 1 && <DescubrirseEmprendedor />}
+            {/* {1 == 1 && <DescubrirseEmprendedor />} */}
             {/* {1 == 1 && <DescubrirseEmprendedor />} */}
           </div>
         </div>

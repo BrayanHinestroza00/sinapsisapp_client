@@ -266,7 +266,9 @@ function InfoEmprendimiento(props) {
                     name={`redesSociales`}
                     onChange={(e) => props.handleChange(e)}
                     value={
-                      props.datos.redesSociales[`${redSocial.id}`]
+                      props.datos.redesSociales &&
+                      props.datos.redesSociales.length > 0 &&
+                      props.datos?.redesSociales[`${redSocial.id}`]
                         ? props.datos?.redesSociales[`${redSocial.id}`]
                             ?.enlace || ""
                         : ""

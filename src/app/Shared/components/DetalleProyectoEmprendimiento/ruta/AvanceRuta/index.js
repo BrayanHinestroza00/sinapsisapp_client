@@ -191,7 +191,7 @@ function AvanceRuta({ preloadData }) {
     <div id="avanceRutaComponent" className="container">
       <div className="row">
         <div className="col-md-6">
-          <h3>Actividades</h3>
+          <h3>Secciones</h3>
           <div>
             {actRutaData &&
               actRutaData.length > 0 &&
