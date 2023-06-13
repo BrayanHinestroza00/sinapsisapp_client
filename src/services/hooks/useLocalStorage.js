@@ -5,6 +5,13 @@ import {
   SINAPSIS_APP_LOCALSTORAGE_OPERACION_INSERT,
 } from "src/utils/constants";
 
+/**
+ *
+ * @param {*} operacion
+ * @param {*} key
+ * @param {*} value
+ * @returns
+ */
 export function useLocalStorage(operacion, key, value) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);

@@ -7,6 +7,7 @@ import { HTTP_METHOD_POST, URL_INICIAR_SESION } from "src/utils/apiConstants";
 import { insertIntoLocalStorage } from "src/utils/functions";
 import { useFetch } from "src/services/hooks/useFetch";
 import { messageAlert } from "src/utils/alerts/MessageAlert";
+import { getFromLocalStorage } from "src/utils/functions";
 
 function LoginPage() {
   let navigate = useNavigate();
@@ -21,7 +22,27 @@ function LoginPage() {
   } = useFetch();
 
   useEffect(() => {
-    localStorage.clear();
+    const data = getFromLocalStorage(SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO);
+
+    if (data) {
+      if (data.roles.length > 1) {
+        navigate("/Administrador");
+      } else {
+        switch (data.roles[0]) {
+          case 1:
+            navigate("/Administrador");
+            break;
+          case 2:
+            navigate("/Mentor");
+            break;
+          case 3:
+            navigate("/Emprendedor");
+            break;
+          default:
+            break;
+        }
+      }
+    }
   }, []);
 
   const onSubmit = (loginData) => {

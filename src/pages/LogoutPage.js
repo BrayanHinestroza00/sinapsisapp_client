@@ -5,6 +5,7 @@ function LogoutPage() {
   let navigate = useNavigate();
 
   useEffect(() => {
+    localStorage.clear();
     navigate("/Login");
   }, []);
 
