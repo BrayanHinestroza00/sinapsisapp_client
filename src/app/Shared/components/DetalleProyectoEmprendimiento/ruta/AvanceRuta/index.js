@@ -74,8 +74,8 @@ function AvanceRuta({ preloadData }) {
         requestOptions: {
           method: HTTP_METHOD_GET,
           params: {
-            idProyectoEmprendimiento: 2,
-            idRutaEmprendimiento: 1,
+            idProyectoEmprendimiento: preloadData.idProyectoEmprendimiento,
+            idRutaEmprendimiento: preloadData.idRutaProyEmprendimiento,
           },
         },
       });
@@ -85,8 +85,8 @@ function AvanceRuta({ preloadData }) {
         requestOptions: {
           method: HTTP_METHOD_GET,
           params: {
-            idProyectoEmprendimiento: 2,
-            idRutaEmprendimiento: 1,
+            idProyectoEmprendimiento: preloadData.idProyectoEmprendimiento,
+            idRutaEmprendimiento: preloadData.idRutaProyEmprendimiento,
           },
         },
       });
@@ -111,10 +111,12 @@ function AvanceRuta({ preloadData }) {
       });
 
       subActEmpRutaData.forEach((subActEmpRuta) => {
-        herramientaObjects = {
-          ...herramientaObjects,
-          [subActEmpRuta.idActividad]: { ...subActEmpRuta },
-        };
+        if (subActEmpRuta.tipoSubActividad == 2) {
+          herramientaObjects = {
+            ...herramientaObjects,
+            [subActEmpRuta.idSubActividad]: { ...subActEmpRuta },
+          };
+        }
       });
 
       setActidadesEmprendedor({
@@ -187,32 +189,42 @@ function AvanceRuta({ preloadData }) {
     );
   }
 
+  console.log("preloadData", {
+    actRutaData,
+    herrRutaData,
+    actEmpRutaData,
+    subActEmpRutaData,
+    actidadesEmprendedor,
+  });
+
   return (
     <div id="avanceRutaComponent" className="container">
       <div className="row">
         <div className="col-md-6">
           <h3>Secciones</h3>
           <div>
-            {actRutaData &&
-              actRutaData.length > 0 &&
-              actRutaData.map((actividadRuta, index) => {
-                return (
-                  <div key={index} className="form-check">
-                    <input
-                      className="form-check-input"
-                      type={"checkbox"}
-                      checked={
-                        actidadesEmprendedor?.actividades[actividadRuta.id]
-                          ?.estadoActividad == "COMPLETADA"
-                      }
-                      disabled
-                    />
-                    <label className="form-check-label">
-                      {actividadRuta.nombre.toUpperCase()}
-                    </label>
-                  </div>
-                );
-              })}
+            <ul>
+              {actRutaData &&
+                actRutaData.length > 0 &&
+                actRutaData.map((actividadRuta, index) => {
+                  return (
+                    <div key={index} className="form-check">
+                      <input
+                        className="form-check-input"
+                        type={"checkbox"}
+                        checked={
+                          actidadesEmprendedor?.actividades[actividadRuta.id]
+                            ?.estadoActividad == "COMPLETADA"
+                        }
+                        disabled
+                      />
+                      <label className="form-check-label">
+                        {actividadRuta.nombre.toUpperCase()}
+                      </label>
+                    </div>
+                  );
+                })}
+            </ul>
           </div>
         </div>
         <div className="col-md-6">
@@ -228,10 +240,13 @@ function AvanceRuta({ preloadData }) {
                       className="form-check-input"
                       type={"checkbox"}
                       checked={
-                        actidadesEmprendedor?.herramientas[herramientaRuta.id]
-                          ?.idHerramienta == herrRutaData.id &&
-                        actidadesEmprendedor?.herramientas[herramientaRuta.id]
-                          ?.estadoActividad == "COMPLETADA"
+                        actidadesEmprendedor?.herramientas[
+                          herramientaRuta.idSubActividadRuta
+                        ]?.idSubActividad ==
+                          herramientaRuta.idSubActividadRuta &&
+                        actidadesEmprendedor?.herramientas[
+                          herramientaRuta.idSubActividadRuta
+                        ]?.estadoActividad == "COMPLETADA"
                       }
                       disabled
                     />

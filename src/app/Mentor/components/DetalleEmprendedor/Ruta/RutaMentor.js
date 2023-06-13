@@ -75,6 +75,14 @@ function RutaMentor({ idProyectoEmprendimiento, userData }) {
     );
   }
 
+  console.log("AQUI BRAYAN 23", {
+    preloadData,
+    A: preloadData.estadoRuta,
+    B: SINAPSIS_APP_ESTADO_RUTA_EMPRENDIMIENTO_PENDIENTE_APROBAR,
+    C: preloadData.idMentor,
+    D: userData.id,
+  });
+
   return (
     <Card>
       <Subtitulo>Estado de la ruta de I&E de SINAPSIS UAO</Subtitulo>
