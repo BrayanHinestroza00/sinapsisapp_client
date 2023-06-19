@@ -1,10 +1,10 @@
+import { useLocation } from "react-router-dom";
 import { useState } from "react";
 
 import EtapaSonar from "../../components/Ruta/AvanzarRuta/Common/etapa_ruta/Sonar";
 import EtapaPensar from "../../components/Ruta/AvanzarRuta/Common/etapa_ruta/Pensar";
 import EtapaTestear from "../../components/Ruta/AvanzarRuta/Common/etapa_ruta/Testear";
 import EtapaArrancar from "../../components/Ruta/AvanzarRuta/Common/etapa_ruta/Arrancar";
-import { useLocation } from "react-router-dom";
 
 function HomePage() {
   const [iniciar, setIniciar] = useState(false);
@@ -19,9 +19,9 @@ function HomePage() {
   return (
     <>
       <EtapaSonar showButton={true} stateButton={state} />
-      <EtapaPensar showButton={false} />
-      <EtapaTestear showButton={false} />
-      <EtapaArrancar showButton={false} />
+      <EtapaPensar showButton={true} />
+      <EtapaTestear showButton={true} />
+      <EtapaArrancar showButton={true} />
     </>
   );
 }

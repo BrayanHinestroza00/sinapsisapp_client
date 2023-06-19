@@ -1,10 +1,12 @@
+import { useNavigate } from "react-router-dom";
+
 import { Card } from "src/app/Shared/assets/styles/Common";
 
 import sonarIcon from "src/app/Shared/assets/images/ruta_icons/sonar_icon.png";
-import { useNavigate } from "react-router-dom";
 
 function EtapaSonar({ showButton, stateButton }) {
   const navigate = useNavigate();
+
   return (
     <Card className="mb-3">
       <div className="container d-flex justify-content-center">
@@ -26,27 +28,37 @@ function EtapaSonar({ showButton, stateButton }) {
             <p style={{ maxWidth: "50vw" }}>
               En esta fase el emprendedor UAO tiene como objetivo lograr
               consolidar su idea de negocio fortaleciendo sus competencias y
-              habilidades.
+              habilidades. Busca desarrollar competencias del Ser para el hacer,
+              habilidades bandas.
             </p>
 
-            <h2>Objetivos</h2>
-            <ul>
-              <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
-                Generar procesos para el desarrollo de una Cultura en
-                Emprendimiento e Innovación.
-              </li>
-              <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
-                Apoyar al emprendedor a identificar su perfil.
-              </li>
-              <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
-                Identificar perfil y la etapa de desarrollo del proyecto de
-                emprendimiento: soñar, pensar, testear, arrancar.
-              </li>
-              <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
-                Apoyar al emprendedor a identificar su sueño en función del
-                perfil potencial de su emprendimiento o idea.
-              </li>
-            </ul>
+            <p style={{ maxWidth: "50vw" }}>
+              Busca desarrollar competencias del Ser para el hacer, habilidades
+              bandas.
+            </p>
+
+            {showButton && (
+              <>
+                <h2>Objetivos</h2>
+                <ul>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Generar procesos para el desarrollo de una Cultura en
+                    Emprendimiento e Innovación.
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Apoyar al emprendedor a identificar su perfil.
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Identificar perfil y la etapa de desarrollo del proyecto de
+                    emprendimiento: soñar, pensar, testear, arrancar.
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Apoyar al emprendedor a identificar su sueño en función del
+                    perfil potencial de su emprendimiento o idea.
+                  </li>
+                </ul>
+              </>
+            )}
 
             <h2>Resultados / Entregables</h2>
             <ul>
@@ -58,91 +70,60 @@ function EtapaSonar({ showButton, stateButton }) {
               </li>
             </ul>
 
-            <h2>Formación</h2>
-            <ul>
-              <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
-                Conferencias de empresarios / emprendedores / experto.
-              </li>
-              <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
-                Conferencias en tendencias de mercado / tecnología.
-              </li>
-              <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
-                Socialización de resultados de investigación aplicada.
-              </li>
-              <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
-                Presentación de convocatorios y concursos del ecosistema.
-              </li>
-              <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
-                Taller "Ser Emprendedor"
-              </li>
-              <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
-                Taller "Competencias y contextos para aprender"
-              </li>
-              <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
-                Taller para descubrimiento / ideación.
-              </li>
-            </ul>
-
-            <h2>Acompañamiento</h2>
-            <ul>
-              <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
-                Perfilamiento de la iniciativa de emprendimiento.
-              </li>
-              <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
-                Perfilamiento de las competencias emprendedor.
-              </li>
-              <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
-                Coaching para emprendedores (Individual - Grupal)
-              </li>
-              <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
-                Codesarrollo.
-              </li>
-            </ul>
-
-            <h2>Herramientas</h2>
-            <ul>
-              <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
-                Estructuración de la idea de negocio
+            {showButton && (
+              <>
+                <h2>Formación</h2>
                 <ul>
-                  <li
-                    style={{
-                      listStyleType: "circle",
-                      marginLeft: "1rem",
-                      marginTop: "0.5rem",
-                    }}
-                  >
-                    Conectar y potencializar tu perfil como emprendedor
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Conferencias de empresarios / emprendedores / experto.
                   </li>
-                  <li
-                    style={{
-                      listStyleType: "circle",
-                      marginLeft: "1rem",
-                      marginTop: "0.5rem",
-                    }}
-                  >
-                    Descubrirse como emprendedor
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Conferencias en tendencias de mercado / tecnología.
                   </li>
-                  <li
-                    style={{
-                      listStyleType: "circle",
-                      marginLeft: "1rem",
-                      marginTop: "0.5rem",
-                    }}
-                  >
-                    Definirse como emprendedor
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Socialización de resultados de investigación aplicada.
                   </li>
-                  <li
-                    style={{
-                      listStyleType: "circle",
-                      marginLeft: "1rem",
-                      marginTop: "0.5rem",
-                    }}
-                  >
-                    Contenido educativo para estructuración de idea
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Presentación de convocatorios y concursos del ecosistema.
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Taller "Ser Emprendedor"
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Taller "Competencias y contextos para aprender"
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Taller para descubrimiento / ideación.
                   </li>
                 </ul>
-              </li>
-            </ul>
+
+                <h2>Acompañamiento</h2>
+                <ul>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Perfilamiento de la iniciativa de emprendimiento.
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Perfilamiento de las competencias emprendedor.
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Coaching para emprendedores (Individual - Grupal)
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Codesarrollo.
+                  </li>
+                </ul>
+
+                <h2>Herramientas</h2>
+                <ul>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Perfil de Emprendedor
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "2rem" }}>
+                    Estructuración de la Idea.
+                  </li>
+                </ul>
+              </>
+            )}
 
             {showButton && (
               <button

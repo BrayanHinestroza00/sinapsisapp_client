@@ -1,19 +1,24 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Breadcrumb } from "react-bootstrap";
 
-import { Card } from "src/app/Shared/assets/styles/Common";
 import DropZone from "src/app/Shared/components/DropZone/DropZone";
+import SeccionRuta from "../../../components/Ruta/AvanzarRuta/Common/seccion";
+import EtapaSonar from "src/app/Emprendedor/components/Ruta/AvanzarRuta/Common/etapa_ruta/Sonar";
+
 import {
   messageAlert,
   messageAlertWithoutText,
 } from "src/app/Shared/utils/messageAlerts";
-
-import SeccionRuta from "../../../components/Ruta/AvanzarRuta/Common/seccion";
-import EtapaSonar from "src/app/Emprendedor/components/Ruta/AvanzarRuta/Common/etapa_ruta/Sonar";
-import { useNavigate } from "react-router-dom";
+import PerfilModal from "src/app/Emprendedor/components/Ruta/AvanzarRuta/Soñar/PerfilModal";
+import EstructuracionModal from "src/app/Emprendedor/components/Ruta/AvanzarRuta/Soñar/EstructuracionModal";
 
 function SonarPage() {
-  const [pagina, setPagina] = useState(0);
   const navigate = useNavigate();
+
+  const [pagina, setPagina] = useState(0);
+  const [showModalPerfil, setShowModalPerfil] = useState(false);
+  const [showModalEstructuracion, setShowModalEstructuracion] = useState(false);
 
   const onClicSubirArchivo = () => {
     messageAlertWithoutText({
@@ -27,7 +32,7 @@ function SonarPage() {
           icon: "success",
           confirmButtonText: "Aceptar",
           onConfirm: () => {
-            setPagina(4);
+            setPagina(3);
           },
         });
       },
@@ -60,142 +65,38 @@ function SonarPage() {
     });
   };
 
+  const onContinuePerfil = () => {
+    setShowModalPerfil(false);
+    setPagina(1);
+  };
+
+  const onContinueEstructuracion = () => {
+    setShowModalEstructuracion(false);
+    setPagina(4);
+  };
+
   return (
     <>
-      {/* <Card className="mb-3">
-        <div className="container d-flex justify-content-center">
-          <figure
-            className="d-flex align-items-center"
-            style={{ width: "10%" }}
-          >
-            <img style={{ width: "100%" }} src={sonarIcon} />
-          </figure>
-          <div className="d-flex align-items-center">
-            <div className="d-flex flex-column p-2">
-              <h1 style={{ fontWeight: "900" }}>
-                Ruta de Innovación y Emprendimiento: SOÑAR
-              </h1>
-              <p style={{ marginBottom: "1rem" }}>
-                <b>1 mes - Etapa Soñar - 1 Sección</b>
-              </p>
-
-              <p style={{ maxWidth: "50vw" }}>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets
-                containing Lorem Ipsum passages, and more recently with desktop
-                publishing software like Aldus PageMaker including versions of
-                Lorem Ipsum.
-              </p>
-
-              <h2>Requisitos</h2>
-              <ul>
-                <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
-                  Registrar Primera Atención
-                </li>
-              </ul>
-
-              <h2>Secciones</h2>
-              <ul>
-                <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
-                  Estructuración de la idea de negocio
-                  <ul>
-                    <li
-                      style={{
-                        listStyleType: "circle",
-                        marginLeft: "1rem",
-                        marginTop: "0.5rem",
-                      }}
-                    >
-                      Conectar y potencializar tu perfil como emprendedor
-                    </li>
-                    <li
-                      style={{
-                        listStyleType: "circle",
-                        marginLeft: "1rem",
-                        marginTop: "0.5rem",
-                      }}
-                    >
-                      Descubrirse como emprendedor
-                    </li>
-                    <li
-                      style={{
-                        listStyleType: "circle",
-                        marginLeft: "1rem",
-                        marginTop: "0.5rem",
-                      }}
-                    >
-                      Definirse como emprendedor
-                    </li>
-                    <li
-                      style={{
-                        listStyleType: "circle",
-                        marginLeft: "1rem",
-                        marginTop: "0.5rem",
-                      }}
-                    >
-                      Contenido educativo para estructuración de idea
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-
-              <button
-                onClick={() => setIniciar(true)}
-                className="btn btn-primary w-25"
-              >
-                Iniciar
-              </button>
-            </div>
-          </div>
-        </div>
-      </Card> */}
-
       <EtapaSonar showButton={false} />
 
       <>
         {pagina == 0 && (
           <SeccionRuta>
+            <Breadcrumb>
+              <Breadcrumb.Item href="#">Soñar</Breadcrumb.Item>
+              <Breadcrumb.Item active href="#">
+                Perfil Emprendedor
+              </Breadcrumb.Item>
+            </Breadcrumb>
+
             <h1 style={{ fontWeight: "700" }}>
-              Sección 1: Estructuración de la idea de negocio{" "}
+              Conectar y potencializar tu perfil como emprendedor
             </h1>
 
-            <h2>
-              Subsección 1: Conectar y potencializar tu perfil como emprendedor{" "}
-            </h2>
             <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and
-              typesetting industry. Lorem Ipsum has been the industry's standard
-              dummy text ever since the 1500s, when an unknown printer took a
-              galley of type and scrambled it to make a type specimen book. It
-              has survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
-            </p>
-
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged.
+              Conceptos de emprendimiento e innovación, las alternativas que
+              existen para emprender e innovar, así como las habilidades y
+              herramientas que se necesitan para tener procesos más efectivos.
             </p>
 
             <h3>CAPSULA INFORMATIVA</h3>
@@ -219,8 +120,8 @@ function SonarPage() {
               />
               <div className="card-body">
                 <p className="card-text">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
+                  Introducción al curso Ruta 0 - Plataforma virtual Sinapsis
+                  UAO.
                 </p>
               </div>
             </div>
@@ -228,20 +129,31 @@ function SonarPage() {
             <button
               type="button"
               className="btn btn-primary w-50 mt-5 mb-5"
-              onClick={() => setPagina(1)}
+              onClick={() => setShowModalPerfil(true)}
             >
-              Siguiente sección
+              Continuar ...
             </button>
           </SeccionRuta>
         )}
 
+        {showModalPerfil && (
+          <PerfilModal
+            show={showModalPerfil}
+            onHide={() => setShowModalPerfil(false)}
+            onContinue={() => onContinuePerfil()}
+          />
+        )}
+
         {pagina == 1 && (
           <SeccionRuta>
-            <h1 style={{ fontWeight: "700" }}>
-              Sección 1: Estructuración de la idea de negocio{" "}
-            </h1>
+            <Breadcrumb>
+              <Breadcrumb.Item href="#">Soñar</Breadcrumb.Item>
+              <Breadcrumb.Item active href="#">
+                Perfil Emprendedor
+              </Breadcrumb.Item>
+            </Breadcrumb>
 
-            <h2>Subsección 2: Descubrirse como emprendedor</h2>
+            <h1 style={{ fontWeight: "700" }}>Descubrirse como emprendendor</h1>
 
             <h3>CAPSULA INFORMATIVA</h3>
 
@@ -254,8 +166,8 @@ function SonarPage() {
               }}
             >
               <iframe
-                src="https://www.youtube.com/embed/rrUp4fjAYc8"
-                title="Introducción al curso Ruta 0 - Plataforma virtual Sinapsis UAO"
+                src="https://www.youtube.com/embed/5uo2yctul7k"
+                title="Introducción al curso Ruta 1 - - Plataforma virtual Sinapsis UAO"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
@@ -264,8 +176,8 @@ function SonarPage() {
               />
               <div className="card-body">
                 <p className="card-text">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
+                  Introducción al curso Ruta 1 - - Plataforma virtual Sinapsis
+                  UAO
                 </p>
               </div>
             </div>
@@ -275,59 +187,23 @@ function SonarPage() {
               className="btn btn-primary w-50 mt-5 mb-5"
               onClick={() => setPagina(2)}
             >
-              Siguiente sección
+              Continuar ...
             </button>
           </SeccionRuta>
         )}
 
         {pagina == 2 && (
           <SeccionRuta>
-            <h1 style={{ fontWeight: "700" }}>
-              Sección 1: Estructuración de la idea de negocio{" "}
-            </h1>
+            <Breadcrumb>
+              <Breadcrumb.Item href="#">Soñar</Breadcrumb.Item>
+              <Breadcrumb.Item active href="#">
+                Perfil Emprendedor
+              </Breadcrumb.Item>
+            </Breadcrumb>
 
-            <h2>Subsección 3: Definirse como emprendedor </h2>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and
-              typesetting industry. Lorem Ipsum has been the industry's standard
-              dummy text ever since the 1500s, when an unknown printer took a
-              galley of type and scrambled it to make a type specimen book. It
-              has survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
-            </p>
+            <h1 style={{ fontWeight: "700" }}>Definirse como emprendedor</h1>
 
-            <button
-              type="button"
-              className="btn btn-primary w-50 mt-5 mb-5"
-              onClick={() => setPagina(3)}
-            >
-              Siguiente sección
-            </button>
-          </SeccionRuta>
-        )}
-
-        {pagina == 3 && (
-          <SeccionRuta>
-            <h1 style={{ fontWeight: "700" }}>
-              Sección 1: Estructuración de la idea de negocio{" "}
-            </h1>
-
-            <h2 className="mx-0">
-              Subsección 4: Herramientas del conocimiento
-            </h2>
+            <h3 className="mx-0">Herramientas del conocimiento</h3>
 
             <p style={{ marginBottom: "1rem" }}>
               Las siguientes herramientas te ayudaran con la apropiación de los
@@ -365,25 +241,32 @@ function SonarPage() {
                 </button>
               </div>
             </form>
-
-            {/* <button
-                className="btn btn-primary w-50 mt-5 mb-5"
-                onClick={() => setPagina(0)}
-              >
-                Siguiente sección
-              </button> */}
           </SeccionRuta>
         )}
 
-        {pagina == 4 && (
+        {pagina == 3 && (
           <SeccionRuta>
+            <Breadcrumb>
+              <Breadcrumb.Item href="#">Soñar</Breadcrumb.Item>
+              <Breadcrumb.Item active href="#">
+                Estructuración de la idea de negocio
+              </Breadcrumb.Item>
+            </Breadcrumb>
+
             <h1 style={{ fontWeight: "700" }}>
-              Sección 1: Estructuración de la idea de negocio{" "}
+              Estructuración de la idea de negocio
             </h1>
 
-            <h2>
-              Subsección 5: Contenido educativo para estructuración de idea
-            </h2>
+            <h2>CONCEPTO DE EMPRESA</h2>
+
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+              facilisis at elit non scelerisque. Aliquam volutpat odio non
+              rhoncus blandit. Cras elit sapien, scelerisque in fermentum et,
+              sodales quis quam. Donec rhoncus eleifend erat, in consequat ante
+              tincidunt eu. Vestibulum et gravida leo. Nam elit quam, consequat
+              nec tincidunt in, luctus et mi. Nunc at tincidunt turpis.
+            </p>
 
             <h3>CAPSULA INFORMATIVA</h3>
 
@@ -396,8 +279,8 @@ function SonarPage() {
               }}
             >
               <iframe
-                src="https://www.youtube.com/embed/rrUp4fjAYc8"
-                title="Introducción al curso Ruta 0 - Plataforma virtual Sinapsis UAO"
+                src="https://www.youtube.com/embed/tm4ce7PkeGg"
+                title="Concepto de Empresa"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
@@ -405,55 +288,81 @@ function SonarPage() {
                 className="card-img-top"
               />
               <div className="card-body">
-                <p className="card-text">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </p>
+                <p className="card-text">Concepto de Empresa</p>
               </div>
             </div>
 
-            <>
-              <h2 className="mx-0">Herramientas del conocimiento</h2>
+            <button
+              type="button"
+              className="btn btn-primary w-50 mt-5 mb-5"
+              onClick={() => setShowModalEstructuracion(true)}
+            >
+              Continuar ...
+            </button>
+          </SeccionRuta>
+        )}
 
-              <p style={{ marginBottom: "1rem" }}>
-                Las siguientes herramientas te ayudaran con la apropiación de
-                los conceptos mencionados anteriormente
-              </p>
+        {showModalEstructuracion && (
+          <EstructuracionModal
+            show={showModalEstructuracion}
+            onHide={() => setShowModalEstructuracion(false)}
+            onContinue={() => onContinueEstructuracion()}
+          />
+        )}
 
-              <h3 style={{ marginBottom: "1rem" }}>
-                Plantilla estructuración de la idea
-              </h3>
-              <p style={{ marginBottom: "1rem" }}>
-                Con la realización de esta plantilla le proponemos realizar
-                acciones concretas para ayudarle a comprender mejor su potencial
-                empresarial, fortalecer sus habilidades e impulsar sus proyectos
-                de negocio.
-                <br />
-                <a
-                  target="_blank"
-                  href="https://uao-my.sharepoint.com/:x:/r/personal/djrestrepo_uao_edu_co/_layouts/15/Doc.aspx?sourcedoc=%7B73D97C66-042D-4408-A6E7-68E6325FA7C8%7D&file=3.%20Perfil%20del%20emprendedor%20Ruta%20de%20Innovaci%C3%B2n%20y%20Emprendimiento%20UAO.xlsm&action=default&mobileredirect=true"
+        {pagina == 4 && (
+          <SeccionRuta>
+            <Breadcrumb>
+              <Breadcrumb.Item href="#">Soñar</Breadcrumb.Item>
+              <Breadcrumb.Item active href="#">
+                Estructuración de la idea de negocio
+              </Breadcrumb.Item>
+            </Breadcrumb>
+
+            <h1 style={{ fontWeight: "700" }}>
+              Estructuración de la idea de negocio
+            </h1>
+
+            <h3 className="mx-0">Herramientas del conocimiento</h3>
+
+            <p style={{ marginBottom: "1rem" }}>
+              Las siguientes herramientas te ayudaran con la apropiación de los
+              conceptos mencionados anteriormente
+            </p>
+
+            <h3 style={{ marginBottom: "1rem" }}>
+              Plantilla estructuración de la idea
+            </h3>
+            <p style={{ marginBottom: "1rem" }}>
+              Con la realización de esta plantilla le proponemos realizar
+              acciones concretas para ayudarle a comprender mejor su potencial
+              empresarial, fortalecer sus habilidades e impulsar sus proyectos
+              de negocio.
+              <br />
+              <a
+                target="_blank"
+                href="https://uao-my.sharepoint.com/:w:/r/personal/djrestrepo_uao_edu_co/Documents/CI%26E/SINAPSIS%202023/CIES-7.3-16%20INFORMES%20RUTA%20DE%20INNOVACI%C3%93N/CIES-7.3-16-20%20Informes%20de%20Consejer%C3%ADa/RUTA%20DE%20INNOVACI%C3%93N%20Y%20EMPRENDIMIENTO/Herramientas%20Etapas/So%C3%B1ar/ESTRUCTURA%20IDEA%20DE%20NEGOCIO.docx?d=w637c518d78a84e259c0dfb980a5616d3&csf=1&web=1&e=KzZHX8"
+              >
+                Descarga plantilla de estructuración de la idea
+              </a>
+            </p>
+
+            <form>
+              <div className="text-center">
+                <p>
+                  A continuación, podrás cargar la plantilla de estructuración
+                  de la idea diligenciada
+                </p>
+                <DropZone />
+                <button
+                  type="button"
+                  className="btn btn-primary mt-3 w-25"
+                  onClick={() => onClicSubirArchivo2()}
                 >
-                  Descarga plantilla de estructuración de la idea
-                </a>
-              </p>
-
-              <form>
-                <div className="text-center">
-                  <p>
-                    A continuación, podrás cargar la plantilla de estructuración
-                    de la idea diligenciada
-                  </p>
-                  <DropZone />
-                  <button
-                    type="button"
-                    className="btn btn-primary mt-3 w-25"
-                    onClick={() => onClicSubirArchivo2()}
-                  >
-                    Subir
-                  </button>
-                </div>
-              </form>
-            </>
+                  Subir
+                </button>
+              </div>
+            </form>
           </SeccionRuta>
         )}
       </>

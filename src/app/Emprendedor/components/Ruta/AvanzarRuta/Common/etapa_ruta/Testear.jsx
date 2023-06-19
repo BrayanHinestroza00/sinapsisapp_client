@@ -1,8 +1,13 @@
+import { useLocation, useNavigate } from "react-router-dom";
+
 import { Card } from "src/app/Shared/assets/styles/Common";
 
 import testearIcon from "src/app/Shared/assets/images/ruta_icons/testear_icon.png";
 
-function EtapaTestear({ showButton }) {
+function EtapaTestear({ showButton, stateButton }) {
+  const navigate = useNavigate();
+  const { state } = useLocation();
+
   return (
     <Card className="mb-3">
       <div className="container d-flex justify-content-center">
@@ -18,161 +23,128 @@ function EtapaTestear({ showButton }) {
               Ruta de Innovación y Emprendimiento: TESTEAR
             </h1>
             <p style={{ marginBottom: "1rem" }}>
-              <b>4 meses - Etapa testear - 3 Sección</b>
+              <b>12 semanas - Etapa testear - 3 Sección</b>
             </p>
 
             <p style={{ maxWidth: "50vw" }}>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
+              En esta fase el emprendedor UAO tiene como objetivo realizar las
+              validaciones de su producto o servicio con su publico objetivo e
+              identificar la viabilidad del proyecto.
             </p>
 
-            <h2>Requisitos</h2>
-            <ul>
-              <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
-                Primer modelo de negocio
-              </li>
-            </ul>
+            <p style={{ maxWidth: "50vw" }}>
+              El emprendedor aprende a manejar herramientas de prototipado y
+              validación para la toma de decisiones.
+            </p>
 
-            <h2>Secciones</h2>
+            {showButton && (
+              <>
+                <h2>Objetivos</h2>
+                <ul>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Fortalecer procesos de experimentación/ prototipado para el
+                    emprendimiento y la innovación.
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Apoyar al emprendedor a testear el mercado y definirsu
+                    segmento de clientes – validación de hipótesis.
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Apoyar la estructuración del plan de negocios desde un
+                    enfoque de innovación.
+                  </li>
+                </ul>
+              </>
+            )}
+
+            <h2>Resultados / Entregables</h2>
             <ul>
               <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
-                Mejorando mi modelo de negocio
-                <ul>
-                  <li
-                    style={{
-                      listStyleType: "circle",
-                      marginLeft: "1rem",
-                      marginTop: "0.5rem",
-                    }}
-                  >
-                    Canales
-                  </li>
-                  <li
-                    style={{
-                      listStyleType: "circle",
-                      marginLeft: "1rem",
-                      marginTop: "0.5rem",
-                    }}
-                  >
-                    Relación con el Cliente
-                  </li>
-                  <li
-                    style={{
-                      listStyleType: "circle",
-                      marginLeft: "1rem",
-                      marginTop: "0.5rem",
-                    }}
-                  >
-                    Actividades Claves
-                  </li>
-                  <li
-                    style={{
-                      listStyleType: "circle",
-                      marginLeft: "1rem",
-                      marginTop: "0.5rem",
-                    }}
-                  >
-                    Recursos Claves
-                  </li>
-                  <li
-                    style={{
-                      listStyleType: "circle",
-                      marginLeft: "1rem",
-                      marginTop: "0.5rem",
-                    }}
-                  >
-                    Aliados Claves
-                  </li>
-                  <li
-                    style={{
-                      listStyleType: "circle",
-                      marginLeft: "1rem",
-                      marginTop: "0.5rem",
-                    }}
-                  >
-                    Costos - Gastos
-                  </li>
-                  <li
-                    style={{
-                      listStyleType: "circle",
-                      marginLeft: "1rem",
-                      marginTop: "0.5rem",
-                    }}
-                  >
-                    Ingresos
-                  </li>
-                </ul>
+                Prototipo o producto mínimo viable.
               </li>
               <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
-                Estudio de Mercado
-                <ul>
-                  <li
-                    style={{
-                      listStyleType: "circle",
-                      marginLeft: "1rem",
-                      marginTop: "0.5rem",
-                    }}
-                  >
-                    Estudio de mercado Competencia
-                  </li>
-                  <li
-                    style={{
-                      listStyleType: "circle",
-                      marginLeft: "1rem",
-                      marginTop: "0.5rem",
-                    }}
-                  >
-                    Estudio de mercado Ecosistema
-                  </li>
-                  <li
-                    style={{
-                      listStyleType: "circle",
-                      marginLeft: "1rem",
-                      marginTop: "0.5rem",
-                    }}
-                  >
-                    Estudio de mercado Cliente
-                  </li>
-                  <li
-                    style={{
-                      listStyleType: "circle",
-                      marginLeft: "1rem",
-                      marginTop: "0.5rem",
-                    }}
-                  >
-                    Estrategia de Producto
-                  </li>
-                  <li
-                    style={{
-                      listStyleType: "circle",
-                      marginLeft: "1rem",
-                      marginTop: "0.5rem",
-                    }}
-                  >
-                    Estrategia de precio
-                  </li>
-                </ul>
+                Plan de negocios.
               </li>
               <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
-                Prototipo o validación
+                Estrategia de creación.
               </li>
             </ul>
 
             {showButton && (
+              <>
+                <h2>Formación</h2>
+                <ul>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Conferencias de empresarios / emprendedores / experto.
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Conferencias en tendencias de mercado / tecnología.
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Socialización de resultados de investigación aplicada.
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Presentación de convocatorios y concursos del ecosistema.
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Taller "BMG (2) - Test concepto"
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Taller "Gestión contable e impuestos 1"
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Taller de prototipado.
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Taller "Estrategia financiera 1"
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Taller "Planificación general y plan de negocios"
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Taller "Estudio de mercado emprender"
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Taller "Gestión de operaciones y recursos"
+                  </li>
+                </ul>
+
+                <h2>Acompañamiento</h2>
+                <ul>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Acompañamiento con expertos (Individual - Grupal).
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Coaching para emprendedores (Individual - Grupal)
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Codesarrollo.
+                  </li>
+                </ul>
+
+                <h2>Herramientas</h2>
+                <ul>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Modelo Canvas
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "1rem" }}>
+                    Asesoría especializada (Guía para desarrollo de un estudio
+                    de mercado)
+                  </li>
+                  <li style={{ listStyleType: "square", marginBottom: "2rem" }}>
+                    Asesoría especializada (Prototipo o validación)
+                  </li>
+                </ul>
+              </>
+            )}
+
+            {showButton && (
               <button
-                onClick={() => window.alert("Redirigir a etapa de ruta")}
+                onClick={() => navigate("/Emprendedor/Ruta/Avanzar/Testear")}
                 className="btn btn-primary w-25"
-                disabled
+                disabled={state?.stateButton == 3}
               >
-                Iniciar
+                {state?.stateButton == 3 ? "En revision" : "Iniciar"}
               </button>
             )}
           </div>
