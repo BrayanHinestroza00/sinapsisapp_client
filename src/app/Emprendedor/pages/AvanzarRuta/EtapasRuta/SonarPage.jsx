@@ -259,17 +259,6 @@ function SonarPage() {
 
             <h2>CONCEPTO DE EMPRESA</h2>
 
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-              facilisis at elit non scelerisque. Aliquam volutpat odio non
-              rhoncus blandit. Cras elit sapien, scelerisque in fermentum et,
-              sodales quis quam. Donec rhoncus eleifend erat, in consequat ante
-              tincidunt eu. Vestibulum et gravida leo. Nam elit quam, consequat
-              nec tincidunt in, luctus et mi. Nunc at tincidunt turpis.
-            </p>
-
-            <h3>CAPSULA INFORMATIVA</h3>
-
             <div
               className="card mx-auto"
               style={{

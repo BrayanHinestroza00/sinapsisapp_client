@@ -202,3 +202,15 @@ export function obtenerDiaSemana(nombreDia) {
       return "N/A";
   }
 }
+
+export function getRandomRGBColor() {
+  const randomNum = () => Math.floor(Math.random() * (235 - 52 + 1) + 52);
+
+  const randomRGB = () => `rgb(${randomNum()}, ${randomNum()}, ${randomNum()})`;
+
+  return randomRGB;
+}
+
+export function removeDuplicatesItems(arr) {
+  return arr.filter((item, index) => arr.indexOf(item) === index);
+}

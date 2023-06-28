@@ -135,8 +135,6 @@ function TestearPage() {
                   rhoncus blandit.
                 </p>
 
-                <h3>CAPSULA INFORMATIVA</h3>
-
                 <div
                   className="card mx-auto"
                   style={{

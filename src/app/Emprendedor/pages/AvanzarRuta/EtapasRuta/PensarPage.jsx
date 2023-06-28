@@ -144,53 +144,7 @@ function PensarPage() {
                 consequat nec tincidunt in, luctus et mi. Nunc at tincidunt
                 turpis.
               </p>
-
-              <div className="d-flex justify-content-around">
-                <div>
-                  <h4>Ventajas</h4>
-                  <ul>
-                    <li
-                      style={{ listStyleType: "square", marginBottom: "1rem" }}
-                    >
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </li>
-                    <li
-                      style={{ listStyleType: "square", marginBottom: "1rem" }}
-                    >
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </li>
-                    <li
-                      style={{ listStyleType: "square", marginBottom: "1rem" }}
-                    >
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h4>Desventajas</h4>
-                  <ul>
-                    <li
-                      style={{ listStyleType: "square", marginBottom: "1rem" }}
-                    >
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </li>
-                    <li
-                      style={{ listStyleType: "square", marginBottom: "1rem" }}
-                    >
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </li>
-                    <li
-                      style={{ listStyleType: "square", marginBottom: "1rem" }}
-                    >
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </li>
-                  </ul>
-                </div>
-              </div>
             </div>
-
-            <h3>CAPSULA INFORMATIVA</h3>
 
             <div
               className="card mx-auto"

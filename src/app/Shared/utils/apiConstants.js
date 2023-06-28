@@ -62,6 +62,8 @@ export const URL_OBTENER_EMPRENDEDIMIENTOS_MENTOR =
 
 export const URL_RESTABLECER_CONTRASEÑA = HOST + "/restablecer_password";
 export const URL_DESACTIVAR_CUENTA = HOST + "/desactivar_usuario";
+export const URL_REPORTES_FORMACION = HOST + "/reportes/indicadores_formacion";
+export const URL_REPORTES_GESTION = HOST + "/reportes/indicadores_gestion";
 
 /**
  * Rutas usadas por el Emprendedor
