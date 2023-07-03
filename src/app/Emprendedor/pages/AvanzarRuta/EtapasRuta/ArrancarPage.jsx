@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Breadcrumb } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import DropZone from "src/app/Shared/components/DropZone/DropZone";
 import SeccionRuta from "../../../components/Ruta/AvanzarRuta/Common/seccion";
@@ -15,10 +15,34 @@ import ComercialModal from "src/app/Emprendedor/components/Ruta/AvanzarRuta/Arra
 
 function ArrancarPage() {
   const navigate = useNavigate();
+  const { state } = useLocation();
 
   const [pagina, setPagina] = useState(0);
   const [showModalFinanciera, setShowModalFinanciera] = useState(false);
   const [showModalComercial, setShowModalComercial] = useState(false);
+
+  useEffect(() => {
+    switch (state?.subActividadRutaId) {
+      case "15":
+        setPagina(0);
+        break;
+      case "16":
+        setPagina(1);
+        break;
+
+      case "17":
+        setPagina(1);
+        break;
+
+      case "18":
+        setPagina(2);
+        break;
+
+      default:
+        setPagina(0);
+        break;
+    }
+  }, []);
 
   const onClicSubirArchivo = () => {
     messageAlertWithoutText({

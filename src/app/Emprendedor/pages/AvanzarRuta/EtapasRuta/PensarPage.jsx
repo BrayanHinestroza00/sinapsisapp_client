@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Breadcrumb } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import EtapaPensar from "src/app/Emprendedor/components/Ruta/AvanzarRuta/Common/etapa_ruta/Pensar";
 import SeccionRuta from "src/app/Emprendedor/components/Ruta/AvanzarRuta/Common/seccion";
@@ -15,10 +15,30 @@ import {
 
 function PensarPage() {
   const navigate = useNavigate();
+  const { state } = useLocation();
 
-  const [pagina, setPagina] = useState(1);
+  const [pagina, setPagina] = useState(0);
   const [showModalModelo, setShowModalModelo] = useState(false);
   const [showModalBMC, setShowModalBMC] = useState(false);
+
+  useEffect(() => {
+    switch (state?.subActividadRutaId) {
+      case "6":
+        setPagina(0);
+        break;
+      case "7":
+        setPagina(1);
+        break;
+
+      case "8":
+        setPagina(2);
+        break;
+
+      default:
+        setPagina(0);
+        break;
+    }
+  }, []);
 
   const onClicSubirArchivo = () => {
     messageAlertWithoutText({
@@ -67,21 +87,13 @@ function PensarPage() {
               <Breadcrumb.Item active href="#">
                 Mi primer modelo de negocio
               </Breadcrumb.Item>
+              <Breadcrumb.Item active href="#">
+                Modelo de negocio
+              </Breadcrumb.Item>
             </Breadcrumb>
 
-            <h1 style={{ fontWeight: "700" }}>CANVAS DE MODELO DE NEGOCIO</h1>
-
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-              facilisis at elit non scelerisque. Aliquam volutpat odio non
-              rhoncus blandit. Cras elit sapien, scelerisque in fermentum et,
-              sodales quis quam. Donec rhoncus eleifend erat, in consequat ante
-              tincidunt eu. Vestibulum et gravida leo. Nam elit quam, consequat
-              nec tincidunt in, luctus et mi. Nunc at tincidunt turpis.
-            </p>
-
             <div>
-              <h3>Modelo de negocio</h3>
+              <h1 style={{ fontWeight: "700" }}>Modelo de negocio</h1>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
                 facilisis at elit non scelerisque. Aliquam volutpat odio non
@@ -93,81 +105,29 @@ function PensarPage() {
               </p>
               <br />
 
-              <div>
-                <h3>CAPSULA INFORMATIVA</h3>
-
-                <div
-                  className="card mx-auto"
-                  style={{
-                    width: "50vw",
-                    backgroundColor: "#999",
-                    color: "#FFF",
-                  }}
-                >
-                  <iframe
-                    src="https://www.youtube.com/embed/lofMcS_sahw"
-                    title="Canales en tu modelo de negocio"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    style={{ minHeight: "50vh" }}
-                    className="card-img-top"
-                  />
-                  <div className="card-body">
-                    <p className="card-text">
-                      Canales en tu modelo de negocio.
-                    </p>
-                  </div>
+              <div
+                className="card mx-auto"
+                style={{
+                  width: "50vw",
+                  backgroundColor: "#999",
+                  color: "#FFF",
+                }}
+              >
+                <iframe
+                  src="https://www.youtube.com/embed/XqMuc7-vRAQ"
+                  title="Introducción al curso Ruta 3 - Plataforma virtual Sinapsis UAO"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  style={{ minHeight: "50vh" }}
+                  className="card-img-top"
+                />
+                <div className="card-body">
+                  <p className="card-text">
+                    Introducción al curso Ruta 3 - Plataforma virtual Sinapsis
+                    UAO.
+                  </p>
                 </div>
-              </div>
-            </div>
-
-            <div>
-              <h3>Que es un BMC (Características, Ventajas)</h3>
-
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                facilisis at elit non scelerisque. Aliquam volutpat odio non
-                rhoncus blandit. Cras elit sapien, scelerisque in fermentum et,
-                sodales quis quam. Donec rhoncus eleifend erat, in consequat
-                ante tincidunt eu. Vestibulum et gravida leo. Nam elit quam,
-                consequat nec tincidunt in, luctus et mi. Nunc at tincidunt
-                turpis.
-              </p>
-              <br />
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                facilisis at elit non scelerisque. Aliquam volutpat odio non
-                rhoncus blandit. Cras elit sapien, scelerisque in fermentum et,
-                sodales quis quam. Donec rhoncus eleifend erat, in consequat
-                ante tincidunt eu. Vestibulum et gravida leo. Nam elit quam,
-                consequat nec tincidunt in, luctus et mi. Nunc at tincidunt
-                turpis.
-              </p>
-            </div>
-
-            <div
-              className="card mx-auto"
-              style={{
-                width: "50vw",
-                backgroundColor: "#999",
-                color: "#FFF",
-              }}
-            >
-              <iframe
-                src="https://www.youtube.com/embed/rrUp4fjAYc8"
-                title="Introducción al curso Ruta 0 - Plataforma virtual Sinapsis UAO"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                style={{ minHeight: "50vh" }}
-                className="card-img-top"
-              />
-              <div className="card-body">
-                <p className="card-text">
-                  Introducción al curso Ruta 0 - Plataforma virtual Sinapsis
-                  UAO.
-                </p>
               </div>
             </div>
 
@@ -197,14 +157,12 @@ function PensarPage() {
                 Mi primer modelo de negocio
               </Breadcrumb.Item>
               <Breadcrumb.Item active href="#">
-                CANVAS DE MODELO DE NEGOCIO
+                Business Model Canvas
               </Breadcrumb.Item>
             </Breadcrumb>
-            <h1 style={{ fontWeight: "700" }}>CANVAS DE MODELO DE NEGOCIO</h1>
 
             <div>
-              <h3>Que es un BMC (Características, Ventajas)</h3>
-
+              <h1 style={{ fontWeight: "700" }}>¿Qué es un BMC?</h1>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
                 facilisis at elit non scelerisque. Aliquam volutpat odio non
@@ -224,50 +182,6 @@ function PensarPage() {
                 consequat nec tincidunt in, luctus et mi. Nunc at tincidunt
                 turpis.
               </p>
-
-              <div className="d-flex justify-content-around">
-                <div>
-                  <h4>Ventajas</h4>
-                  <ul>
-                    <li
-                      style={{ listStyleType: "square", marginBottom: "1rem" }}
-                    >
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </li>
-                    <li
-                      style={{ listStyleType: "square", marginBottom: "1rem" }}
-                    >
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </li>
-                    <li
-                      style={{ listStyleType: "square", marginBottom: "1rem" }}
-                    >
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h4>Desventajas</h4>
-                  <ul>
-                    <li
-                      style={{ listStyleType: "square", marginBottom: "1rem" }}
-                    >
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </li>
-                    <li
-                      style={{ listStyleType: "square", marginBottom: "1rem" }}
-                    >
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </li>
-                    <li
-                      style={{ listStyleType: "square", marginBottom: "1rem" }}
-                    >
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </li>
-                  </ul>
-                </div>
-              </div>
             </div>
 
             <h3>CAPSULA INFORMATIVA</h3>
@@ -322,11 +236,11 @@ function PensarPage() {
                 Mi primer modelo de negocio
               </Breadcrumb.Item>
               <Breadcrumb.Item active href="#">
-                CANVAS DE MODELO DE NEGOCIO
+                Modelo de negocio
               </Breadcrumb.Item>
             </Breadcrumb>
 
-            <h1 style={{ fontWeight: "700" }}>CANVAS DE MODELO DE NEGOCIO</h1>
+            <h1 style={{ fontWeight: "700" }}>Modelo de negocio</h1>
 
             <h3 className="mx-0">Herramientas del conocimiento</h3>
 

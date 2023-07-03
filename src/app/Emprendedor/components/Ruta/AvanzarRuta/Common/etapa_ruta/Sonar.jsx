@@ -4,7 +4,7 @@ import { Card } from "src/app/Shared/assets/styles/Common";
 
 import sonarIcon from "src/app/Shared/assets/images/ruta_icons/sonar_icon.png";
 
-function EtapaSonar({ showButton, stateButton }) {
+function EtapaSonar({ showButton, stateButton, lastActivity }) {
   const navigate = useNavigate();
 
   return (
@@ -127,11 +127,19 @@ function EtapaSonar({ showButton, stateButton }) {
 
             {showButton && (
               <button
-                onClick={() => navigate("/Emprendedor/Ruta/Avanzar/Soñar")}
+                onClick={() =>
+                  navigate("/Emprendedor/Ruta/Avanzar/Soñar", {
+                    state: lastActivity,
+                  })
+                }
                 className="btn btn-primary w-25"
-                disabled={stateButton?.stateButton == 1}
+                disabled={stateButton == 1}
               >
-                {stateButton?.stateButton == 1 ? "En revision" : "Iniciar"}
+                {stateButton == 1
+                  ? "En revisión"
+                  : stateButton == 0
+                  ? "Iniciar"
+                  : "Continuar"}
               </button>
             )}
           </div>

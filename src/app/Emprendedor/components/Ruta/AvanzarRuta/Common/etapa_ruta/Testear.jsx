@@ -4,7 +4,7 @@ import { Card } from "src/app/Shared/assets/styles/Common";
 
 import testearIcon from "src/app/Shared/assets/images/ruta_icons/testear_icon.png";
 
-function EtapaTestear({ showButton, stateButton }) {
+function EtapaTestear({ showButton, stateButton, lastActivity }) {
   const navigate = useNavigate();
   const { state } = useLocation();
 
@@ -140,11 +140,19 @@ function EtapaTestear({ showButton, stateButton }) {
 
             {showButton && (
               <button
-                onClick={() => navigate("/Emprendedor/Ruta/Avanzar/Testear")}
+                onClick={() =>
+                  navigate("/Emprendedor/Ruta/Avanzar/Testear", {
+                    state: lastActivity,
+                  })
+                }
                 className="btn btn-primary w-25"
-                disabled={state?.stateButton == 3}
+                disabled={stateButton == 1}
               >
-                {state?.stateButton == 3 ? "En revision" : "Iniciar"}
+                {stateButton == 1
+                  ? "En revisión"
+                  : stateButton == 0
+                  ? "Iniciar"
+                  : "Continuar"}
               </button>
             )}
           </div>

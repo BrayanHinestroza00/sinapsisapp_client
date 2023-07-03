@@ -4,7 +4,7 @@ import { Card } from "src/app/Shared/assets/styles/Common";
 
 import pensarIcon from "src/app/Shared/assets/images/ruta_icons/pensar_icon.png";
 
-function EtapaPensar({ showButton, stateButton }) {
+function EtapaPensar({ showButton, stateButton, lastActivity }) {
   const navigate = useNavigate();
   const { state } = useLocation();
 
@@ -124,11 +124,19 @@ function EtapaPensar({ showButton, stateButton }) {
 
             {showButton && (
               <button
-                onClick={() => navigate("/Emprendedor/Ruta/Avanzar/Pensar")}
+                onClick={() =>
+                  navigate("/Emprendedor/Ruta/Avanzar/Pensar", {
+                    state: lastActivity,
+                  })
+                }
                 className="btn btn-primary w-25"
-                disabled={state?.stateButton == 2}
+                disabled={stateButton == 1}
               >
-                {state?.stateButton == 2 ? "En revision" : "Iniciar"}
+                {stateButton == 1
+                  ? "En revisión"
+                  : stateButton == 0
+                  ? "Iniciar"
+                  : "Continuar"}
               </button>
             )}
           </div>

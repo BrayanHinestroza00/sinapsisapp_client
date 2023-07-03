@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Breadcrumb } from "react-bootstrap";
 
 import DropZone from "src/app/Shared/components/DropZone/DropZone";
@@ -15,10 +15,38 @@ import EstructuracionModal from "src/app/Emprendedor/components/Ruta/AvanzarRuta
 
 function SonarPage() {
   const navigate = useNavigate();
+  const { state } = useLocation();
 
   const [pagina, setPagina] = useState(0);
   const [showModalPerfil, setShowModalPerfil] = useState(false);
   const [showModalEstructuracion, setShowModalEstructuracion] = useState(false);
+
+  useEffect(() => {
+    switch (state?.subActividadRutaId) {
+      case "1":
+        setPagina(0);
+        break;
+      case "2":
+        setPagina(1);
+        break;
+
+      case "3":
+        setPagina(2);
+        break;
+
+      case "4":
+        setPagina(3);
+        break;
+
+      case "5":
+        setPagina(4);
+        break;
+
+      default:
+        setPagina(0);
+        break;
+    }
+  }, []);
 
   const onClicSubirArchivo = () => {
     messageAlertWithoutText({

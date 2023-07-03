@@ -4,7 +4,7 @@ import { Card } from "src/app/Shared/assets/styles/Common";
 
 import arrancarIcon from "src/app/Shared/assets/images/ruta_icons/arrancar_icon.png";
 
-function EtapaArrancar({ showButton, stateButton }) {
+function EtapaArrancar({ showButton, stateButton, lastActivity }) {
   const navigate = useNavigate();
   const { state } = useLocation();
 
@@ -139,11 +139,19 @@ function EtapaArrancar({ showButton, stateButton }) {
 
             {showButton && (
               <button
-                onClick={() => navigate("/Emprendedor/Ruta/Avanzar/Arrancar")}
+                onClick={() =>
+                  navigate("/Emprendedor/Ruta/Avanzar/Arrancar", {
+                    state: lastActivity,
+                  })
+                }
                 className="btn btn-primary w-25"
-                disabled={state?.stateButton == 4}
+                disabled={stateButton == 1}
               >
-                {state?.stateButton == 4 ? "En revision" : "Iniciar"}
+                {stateButton == 1
+                  ? "En revisión"
+                  : stateButton == 0
+                  ? "Iniciar"
+                  : "Continuar"}
               </button>
             )}
           </div>

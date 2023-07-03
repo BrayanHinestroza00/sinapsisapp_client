@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Breadcrumb } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import DropZone from "src/app/Shared/components/DropZone/DropZone";
 import SeccionRuta from "../../../components/Ruta/AvanzarRuta/Common/seccion";
@@ -15,10 +15,41 @@ import {
 
 function TestearPage() {
   const navigate = useNavigate();
+  const { state } = useLocation();
 
   const [pagina, setPagina] = useState(0);
   const [showModalModelo, setShowModalModelo] = useState(false);
   const [showModalMercados, setShowModalMercados] = useState(false);
+
+  useEffect(() => {
+    switch (state?.subActividadRutaId) {
+      case "9":
+        setPagina(0);
+        break;
+      case "10":
+        setPagina(1);
+        break;
+
+      case "11":
+        setPagina(2);
+        break;
+
+      case "12":
+        setPagina(3);
+        break;
+      case "13":
+        setPagina(3);
+        break;
+
+      case "14":
+        setPagina(3);
+        break;
+
+      default:
+        setPagina(0);
+        break;
+    }
+  }, []);
 
   const onClicSubirArchivo = () => {
     messageAlertWithoutText({
@@ -53,6 +84,10 @@ function TestearPage() {
   };
 
   const onContinuePrototipado = () => {
+    /**
+     * Realizar proceso para notificar al mentor sobre asesoria especializada (Herramienta)
+     */
+
     messageAlert({
       title: "Completado con éxito",
       text: "Ahora debes esperar a que el responsable apruebe tus entregas y puedas avanzar a la siguiente etapa",
@@ -90,50 +125,14 @@ function TestearPage() {
               </h1>
 
               <div>
-                <h2>Modelo de negocio</h2>
-
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                  facilisis at elit non scelerisque. Aliquam volutpat odio non
-                  rhoncus blandit.
-                </p>
-
-                <h3>CAPSULA INFORMATIVA</h3>
-
-                <div
-                  className="card mx-auto"
-                  style={{
-                    width: "50vw",
-                    backgroundColor: "#999",
-                    color: "#FFF",
-                  }}
-                >
-                  <iframe
-                    src="https://www.youtube.com/embed/XqMuc7-vRAQ"
-                    title="Introducción al curso Ruta 3 - Plataforma virtual Sinapsis UAO"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    style={{ minHeight: "50vh" }}
-                    className="card-img-top"
-                  />
-                  <div className="card-body">
-                    <p className="card-text">
-                      Introducción al curso Ruta 3 - Plataforma virtual Sinapsis
-                      UAO.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <br />
-              <hr />
-              <div>
                 <h2>Canales</h2>
                 <p>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
                   facilisis at elit non scelerisque. Aliquam volutpat odio non
                   rhoncus blandit.
                 </p>
+
+                <br />
 
                 <div
                   className="card mx-auto"
@@ -285,7 +284,6 @@ function TestearPage() {
                 rhoncus blandit.
               </p>
 
-              <h3>CAPSULA INFORMATIVA</h3>
               <div
                 className="card mx-auto"
                 style={{
