@@ -108,7 +108,7 @@ function RutaAdministrador({
         </Ruta>
       </CardRuta>
 
-      {!idAsesoramiento && (
+      {!idMentorAsesoramiento && (
         <CardRuta className="mb-3">
           <Ruta>
             <Subtitulo>

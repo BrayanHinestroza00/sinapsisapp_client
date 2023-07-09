@@ -95,7 +95,7 @@ function EstadoRutaEmprendedor() {
       <CardRuta>
         <Ruta>
           <Subtitulo>
-            Mi Avance en la ruta de I&E en la etapa:
+            Mi avance en la ruta de I&E en la etapa:
             <SpanAuxiliar className="text-muted">
               {obtenerNombreEtapa(preloadData.idEtapa)}
             </SpanAuxiliar>

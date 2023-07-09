@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Breadcrumb } from "react-bootstrap";
@@ -12,6 +13,7 @@ import {
 } from "src/app/Shared/utils/messageAlerts";
 import PerfilModal from "src/app/Emprendedor/components/Ruta/AvanzarRuta/Soñar/PerfilModal";
 import EstructuracionModal from "src/app/Emprendedor/components/Ruta/AvanzarRuta/Soñar/EstructuracionModal";
+import { HTTP_METHOD_POST } from "src/app/Shared/utils/apiConstants";
 
 function SonarPage() {
   const navigate = useNavigate();
@@ -23,22 +25,22 @@ function SonarPage() {
 
   useEffect(() => {
     switch (state?.subActividadRutaId) {
-      case "1":
+      case 1:
         setPagina(0);
         break;
-      case "2":
+      case 2:
         setPagina(1);
         break;
 
-      case "3":
+      case 3:
         setPagina(2);
         break;
 
-      case "4":
+      case 4:
         setPagina(3);
         break;
 
-      case "5":
+      case 5:
         setPagina(4);
         break;
 
@@ -55,13 +57,15 @@ function SonarPage() {
       icon: "warning",
       confirmButtonText: "Aceptar",
       onConfirm: () => {
-        messageAlertWithoutText({
-          title: "Herramienta entregada con éxito",
-          icon: "success",
-          confirmButtonText: "Aceptar",
-          onConfirm: () => {
-            setPagina(3);
-          },
+        onClickContinuar(3, () => {
+          messageAlertWithoutText({
+            title: "Herramienta entregada con éxito",
+            icon: "success",
+            confirmButtonText: "Aceptar",
+            onConfirm: () => {
+              setPagina(3);
+            },
+          });
         });
       },
     });
@@ -74,22 +78,38 @@ function SonarPage() {
       icon: "warning",
       confirmButtonText: "Aceptar",
       onConfirm: () => {
-        messageAlert({
-          title: "Herramienta entregada con éxito",
-          text: "Ahora debes esperar a que el responsable apruebe tus entregas y puedas avanzar a la siguiente etapa",
-          icon: "success",
-          confirmButtonText: "Aceptar",
-          onConfirm: () => {
-            navigate("/Emprendedor/Ruta/Avanzar", {
-              replace: true,
-              state: {
-                stateButton: 1,
-              },
-            });
-            // window.location.href = "/Emprendedor/Ruta/Avanzar";
-          },
+        onClickContinuar(5, () => {
+          messageAlert({
+            title: "Herramienta entregada con éxito",
+            text: "Ahora debes esperar a que el responsable apruebe tus entregas y puedas avanzar a la siguiente etapa",
+            icon: "success",
+            confirmButtonText: "Aceptar",
+            onConfirm: () => {
+              navigate("/Emprendedor/Ruta/Avanzar", {
+                replace: true,
+                state: {
+                  stateButton: 1,
+                  reload: true,
+                },
+              });
+              // window.location.href = "/Emprendedor/Ruta/Avanzar";
+            },
+          });
         });
       },
+    });
+  };
+
+  const onClickContinuar = (idSubActRuta, onCallBack) => {
+    axios({
+      url: "http://localhost:5000/api/v1/emprendedor/avance_ruta/continuar",
+      method: HTTP_METHOD_POST,
+      data: {
+        idRutaProyecto: state.rutaEmprendimientoId,
+        idSubActividadRuta: idSubActRuta,
+      },
+    }).then(() => {
+      onCallBack();
     });
   };
 
@@ -168,7 +188,7 @@ function SonarPage() {
           <PerfilModal
             show={showModalPerfil}
             onHide={() => setShowModalPerfil(false)}
-            onContinue={() => onContinuePerfil()}
+            onContinue={() => onClickContinuar(1, () => onContinuePerfil())}
           />
         )}
 
@@ -181,7 +201,7 @@ function SonarPage() {
               </Breadcrumb.Item>
             </Breadcrumb>
 
-            <h1 style={{ fontWeight: "700" }}>Descubrirse como emprendendor</h1>
+            <h1 style={{ fontWeight: "700" }}>Descubrirse como emprendedor</h1>
 
             <h3>CAPSULA INFORMATIVA</h3>
 
@@ -213,7 +233,7 @@ function SonarPage() {
             <button
               type="button"
               className="btn btn-primary w-50 mt-5 mb-5"
-              onClick={() => setPagina(2)}
+              onClick={() => onClickContinuar(2, () => setPagina(2))}
             >
               Continuar ...
             </button>
@@ -323,7 +343,9 @@ function SonarPage() {
           <EstructuracionModal
             show={showModalEstructuracion}
             onHide={() => setShowModalEstructuracion(false)}
-            onContinue={() => onContinueEstructuracion()}
+            onContinue={() =>
+              onClickContinuar(4, () => onContinueEstructuracion())
+            }
           />
         )}
 

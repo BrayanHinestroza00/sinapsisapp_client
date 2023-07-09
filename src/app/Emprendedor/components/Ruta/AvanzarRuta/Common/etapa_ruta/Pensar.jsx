@@ -1,13 +1,8 @@
-import { useLocation, useNavigate } from "react-router-dom";
-
 import { Card } from "src/app/Shared/assets/styles/Common";
 
 import pensarIcon from "src/app/Shared/assets/images/ruta_icons/pensar_icon.png";
 
-function EtapaPensar({ showButton, stateButton, lastActivity }) {
-  const navigate = useNavigate();
-  const { state } = useLocation();
-
+function EtapaPensar({ showButton, stateButton, lastActivity, onIniciar }) {
   return (
     <Card className="mb-3">
       <div className="container d-flex justify-content-center">
@@ -124,11 +119,7 @@ function EtapaPensar({ showButton, stateButton, lastActivity }) {
 
             {showButton && (
               <button
-                onClick={() =>
-                  navigate("/Emprendedor/Ruta/Avanzar/Pensar", {
-                    state: lastActivity,
-                  })
-                }
+                onClick={() => onIniciar(stateButton, lastActivity)}
                 className="btn btn-primary w-25"
                 disabled={stateButton == 1}
               >

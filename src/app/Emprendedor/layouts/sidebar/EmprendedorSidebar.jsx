@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { AccordionItemSidebar, EtiquetaSidebar, Sidebar } from "./styled.js";
@@ -7,6 +7,7 @@ import {
   SIDEBAR_EMPRENDEDOR_CONSULTORIAS_ITEM,
   SIDEBAR_EMPRENDEDOR_RUTA_ITEM,
 } from "src/app/Shared/utils/constants";
+import { EmprendedorContext } from "../../contexts/EmprendedorContext";
 
 import estadoIcon from "src/app/Shared/assets/images/sidebar/estado_ruta.png";
 import avanzarIcon from "src/app/Shared/assets/images/sidebar/avanzar_ruta.png";
@@ -20,17 +21,30 @@ import historialConsultoriaIcon from "src/app/Shared/assets/images/sidebar/histo
 import emprendimientosIcon from "src/app/Shared/assets/images/sidebar/administrador_emprendimientos.png";
 
 function EmprendedorSidebar() {
+  const { userData, selectedProjectIndex } = useContext(EmprendedorContext);
+
   const [menuActive, setMenuActive] = useState("");
 
   useEffect(() => {
     try {
       const menu_item_active = localStorage.getItem(SIDEBAR_EMPRENDEDOR);
       if (menu_item_active === null) {
-        localStorage.setItem(
-          SIDEBAR_EMPRENDEDOR,
-          SIDEBAR_EMPRENDEDOR_RUTA_ITEM
-        );
-        setMenuActive(SIDEBAR_EMPRENDEDOR_RUTA_ITEM);
+        if (
+          userData.proyectosEmprendimiento[selectedProjectIndex]
+            .estadoEmprendimiento == "TERMINADO"
+        ) {
+          localStorage.setItem(
+            SIDEBAR_EMPRENDEDOR,
+            SIDEBAR_EMPRENDEDOR_RUTA_ITEM
+          );
+          setMenuActive(SIDEBAR_EMPRENDEDOR_RUTA_ITEM);
+        } else {
+          localStorage.setItem(
+            SIDEBAR_EMPRENDEDOR,
+            SIDEBAR_EMPRENDEDOR_RUTA_ITEM
+          );
+          setMenuActive(SIDEBAR_EMPRENDEDOR_RUTA_ITEM);
+        }
       } else {
         setMenuActive(menu_item_active);
       }
@@ -95,27 +109,32 @@ function EmprendedorSidebar() {
                 role="group"
                 aria-label="Basic example"
               >
-                <Link
-                  to={"/Emprendedor/Ruta/Avanzar"}
-                  className="btn d-flex align-items-center"
-                  style={{
-                    textAlign: "left",
-                    height: "72px",
-                    paddingLeft: "1rem",
-                  }}
-                >
-                  <img
-                    src={avanzarIcon}
+                {userData.proyectosEmprendimiento[selectedProjectIndex]
+                  .estadoEmprendimiento == "TERMINADO" ? (
+                  <></>
+                ) : (
+                  <Link
+                    to={"/Emprendedor/Ruta/Avanzar"}
+                    className="btn d-flex align-items-center"
                     style={{
-                      width: "40px",
-                      height: "40px",
-                      display: "inline",
-                      marginRight: "1rem",
+                      textAlign: "left",
+                      height: "72px",
+                      paddingLeft: "1rem",
                     }}
-                    alt={""}
-                  />
-                  Avanzar en mi Ruta
-                </Link>
+                  >
+                    <img
+                      src={avanzarIcon}
+                      style={{
+                        width: "40px",
+                        height: "40px",
+                        display: "inline",
+                        marginRight: "1rem",
+                      }}
+                      alt={""}
+                    />
+                    Avanzar en mi Ruta
+                  </Link>
+                )}
 
                 <Link
                   to={"/Emprendedor/Ruta/Estado"}

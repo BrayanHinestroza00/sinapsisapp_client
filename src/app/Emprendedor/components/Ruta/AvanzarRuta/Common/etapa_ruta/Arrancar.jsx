@@ -1,13 +1,8 @@
-import { useLocation, useNavigate } from "react-router-dom";
-
 import { Card } from "src/app/Shared/assets/styles/Common";
 
 import arrancarIcon from "src/app/Shared/assets/images/ruta_icons/arrancar_icon.png";
 
-function EtapaArrancar({ showButton, stateButton, lastActivity }) {
-  const navigate = useNavigate();
-  const { state } = useLocation();
-
+function EtapaArrancar({ showButton, stateButton, lastActivity, onIniciar }) {
   return (
     <Card className="mb-3">
       <div className="container d-flex justify-content-center">
@@ -139,11 +134,7 @@ function EtapaArrancar({ showButton, stateButton, lastActivity }) {
 
             {showButton && (
               <button
-                onClick={() =>
-                  navigate("/Emprendedor/Ruta/Avanzar/Arrancar", {
-                    state: lastActivity,
-                  })
-                }
+                onClick={() => onIniciar(stateButton, lastActivity)}
                 className="btn btn-primary w-25"
                 disabled={stateButton == 1}
               >

@@ -214,7 +214,7 @@ function AvanceRuta({ preloadData }) {
                         type={"checkbox"}
                         checked={
                           actidadesEmprendedor?.actividades[actividadRuta.id]
-                            ?.estadoActividad == "COMPLETADA"
+                            ?.estadoActividad == "COMPLETADO"
                         }
                         disabled
                       />
@@ -246,7 +246,7 @@ function AvanceRuta({ preloadData }) {
                           herramientaRuta.idSubActividadRuta &&
                         actidadesEmprendedor?.herramientas[
                           herramientaRuta.idSubActividadRuta
-                        ]?.estadoActividad == "COMPLETADA"
+                        ]?.estadoActividad == "COMPLETADO"
                       }
                       disabled
                     />

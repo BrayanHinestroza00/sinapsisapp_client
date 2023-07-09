@@ -20,7 +20,7 @@ function TabAdministrador() {
   // const [key, setKey] = useLocalStorage("key_for_tab", "ruta");
   // const { userData } = useContext(AdminEmprendedorContext);
 
-  console.log(state);
+  console.log("TabAdministrador", state);
 
   return (
     <Tabs activeKey={key} onSelect={(key) => setKey(key)}>

@@ -1,12 +1,8 @@
-import { useNavigate } from "react-router-dom";
-
 import { Card } from "src/app/Shared/assets/styles/Common";
 
 import sonarIcon from "src/app/Shared/assets/images/ruta_icons/sonar_icon.png";
 
-function EtapaSonar({ showButton, stateButton, lastActivity }) {
-  const navigate = useNavigate();
-
+function EtapaSonar({ showButton, stateButton, lastActivity, onIniciar }) {
   return (
     <Card className="mb-3">
       <div className="container d-flex justify-content-center">
@@ -127,11 +123,7 @@ function EtapaSonar({ showButton, stateButton, lastActivity }) {
 
             {showButton && (
               <button
-                onClick={() =>
-                  navigate("/Emprendedor/Ruta/Avanzar/Soñar", {
-                    state: lastActivity,
-                  })
-                }
+                onClick={() => onIniciar(stateButton, lastActivity)}
                 className="btn btn-primary w-25"
                 disabled={stateButton == 1}
               >

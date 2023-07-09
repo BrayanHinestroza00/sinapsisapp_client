@@ -139,14 +139,7 @@ function AsignarEtapaRuta() {
         title: "Se ha asignado la etapa y mentor correctamente",
         icon: "success",
         confirmButtonText: "Aceptar",
-        onConfirm: () =>
-          navigate(
-            `/Administrador/Emprendimientos/${state.proyectoEmprendimientoId}`,
-            {
-              replace: true,
-              state: state,
-            }
-          ),
+        onConfirm: () => navigate(`/Administrador/Emprendimientos`),
       });
     } else {
       messageAlert({

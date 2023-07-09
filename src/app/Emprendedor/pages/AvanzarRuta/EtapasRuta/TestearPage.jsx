@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { Breadcrumb } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -12,6 +13,7 @@ import {
   messageAlert,
   messageAlertWithoutText,
 } from "src/app/Shared/utils/messageAlerts";
+import { HTTP_METHOD_POST } from "src/app/Shared/utils/apiConstants";
 
 function TestearPage() {
   const navigate = useNavigate();
@@ -23,25 +25,25 @@ function TestearPage() {
 
   useEffect(() => {
     switch (state?.subActividadRutaId) {
-      case "9":
+      case 9:
         setPagina(0);
         break;
-      case "10":
+      case 10:
         setPagina(1);
         break;
 
-      case "11":
+      case 11:
         setPagina(2);
         break;
 
-      case "12":
+      case 12:
         setPagina(3);
         break;
-      case "13":
+      case 13:
         setPagina(3);
         break;
 
-      case "14":
+      case 14:
         setPagina(3);
         break;
 
@@ -58,13 +60,15 @@ function TestearPage() {
       icon: "warning",
       confirmButtonText: "Aceptar",
       onConfirm: () => {
-        messageAlertWithoutText({
-          title: "Herramienta entregada con éxito",
-          icon: "success",
-          confirmButtonText: "Aceptar",
-          onConfirm: () => {
-            setPagina(2);
-          },
+        onClickContinuar(10, () => {
+          messageAlertWithoutText({
+            title: "Herramienta entregada con éxito",
+            icon: "success",
+            confirmButtonText: "Aceptar",
+            onConfirm: () => {
+              setPagina(2);
+            },
+          });
         });
       },
     });
@@ -79,13 +83,13 @@ function TestearPage() {
     setShowModalMercados(false);
     setPagina(3);
     /**
-     * Realizar proceso para notificar al mentor sobre asesoria especializada (Herramienta)
+     * Realizar proceso para notificar al mentor sobre asesoría especializada (Herramienta)
      */
   };
 
   const onContinuePrototipado = () => {
     /**
-     * Realizar proceso para notificar al mentor sobre asesoria especializada (Herramienta)
+     * Realizar proceso para notificar al mentor sobre asesoría especializada (Herramienta)
      */
 
     messageAlert({
@@ -98,11 +102,47 @@ function TestearPage() {
           replace: true,
           state: {
             stateButton: 3,
+            reload: true,
           },
         });
         // window.location.href = "/Emprendedor/Ruta/Avanzar";
       },
     });
+  };
+
+  const onClickContinuar = (idSubActRuta, onCallBack) => {
+    if (idSubActRuta == 11 || idSubActRuta == 13) {
+      axios({
+        url: "http://localhost:5000/api/v1/emprendedor/avance_ruta/continuar",
+        method: HTTP_METHOD_POST,
+        data: {
+          idRutaProyecto: state.rutaEmprendimientoId,
+          idSubActividadRuta: idSubActRuta,
+        },
+      }).then(() => {
+        axios({
+          url: "http://localhost:5000/api/v1/emprendedor/avance_ruta/continuar",
+          method: HTTP_METHOD_POST,
+          data: {
+            idRutaProyecto: state.rutaEmprendimientoId,
+            idSubActividadRuta: idSubActRuta + 1,
+          },
+        }).then(() => {
+          onCallBack();
+        });
+      });
+    } else {
+      axios({
+        url: "http://localhost:5000/api/v1/emprendedor/avance_ruta/continuar",
+        method: HTTP_METHOD_POST,
+        data: {
+          idRutaProyecto: state.rutaEmprendimientoId,
+          idSubActividadRuta: idSubActRuta,
+        },
+      }).then(() => {
+        onCallBack();
+      });
+    }
   };
 
   return (
@@ -174,7 +214,7 @@ function TestearPage() {
           <ModeloModal
             show={showModalModelo}
             onHide={() => setShowModalModelo(false)}
-            onContinue={() => onContinueModelo()}
+            onContinue={() => onClickContinuar(9, () => onContinueModelo())}
           />
         )}
 
@@ -324,7 +364,7 @@ function TestearPage() {
           <MercadoModal
             show={showModalMercados}
             onHide={() => setShowModalMercados(false)}
-            onContinue={() => onContinueMercados()}
+            onContinue={() => onClickContinuar(11, () => onContinueMercados())}
           />
         )}
 
@@ -374,7 +414,9 @@ function TestearPage() {
             <button
               type="button"
               className="btn btn-primary w-50 mt-5 mb-5"
-              onClick={() => onContinuePrototipado()}
+              onClick={() =>
+                onClickContinuar(13, () => onContinuePrototipado())
+              }
             >
               Continuar ...
             </button>

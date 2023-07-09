@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { Breadcrumb } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -12,6 +13,7 @@ import {
 } from "src/app/Shared/utils/messageAlerts";
 import FinancieraModal from "src/app/Emprendedor/components/Ruta/AvanzarRuta/Arrancar/FinancieraModal";
 import ComercialModal from "src/app/Emprendedor/components/Ruta/AvanzarRuta/Arrancar/ComercialModal";
+import { HTTP_METHOD_POST } from "src/app/Shared/utils/apiConstants";
 
 function ArrancarPage() {
   const navigate = useNavigate();
@@ -23,18 +25,18 @@ function ArrancarPage() {
 
   useEffect(() => {
     switch (state?.subActividadRutaId) {
-      case "15":
+      case 15:
         setPagina(0);
         break;
-      case "16":
+      case 16:
         setPagina(1);
         break;
 
-      case "17":
+      case 17:
         setPagina(1);
         break;
 
-      case "18":
+      case 18:
         setPagina(2);
         break;
 
@@ -51,19 +53,22 @@ function ArrancarPage() {
       icon: "warning",
       confirmButtonText: "Aceptar",
       onConfirm: () => {
-        messageAlert({
-          title: "Herramienta entregada con éxito",
-          text: "Ahora debes esperar a que el responsable apruebe tus entregas y puedas avanzar a la siguiente etapa",
-          icon: "success",
-          confirmButtonText: "Aceptar",
-          onConfirm: () => {
-            navigate("/Emprendedor/Ruta/Avanzar", {
-              replace: true,
-              state: {
-                stateButton: 4,
-              },
-            });
-          },
+        onClickContinuar(18, () => {
+          messageAlert({
+            title: "Herramienta entregada con éxito",
+            text: "Ahora debes esperar a que el responsable apruebe tus entregas y puedas avanzar a la siguiente etapa",
+            icon: "success",
+            confirmButtonText: "Aceptar",
+            onConfirm: () => {
+              navigate("/Emprendedor/Ruta/Avanzar", {
+                replace: true,
+                state: {
+                  stateButton: 4,
+                  reload: true,
+                },
+              });
+            },
+          });
         });
       },
     });
@@ -80,6 +85,41 @@ function ArrancarPage() {
   const onContinueComercial = () => {
     setShowModalComercial(false);
     setPagina(2);
+  };
+
+  const onClickContinuar = (idSubActRuta, onCallBack) => {
+    if (idSubActRuta == 15) {
+      axios({
+        url: "http://localhost:5000/api/v1/emprendedor/avance_ruta/continuar",
+        method: HTTP_METHOD_POST,
+        data: {
+          idRutaProyecto: state.rutaEmprendimientoId,
+          idSubActividadRuta: idSubActRuta,
+        },
+      }).then(() => {
+        axios({
+          url: "http://localhost:5000/api/v1/emprendedor/avance_ruta/continuar",
+          method: HTTP_METHOD_POST,
+          data: {
+            idRutaProyecto: state.rutaEmprendimientoId,
+            idSubActividadRuta: idSubActRuta + 1,
+          },
+        }).then(() => {
+          onCallBack();
+        });
+      });
+    } else {
+      axios({
+        url: "http://localhost:5000/api/v1/emprendedor/avance_ruta/continuar",
+        method: HTTP_METHOD_POST,
+        data: {
+          idRutaProyecto: state.rutaEmprendimientoId,
+          idSubActividadRuta: idSubActRuta,
+        },
+      }).then(() => {
+        onCallBack();
+      });
+    }
   };
 
   return (
@@ -148,7 +188,9 @@ function ArrancarPage() {
           <FinancieraModal
             show={showModalFinanciera}
             onHide={() => setShowModalFinanciera(false)}
-            onContinue={() => onContinueFinanciera()}
+            onContinue={() =>
+              onClickContinuar(15, () => onContinueFinanciera())
+            }
           />
         )}
 
@@ -251,7 +293,7 @@ function ArrancarPage() {
           <ComercialModal
             show={showModalComercial}
             onHide={() => setShowModalComercial(false)}
-            onContinue={() => onContinueComercial()}
+            onContinue={() => onClickContinuar(17, () => onContinueComercial())}
           />
         )}
 

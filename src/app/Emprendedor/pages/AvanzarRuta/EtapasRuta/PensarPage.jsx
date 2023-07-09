@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { Breadcrumb } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -7,6 +8,7 @@ import SeccionRuta from "src/app/Emprendedor/components/Ruta/AvanzarRuta/Common/
 import BMCModal from "src/app/Emprendedor/components/Ruta/AvanzarRuta/Pensar/BMCModal";
 import ModeloModal from "src/app/Emprendedor/components/Ruta/AvanzarRuta/Pensar/ModeloModal";
 import DropZone from "src/app/Shared/components/DropZone/DropZone";
+import { HTTP_METHOD_POST } from "src/app/Shared/utils/apiConstants";
 
 import {
   messageAlert,
@@ -23,14 +25,14 @@ function PensarPage() {
 
   useEffect(() => {
     switch (state?.subActividadRutaId) {
-      case "6":
+      case 6:
         setPagina(0);
         break;
-      case "7":
+      case 7:
         setPagina(1);
         break;
 
-      case "8":
+      case 8:
         setPagina(2);
         break;
 
@@ -53,11 +55,22 @@ function PensarPage() {
           icon: "success",
           confirmButtonText: "Aceptar",
           onConfirm: () => {
-            navigate("/Emprendedor/Ruta/Avanzar", {
-              replace: true,
-              state: {
-                stateButton: 2,
-              },
+            onClickContinuar(8, () => {
+              messageAlert({
+                title: "Herramienta entregada con éxito",
+                text: "Ahora debes esperar a que el responsable apruebe tus entregas y puedas avanzar a la siguiente etapa",
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                onConfirm: () => {
+                  navigate("/Emprendedor/Ruta/Avanzar", {
+                    replace: true,
+                    state: {
+                      stateButton: 2,
+                      reload: true,
+                    },
+                  });
+                },
+              });
             });
           },
         });
@@ -73,6 +86,19 @@ function PensarPage() {
   const onContinueBMC = () => {
     setShowModalBMC(false);
     setPagina(2);
+  };
+
+  const onClickContinuar = (idSubActRuta, onCallBack) => {
+    axios({
+      url: "http://localhost:5000/api/v1/emprendedor/avance_ruta/continuar",
+      method: HTTP_METHOD_POST,
+      data: {
+        idRutaProyecto: state.rutaEmprendimientoId,
+        idSubActividadRuta: idSubActRuta,
+      },
+    }).then(() => {
+      onCallBack();
+    });
   };
 
   return (
@@ -145,7 +171,7 @@ function PensarPage() {
           <ModeloModal
             show={showModalModelo}
             onHide={() => setShowModalModelo(false)}
-            onContinue={() => onContinueModelo()}
+            onContinue={() => onClickContinuar(6, () => onContinueModelo())}
           />
         )}
 
@@ -224,7 +250,7 @@ function PensarPage() {
           <BMCModal
             show={showModalBMC}
             onHide={() => setShowModalBMC(false)}
-            onContinue={() => onContinueBMC()}
+            onContinue={() => onClickContinuar(7, () => onContinueBMC())}
           />
         )}
 
