@@ -12,6 +12,10 @@ export const SINAPSIS_APP_ADM_ROLE_ID = 1;
 export const SINAPSIS_APP_MNT_ROLE_ID = 2;
 export const SINAPSIS_APP_EMP_ROLE_ID = 3;
 
+export const SINAPSIS_APP_ADM_ROLE_NAME = "Administrador";
+export const SINAPSIS_APP_MNT_ROLE_NAME = "Mentor";
+export const SINAPSIS_APP_EMP_ROLE_NAME = "Emprendedor";
+
 export const SINAPSIS_APP_FORMATO_FECHA = "DD/MM/YYYY";
 export const SINAPSIS_APP_FORMATO_FECHA_HORA = "DD/MM/YYYY HH:mm:ss";
 export const SINAPSIS_APP_FORMATO_FECHA_INPUT = "YYYY-MM-DD";

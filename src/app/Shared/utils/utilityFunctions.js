@@ -15,6 +15,12 @@ import {
   T_SINAPSIS_ETAPAS_RUTA_TESTEAR,
   T_SINAPSIS_ETAPAS_RUTA_TESTEAR_NOMBRE,
   SINAPSIS_APP_FORMATO_FECHA,
+  SINAPSIS_APP_ADM_ROLE_ID,
+  SINAPSIS_APP_ADM_ROLE_NAME,
+  SINAPSIS_APP_MNT_ROLE_ID,
+  SINAPSIS_APP_MNT_ROLE_NAME,
+  SINAPSIS_APP_EMP_ROLE_ID,
+  SINAPSIS_APP_EMP_ROLE_NAME,
 } from "src/app/Shared/utils/constants.js";
 import { HOST } from "src/app/Shared/utils/apiConstants.js";
 import moment from "moment";
@@ -172,6 +178,22 @@ export function obtenerNombreEtapa(idEtapa) {
 
     case T_SINAPSIS_ETAPAS_RUTA_ARRANCAR:
       return T_SINAPSIS_ETAPAS_RUTA_ARRANCAR_NOMBRE;
+
+    default:
+      return "N/A";
+  }
+}
+
+export function obtenerNombreRol(idRol) {
+  switch (idRol) {
+    case SINAPSIS_APP_ADM_ROLE_ID:
+      return SINAPSIS_APP_ADM_ROLE_NAME;
+
+    case SINAPSIS_APP_MNT_ROLE_ID:
+      return SINAPSIS_APP_MNT_ROLE_NAME;
+
+    case SINAPSIS_APP_EMP_ROLE_ID:
+      return SINAPSIS_APP_EMP_ROLE_NAME;
 
     default:
       return "N/A";

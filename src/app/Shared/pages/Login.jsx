@@ -36,7 +36,7 @@ function Login() {
 
     if (data) {
       if (data.roles.length > 1) {
-        navigate("/Administrador");
+        navigate("/SelectRole", { state: data });
       } else {
         switch (data.roles[0]) {
           case 1:
@@ -79,7 +79,7 @@ function Login() {
       insertIntoLocalStorage(SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO, dataAPI);
 
       if (dataAPI.roles.length > 1) {
-        navigate("/Administrador");
+        navigate("/SelectRole", { state: dataAPI });
       } else {
         switch (dataAPI.roles[0]) {
           case 1:
