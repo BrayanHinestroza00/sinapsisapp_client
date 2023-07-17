@@ -13,7 +13,10 @@ import {
 } from "src/app/Shared/utils/messageAlerts";
 import PerfilModal from "src/app/Emprendedor/components/Ruta/AvanzarRuta/Soñar/PerfilModal";
 import EstructuracionModal from "src/app/Emprendedor/components/Ruta/AvanzarRuta/Soñar/EstructuracionModal";
-import { HTTP_METHOD_POST } from "src/app/Shared/utils/apiConstants";
+import {
+  HTTP_METHOD_POST,
+  URL_CONTINUAR_AVANCE_RUTA,
+} from "src/app/Shared/utils/apiConstants";
 
 function SonarPage() {
   const navigate = useNavigate();
@@ -101,16 +104,18 @@ function SonarPage() {
   };
 
   const onClickContinuar = (idSubActRuta, onCallBack) => {
-    axios({
-      url: "http://localhost:5000/api/v1/emprendedor/avance_ruta/continuar",
-      method: HTTP_METHOD_POST,
-      data: {
-        idRutaProyecto: state.rutaEmprendimientoId,
-        idSubActividadRuta: idSubActRuta,
-      },
-    }).then(() => {
-      onCallBack();
-    });
+    if (state != null) {
+      axios({
+        url: URL_CONTINUAR_AVANCE_RUTA,
+        method: HTTP_METHOD_POST,
+        data: {
+          idRutaProyecto: state?.rutaEmprendimientoId,
+          idSubActividadRuta: idSubActRuta,
+        },
+      }).then(() => {
+        onCallBack();
+      });
+    }
   };
 
   const onContinuePerfil = () => {

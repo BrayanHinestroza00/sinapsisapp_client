@@ -97,7 +97,6 @@ function Tareas({ idProyectoEmprendimiento, idUsuario, tipoUsuario }) {
       }
 
       if (pendientesData && pendientesData.length > 0) {
-        console.log("first");
         newPendientes = pendientesData.map((pendienteData, index) => {
           return {
             n: index + 1,
@@ -170,7 +169,7 @@ function Tareas({ idProyectoEmprendimiento, idUsuario, tipoUsuario }) {
                 })
                 .then(() => (window.location.href = window.location.pathname));
             })
-            .catch((err) => console.log(err.response));
+            .catch((err) => console.error(err.response));
         }
       });
   }

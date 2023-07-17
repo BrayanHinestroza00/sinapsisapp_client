@@ -9,8 +9,6 @@ import { SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO } from "src/app/Shared/utils/con
 import logo from "src/app/Shared/assets/images/header/sinapsis.png";
 import exit from "src/app/Shared/assets/images/header/exit.svg";
 import user from "src/app/Shared/assets/images/header/administrador_header.png";
-import imagenActiva from "src/app/Shared/assets/images/tmp/notificacion_active.png";
-import imagenInactiva from "src/app/Shared/assets/images/tmp/notificacion_inactive.png";
 
 const notificacion = false;
 
@@ -46,10 +44,6 @@ function AdministradorHeader() {
           <headerStyled.LogoSinapsis src={logo} alt="Logo sinapsis UAO" />
         </headerStyled.LogoSinapsisContainer>
         <headerStyled.ContenedorControlesUsuario>
-          <img
-            src={notificacion ? imagenActiva : imagenInactiva}
-            height="100%"
-          />
           <div id="dropdown_emprendedor" className="dropdown">
             <button
               className="btn btn-primary dropdown-toggle"

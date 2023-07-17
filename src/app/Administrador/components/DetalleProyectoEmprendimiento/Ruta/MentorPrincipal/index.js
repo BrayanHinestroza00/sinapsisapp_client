@@ -102,16 +102,7 @@ function AsignarMentor({ preloadData }) {
     });
   };
 
-  console.log("first", { loading, errorAPI, messageAPI });
-
   if (loading && errorAPI) {
-    console.log("Aqui");
-    messageAlert({
-      title: "Algo ha fallado",
-      text: errorAPI,
-      icon: "error",
-      confirmButtonText: "Aceptar",
-    });
     setLoading(false);
   } else if (loading && messageAPI) {
     if (messageAPI == "OK") {

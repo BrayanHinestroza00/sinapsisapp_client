@@ -13,6 +13,8 @@ import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import {
   HTTP_METHOD_GET,
   HTTP_METHOD_POST,
+  URL_INICIAR_AVANCE_RUTA,
+  URL_OBTENER_AVANCE_RUTA,
 } from "src/app/Shared/utils/apiConstants";
 import { Card } from "src/app/Shared/assets/styles/Common";
 import { SINAPSIS_APP_ESTADO_RUTA_EMPRENDIMIENTO_PENDIENTE_APROBAR } from "src/app/Shared/utils/constants";
@@ -33,34 +35,55 @@ function HomePage() {
 
   useEffect(() => {
     if (selectedProjectIndex != null || state?.reload == true) {
-      fetchAPI({
-        URL: "http://localhost:5000/api/v1/emprendedor/avance_ruta",
-        requestOptions: {
-          method: HTTP_METHOD_GET,
-          params: {
-            idProyectoEmprendimiento:
-              userData.proyectosEmprendimiento[selectedProjectIndex]
-                .idProyectoEmprendimiento,
-          },
-        },
-      });
+      refrescarDatos();
     }
   }, [selectedProjectIndex, state?.reload]);
+
+  const refrescarDatos = async () => {
+    await fetchAPI({
+      URL: URL_OBTENER_AVANCE_RUTA,
+      requestOptions: {
+        method: HTTP_METHOD_GET,
+        params: {
+          idProyectoEmprendimiento:
+            userData.proyectosEmprendimiento[selectedProjectIndex]
+              .idProyectoEmprendimiento,
+        },
+      },
+    });
+  };
 
   const onIniciarEtapaSonar = (tipo, lastActivity) => {
     if (tipo == 0) {
       // Iniciar
       axios({
-        url: "http://localhost:5000/api/v1/emprendedor/avance_ruta/iniciar",
+        url: URL_INICIAR_AVANCE_RUTA,
         method: HTTP_METHOD_POST,
         data: {
           idRutaProyecto: dataAPI?.rutaProyectoEmprendimiento.id,
           idSubActividadRuta: 1,
         },
       }).then(() => {
-        navigate("/Emprendedor/Ruta/Avanzar/Soñar", {
-          state: lastActivity,
-        });
+        axios({
+          url: URL_OBTENER_AVANCE_RUTA,
+          method: HTTP_METHOD_GET,
+          params: {
+            idProyectoEmprendimiento:
+              userData.proyectosEmprendimiento[selectedProjectIndex]
+                .idProyectoEmprendimiento,
+          },
+        })
+          .then(({ data }) => {
+            navigate("/Emprendedor/Ruta/Avanzar/Soñar", {
+              state:
+                data.response.subActividadRutaEmp.length > 0
+                  ? data.response.subActividadRutaEmp[0]
+                  : null,
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+          });
       });
     } else {
       navigate("/Emprendedor/Ruta/Avanzar/Soñar", {
@@ -73,16 +96,33 @@ function HomePage() {
     if (tipo == 0) {
       // Iniciar
       axios({
-        url: "http://localhost:5000/api/v1/emprendedor/avance_ruta/iniciar",
+        url: URL_INICIAR_AVANCE_RUTA,
         method: HTTP_METHOD_POST,
         data: {
           idRutaProyecto: dataAPI?.rutaProyectoEmprendimiento.id,
           idSubActividadRuta: 6,
         },
       }).then(() => {
-        navigate("/Emprendedor/Ruta/Avanzar/Pensar", {
-          state: lastActivity,
-        });
+        axios({
+          url: URL_OBTENER_AVANCE_RUTA,
+          method: HTTP_METHOD_GET,
+          params: {
+            idProyectoEmprendimiento:
+              userData.proyectosEmprendimiento[selectedProjectIndex]
+                .idProyectoEmprendimiento,
+          },
+        })
+          .then(({ data }) => {
+            navigate("/Emprendedor/Ruta/Avanzar/Pensar", {
+              state:
+                data.response.subActividadRutaEmp.length > 0
+                  ? data.response.subActividadRutaEmp[0]
+                  : null,
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+          });
       });
     } else {
       navigate("/Emprendedor/Ruta/Avanzar/Pensar", {
@@ -95,16 +135,33 @@ function HomePage() {
     if (tipo == 0) {
       // Iniciar
       axios({
-        url: "http://localhost:5000/api/v1/emprendedor/avance_ruta/iniciar",
+        url: URL_INICIAR_AVANCE_RUTA,
         method: HTTP_METHOD_POST,
         data: {
           idRutaProyecto: dataAPI?.rutaProyectoEmprendimiento.id,
           idSubActividadRuta: 9,
         },
       }).then(() => {
-        navigate("/Emprendedor/Ruta/Avanzar/Testear", {
-          state: lastActivity,
-        });
+        axios({
+          url: URL_OBTENER_AVANCE_RUTA,
+          method: HTTP_METHOD_GET,
+          params: {
+            idProyectoEmprendimiento:
+              userData.proyectosEmprendimiento[selectedProjectIndex]
+                .idProyectoEmprendimiento,
+          },
+        })
+          .then(({ data }) => {
+            navigate("/Emprendedor/Ruta/Avanzar/Testear", {
+              state:
+                data.response.subActividadRutaEmp.length > 0
+                  ? data.response.subActividadRutaEmp[0]
+                  : null,
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+          });
       });
     } else {
       navigate("/Emprendedor/Ruta/Avanzar/Testear", {
@@ -117,16 +174,33 @@ function HomePage() {
     if (tipo == 0) {
       // Iniciar
       axios({
-        url: "http://localhost:5000/api/v1/emprendedor/avance_ruta/iniciar",
+        url: URL_INICIAR_AVANCE_RUTA,
         method: HTTP_METHOD_POST,
         data: {
           idRutaProyecto: dataAPI?.rutaProyectoEmprendimiento.id,
           idSubActividadRuta: 15,
         },
       }).then(() => {
-        navigate("/Emprendedor/Ruta/Avanzar/Arrancar", {
-          state: lastActivity,
-        });
+        axios({
+          url: URL_OBTENER_AVANCE_RUTA,
+          method: HTTP_METHOD_GET,
+          params: {
+            idProyectoEmprendimiento:
+              userData.proyectosEmprendimiento[selectedProjectIndex]
+                .idProyectoEmprendimiento,
+          },
+        })
+          .then(({ data }) => {
+            navigate("/Emprendedor/Ruta/Avanzar/Arrancar", {
+              state:
+                data.response.subActividadRutaEmp.length > 0
+                  ? data.response.subActividadRutaEmp[0]
+                  : null,
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+          });
       });
     } else {
       navigate("/Emprendedor/Ruta/Avanzar/Arrancar", {
@@ -134,8 +208,6 @@ function HomePage() {
       });
     }
   };
-
-  console.log("first", dataAPI);
 
   return loadingAPI || selectedProjectIndex == null ? (
     <>

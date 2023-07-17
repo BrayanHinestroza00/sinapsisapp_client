@@ -174,23 +174,24 @@ function Mentores() {
                         />
                         <div className="card-body">
                           <h5 className="card-title">{`${mentor.nombresMentor} ${mentor.apellidosMentor}`}</h5>
-                          <p className="card-text">
-                            Fecha de inicio:
+                          <p className="card-text mb-2">
+                            <b>Fecha de inicio:</b>
                             <span className="d-block">{`${moment(
                               mentor.fechaInicio,
                               "YYYY-MM-DD hh:mm:ss"
                             ).format(SINAPSIS_APP_FORMATO_FECHA)}`}</span>
                           </p>
-                          <p className="card-text">
-                            Fecha de finalizacion:
+
+                          <p className="card-text mb-2">
+                            <b>Fecha de finalización:</b>
                             <span className="d-block">{`${moment(
                               mentor.fechaFin,
                               "YYYY-MM-DD hh:mm:ss"
                             ).format(SINAPSIS_APP_FORMATO_FECHA)}`}</span>
                           </p>
 
-                          <p className="card-text">
-                            Comentarios:
+                          <p className="card-text mb-2">
+                            <b>Comentarios:</b>
                             <span className="d-block">{`${
                               mentor.comentarios || "No hay comentarios"
                             }`}</span>

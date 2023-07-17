@@ -116,8 +116,6 @@ function DetalleTarea(props) {
     setLoading(false);
   }
 
-  console.log(props.data);
-
   return (
     <Modal
       {...props}

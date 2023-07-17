@@ -97,7 +97,6 @@ function CrearConsultoria({
   const onHandleSubmit = (e) => {
     e.preventDefault();
     let erroresFormulario = validarCreacionConsultoria(datos, tipoUsuario);
-    console.log(erroresFormulario);
     if (Object.keys(erroresFormulario).length) {
       setError(erroresFormulario);
     } else {

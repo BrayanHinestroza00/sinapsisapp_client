@@ -270,7 +270,8 @@ function RevisarConsultoria({ data, show, onHide }) {
             />
           </Form.Group>
 
-          {data.estadoConsultoria == "EN CURSO" && (
+          {(data.estadoConsultoria == "EN CURSO" ||
+            data.estadoConsultoria == "PROGRAMADA") && (
             <Form.Group className="col-md-12 mb-3">
               <Form.Label>Comentarios Consultoría</Form.Label>
               <Form.Control

@@ -69,7 +69,7 @@ export const validacionesPrimeraAtencionUsuario = (datos) => {
           const { modTrabajoGrado } = datos;
           if (
             tipoEstudiante === T_SINAPSIS_NIVEL_ACADEMICO_PREGRADO &&
-            !modTrabajoGrado
+            modTrabajoGrado == null
           ) {
             errors.modTrabajoGrado = "Campo Obligatorio";
           }

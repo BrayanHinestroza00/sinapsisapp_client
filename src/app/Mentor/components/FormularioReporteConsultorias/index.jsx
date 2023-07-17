@@ -71,8 +71,6 @@ function FormularioReporteConsultorias({ idMentor }) {
           },
         },
       });
-
-      console.log("response", response);
     }
   };
 

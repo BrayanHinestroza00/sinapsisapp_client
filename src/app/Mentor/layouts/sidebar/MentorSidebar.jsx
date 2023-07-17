@@ -29,7 +29,7 @@ function MentorSidebar() {
         setMenuActive(menu_item_active);
       }
     } catch (error) {
-      console.log("Error al leer el localStorage - MentorNavbar.jsx");
+      console.error("Error al leer el localStorage - MentorNavbar.jsx");
     }
   }, []);
 

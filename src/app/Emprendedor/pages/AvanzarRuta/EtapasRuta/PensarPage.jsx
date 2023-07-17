@@ -8,7 +8,10 @@ import SeccionRuta from "src/app/Emprendedor/components/Ruta/AvanzarRuta/Common/
 import BMCModal from "src/app/Emprendedor/components/Ruta/AvanzarRuta/Pensar/BMCModal";
 import ModeloModal from "src/app/Emprendedor/components/Ruta/AvanzarRuta/Pensar/ModeloModal";
 import DropZone from "src/app/Shared/components/DropZone/DropZone";
-import { HTTP_METHOD_POST } from "src/app/Shared/utils/apiConstants";
+import {
+  HTTP_METHOD_POST,
+  URL_CONTINUAR_AVANCE_RUTA,
+} from "src/app/Shared/utils/apiConstants";
 
 import {
   messageAlert,
@@ -90,7 +93,7 @@ function PensarPage() {
 
   const onClickContinuar = (idSubActRuta, onCallBack) => {
     axios({
-      url: "http://localhost:5000/api/v1/emprendedor/avance_ruta/continuar",
+      url: URL_CONTINUAR_AVANCE_RUTA,
       method: HTTP_METHOD_POST,
       data: {
         idRutaProyecto: state.rutaEmprendimientoId,

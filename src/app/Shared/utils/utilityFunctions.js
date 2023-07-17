@@ -126,7 +126,7 @@ export function getDepartamentos() {
     .then(({ data }) => {
       return data.response;
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
 }
 
 export function getDepartamentoByIdMunicipio(idMunicipio) {
@@ -134,7 +134,7 @@ export function getDepartamentoByIdMunicipio(idMunicipio) {
     .then(({ data }) => {
       return data.response;
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
 }
 
 export function getMunicipios(idDepartamento) {
@@ -142,7 +142,7 @@ export function getMunicipios(idDepartamento) {
     .then(({ data }) => {
       return data.response;
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
 }
 
 export function getMunicipioById(idMunicipio) {
@@ -150,7 +150,7 @@ export function getMunicipioById(idMunicipio) {
     .then(({ data }) => {
       return data.response;
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
 }
 
 export function getInformacionEmprendedor(idUsuario) {
@@ -162,7 +162,7 @@ export function getInformacionEmprendedor(idUsuario) {
     .then(({ data }) => {
       return data.response;
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
 }
 
 export function obtenerNombreEtapa(idEtapa) {

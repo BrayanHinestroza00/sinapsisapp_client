@@ -83,13 +83,6 @@ function CrearTarea({
     form.append("fileTarea", fileTarea[0]);
     form.append("usuarioCrea", idUsuario);
 
-    console.log(
-      "hora",
-      moment(fechaEntrega, SINAPSIS_APP_FORMATO_FECHA_HORA_INPUT).format(
-        SINAPSIS_APP_FORMATO_FECHA_HORA
-      )
-    );
-
     setLoading(true);
     fetchAPI({
       URL: URL_CREAR_TAREA_EMPRENDEDOR,

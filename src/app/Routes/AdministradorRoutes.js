@@ -4,7 +4,6 @@ import { AdministradorContextProvider } from "../Administrador/contexts/Administ
 import { AdminEmprendedorContextProvider } from "../Administrador/contexts/AdminEmprendedorContext";
 import AdministradorLayout from "../Administrador/layouts/AdministradorLayout";
 
-import Anuncios from "src/app/Shared/pages/Anuncios";
 import Error404Page from "src/app/Shared/pages/error/Error404/Error404";
 import EditarCuentaPage from "../Administrador/pages/EditarCuentaPage";
 import ProyectoEmprendimientosPage from "../Administrador/pages/ProyectoEmprendimientosPage";
@@ -21,6 +20,7 @@ import GestionEmprendedoresPage from "../Administrador/pages/GestionEmprendedore
 import GestionMentoresPage from "../Administrador/pages/GestionMentoresPage";
 import GestionAnunciosPage from "../Administrador/pages/GestionAnunciosPage";
 import VerPerfilPage from "../Administrador/pages/VerPerfilPage";
+import AnunciosPage from "../Administrador/pages/AnunciosPage";
 
 function AdministradorRoutes() {
   return (
@@ -28,7 +28,11 @@ function AdministradorRoutes() {
       <AdministradorLayout sidebar={true}>
         <AdminEmprendedorContextProvider>
           <Routes>
-            <Route exact path="/" element={<Anuncios />} />
+            <Route
+              exact
+              path="/"
+              element={<AnunciosPage showSidebar={true} />}
+            />
             <Route exact path="/Editar_Cuenta" element={<EditarCuentaPage />} />
             <Route
               exact

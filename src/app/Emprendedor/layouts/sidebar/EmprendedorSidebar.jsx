@@ -49,7 +49,7 @@ function EmprendedorSidebar() {
         setMenuActive(menu_item_active);
       }
     } catch (error) {
-      console.log("Error al leer el localStorage - EmprendedorNavbar.jsx");
+      console.error("Error al leer el localStorage - EmprendedorNavbar.jsx");
     }
     // eslint-disable-next-line
   }, []);

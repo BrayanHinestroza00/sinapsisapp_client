@@ -43,12 +43,7 @@ function RutaMentor({ idProyectoEmprendimiento, userData }) {
     }).then(() => setLoadingComponent(false));
   }, []);
 
-  if (loadingFetch || loadingComponent /*|| !preloadData*/) {
-    // console.log("RutaMentor", {
-    //   loadingFetch,
-    //   loadingComponent,
-    //   dt: { preloadData, messageFetch, errorFetch },
-    // });
+  if (loadingFetch || loadingComponent) {
     return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
@@ -75,14 +70,6 @@ function RutaMentor({ idProyectoEmprendimiento, userData }) {
     );
   }
 
-  console.log("AQUI BRAYAN 23", {
-    preloadData,
-    A: preloadData.estadoRuta,
-    B: SINAPSIS_APP_ESTADO_RUTA_EMPRENDIMIENTO_PENDIENTE_APROBAR,
-    C: preloadData.idMentor,
-    D: userData.id,
-  });
-
   return (
     <Card>
       <Subtitulo>Estado de la ruta de I&E de SINAPSIS UAO</Subtitulo>
@@ -94,7 +81,10 @@ function RutaMentor({ idProyectoEmprendimiento, userData }) {
               {obtenerNombreEtapa(preloadData.idEtapa)}
             </SpanAuxiliar>
           </Subtitulo>
-          <EstadoRuta etapa={preloadData.idEtapa} />
+          <EstadoRuta
+            etapa={preloadData.asesoramientosView.idEtapa}
+            avance={preloadData.rutaProyectoEmprendimientos}
+          />
         </Ruta>
       </CardRuta>
 
@@ -103,20 +93,22 @@ function RutaMentor({ idProyectoEmprendimiento, userData }) {
           <Subtitulo>
             Avance en la ruta de I&E del emprendedor en la etapa:
             <SpanAuxiliar className="text-muted">
-              {obtenerNombreEtapa(preloadData.idEtapa)}
+              {obtenerNombreEtapa(preloadData.asesoramientosView.idEtapa)}
             </SpanAuxiliar>
           </Subtitulo>
-          <AvanceRuta preloadData={preloadData} />
+          <AvanceRuta preloadData={preloadData.asesoramientosView} />
         </Ruta>
       </CardRuta>
 
-      {preloadData.estadoRuta ==
+      {preloadData.asesoramientosView.estadoRuta ==
         SINAPSIS_APP_ESTADO_RUTA_EMPRENDIMIENTO_PENDIENTE_APROBAR &&
-        preloadData.idMentor == userData.id && (
+        preloadData.asesoramientosView.idMentor == userData.id && (
           <CardRuta className="mb-2">
             <Ruta>
               <Subtitulo>Finalizar Acompañamiento: </Subtitulo>
-              <FinalizarAsesoramiento preloadData={preloadData} />
+              <FinalizarAsesoramiento
+                preloadData={preloadData.asesoramientosView}
+              />
             </Ruta>
           </CardRuta>
         )}

@@ -413,17 +413,42 @@ function GestionMentoresPage() {
                 <FlexyTable
                   datos={datos}
                   titulo={"Mentores"}
-                  btn1={<img src={detalleIcon} width="auto" height="25" />}
+                  btn1={
+                    <img
+                      src={detalleIcon}
+                      width="auto"
+                      height="25"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Ver Detalle"
+                    />
+                  }
                   fun1={(mentorData) => {
                     onHandleDetalleMentor(mentorData);
                   }}
                   btn2={
-                    <img src={resetPasswordIcon} width="auto" height="25" />
+                    <img
+                      src={resetPasswordIcon}
+                      width="auto"
+                      height="25"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Restablecer contraseña"
+                    />
                   }
                   fun2={(mentorData) => {
                     onResetPasswordMentor(mentorData);
                   }}
-                  btn3={<img src={deleteUserIcon} width="auto" height="25" />}
+                  btn3={
+                    <img
+                      src={deleteUserIcon}
+                      width="auto"
+                      height="25"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Desactivar usuario"
+                    />
+                  }
                   fun3={(mentorData) => {
                     onDeleteMentor(mentorData);
                   }}

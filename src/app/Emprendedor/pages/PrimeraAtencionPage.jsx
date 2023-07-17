@@ -22,7 +22,7 @@ import {
 
 function PrimeraAtencionPage() {
   const navigate = useNavigate();
-  const { userData /*,loading*/ } = useContext(EmprendedorContext);
+  const { userData } = useContext(EmprendedorContext);
 
   const [step, setStep] = useState(1);
   const [datos, setDatos] = useState({});
@@ -209,10 +209,6 @@ function PrimeraAtencionPage() {
       fileDiagnostico,
     });
   };
-
-  // if (loading) {
-  //   return <>LOADING PRIMERA_ATENCION_PAGE</>;
-  // }
 
   if (loading && errorAPI) {
     messageAlert({

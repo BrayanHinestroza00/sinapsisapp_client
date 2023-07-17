@@ -2,8 +2,16 @@ import Axios from "axios";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
-import AnunciosPage from "src/app/Shared/pages/Anuncios";
 import Error404Page from "src/app/Shared/pages/error/Error404/Error404";
+import EditarCuentaPage from "../Emprendedor/pages/EditarCuentaPage";
+import SeleccionarProyectoPage from "../Emprendedor/pages/SeleccionarProyectoPage";
+import RutaPage from "../Emprendedor/pages/RutaPage";
+import PerfilPage from "../Emprendedor/pages/PerfilPage";
+import PrimeraAtencionPage from "../Emprendedor/pages/PrimeraAtencionPage";
+import AnunciosPage from "../Emprendedor/pages/AnunciosPage";
+
+import EmprendedorLayout from "../Emprendedor/layouts/EmprendedorLayout";
+import { EmprendedorContextProvider } from "../Emprendedor/contexts/EmprendedorContext";
 
 import { SINAPSIS_APP_LOCALSTORAGE_INFO_USUARIO } from "src/app/Shared/utils/constants";
 import { HOST } from "src/app/Shared/utils/apiConstants";
@@ -12,13 +20,6 @@ import {
   getFromLocalStorage,
   insertIntoLocalStorage,
 } from "src/app/Shared/utils/localStorage.js";
-import EmprendedorLayout from "../Emprendedor/layouts/EmprendedorLayout";
-import { EmprendedorContextProvider } from "../Emprendedor/contexts/EmprendedorContext";
-import EditarCuentaPage from "../Emprendedor/pages/EditarCuentaPage";
-import SeleccionarProyectoPage from "../Emprendedor/pages/SeleccionarProyectoPage";
-import RutaPage from "../Emprendedor/pages/RutaPage";
-import PerfilPage from "../Emprendedor/pages/PerfilPage";
-import PrimeraAtencionPage from "../Emprendedor/pages/PrimeraAtencionPage";
 
 function EmprendedorRoutes() {
   useEffect(() => {
@@ -46,7 +47,7 @@ function EmprendedorRoutes() {
           });
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     }
   }, []);

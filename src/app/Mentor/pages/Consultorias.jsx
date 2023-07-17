@@ -5,6 +5,7 @@ import FlexyTable from "src/app/Shared/components/FlexyTable";
 import TablaHorarioDisponibilidad from "src/app/Mentor/components/TablaHorarioDisponibilidad";
 import EditarDisponibilidadModal from "src/app/Mentor/components//ModalHorarioDisponibilidad";
 import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
+import RevisarConsultoria from "src/app/Shared/components/DetalleProyectoEmprendimiento/consultorias/RevisarConsultoria";
 
 import {
   Card,
@@ -21,11 +22,14 @@ import {
 } from "src/app/Shared/utils/apiConstants.js";
 import { SINAPSIS_APP_FORMATO_FECHA } from "src/app/Shared/utils/constants.js";
 
+import showIcon from "src/app/Shared/assets/images/icons/detalleConsultoriaIcon.svg";
+
 function Consultorias() {
   const { userData, loadingUserData } = useContext(MentorContext);
 
   const [loadingComponent, setLoadingComponent] = useState(true);
   const [consultorias, setConsultorias] = useState([]);
+  const [showConsultorias, setShowConsultorias] = useState({ show: false });
   const [showEditarDisponibilidad, setShowEditarDisponibilidad] =
     useState(false);
 
@@ -116,6 +120,13 @@ function Consultorias() {
     setShowEditarDisponibilidad(true);
   }
 
+  const onClicRevisarConsultoria = (consultoria) => {
+    setShowConsultorias({
+      show: true,
+      data: consultoriasData[consultoria.n - 1],
+    });
+  };
+
   if (
     loadingUserData ||
     horariosLoading ||
@@ -177,7 +188,11 @@ function Consultorias() {
           <FlexyTable
             datos={consultorias}
             titulo={"consultorías normales y especializadas"}
-            adicional={false}
+            btn1={<img src={showIcon} width="auto" height="25" />}
+            fun1={(consultoriaData) => {
+              onClicRevisarConsultoria(consultoriaData);
+            }}
+            adicional={true}
           />
         ) : (
           <Subtitulo>No hay consultorías programadas</Subtitulo>
@@ -189,6 +204,14 @@ function Consultorias() {
           show={showEditarDisponibilidad}
           setShow={ocultarEditarDisponibilidadModal}
           horarios={horariosData}
+        />
+      )}
+
+      {showConsultorias.show && (
+        <RevisarConsultoria
+          show={showConsultorias.show}
+          data={showConsultorias.data}
+          onHide={() => setShowConsultorias({ show: !showConsultorias.show })}
         />
       )}
     </>

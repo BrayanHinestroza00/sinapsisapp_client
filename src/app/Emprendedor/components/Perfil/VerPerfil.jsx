@@ -44,8 +44,6 @@ function VerPerfil({ preloadData }) {
     );
   }
 
-  console.log("preloadData", preloadData);
-
   return (
     <form className="row g-3 mt-1">
       <div className="col-md-12 text-center mb-3">
@@ -62,7 +60,7 @@ function VerPerfil({ preloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="nombreCompleto" className="form-label">
-          Nombre Completo
+          Nombre completo
         </Label>
         <Input
           type="text"
@@ -75,7 +73,7 @@ function VerPerfil({ preloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="docIdentificacion" className="form-label">
-          Documento de Identificación
+          Documento de identificación
         </Label>
         <Input
           type="text"
@@ -88,7 +86,7 @@ function VerPerfil({ preloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="fechaNacimiento" className="form-label">
-          Fecha de Nacimiento
+          Fecha de nacimiento
         </Label>
         <Input
           type="text"
@@ -114,7 +112,7 @@ function VerPerfil({ preloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="correoPersonal" className="form-label">
-          Correo Personal
+          Correo personal
         </Label>
         <Input
           type="text"
@@ -127,7 +125,7 @@ function VerPerfil({ preloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="celular" className="form-label">
-          Teléfono de Contacto
+          Teléfono de contacto
         </Label>
         <Input
           type="text"
@@ -140,7 +138,7 @@ function VerPerfil({ preloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="departamento" className="form-label">
-          Departamento de Residencia
+          Departamento de residencia
         </Label>
         <Input
           type="text"
@@ -153,7 +151,7 @@ function VerPerfil({ preloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="municipio" className="form-label">
-          Municipio de Residencia
+          Municipio de residencia
         </Label>
         <Input
           type="text"
@@ -166,7 +164,7 @@ function VerPerfil({ preloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="direccion" className="form-label">
-          Dirección de Residencia
+          Dirección de residencia
         </Label>
         <Input
           type="text"
@@ -179,7 +177,7 @@ function VerPerfil({ preloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="vinculoConU" className="form-label">
-          Vinculo con la Universidad
+          Vinculo con la universidad
         </Label>
         <Input
           type="text"
@@ -193,7 +191,7 @@ function VerPerfil({ preloadData }) {
         <>
           <div className="col-md-6">
             <Label htmlFor="codigoEstudiantil" className="form-label">
-              Código Estudiantil
+              Código estudiantil
             </Label>
             <Input
               type="text"
@@ -219,7 +217,7 @@ function VerPerfil({ preloadData }) {
 
           <div className="col-md-6">
             <Label htmlFor="programaAcademico" className="form-label">
-              Programa Académico
+              Programa académico
             </Label>
             <Input
               type="text"
@@ -239,7 +237,7 @@ function VerPerfil({ preloadData }) {
             <>
               <div className="col-md-6">
                 <Label className="form-label">
-                  Modalidad de Emprendimiento como Trabajo de Grado
+                  Modalidad de emprendimiento como trabajo de grado
                 </Label>
 
                 <div className="form-check">
@@ -277,7 +275,7 @@ function VerPerfil({ preloadData }) {
 
               <div className="col-md-6">
                 <Label htmlFor="cursosEmprendimiento" className="form-label">
-                  Asignaturas de Emprendimiento Cursadas
+                  Asignaturas de emprendimiento cursadas
                 </Label>
                 <div>
                   <div className="form-check form-check-inline">
@@ -323,7 +321,7 @@ function VerPerfil({ preloadData }) {
         <>
           <div className="col-md-6">
             <Label htmlFor="cargoColaborador" className="form-label">
-              Cargo de Colaborador
+              Cargo de colaborador
             </Label>
             <Input
               type="text"

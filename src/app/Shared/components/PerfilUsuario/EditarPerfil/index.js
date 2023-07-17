@@ -65,7 +65,6 @@ function EditarPerfil({
   const onHandleSubmit = (e) => {
     e.preventDefault();
     let erroresFormulario = validacionesEditarPerfilUsuario(datos);
-    console.log("erroresFormulario", erroresFormulario);
     if (Object.keys(erroresFormulario).length) {
       setError(erroresFormulario);
     } else {

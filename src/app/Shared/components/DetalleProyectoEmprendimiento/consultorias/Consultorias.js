@@ -90,8 +90,6 @@ function Consultorias({
     });
   };
 
-  console.log(consultoriasData);
-
   return (
     <Card>
       <Subtitulo>Consultorías programadas</Subtitulo>

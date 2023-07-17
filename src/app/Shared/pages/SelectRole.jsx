@@ -6,7 +6,6 @@ import bgImage from "src/app/Shared/assets/images/bg-login.webp";
 
 function SelectRole() {
   const { state } = useLocation();
-  console.log(state);
   return (
     <div
       className="bg-image"

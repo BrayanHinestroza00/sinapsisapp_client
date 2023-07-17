@@ -5,9 +5,9 @@ import Emprendedores from "src/app/Mentor/pages/Emprendedores";
 import DetalleEmprendedor from "src/app/Mentor/pages/DetalleEmprendedor";
 import Consultorias from "src/app/Mentor/pages/Consultorias";
 import ReportesConsultoria from "src/app/Mentor/pages/ReportesConsultoria";
-import Anuncios from "src/app/Shared/pages/Anuncios";
 import Error404Page from "src/app/Shared/pages/error/Error404/Error404";
 import VerPerfil from "../Mentor/pages/VerPerfil";
+import AnunciosPage from "../Mentor/pages/AnunciosPage";
 
 import MentorLayout from "../Mentor/layouts/MentorLayout";
 import { MentorContextProvider } from "../Mentor/contexts/MentorContext";
@@ -17,7 +17,7 @@ function MentorRoutes() {
     <MentorContextProvider>
       <MentorLayout sidebar={true}>
         <Routes>
-          <Route exact path="/" element={<Anuncios />} />
+          <Route exact path="/" element={<AnunciosPage />} />
           <Route exact path="/Editar_Cuenta" element={<EditarCuenta />} />
 
           <Route exact path="/Emprendedores" element={<Emprendedores />} />

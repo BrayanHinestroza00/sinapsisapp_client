@@ -105,12 +105,6 @@ function AsignarEtapaRuta() {
 
   const handleSubmit = () => {
     setLoading(true);
-    // console.log("Data", {
-    //   idProyectoEmprendimiento: state.proyectoEmprendimientoId,
-    //   idEtapaRuta: datos.etapa,
-    //   creado_por: userData.id,
-    //   idMentorPrincipal: datos.mentorPrincipal,
-    // });
     fetchAPI({
       URL: URL_ASIGNAR_ETAPA_INICIAL,
       requestOptions: {

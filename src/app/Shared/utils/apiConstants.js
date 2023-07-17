@@ -98,6 +98,11 @@ export const URL_OBTENER_CONSULTORIAS_PROYECTO_EMPRENDIMIENTO =
   HOST + "/ruta_innovacion/consultorias";
 export const URL_OBTENER_CONSULTORIAS_PROGRAMADAS =
   HOST + "/ruta_innovacion/consultorias_programadas";
+export const URL_OBTENER_AVANCE_RUTA = HOST + "/emprendedor/avance_ruta";
+export const URL_INICIAR_AVANCE_RUTA =
+  HOST + "/emprendedor/avance_ruta/iniciar";
+export const URL_CONTINUAR_AVANCE_RUTA =
+  HOST + "/emprendedor/avance_ruta/continuar";
 
 /**
  * Rutas usadas por el Mentor

@@ -37,13 +37,13 @@ function InfoPrimeraAtencion(props) {
         <Circulo>
           <Paso>3</Paso>
         </Circulo>
-        <TituloStepByStep>Información de Primera atención</TituloStepByStep>
+        <TituloStepByStep>Información de Primera Atención</TituloStepByStep>
       </div>
 
       <form className="row g-3">
         <div className="col-md-6 mb-3">
           <Label htmlFor="nombreProducto" className="form-label">
-            Producto o Servicio
+            Producto o servicio
             <span className="text-danger"> (*)</span>
           </Label>
           <Input

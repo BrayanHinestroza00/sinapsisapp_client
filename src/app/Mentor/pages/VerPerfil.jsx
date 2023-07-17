@@ -7,7 +7,7 @@ import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpin
 import EditarPerfil from "src/app/Shared/components/PerfilUsuario/EditarPerfil";
 
 import { Subtitulo, Titulo } from "src/app/Shared/assets/styles/Common";
-import { MentorContext } from "../contexts/MentorContext";
+import { MentorContext } from "src/app/Mentor/contexts/MentorContext";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import {
   HTTP_METHOD_GET,

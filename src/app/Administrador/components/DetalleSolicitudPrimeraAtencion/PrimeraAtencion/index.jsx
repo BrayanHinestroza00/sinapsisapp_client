@@ -30,11 +30,6 @@ function PrimeraAtencion({ idProyectoEmprendimiento }) {
   }, []);
 
   if (loading || !data) {
-    // console.log("PrimeraAtencionAdmin", {
-    //   loading,
-    //   inverted: { data },
-    // });
-
     return <LoadingSpinner width="10rem" height="10rem" />;
   }
 

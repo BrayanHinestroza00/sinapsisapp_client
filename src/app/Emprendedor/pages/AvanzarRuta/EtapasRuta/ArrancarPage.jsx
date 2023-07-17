@@ -13,7 +13,10 @@ import {
 } from "src/app/Shared/utils/messageAlerts";
 import FinancieraModal from "src/app/Emprendedor/components/Ruta/AvanzarRuta/Arrancar/FinancieraModal";
 import ComercialModal from "src/app/Emprendedor/components/Ruta/AvanzarRuta/Arrancar/ComercialModal";
-import { HTTP_METHOD_POST } from "src/app/Shared/utils/apiConstants";
+import {
+  HTTP_METHOD_POST,
+  URL_CONTINUAR_AVANCE_RUTA,
+} from "src/app/Shared/utils/apiConstants";
 
 function ArrancarPage() {
   const navigate = useNavigate();
@@ -90,7 +93,7 @@ function ArrancarPage() {
   const onClickContinuar = (idSubActRuta, onCallBack) => {
     if (idSubActRuta == 15) {
       axios({
-        url: "http://localhost:5000/api/v1/emprendedor/avance_ruta/continuar",
+        url: URL_CONTINUAR_AVANCE_RUTA,
         method: HTTP_METHOD_POST,
         data: {
           idRutaProyecto: state.rutaEmprendimientoId,
@@ -98,7 +101,7 @@ function ArrancarPage() {
         },
       }).then(() => {
         axios({
-          url: "http://localhost:5000/api/v1/emprendedor/avance_ruta/continuar",
+          url: URL_CONTINUAR_AVANCE_RUTA,
           method: HTTP_METHOD_POST,
           data: {
             idRutaProyecto: state.rutaEmprendimientoId,
@@ -110,7 +113,7 @@ function ArrancarPage() {
       });
     } else {
       axios({
-        url: "http://localhost:5000/api/v1/emprendedor/avance_ruta/continuar",
+        url: URL_CONTINUAR_AVANCE_RUTA,
         method: HTTP_METHOD_POST,
         data: {
           idRutaProyecto: state.rutaEmprendimientoId,

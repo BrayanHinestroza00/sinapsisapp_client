@@ -88,7 +88,6 @@ function EmprendimientoComponent({
   };
 
   const submitForm = () => {
-    // console.log("datos", datos);
     const form = new FormData();
 
     for (let index = 0; index < Object.values(datos).length; index++) {
@@ -187,7 +186,7 @@ function EmprendimientoComponent({
     <div>
       <form>
         <div className="container-fluid">
-          <Subtitulo>Datos del emprendimiento</Subtitulo>
+          <Subtitulo>Datos del Emprendimiento</Subtitulo>
           <div className="mb-3">
             <Label htmlFor="nombreEmprendimiento" className="form-label">
               Nombre del emprendimiento
@@ -231,14 +230,14 @@ function EmprendimientoComponent({
           </div>
           <div className="mb-3">
             <Label htmlFor="necesidadesIdentificadas" className="form-label">
-              Necesidades Identificadas<span className="text-danger"> (*)</span>
+              Necesidades identificadas<span className="text-danger"> (*)</span>
             </Label>
             <TextArea
               type="text"
               className="form-control"
               id="necesidadesIdentificadas"
               name="necesidadesIdentificadas"
-              placeholder="Necesidades Identificadas"
+              placeholder="Necesidades identificadas"
               onChange={(e) => onHandleChange(e)}
               value={datos.necesidadesIdentificadas || ""}
               disabled={!editable}
@@ -292,14 +291,14 @@ function EmprendimientoComponent({
           </div>
           <div className="mb-3">
             <Label htmlFor="enfoqueSocial" className="form-label">
-              Enfoque Social del Emprendimiento
+              Enfoque social del emprendimiento
             </Label>
             <TextArea
               type="text"
               className="form-control"
               id="enfoqueSocial"
               name="enfoqueSocial"
-              placeholder="Enfoque Social"
+              placeholder="Enfoque social"
               onChange={(e) => onHandleChange(e)}
               value={datos.enfoqueSocial || ""}
               disabled={!editable}
@@ -312,14 +311,14 @@ function EmprendimientoComponent({
           </div>
           <div className="mb-3">
             <Label htmlFor="sectorEmprendimiento" className="form-label">
-              Sector del Emprendimiento
+              Sector del emprendimiento
             </Label>
             <Input
               type="text"
               className="form-control"
               id="sectorEmprendimiento"
               name="sectorEmprendimiento"
-              placeholder="Sitio Web"
+              placeholder="Sector del emprendimiento"
               onChange={(e) => onHandleChange(e)}
               value={datos.sectorEmprendimiento || ""}
               disabled={!editable}
@@ -332,14 +331,14 @@ function EmprendimientoComponent({
           </div>
           <div className="mb-3">
             <Label htmlFor="sitioWeb" className="form-label">
-              Sitio Web
+              Sitio web
             </Label>
             <Input
               type="text"
               className="form-control"
               id="sitioWeb"
               name="sitioWeb"
-              placeholder="Sitio Web"
+              placeholder="Sitio web"
               onChange={(e) => onHandleChange(e)}
               value={datos.sitioWeb || ""}
               disabled={!editable}
@@ -385,7 +384,7 @@ function EmprendimientoComponent({
                 );
               })}
           </div>
-          <Subtitulo>Información de la empresa</Subtitulo>
+          <Subtitulo>Información de la Empresa</Subtitulo>
           <div className="row">
             <div className="col-md-6 mb-3">
               <Label htmlFor="estaConstituida" className="form-label">
@@ -508,7 +507,7 @@ function EmprendimientoComponent({
                       htmlFor="logoEmpresa"
                       className="form-label nombreInput"
                     >
-                      Logo Empresa
+                      Logo empresa
                     </Label>
                     <DropZoneComponent
                       upFiles={onGetFiles}

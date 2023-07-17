@@ -139,19 +139,6 @@ function AvanceRuta({ preloadData }) {
     actEmpRutaLoading ||
     subActEmpRutaLoading
   ) {
-    // console.log("test", {
-    //   actRutaLoading,
-    //   herrRutaLoading,
-    //   actEmpRutaLoading,
-    //   subActEmpRutaLoading,
-    //   inverso: {
-    //     actRutaData,
-    //     herrRutaData,
-    //     actEmpRutaData,
-    //     subActEmpRutaData,
-    //     actidadesEmprendedor,
-    //   },
-    // });
     return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
@@ -188,14 +175,6 @@ function AvanceRuta({ preloadData }) {
       </>
     );
   }
-
-  console.log("preloadData", {
-    actRutaData,
-    herrRutaData,
-    actEmpRutaData,
-    subActEmpRutaData,
-    actidadesEmprendedor,
-  });
 
   return (
     <div id="avanceRutaComponent" className="container">

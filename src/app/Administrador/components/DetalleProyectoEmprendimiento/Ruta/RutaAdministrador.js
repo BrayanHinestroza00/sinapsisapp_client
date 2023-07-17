@@ -47,12 +47,7 @@ function RutaAdministrador({
     }).then(() => setLoadingComponent(false));
   }, []);
 
-  if (loadingFetch || loadingComponent /*|| !preloadData*/) {
-    // console.log("RutaAdministrador", {
-    //   loadingFetch,
-    //   loadingComponent,
-    //   dt: { preloadData, messageFetch, errorFetch },
-    // });
+  if (loadingFetch || loadingComponent) {
     return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
@@ -79,8 +74,6 @@ function RutaAdministrador({
     );
   }
 
-  console.log("idAsesoramiento", idAsesoramiento);
-
   return (
     <Card>
       <Subtitulo>Estado de la ruta de I&E de SINAPSIS UAO</Subtitulo>
@@ -89,10 +82,13 @@ function RutaAdministrador({
           <Subtitulo>
             Actualmente el emprendedor se encuentra en la etapa:
             <SpanAuxiliar className="text-muted">
-              {obtenerNombreEtapa(preloadData.idEtapa)}
+              {obtenerNombreEtapa(preloadData.asesoramientosView.idEtapa)}
             </SpanAuxiliar>
           </Subtitulo>
-          <EstadoRuta etapa={preloadData.idEtapa} />
+          <EstadoRuta
+            etapa={preloadData.asesoramientosView.idEtapa}
+            avance={preloadData.rutaProyectoEmprendimientos}
+          />
         </Ruta>
       </CardRuta>
 
@@ -101,10 +97,10 @@ function RutaAdministrador({
           <Subtitulo>
             Avance en la ruta de I&E del emprendedor en la etapa:
             <SpanAuxiliar className="text-muted">
-              {obtenerNombreEtapa(preloadData.idEtapa)}
+              {obtenerNombreEtapa(preloadData.asesoramientosView.idEtapa)}
             </SpanAuxiliar>
           </Subtitulo>
-          <AvanceRuta preloadData={preloadData} />
+          <AvanceRuta preloadData={preloadData.asesoramientosView} />
         </Ruta>
       </CardRuta>
 
@@ -114,10 +110,10 @@ function RutaAdministrador({
             <Subtitulo>
               Asignar mentor en la ruta de I&E para la etapa:{" "}
               <SpanAuxiliar className="text-muted">
-                {obtenerNombreEtapa(preloadData.idEtapa)}
+                {obtenerNombreEtapa(preloadData.asesoramientosView.idEtapa)}
               </SpanAuxiliar>
             </Subtitulo>
-            <AsignarMentor preloadData={preloadData} />
+            <AsignarMentor preloadData={preloadData.asesoramientosView} />
           </Ruta>
         </CardRuta>
       )}

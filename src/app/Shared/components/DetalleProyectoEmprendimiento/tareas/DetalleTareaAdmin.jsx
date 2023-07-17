@@ -15,7 +15,6 @@ import { SINAPSIS_APP_FORMATO_FECHA_HORA } from "src/app/Shared/utils/constants"
 import { Label, Table } from "./styled";
 
 function DetalleTareaAdmin(props) {
-  console.log(props);
   return (
     <Modal
       {...props}

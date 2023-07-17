@@ -71,7 +71,7 @@ function PerfilPage() {
 
       <div className="container mb-5">
         <div className="card">
-          <div className="card-body">
+          <div className="card-body px-5 py-3">
             <div className="d-flex justify-content-between align-items-center">
               <Subtitulo className="m-0">Información del Emprendedor</Subtitulo>
               {allowEdit === false && (

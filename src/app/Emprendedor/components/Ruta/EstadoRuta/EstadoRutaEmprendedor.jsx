@@ -85,10 +85,13 @@ function EstadoRutaEmprendedor() {
           <Subtitulo>
             Actualmente se encuentra en la etapa:
             <SpanAuxiliar className="text-muted">
-              {obtenerNombreEtapa(preloadData.idEtapa)}
+              {obtenerNombreEtapa(preloadData.asesoramientosView.idEtapa)}
             </SpanAuxiliar>
           </Subtitulo>
-          <EstadoRuta etapa={preloadData.idEtapa} />
+          <EstadoRuta
+            etapa={preloadData.asesoramientosView.idEtapa}
+            avance={preloadData.rutaProyectoEmprendimientos}
+          />
         </Ruta>
       </CardRuta>
 
@@ -97,11 +100,11 @@ function EstadoRutaEmprendedor() {
           <Subtitulo>
             Mi avance en la ruta de I&E en la etapa:
             <SpanAuxiliar className="text-muted">
-              {obtenerNombreEtapa(preloadData.idEtapa)}
+              {obtenerNombreEtapa(preloadData.asesoramientosView.idEtapa)}
             </SpanAuxiliar>
           </Subtitulo>
           <AvanceRuta
-            preloadData={preloadData}
+            preloadData={preloadData.asesoramientosView}
             userData={userData}
             selectedProjectIndex={selectedProjectIndex}
           />

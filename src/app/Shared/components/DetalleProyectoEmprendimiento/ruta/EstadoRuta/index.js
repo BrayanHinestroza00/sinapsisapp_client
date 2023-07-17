@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { ProgressBar } from "react-bootstrap";
+import moment from "moment";
+
+import LoadingSpinner from "../../../LoadingSpinner/LoadingSpinner.jsx";
 
 import { CirculoRuta, NumeroRuta } from "./styled.js";
 import {
@@ -7,10 +10,10 @@ import {
   T_SINAPSIS_ETAPAS_RUTA_PENSAR,
   T_SINAPSIS_ETAPAS_RUTA_SONAR,
   T_SINAPSIS_ETAPAS_RUTA_TESTEAR,
+  SINAPSIS_APP_FORMATO_FECHA,
 } from "src/app/Shared/utils/constants";
-import LoadingSpinner from "../../../LoadingSpinner/LoadingSpinner.jsx";
 
-function EstadoRuta({ etapa }) {
+function EstadoRuta({ etapa, avance }) {
   const [loading, setLoading] = useState(true);
   const [ruta, setRuta] = useState({});
 
@@ -153,24 +156,76 @@ function EstadoRuta({ etapa }) {
           <CirculoRuta className={ruta.sonar.color}>
             <NumeroRuta>1</NumeroRuta>
           </CirculoRuta>
+          {avance?.[0] && (
+            <div className="mr-auto ml-auto my-1">
+              {moment(avance[0].fechaInicio, "YYYY-MM-DD hh:mm:ss").format(
+                SINAPSIS_APP_FORMATO_FECHA
+              )}
+              -{" "}
+              {avance[0].fechaFin
+                ? moment(avance[0].fechaFin, "YYYY-MM-DD hh:mm:ss").format(
+                    SINAPSIS_APP_FORMATO_FECHA
+                  )
+                : "Sin Registro"}
+            </div>
+          )}
         </div>
         <div className="text-center">
           <div className="mr-auto ml-auto">Pensar</div>
           <CirculoRuta className={ruta.pensar.color}>
             <NumeroRuta>2</NumeroRuta>
           </CirculoRuta>
+          {avance?.[1] && (
+            <div className="mr-auto ml-auto my-1">
+              {moment(avance[1].fechaInicio, "YYYY-MM-DD hh:mm:ss").format(
+                SINAPSIS_APP_FORMATO_FECHA
+              )}
+              -{" "}
+              {avance[1].fechaFin
+                ? moment(avance[1].fechaFin, "YYYY-MM-DD hh:mm:ss").format(
+                    SINAPSIS_APP_FORMATO_FECHA
+                  )
+                : "Sin Registro"}
+            </div>
+          )}
         </div>
         <div className="text-center">
           <div className="mr-auto ml-auto">Testear</div>
           <CirculoRuta className={ruta.testear.color}>
             <NumeroRuta>3</NumeroRuta>
           </CirculoRuta>
+          {avance?.[2] && (
+            <div className="mr-auto ml-auto my-1">
+              {moment(avance[2].fechaInicio, "YYYY-MM-DD hh:mm:ss").format(
+                SINAPSIS_APP_FORMATO_FECHA
+              )}
+              -{" "}
+              {avance[2].fechaFin
+                ? moment(avance[2].fechaFin, "YYYY-MM-DD hh:mm:ss").format(
+                    SINAPSIS_APP_FORMATO_FECHA
+                  )
+                : "Sin Registro"}
+            </div>
+          )}
         </div>
         <div className="text-center">
           <div className="mr-auto ml-auto">Arrancar</div>
           <CirculoRuta className={ruta.arrancar.color}>
             <NumeroRuta>4</NumeroRuta>
           </CirculoRuta>
+          {avance?.[3] && (
+            <div className="mr-auto ml-auto my-1">
+              {moment(avance[3].fechaInicio, "YYYY-MM-DD hh:mm:ss").format(
+                SINAPSIS_APP_FORMATO_FECHA
+              )}
+              -{" "}
+              {avance[3].fechaFin
+                ? moment(avance[3].fechaFin, "YYYY-MM-DD hh:mm:ss").format(
+                    SINAPSIS_APP_FORMATO_FECHA
+                  )
+                : "Sin Registro"}
+            </div>
+          )}
         </div>
       </div>
 

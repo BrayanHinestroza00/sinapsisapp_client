@@ -73,7 +73,7 @@ function InfoEmprendimiento(props) {
       </div>
 
       <form className="row g-3">
-        <Subtitulo>Datos del emprendimiento</Subtitulo>
+        <Subtitulo>Datos del Emprendimiento</Subtitulo>
         <div className="mb-3">
           <Label htmlFor="nombreEmprendimiento" className="form-label">
             Nombre del emprendimiento
@@ -117,7 +117,7 @@ function InfoEmprendimiento(props) {
 
         <div className="mb-3">
           <Label htmlFor="necesidadesIdentificadas" className="form-label">
-            Necesidades Identificadas <span className="text-danger"> (*)</span>
+            Necesidades identificadas <span className="text-danger"> (*)</span>
           </Label>
           <TextArea
             type="text"
@@ -178,7 +178,7 @@ function InfoEmprendimiento(props) {
 
         <div className="mb-3">
           <Label htmlFor="enfoqueSocial" className="form-label">
-            Enfoque Social del Emprendimiento
+            Enfoque social del emprendimiento
           </Label>
           <TextArea
             type="text"
@@ -198,7 +198,7 @@ function InfoEmprendimiento(props) {
 
         <div className="mb-3">
           <Label htmlFor="sectorEmprendimiento" className="form-label">
-            Sector del Emprendimiento
+            Sector del emprendimiento
           </Label>
           <Input
             type="text"
@@ -218,7 +218,7 @@ function InfoEmprendimiento(props) {
 
         <div className="mb-3">
           <Label htmlFor="sitioWeb" className="form-label">
-            Sitio Web
+            Sitio web
           </Label>
           <Input
             type="text"
@@ -285,7 +285,7 @@ function InfoEmprendimiento(props) {
           )}
         </div>
 
-        <Subtitulo>Información de la empresa</Subtitulo>
+        <Subtitulo>Información de la Empresa</Subtitulo>
 
         <div className="col-md-6 mb-3">
           <Label htmlFor="estaConstituida" className="form-label">

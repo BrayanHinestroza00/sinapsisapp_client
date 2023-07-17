@@ -125,7 +125,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
         .then((data) => {
           setDepartamentos(data);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => console.error(error));
     }
   }, [preloadData]);
 
@@ -135,7 +135,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
         .then((data) => {
           setMunicipios(data);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => console.error(error));
     }
   }, [datos.departamento]);
 
@@ -260,7 +260,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
     >
       <div className="col-md-6">
         <Label htmlFor="nombreCompleto" className="form-label">
-          Nombre Completo
+          Nombre completo
         </Label>
         <Input
           type="text"
@@ -273,7 +273,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="docIdentificacion" className="form-label">
-          Documento de Identificación
+          Documento de identificación
         </Label>
         <Input
           type="text"
@@ -286,7 +286,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="fechaNacimiento" className="form-label">
-          Fecha de Nacimiento
+          Fecha de nacimiento
           <span className="text-danger"> (*)</span>
         </Label>
         <Input
@@ -333,7 +333,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="correoPersonal" className="form-label">
-          Correo Personal
+          Correo personal
         </Label>
         <Input
           type="text"
@@ -352,7 +352,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="celular" className="form-label">
-          Teléfono de Contacto
+          Teléfono de contacto
         </Label>
         <Input
           type="text"
@@ -371,7 +371,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="departamento" className="form-label">
-          Departamento de Residencia
+          Departamento de residencia
           <span className="text-danger"> (*)</span>
         </Label>
         <select
@@ -402,7 +402,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="municipioId" className="form-label">
-          Municipio de Residencia
+          Municipio de residencia
           <span className="text-danger"> (*)</span>
         </Label>
         <select
@@ -435,7 +435,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="direccion" className="form-label">
-          Dirección de Residencia
+          Dirección de residencia
           <span className="text-danger"> (*)</span>
         </Label>
         <Input
@@ -455,7 +455,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="vinculoConU" className="form-label">
-          Vinculo con la Universidad
+          Vinculo con la universidad
           <span className="text-danger"> (*)</span>
         </Label>
         <select
@@ -498,7 +498,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
               htmlFor="codigoEstudiantil"
               className="form-label nombreInput"
             >
-              Código Estudiantil
+              Código estudiantil
               <span className="text-danger"> (*)</span>
             </label>
             <input
@@ -556,7 +556,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
               htmlFor="programaAcademico"
               className="form-label nombreInput"
             >
-              Programa Académico
+              Programa académico
               <span className="text-danger"> (*)</span>
             </label>
             <select
@@ -600,7 +600,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
           {datos?.programaAcademico == T_SINAPSIS_PROGRAMAS_OTRO && (
             <div className="col-md-6">
               <Label htmlFor="cualOtroProgramaAcademico" className="form-label">
-                ¿Cuál Otro?
+                ¿Cuál otro?
                 <span className="text-danger"> (*)</span>
               </Label>
               <Input
@@ -627,7 +627,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
             <>
               <div className="col-md-6">
                 <label className="form-label nombreInput">
-                  Modalidad de Emprendimiento como Trabajo de Grado
+                  Modalidad de emprendimiento como trabajo de grado
                   <span className="text-danger"> (*)</span>
                 </label>
 
@@ -682,7 +682,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
                   htmlFor="cursosEmprendimiento"
                   className="form-label nombreInput"
                 >
-                  Asignaturas de Emprendimiento Cursadas
+                  Asignaturas de emprendimiento cursadas
                   <span className="text-danger"> (*)</span>
                 </label>
                 <div>
@@ -690,15 +690,6 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
                     {dataAsignaturas &&
                       dataAsignaturas.length > 0 &&
                       dataAsignaturas.map((asignatura, index) => {
-                        {
-                          /* {
-                          console.log(
-                            datos?.cursosEmprendimiento.includes(
-                              asignatura.codigo
-                            )
-                          );
-                        } */
-                        }
                         return (
                           <div key={index}>
                             <input
@@ -739,7 +730,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
         <>
           <div className="col-md-6">
             <Label htmlFor="cargoColaborador" className="form-label">
-              Cargo de Colaborador
+              Cargo de colaborador
               <span className="text-danger"> (*)</span>
             </Label>
             <Input
@@ -861,7 +852,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
           {datos?.profesionEgresado == T_SINAPSIS_PROGRAMAS_OTRO && (
             <div className="col-md-6">
               <Label htmlFor="cualOtroprofesionEgresado" className="form-label">
-                ¿Cuál Otro?
+                ¿Cuál otro?
                 <span className="text-danger"> (*)</span>
               </Label>
               <Input
@@ -890,7 +881,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
 
       <div className="col-md-12">
         <Label htmlFor="fotoPerfil" className="form-label nombreInput">
-          Foto de Perfil
+          Foto de perfil
         </Label>
 
         <DropZoneComponent
@@ -910,7 +901,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
         <BotonSiguiente
           type="submit"
           style={{ height: "auto" }}
-          className="btn btn-primary"
+          className="btn btn-primary mx-2"
         >
           Actualizar Datos
         </BotonSiguiente>

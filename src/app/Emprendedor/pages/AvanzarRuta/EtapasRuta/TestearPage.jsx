@@ -13,7 +13,10 @@ import {
   messageAlert,
   messageAlertWithoutText,
 } from "src/app/Shared/utils/messageAlerts";
-import { HTTP_METHOD_POST } from "src/app/Shared/utils/apiConstants";
+import {
+  HTTP_METHOD_POST,
+  URL_CONTINUAR_AVANCE_RUTA,
+} from "src/app/Shared/utils/apiConstants";
 
 function TestearPage() {
   const navigate = useNavigate();
@@ -113,7 +116,7 @@ function TestearPage() {
   const onClickContinuar = (idSubActRuta, onCallBack) => {
     if (idSubActRuta == 11 || idSubActRuta == 13) {
       axios({
-        url: "http://localhost:5000/api/v1/emprendedor/avance_ruta/continuar",
+        url: URL_CONTINUAR_AVANCE_RUTA,
         method: HTTP_METHOD_POST,
         data: {
           idRutaProyecto: state.rutaEmprendimientoId,
@@ -121,7 +124,7 @@ function TestearPage() {
         },
       }).then(() => {
         axios({
-          url: "http://localhost:5000/api/v1/emprendedor/avance_ruta/continuar",
+          url: URL_CONTINUAR_AVANCE_RUTA,
           method: HTTP_METHOD_POST,
           data: {
             idRutaProyecto: state.rutaEmprendimientoId,
@@ -133,7 +136,7 @@ function TestearPage() {
       });
     } else {
       axios({
-        url: "http://localhost:5000/api/v1/emprendedor/avance_ruta/continuar",
+        url: URL_CONTINUAR_AVANCE_RUTA,
         method: HTTP_METHOD_POST,
         data: {
           idRutaProyecto: state.rutaEmprendimientoId,

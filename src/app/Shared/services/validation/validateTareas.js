@@ -12,13 +12,6 @@ export const validarCreacionTarea = (datos) => {
   if (!fechaEntrega) {
     errors.fechaEntrega = "Campo Obligatorio";
   } else {
-    // console.log("Qui", new Date(fechaEntrega) < new Date());
-    // console.log("AQui", {
-    //   fechaEntrega,
-    //   date: new Date(),
-    //   t: new Date(fechaEntrega),
-    // });
-
     if (new Date(fechaEntrega) < new Date()) {
       errors.fechaEntrega =
         "La fecha límite de entrega NO puede ser menor de HOY";

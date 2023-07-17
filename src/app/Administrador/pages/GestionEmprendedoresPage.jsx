@@ -360,15 +360,42 @@ function GestionEmprendedoresPage() {
             <FlexyTable
               datos={datos}
               titulo={"Emprendedores"}
-              btn1={<img src={detalleIcon} width="auto" height="25" />}
+              btn1={
+                <img
+                  src={detalleIcon}
+                  width="auto"
+                  height="25"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Ver Detalle"
+                />
+              }
               fun1={(emprendedorData) => {
                 onHandleDetalleEmprendedor(emprendedorData);
               }}
-              btn2={<img src={resetPasswordIcon} width="auto" height="25" />}
+              btn2={
+                <img
+                  src={resetPasswordIcon}
+                  width="auto"
+                  height="25"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Restablecer contraseña"
+                />
+              }
               fun2={(emprendedorData) => {
                 onResetPasswordEmprendedor(emprendedorData);
               }}
-              btn3={<img src={deleteUserIcon} width="auto" height="25" />}
+              btn3={
+                <img
+                  src={deleteUserIcon}
+                  width="auto"
+                  height="25"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Desactivar usuario"
+                />
+              }
               fun3={(emprendedorData) => {
                 onDeleteEmprendedor(emprendedorData);
               }}
