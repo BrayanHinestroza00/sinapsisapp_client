@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 
@@ -22,7 +22,7 @@ import {
 
 function PrimeraAtencionPage() {
   const navigate = useNavigate();
-  const { userData } = useContext(EmprendedorContext);
+  const { userData, setShowSidebar } = useContext(EmprendedorContext);
 
   const [step, setStep] = useState(1);
   const [datos, setDatos] = useState({});
@@ -42,6 +42,10 @@ function PrimeraAtencionPage() {
   function prevStep() {
     setStep(step - 1);
   }
+
+  useEffect(() => {
+    setShowSidebar(false);
+  }, []);
 
   const handleChange = (event) => {
     if (!("target" in event)) {
@@ -69,6 +73,10 @@ function PrimeraAtencionPage() {
     if (event.target.name == "redesSociales") {
       const redSocialId = event.target.id.split("_")[1];
       const redesSociales = datos[event.target.name];
+
+      console.log("redesSociales", redesSociales);
+      console.log("redesSociales", event.target.value);
+
       setDatos({
         ...datos,
         redesSociales: {

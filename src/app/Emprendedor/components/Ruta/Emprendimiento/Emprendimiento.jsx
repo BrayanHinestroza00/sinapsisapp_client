@@ -1,6 +1,8 @@
+import moment from "moment";
 import { useContext, useEffect, useState } from "react";
 
 import ProyectoEmprendimiento from "src/app/Shared/components/DetalleProyectoEmprendimiento/emprendimientos/FormEmprendimiento";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 import { CardRuta, Ruta, Titulo } from "src/app/Shared/assets/styles/Common.js";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
@@ -10,7 +12,7 @@ import {
   URL_OBTENER_EMPRENDEDIMIENTO,
   URL_OBTENER_REDES_SOCIALES,
 } from "src/app/Shared/utils/apiConstants";
-import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
+import { SINAPSIS_APP_FORMATO_FECHA_INPUT } from "src/app/Shared/utils/constants";
 
 function Emprendimiento() {
   const {
@@ -81,7 +83,10 @@ function Emprendimiento() {
         sitioWeb: preloadData.sitioWeb,
         redesSociales: redesSociales,
         estaConstituida: preloadData.estaConstituida,
-        fechaConstitucion: preloadData.fechaConstitucion,
+        fechaConstitucion: moment(
+          preloadData.fechaConstitucion,
+          "YYYY-MM-DD hh:mm:ss"
+        ).format(SINAPSIS_APP_FORMATO_FECHA_INPUT),
         nitEmpresa: preloadData.nit,
         nombreEmpresa: preloadData.nombreEmpresa,
         razonSocialEmpresa: preloadData.razonSocial,

@@ -18,15 +18,17 @@ import {
   URL_OBTENER_MENTOR_POR_PROYECTO_EMPRENDIMIENTO,
 } from "src/app/Shared/utils/apiConstants";
 import { SINAPSIS_APP_FORMATO_FECHA } from "src/app/Shared/utils/constants";
-import { HOST } from "src/app/Shared/utils/apiConstants";
+import { getArchivo } from "src/app/Shared/utils/utilityFunctions";
 
-import imagen from "src/app/Shared/assets/images/panel_lateral.png";
 import logoSinapsis from "src/app/Shared/assets/images/logo_sinapsis.png";
+import default_image from "src/app/Shared/assets/images/default_profile_picture.png";
 
 function Mentores() {
   const { userData, selectedProjectIndex } = useContext(EmprendedorContext);
 
   const [loadingComponent, setLoadingComponent] = useState(true);
+  const [datosImagen, setDatosImagen] = useState({});
+  const [datosHistoricoMentor, setDatosHistoricoMentor] = useState(null);
 
   // Custom Hooks
   const {
@@ -76,6 +78,45 @@ function Mentores() {
       setLoadingComponent(false);
     }
   }, [userData, selectedProjectIndex]);
+
+  useEffect(() => {
+    obtenerImagen();
+  }, [mentorAsignado]);
+
+  useEffect(() => {
+    obtenerImagenHistorico();
+  }, [historicoMentores]);
+
+  const obtenerImagen = async () => {
+    if (mentorAsignado && mentorAsignado.fotoPerfilMentor) {
+      const imagen = await getArchivo(mentorAsignado.fotoPerfilMentor);
+      setDatosImagen(`data:${imagen.contentType};base64,${imagen.file}`);
+    } else {
+      setDatosImagen(default_image);
+    }
+  };
+
+  const obtenerImagenHistorico = async () => {
+    if (historicoMentores && historicoMentores.length > 0) {
+      let mentores = [];
+      for (let i = 0; i < historicoMentores.length; i++) {
+        const mentorAsignado = historicoMentores[i];
+
+        if (mentorAsignado && mentorAsignado.fotoPerfilMentor) {
+          const imagen = await getArchivo(mentorAsignado.fotoPerfilMentor);
+          historicoMentores[
+            i
+          ].fotoPerfilMentor = `data:${imagen.contentType};base64,${imagen.file}`;
+        } else {
+          historicoMentores[i].fotoPerfilMentor = default_image;
+        }
+
+        mentores.push(historicoMentores[i]);
+      }
+
+      setDatosHistoricoMentor(mentores);
+    }
+  };
 
   if (loadingComponent || mentorAsignadoLoading || historicoMentoresLoading) {
     return <LoadingSpinner width="5rem" height="5rem" />;
@@ -132,11 +173,7 @@ function Mentores() {
               </div>
               <img
                 className="rounded"
-                src={
-                  mentorAsignado.fotoPerfilMentor
-                    ? `${HOST}/${mentorAsignado.fotoPerfilMentor}`
-                    : imagen
-                }
+                src={datosImagen}
                 alt="Foto Perfil Mentor"
                 style={{ width: "10rem" }}
               />
@@ -152,10 +189,12 @@ function Mentores() {
           {historicoMentoresMessage || historicoMentoresError ? (
             <p>{historicoMentoresMessage || historicoMentoresError}</p>
           ) : (
-            historicoMentores && (
+            datosHistoricoMentor && (
               <div className="d-flex flex-wrap justify-content-center">
-                {historicoMentores.length > 0 ? (
-                  historicoMentores.map((mentor, index) => {
+                {datosHistoricoMentor.length > 0 ? (
+                  datosHistoricoMentor.map((mentor, index) => {
+                    //const imagen = await obtenerImagenHistorico(mentor);
+
                     return (
                       <div
                         key={index}
@@ -163,11 +202,7 @@ function Mentores() {
                         style={{ maxWidth: "20rem" }}
                       >
                         <img
-                          src={
-                            mentorAsignado?.fotoPerfilMentor
-                              ? `${HOST}/${mentorAsignado?.fotoPerfilMentor}`
-                              : imagen
-                          }
+                          src={mentor.fotoPerfilMentor}
                           className="card-img-top rounded d-flex"
                           alt="..."
                           style={{ maxWidth: "15rem" }}

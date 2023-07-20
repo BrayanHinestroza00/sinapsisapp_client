@@ -48,7 +48,7 @@ function InfoDiagnostico(props) {
       <form className="row g-3" encType="multipart/form-data">
         <div className="text-center">
           <h4>
-            Descarga el formato del autodiagnóstico, digiléncialo y súbelo
+            Descarga el formato del autodiagnóstico, diligéncialo y súbelo
           </h4>
           <div>
             <a
@@ -72,7 +72,7 @@ function InfoDiagnostico(props) {
             </h4>
             <DropZoneComponent
               upFiles={onGetFiles}
-              files={props?.fileDiagnostico}
+              files={props.datos?.fileDiagnostico}
               // accept={{
               //   "application/vnd.ms-excel.sheet.macroEnabled.12": [".xlsm"],
               // }}

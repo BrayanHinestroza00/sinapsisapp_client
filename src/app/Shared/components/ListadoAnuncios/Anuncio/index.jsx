@@ -1,11 +1,24 @@
-import { HOST } from "src/app/Shared/utils/apiConstants";
+import moment from "moment";
+import { useEffect, useState } from "react";
+
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner.jsx";
 
 import { AnuncioParrafo, AnuncioSpanHelper } from "./styled.js";
 import { Card } from "src/app/Shared/assets/styles/Common.js";
-import moment from "moment";
 import { SINAPSIS_APP_FORMATO_FECHA_HORA } from "src/app/Shared/utils/constants";
+import { getArchivo } from "src/app/Shared/utils/utilityFunctions.js";
 
 function Anuncio({ dataAnuncio, ...props }) {
+  const [datosImagen, setDatosImagen] = useState({});
+  useEffect(() => {
+    obtenerImagen();
+  }, []);
+
+  const obtenerImagen = async () => {
+    const imagen = await getArchivo(dataAnuncio.urlAnuncio);
+    setDatosImagen(imagen);
+  };
+
   return (
     <Card className="container-fluid my-3 text-center">
       <div
@@ -39,12 +52,16 @@ function Anuncio({ dataAnuncio, ...props }) {
       </div>
       <div className="row col-md-12">
         <div className="w-100 text-center">
-          <img
-            src={`${HOST}${dataAnuncio.urlAnuncio}`}
-            alt={dataAnuncio.titulo}
-            className="rounded"
-            style={{ maxWidth: "50vw" }}
-          />
+          {datosImagen == null ? (
+            <LoadingSpinner width="5rem" height="5rem" />
+          ) : (
+            <img
+              src={`data:${datosImagen.contentType};base64,${datosImagen.file}`}
+              alt={dataAnuncio.titulo}
+              className="rounded"
+              style={{ maxWidth: "50vw", maxHeight: "35vh" }}
+            />
+          )}
         </div>
       </div>
     </Card>

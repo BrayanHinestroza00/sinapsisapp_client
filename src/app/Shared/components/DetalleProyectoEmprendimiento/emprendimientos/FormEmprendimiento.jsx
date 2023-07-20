@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import moment from "moment";
 
 import DropZoneComponent from "../../DropZone/DropZoneComponent";
@@ -25,6 +25,9 @@ import {
   messageAlert,
   messageAlertWithoutText,
 } from "src/app/Shared/utils/messageAlerts";
+import { getArchivo } from "src/app/Shared/utils/utilityFunctions";
+
+import default_image from "src/app/Shared/assets/images/default_profile_picture.png";
 
 function EmprendimientoComponent({
   datos,
@@ -35,6 +38,7 @@ function EmprendimientoComponent({
 }) {
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
+  const [datosImagen, setDatosImagen] = useState({});
 
   // Custom Hooks
   const {
@@ -43,6 +47,19 @@ function EmprendimientoComponent({
     error: errorAPI,
     fetchAPI,
   } = useFetch();
+
+  useEffect(() => {
+    obtenerImagen();
+  }, []);
+
+  const obtenerImagen = async () => {
+    if (datos.logoEmpresaUrl) {
+      const imagen = await getArchivo(datos.logoEmpresaUrl);
+      setDatosImagen(`data:${imagen.contentType};base64,${imagen.file}`);
+    } else {
+      setDatosImagen(default_image);
+    }
+  };
 
   const onHandleChange = (event) => {
     if (setDatos) {
@@ -501,27 +518,39 @@ function EmprendimientoComponent({
                   )}
                 </div>
 
-                {editable && (
-                  <div className="col-md-12 mb-3">
-                    <Label
-                      htmlFor="logoEmpresa"
-                      className="form-label nombreInput"
-                    >
-                      Logo empresa
-                    </Label>
-                    <DropZoneComponent
-                      upFiles={onGetFiles}
-                      files={datos?.logoEmpresa}
-                      filesUrl={datos.logoEmpresaUrl}
-                    />
+                <div className="col-md-12 mb-3">
+                  {editable ? (
+                    <>
+                      <Label htmlFor="logoEmpresa" className="form-label">
+                        Logo empresa
+                      </Label>
+                      <DropZoneComponent
+                        upFiles={onGetFiles}
+                        files={datos?.logoEmpresa}
+                        filesUrl={datos.logoEmpresaUrl}
+                      />
 
-                    {error.logoEmpresa && (
-                      <small className="form-text font-weight-bold text-danger">
-                        {error.logoEmpresa}
-                      </small>
-                    )}
-                  </div>
-                )}
+                      {error.logoEmpresa && (
+                        <small className="form-text font-weight-bold text-danger">
+                          {error.logoEmpresa}
+                        </small>
+                      )}
+                    </>
+                  ) : datosImagen == null ? (
+                    <LoadingSpinner width="30%" height="30%" />
+                  ) : (
+                    <div className="d-flex flex-column">
+                      <Label htmlFor="logoEmpresa" className="form-label">
+                        Logo empresa
+                      </Label>
+                      <img
+                        src={datosImagen}
+                        alt="Foto de perfil"
+                        width={"30%"}
+                      />
+                    </div>
+                  )}
+                </div>
               </>
             )}
           </div>

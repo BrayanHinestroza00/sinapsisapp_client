@@ -165,6 +165,14 @@ export function getInformacionEmprendedor(idUsuario) {
     .catch((error) => console.error(error));
 }
 
+export function getArchivo(idArchivo) {
+  return Axios.get(`${HOST}/app/download`, { params: { idArchivo } })
+    .then(({ data }) => {
+      return data.response;
+    })
+    .catch((error) => console.error(error));
+}
+
 export function obtenerNombreEtapa(idEtapa) {
   switch (idEtapa) {
     case T_SINAPSIS_ETAPAS_RUTA_SONAR:

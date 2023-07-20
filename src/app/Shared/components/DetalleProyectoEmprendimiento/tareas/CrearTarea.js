@@ -208,11 +208,7 @@ function CrearTarea({
 
             <Form.Group className="mb-3">
               <Form.Label>Adjunta tus archivos</Form.Label>
-              <DropZoneComponent
-                upFiles={getFiles}
-                files={datos?.fileTarea}
-                filesUrl={datos?.fileTarea}
-              />
+              <DropZoneComponent upFiles={getFiles} files={datos?.fileTarea} />
 
               {error.fileTarea && (
                 <small className="form-text font-weight-bold text-danger">

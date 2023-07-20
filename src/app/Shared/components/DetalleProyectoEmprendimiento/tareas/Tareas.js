@@ -133,47 +133,6 @@ function Tareas({ idProyectoEmprendimiento, idUsuario, tipoUsuario }) {
     });
   };
 
-  function EliminarT({ idTarea }) {
-    swal
-      .fire({
-        title: "¿Estás seguro que deseas eliminar la tarea?",
-        icon: "warning",
-        iconColor: "#9a66a8",
-        confirmButtonText: "Eliminar",
-        confirmButtonColor: "#9a66a8",
-        showConfirmButton: true,
-        showCancelButton: true,
-        cancelButtonText: "Cancelar",
-      })
-      .then((respuesta) => {
-        if (respuesta.isConfirmed) {
-          Axios.delete(`${HOST}/Mentor/Tarea`, {
-            headers: {
-              Authorization:
-                localStorage.getItem("token") ||
-                sessionStorage.getItem("token"),
-            },
-            data: {
-              idTarea,
-            },
-          })
-            .then(() => {
-              swal
-                .fire({
-                  title: "Eliminación exitosa",
-                  icon: "success",
-                  iconColor: "#9a66a8",
-                  confirmButtonText: "Aceptar",
-                  confirmButtonColor: "#9a66a8",
-                  showConfirmButton: true,
-                })
-                .then(() => (window.location.href = window.location.pathname));
-            })
-            .catch((err) => console.error(err.response));
-        }
-      });
-  }
-
   /*---------------------------------------------------------------*/
 
   if (

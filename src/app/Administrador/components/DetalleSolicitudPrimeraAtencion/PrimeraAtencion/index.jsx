@@ -198,7 +198,14 @@ function PrimeraAtencion({ idProyectoEmprendimiento }) {
               ¿Cómo se enteró de los servicios de SINAPSIS UAO?
             </Label>
             {data.descubrioSinapsis && data.descubrioSinapsis.length > 0 && (
-              <ul>
+              <ul
+                className="form-control"
+                style={{
+                  borderRadius: "4px",
+                  border: "solid 1px rgba(154, 102, 168, 0.35)",
+                  backgroundColor: "#e9ecef",
+                }}
+              >
                 {data.descubrioSinapsis
                   .split(",")
                   .map((metodoDescubrio, index) => {

@@ -1,5 +1,8 @@
+import { useEffect, useState } from "react";
 import moment from "moment";
 import { Form, Modal } from "react-bootstrap";
+
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
 import {
   img,
@@ -7,14 +10,45 @@ import {
   thumbInner,
   thumbsContainer,
 } from "src/app/Shared/components/DropZone/styled.js";
-
-import downloadIcon from "src/app/Shared/assets/images/icons/download_icon.png";
-
 import { HOST } from "src/app/Shared/utils/apiConstants";
 import { SINAPSIS_APP_FORMATO_FECHA_HORA } from "src/app/Shared/utils/constants";
 import { Label, Table } from "./styled";
+import { getArchivo } from "src/app/Shared/utils/utilityFunctions";
+
+import downloadIcon from "src/app/Shared/assets/images/icons/download_icon.png";
 
 function DetalleTareaAdmin(props) {
+  const [datosImagen, setDatosImagen] = useState({});
+  const [datosImagenEnviados, setDatosImagenEnviados] = useState({});
+
+  useEffect(() => {
+    obtenerImagen();
+  }, []);
+
+  useEffect(() => {
+    obtenerImagenEnviados();
+  }, []);
+
+  const obtenerImagen = async () => {
+    if (props.data.urlMaterialApoyo) {
+      const imagen = await getArchivo(props.data.urlMaterialApoyo);
+      setDatosImagen({
+        url: `data:${imagen.contentType};base64,${imagen.file}`,
+        filename: imagen.filename,
+      });
+    }
+  };
+
+  const obtenerImagenEnviados = async () => {
+    if (props.data.urlArchivosEntrega) {
+      const imagen = await getArchivo(props.data.urlArchivosEntrega);
+      setDatosImagenEnviados({
+        url: `data:${imagen.contentType};base64,${imagen.file}`,
+        filename: imagen.filename,
+      });
+    }
+  };
+
   return (
     <Modal
       {...props}
@@ -48,14 +82,17 @@ function DetalleTareaAdmin(props) {
             />
           </Form.Group>
 
-          {props.data.urlMaterialApoyo && (
+          {datosImagen == null ? (
+            <LoadingSpinner width="30%" height="30%" />
+          ) : (
             <Form.Group className="row mb-3">
               <Label>Recursos entregados por el docente</Label>
               <br />
               <div className="text-center">
                 <a
                   className="text-center"
-                  href={`${HOST}/${props.data.urlMaterialApoyo}`}
+                  href={datosImagen.url}
+                  download={datosImagen.filename}
                   target="_blank"
                 >
                   <img src={downloadIcon} width="25%" alt="downloadIcon" />
@@ -72,7 +109,8 @@ function DetalleTareaAdmin(props) {
               <div className="text-center">
                 <a
                   className="text-center"
-                  href={`${HOST}/${props.data.urlArchivosEntrega}`}
+                  href={datosImagenEnviados.url}
+                  download={datosImagenEnviados.filename}
                   target="_blank"
                 >
                   <img src={downloadIcon} width="25%" alt="downloadIcon" />
@@ -121,21 +159,25 @@ function DetalleTareaAdmin(props) {
                     <tr>
                       <td>Archivos Enviados</td>
                       <td>
-                        {props.data.urlArchivosEntrega ? (
-                          <aside style={thumbsContainer}>
-                            <div style={thumb}>
-                              <div style={thumbInner}>
-                                <img
-                                  src={`${HOST}/${props.data.urlArchivosEntrega}`}
-                                  style={img}
-                                  alt={"Documentos entregados"}
-                                />
+                        {props.data.urlArchivosEntrega
+                          ? datosImagenEnviados != null && (
+                              <div className="text-center">
+                                <a
+                                  className="text-center"
+                                  href={datosImagenEnviados.url}
+                                  download={datosImagenEnviados.filename}
+                                  target="_blank"
+                                >
+                                  <img
+                                    src={downloadIcon}
+                                    width="25%"
+                                    alt="downloadIcon"
+                                  />
+                                </a>
+                                <br />
                               </div>
-                            </div>
-                          </aside>
-                        ) : (
-                          "SIN ARCHIVOS ENVIADOS"
-                        )}
+                            )
+                          : "SIN ARCHIVOS ENVIADOS"}
                       </td>
                     </tr>
                   )}

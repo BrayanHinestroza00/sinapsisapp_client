@@ -1,17 +1,36 @@
+import { useEffect, useState } from "react";
+
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
+
 import { Input, Label } from "src/app/Shared/assets/styles/Common";
-import { HOST } from "src/app/Shared/utils/apiConstants";
+import { getArchivo } from "src/app/Shared/utils/utilityFunctions";
 
 import default_image from "src/app/Shared/assets/images/default_profile_picture.png";
 
 function VerPerfil({ datos }) {
+  const [datosImagen, setDatosImagen] = useState({});
+
+  useEffect(() => {
+    obtenerImagen();
+  }, []);
+
+  const obtenerImagen = async () => {
+    if (datos.fotoUrl) {
+      const imagen = await getArchivo(datos.fotoUrl);
+      setDatosImagen(`data:${imagen.contentType};base64,${imagen.file}`);
+    } else {
+      setDatosImagen(default_image);
+    }
+  };
+
   return (
     <form className="row g-3 mt-1">
       <div className="col-md-12 text-center mb-3">
-        <img
-          src={datos.fotoUrl ? `${HOST}/${datos.fotoUrl}` : default_image}
-          alt="Foto de perfil"
-          width={"30%"}
-        />
+        {datosImagen == null ? (
+          <LoadingSpinner width="30%" height="30%" />
+        ) : (
+          <img src={datosImagen} alt="Foto de perfil" width={"30%"} />
+        )}
       </div>
 
       <div className="col-md-6 mb-3">

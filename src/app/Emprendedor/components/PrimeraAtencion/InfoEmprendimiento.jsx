@@ -251,6 +251,7 @@ function InfoEmprendimiento(props) {
             redesData &&
             redesData.length > 0 &&
             redesData.map((redSocial, index) => {
+              console.log("here", { redSocial, datos: props.datos });
               return (
                 <div key={index} className="col-md-6 mb-3">
                   <Label
@@ -266,11 +267,10 @@ function InfoEmprendimiento(props) {
                     name={`redesSociales`}
                     onChange={(e) => props.handleChange(e)}
                     value={
-                      props.datos.redesSociales &&
-                      props.datos.redesSociales.length > 0 &&
-                      props.datos?.redesSociales[`${redSocial.id}`]
-                        ? props.datos?.redesSociales[`${redSocial.id}`]
-                            ?.enlace || ""
+                      props.datos.redesSociales
+                        ? props.datos.redesSociales[`${redSocial.id}`]
+                          ? props.datos.redesSociales[`${redSocial.id}`].enlace
+                          : ""
                         : ""
                     }
                   />

@@ -68,6 +68,15 @@ function EmprendedorHeader() {
                   <li>
                     <h6 className="dropdown-header">Elige tu proyecto</h6>
                   </li>
+                  <li className="mb-2">
+                    <Link
+                      className="dropdown-item"
+                      to="/Emprendedor/primeraAtencion"
+                    >
+                      <span className="mx-2">Crear Proyecto</span>
+                    </Link>
+                  </li>
+
                   <li>
                     <HeaderMenuItem
                       className="dropdown-item"

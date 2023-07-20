@@ -1,10 +1,30 @@
+import { useEffect, useState } from "react";
+
 import DropZone from "./DropZone";
+
+import { getArchivo } from "../../utils/utilityFunctions";
 
 import { img, thumb, thumbInner, thumbsContainer } from "./styled";
 
-import { HOST } from "src/app/Shared/utils/apiConstants";
-
 function DropZoneComponent({ upFiles, files, filesUrl, accept, ...props }) {
+  const [datosImagen, setDatosImagen] = useState({});
+
+  useEffect(() => {
+    obtenerImagen();
+  }, [filesUrl]);
+
+  const obtenerImagen = async () => {
+    if (filesUrl) {
+      const imagen = await getArchivo(filesUrl);
+      setDatosImagen({
+        url: `data:${imagen.contentType};base64,${imagen.file}`,
+        filename: imagen.filename,
+      });
+    } else {
+      setDatosImagen(null);
+    }
+  };
+
   return (
     <>
       <DropZone upFiles={upFiles} files={files} accept={accept} />
@@ -17,7 +37,7 @@ function DropZoneComponent({ upFiles, files, filesUrl, accept, ...props }) {
                   files
                     ? URL.createObjectURL(files[0])
                     : filesUrl
-                    ? `${HOST}/${filesUrl}`
+                    ? datosImagen?.url
                     : ""
                 }
                 style={img}

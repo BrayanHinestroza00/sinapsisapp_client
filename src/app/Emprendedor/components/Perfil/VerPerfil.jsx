@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
@@ -15,12 +15,13 @@ import {
   T_SINAPSIS_TIPOS_CONTACTO_EGRESADO,
   T_SINAPSIS_TIPOS_CONTACTO_ESTUDIANTE,
 } from "src/app/Shared/utils/constants";
-import { HOST } from "src/app/Shared/utils/apiConstants";
+import { getArchivo } from "src/app/Shared/utils/utilityFunctions";
 
 import default_image from "src/app/Shared/assets/images/default_profile_picture.png";
 
 function VerPerfil({ preloadData }) {
   const { data: dataAsignaturas, error, loading, fetchAPI } = useFetch();
+  const [datosImagen, setDatosImagen] = useState({});
 
   useEffect(() => {
     fetchAPI({
@@ -30,6 +31,19 @@ function VerPerfil({ preloadData }) {
       },
     });
   }, []);
+
+  useEffect(() => {
+    obtenerImagen();
+  }, []);
+
+  const obtenerImagen = async () => {
+    if (preloadData.fotoUrl) {
+      const imagen = await getArchivo(preloadData.fotoUrl);
+      setDatosImagen(`data:${imagen.contentType};base64,${imagen.file}`);
+    } else {
+      setDatosImagen(default_image);
+    }
+  };
 
   if (loading) {
     return <LoadingSpinner width="5rem" height="5rem" />;
@@ -44,18 +58,16 @@ function VerPerfil({ preloadData }) {
     );
   }
 
+  //console.log("datosImagen", datosImagen);
+
   return (
     <form className="row g-3 mt-1">
       <div className="col-md-12 text-center mb-3">
-        <img
-          src={
-            preloadData.fotoUrl
-              ? `${HOST}/${preloadData.fotoUrl}`
-              : default_image
-          }
-          alt="Foto de perfil"
-          width={"30%"}
-        />
+        {datosImagen == null ? (
+          <LoadingSpinner width="30%" height="30%" />
+        ) : (
+          <img src={datosImagen} alt="Foto de perfil" width={"30%"} />
+        )}
       </div>
 
       <div className="col-md-6">
@@ -247,6 +259,7 @@ function VerPerfil({ preloadData }) {
                     id="modTrabajoGradoTrue"
                     value={1}
                     checked={preloadData?.modalidadTrabajoGrado == 1}
+                    readOnly
                   />
                   <label
                     className="form-check-label"
@@ -263,6 +276,7 @@ function VerPerfil({ preloadData }) {
                     id="modTrabajoGradoFalse"
                     value={0}
                     checked={preloadData?.modalidadTrabajoGrado == 0}
+                    readOnly
                   />
                   <label
                     className="form-check-label"
@@ -297,6 +311,7 @@ function VerPerfil({ preloadData }) {
                                   asignatura.codigo
                                 )
                               }
+                              readOnly
                               disabled
                             />
                             <label

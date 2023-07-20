@@ -1,5 +1,6 @@
+import moment from "moment";
 import Swal from "sweetalert2";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, Modal } from "react-bootstrap";
 
 import DropZoneComponent from "src/app/Shared/components/DropZone/DropZoneComponent";
@@ -10,6 +11,7 @@ import {
   thumbInner,
   thumbsContainer,
 } from "src/app/Shared/components/DropZone/styled";
+import { Label, Table } from "./styled";
 import {
   HOST,
   HTTP_METHOD_POST,
@@ -22,19 +24,50 @@ import {
   messageAlertWithoutText,
 } from "src/app/Shared/utils/messageAlerts";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
+import { SINAPSIS_APP_FORMATO_FECHA_HORA } from "src/app/Shared/utils/constants";
+import { getArchivo } from "src/app/Shared/utils/utilityFunctions";
+import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 import downloadIcon from "src/app/Shared/assets/images/icons/download_icon.png";
-import { Label, Table } from "./styled";
-import { SINAPSIS_APP_FORMATO_FECHA_HORA } from "src/app/Shared/utils/constants";
-import moment from "moment";
+import default_image from "src/app/Shared/assets/images/default_profile_picture.png";
 
 function DetalleTarea(props) {
+  const [datosImagen, setDatosImagen] = useState({});
+  const [datosImagenEnviados, setDatosImagenEnviados] = useState({});
   const [datosTarea, setDatosTarea] = useState({});
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
 
   // Custom Hooks
   const { message: messageAPI, error: errorAPI, fetchAPI } = useFetch();
+
+  useEffect(() => {
+    obtenerImagen();
+  }, []);
+
+  useEffect(() => {
+    obtenerImagenEnviados();
+  }, []);
+
+  const obtenerImagen = async () => {
+    if (props.data.urlMaterialApoyo) {
+      const imagen = await getArchivo(props.data.urlMaterialApoyo);
+      setDatosImagen({
+        url: `data:${imagen.contentType};base64,${imagen.file}`,
+        filename: imagen.filename,
+      });
+    }
+  };
+
+  const obtenerImagenEnviados = async () => {
+    if (props.data.urlArchivosEntrega) {
+      const imagen = await getArchivo(props.data.urlArchivosEntrega);
+      setDatosImagenEnviados({
+        url: `data:${imagen.contentType};base64,${imagen.file}`,
+        filename: imagen.filename,
+      });
+    }
+  };
 
   const getFiles = (files) => {
     setDatosTarea({
@@ -149,14 +182,17 @@ function DetalleTarea(props) {
             />
           </Form.Group>
 
-          {props.data.urlMaterialApoyo && (
+          {datosImagen == null ? (
+            <LoadingSpinner width="30%" height="30%" />
+          ) : (
             <Form.Group className="row mb-3">
               <Label>Recursos entregados por el docente</Label>
               <br />
               <div className="text-center">
                 <a
                   className="text-center"
-                  href={`${HOST}/${props.data.urlMaterialApoyo}`}
+                  href={datosImagen.url}
+                  download={datosImagen.filename}
                   target="_blank"
                 >
                   <img src={downloadIcon} width="25%" alt="downloadIcon" />
@@ -204,21 +240,25 @@ function DetalleTarea(props) {
                   <tr>
                     <td>Archivos Enviados</td>
                     <td>
-                      {props.data.urlArchivosEntrega ? (
-                        <aside style={thumbsContainer}>
-                          <div style={thumb}>
-                            <div style={thumbInner}>
-                              <img
-                                src={`${HOST}/${props.data.urlArchivosEntrega}`}
-                                style={img}
-                                alt={"Documentos entregados"}
-                              />
+                      {props.data.urlArchivosEntrega
+                        ? datosImagenEnviados != null && (
+                            <div className="text-center">
+                              <a
+                                className="text-center"
+                                href={datosImagenEnviados.url}
+                                download={datosImagenEnviados.filename}
+                                target="_blank"
+                              >
+                                <img
+                                  src={downloadIcon}
+                                  width="25%"
+                                  alt="downloadIcon"
+                                />
+                              </a>
+                              <br />
                             </div>
-                          </div>
-                        </aside>
-                      ) : (
-                        "SIN ARCHIVOS ENVIADOS"
-                      )}
+                          )
+                        : "SIN ARCHIVOS ENVIADOS"}
                     </td>
                   </tr>
                   <tr>

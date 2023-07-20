@@ -1,5 +1,5 @@
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form, Modal, Table } from "react-bootstrap";
 
 import {
@@ -8,12 +8,6 @@ import {
   URL_CALIFICAR_TAREA_EMPRENDEDOR,
   URL_STATIC_UPLOAD_IMAGES,
 } from "src/app/Shared/utils/apiConstants";
-import {
-  img,
-  thumb,
-  thumbInner,
-  thumbsContainer,
-} from "src/app/Shared/components/DropZone/styled.js";
 import { confirmAlertWithText } from "src/app/Shared/utils/confirmAlerts.js";
 import {
   messageAlert,
@@ -23,14 +17,31 @@ import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import { validarCalificacionTarea } from "src/app/Shared/services/validation/validateTareas";
 import { Label } from "./styled";
 import { SINAPSIS_APP_FORMATO_FECHA_HORA } from "src/app/Shared/utils/constants";
+import { Titulo } from "src/app/Shared/assets/styles/Common";
+import { getArchivo } from "src/app/Shared/utils/utilityFunctions";
 
 function RevisarTarea({ show, data, onHide }) {
+  const [datosImagen, setDatosImagen] = useState({});
   const [datosTarea, setDatosTarea] = useState({});
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
 
   // Custom Hooks
   const { message: messageAPI, error: errorAPI, fetchAPI } = useFetch();
+
+  useEffect(() => {
+    obtenerImagen();
+  }, []);
+
+  const obtenerImagen = async () => {
+    if (data.urlArchivosEntrega) {
+      const imagen = await getArchivo(data.urlArchivosEntrega);
+      setDatosImagen({
+        url: `data:${imagen.contentType};base64,${imagen.file}`,
+        filename: imagen.filename,
+      });
+    }
+  };
 
   const onHandleChange = (e) => {
     setDatosTarea({
@@ -124,7 +135,7 @@ function RevisarTarea({ show, data, onHide }) {
 
       <Modal.Body style={{ backgroundColor: "#fbf6fc" }}>
         <Form className="container">
-          <h5>Información de tarea</h5>
+          <Titulo>Información de tarea</Titulo>
           <Form.Group className="row mb-3">
             <Label>Descripción</Label>
             <Form.Control
@@ -136,7 +147,7 @@ function RevisarTarea({ show, data, onHide }) {
           </Form.Group>
 
           <hr />
-          {data.urlArchivosEntrega && (
+          {data.urlArchivosEntrega && datosImagen && (
             <Form.Group className="text-center">
               <Label>Tarea entregada por el emprendedor</Label>
               <p className="m-2">
@@ -146,13 +157,14 @@ function RevisarTarea({ show, data, onHide }) {
               <a
                 rel="noreferrer"
                 className="text-center"
-                href={`${HOST}/${data.urlArchivosEntrega}`}
+                href={datosImagen.url}
+                download={datosImagen.filename}
                 target="_blank"
               >
                 <img
                   src={URL_STATIC_UPLOAD_IMAGES}
                   height="150"
-                  alt="Click aqui"
+                  alt="Click aquí"
                 />
               </a>
               <br />
@@ -161,7 +173,8 @@ function RevisarTarea({ show, data, onHide }) {
                 <a
                   rel="noreferrer"
                   className="text-center m-1"
-                  href={`${HOST}/${data.urlArchivosEntrega}`}
+                  href={datosImagen.url}
+                  download={datosImagen.filename}
                   target="_blank"
                 >
                   Aquí
@@ -227,9 +240,10 @@ function RevisarTarea({ show, data, onHide }) {
             <Form.Select
               name="calificacionEntrega"
               type="text"
+              value={datosTarea.calificacionEntrega || "-1"}
               onChange={(e) => onHandleChange(e)}
             >
-              <option disabled selected>
+              <option value={"-1"} disabled>
                 Seleccione la calificación
               </option>
               <option value="A">Aprobada</option>

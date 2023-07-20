@@ -1,15 +1,14 @@
 import { useEffect } from "react";
 
-import { useFetch } from "src/app/Shared/services/hooks/useFetch";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import Anuncio from "./Anuncio";
 
 import {
   HTTP_METHOD_GET,
   URL_OBTENER_ANUNCIOS,
 } from "src/app/Shared/utils/apiConstants";
-
-import Anuncio from "./Anuncio";
+import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import { ListadoAnuncioSubtitulo } from "./styled.js";
-import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 function ListadoAnuncios() {
   // Custom Hooks
