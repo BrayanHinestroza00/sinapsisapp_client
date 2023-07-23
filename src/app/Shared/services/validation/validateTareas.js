@@ -1,6 +1,6 @@
 import { REGEX_PATTERN_SOLO_LETRAS } from "../../utils/regexPatterns";
 
-export const validarCreacionTarea = (datos) => {
+export const validarCreacionTarea = (datos, error) => {
   const errors = {};
   const { fileTarea, descripcionTarea, fechaEntrega, nombreTarea } = datos;
   if (!nombreTarea) {
@@ -18,7 +18,9 @@ export const validarCreacionTarea = (datos) => {
     }
   }
 
-  if (!fileTarea) {
+  if (error.fileTarea) {
+    errors.fileTarea = error.fileTarea;
+  } else if (!fileTarea) {
     errors.fileTarea = "Campo Obligatorio";
   } else {
     if (fileTarea.length > 1) {
@@ -28,7 +30,7 @@ export const validarCreacionTarea = (datos) => {
   return errors;
 };
 
-export const validarEntregaTarea = (datos) => {
+export const validarEntregaTarea = (datos, error) => {
   const errors = {};
   const { files, comentarioEmprendedor } = datos;
 
@@ -39,13 +41,14 @@ export const validarEntregaTarea = (datos) => {
     }
   }
 
-  if (!files) {
+  if (error.files) {
+    errors.files = error.files;
+  } else if (!files) {
     errors.files = "Campo Obligatorio";
-  } else {
-    if (files.length > 1) {
-      errors.files = "Solo se permite subir 1 archivo";
-    }
+  } else if (files.length > 1) {
+    errors.files = "Solo se permite subir 1 archivo";
   }
+
   return errors;
 };
 

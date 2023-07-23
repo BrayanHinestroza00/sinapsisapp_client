@@ -14,7 +14,6 @@ import AppRoutes from "./Routes/AppRoutes";
 import AuthMentor from "./Routes/ProtectRoutes/AuthMentor";
 import AuthEmprendedor from "./Routes/ProtectRoutes/AuthEmprendedor";
 import AuthAdministrador from "./Routes/ProtectRoutes/AuthAdministrador";
-import TestComponent from "./TestComponent";
 
 function App() {
   return (
@@ -25,7 +24,6 @@ function App() {
           <Route path="/Emprendedor/*" element={<AuthEmprendedor />} />
           <Route path="/Administrador/*" element={<AuthAdministrador />} />
           <Route path="/Mentor/*" element={<AuthMentor />} />
-          <Route path="/Test/*" element={<TestComponent />} />
           <Route path="*" element={<AppRoutes />} />
         </Routes>
       </BrowserRouter>

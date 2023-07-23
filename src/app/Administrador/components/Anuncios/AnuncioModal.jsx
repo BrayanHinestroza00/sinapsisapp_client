@@ -29,10 +29,15 @@ function AnuncioModal(props) {
   const { message: messageAPI, error: errorAPI, fetchAPI } = useFetch();
 
   const getFiles = (fileAnuncio) => {
+    delete error.fileAnuncio;
     setDatos({
       ...datos,
       fileAnuncio,
     });
+  };
+
+  const getFilesRejected = (mensajeError) => {
+    setError({ ...error, fileAnuncio: mensajeError });
   };
 
   const onHandleChange = (e) => {
@@ -45,7 +50,7 @@ function AnuncioModal(props) {
   const onHandleSubmit = (e) => {
     e.preventDefault();
 
-    let erroresFormulario = validarCrearAnuncio(datos);
+    let erroresFormulario = validarCrearAnuncio(datos, error);
     if (Object.keys(erroresFormulario).length) {
       setError(erroresFormulario);
     } else {
@@ -236,6 +241,7 @@ function AnuncioModal(props) {
               <h6>Flayer del Anuncio</h6>
               <DropZoneComponent
                 upFiles={getFiles}
+                upFilesRejected={getFilesRejected}
                 files={datos?.fileAnuncio}
                 filesUrl={datos?.urlAnuncio}
                 accept={{

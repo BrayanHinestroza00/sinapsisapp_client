@@ -58,8 +58,6 @@ function VerPerfil({ preloadData }) {
     );
   }
 
-  //console.log("datosImagen", datosImagen);
-
   return (
     <form className="row g-3 mt-1">
       <div className="col-md-12 text-center mb-3">

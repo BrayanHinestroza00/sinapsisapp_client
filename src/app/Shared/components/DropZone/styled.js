@@ -48,20 +48,19 @@ export const thumb = {
   border: "1px solid #eaeaea",
   marginBottom: 8,
   marginRight: 8,
-  width: "100%",
-  height: 100,
   padding: 4,
   boxSizing: "border-box",
 };
 
 export const thumbInner = {
   display: "flex",
-  minWidth: 0,
+  flexDirection: "column",
+  alignItems: "center",
   overflow: "hidden",
 };
 
 export const img = {
   display: "block",
-  width: "auto",
+  width: "10rem",
   height: "100%",
 };

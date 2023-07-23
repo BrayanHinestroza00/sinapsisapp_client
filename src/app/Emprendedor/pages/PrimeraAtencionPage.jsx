@@ -74,9 +74,6 @@ function PrimeraAtencionPage() {
       const redSocialId = event.target.id.split("_")[1];
       const redesSociales = datos[event.target.name];
 
-      console.log("redesSociales", redesSociales);
-      console.log("redesSociales", event.target.value);
-
       setDatos({
         ...datos,
         redesSociales: {

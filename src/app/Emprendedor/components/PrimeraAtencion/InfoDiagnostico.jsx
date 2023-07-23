@@ -11,20 +11,25 @@ import {
   TituloStepByStep,
 } from "./styled";
 import { HOST } from "src/app/Shared/utils/apiConstants";
-
 import { validacionesDiagnostico } from "src/app/Shared/services/validation/validatePrimeraAtencion";
+
 import download from "src/app/Shared/assets/images/icons/download_icon.png";
 
 function InfoDiagnostico(props) {
   const [error, setError] = useState({});
 
   const onGetFiles = (files) => {
+    delete error.fileDiagnostico;
     props.getFileDiagnostico(files);
+  };
+
+  const getFilesRejected = (mensajeError) => {
+    setError({ ...error, fileDiagnostico: mensajeError });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let erroresFormulario = validacionesDiagnostico(props.datos);
+    let erroresFormulario = validacionesDiagnostico(props.datos, error);
     if (Object.keys(erroresFormulario).length) {
       setError(erroresFormulario);
     } else {
@@ -72,10 +77,11 @@ function InfoDiagnostico(props) {
             </h4>
             <DropZoneComponent
               upFiles={onGetFiles}
+              upFilesRejected={getFilesRejected}
               files={props.datos?.fileDiagnostico}
-              // accept={{
-              //   "application/vnd.ms-excel.sheet.macroEnabled.12": [".xlsm"],
-              // }}
+              accept={{
+                "application/vnd.ms-excel.sheet.macroEnabled.12": [".xlsm"],
+              }}
             />
 
             {error.fileDiagnostico && (

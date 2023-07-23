@@ -64,7 +64,7 @@ function EditarPerfil({
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    let erroresFormulario = validacionesEditarPerfilUsuario(datos);
+    let erroresFormulario = validacionesEditarPerfilUsuario(datos, error);
     if (Object.keys(erroresFormulario).length) {
       setError(erroresFormulario);
     } else {
@@ -106,10 +106,15 @@ function EditarPerfil({
   };
 
   const onGetFiles = (fotoPerfil) => {
+    delete error.fotoPerfil;
     setDatos({
       ...datos,
       fotoPerfil,
     });
+  };
+
+  const getFilesRejected = (mensajeError) => {
+    setError({ ...error, fotoPerfil: mensajeError });
   };
 
   if (loading && errorAPI) {
@@ -294,8 +299,13 @@ function EditarPerfil({
 
         <DropZoneComponent
           upFiles={onGetFiles}
+          upFilesRejected={getFilesRejected}
           files={datos?.fotoPerfil}
           filesUrl={datos?.fotoUrl}
+          accept={{
+            "image/jpeg": [],
+            "image/png": [],
+          }}
         />
 
         {error.fotoPerfil && (

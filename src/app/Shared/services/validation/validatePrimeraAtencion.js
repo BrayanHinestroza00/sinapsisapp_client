@@ -11,7 +11,7 @@ import {
   REGEX_PATTERN_SOLO_NUMEROS,
 } from "../../utils/regexPatterns";
 
-export const validacionesPrimeraAtencionUsuario = (datos) => {
+export const validacionesPrimeraAtencionUsuario = (datos, error) => {
   const errors = {};
   const {
     fechaNacimiento,
@@ -105,26 +105,21 @@ export const validacionesPrimeraAtencionUsuario = (datos) => {
         break;
     }
   }
+
+  if (error.fotoPerfil) {
+    errors.fotoPerfil = error.fotoPerfil;
+  }
+
   return errors;
 };
 
-export const validacionesPrimeraAtencionEmprendimiento = (datos) => {
+export const validacionesPrimeraAtencionEmprendimiento = (datos, error) => {
   const errors = {};
   const {
     nombreEmprendimiento,
     descripcionProducto,
     necesidadesIdentificadas,
     descripcionClientes,
-    // materiasPrimas,
-    // enfoqueSocial,
-    // sectorEmprendimiento,
-    // sitioWeb,
-    // redSocialFacebook,
-    // redSocialInstagram,
-    // redSocialTwitter,
-    // redSocialTiktok,
-    // redSocialYouTube,
-    // redSocialWhatsApp,
     estaConstituida,
   } = datos;
 
@@ -171,6 +166,10 @@ export const validacionesPrimeraAtencionEmprendimiento = (datos) => {
         errors.razonSocialEmpresa = "Campo Obligatorio";
       }
     }
+  }
+
+  if (error.logoEmpresa) {
+    errors.logoEmpresa = error.logoEmpresa;
   }
 
   return errors;
@@ -240,11 +239,13 @@ export const validacionesPrimeraAtencionPA = (datos) => {
   return errors;
 };
 
-export const validacionesDiagnostico = (datos) => {
+export const validacionesDiagnostico = (datos, error) => {
   const errors = {};
   const { fileDiagnostico } = datos;
 
-  if (!fileDiagnostico) {
+  if (error.fileDiagnostico) {
+    errors.fileAnuncio = error.fileDiagnostico;
+  } else if (!fileDiagnostico) {
     errors.fileDiagnostico = "Campo Obligatorio";
   }
 

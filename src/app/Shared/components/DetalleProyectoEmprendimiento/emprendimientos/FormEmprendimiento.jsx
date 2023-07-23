@@ -89,7 +89,10 @@ function EmprendimientoComponent({
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    let erroresFormulario = validacionesPrimeraAtencionEmprendimiento(datos);
+    let erroresFormulario = validacionesPrimeraAtencionEmprendimiento(
+      datos,
+      error
+    );
     if (Object.keys(erroresFormulario).length) {
       setError(erroresFormulario);
     } else {
@@ -163,10 +166,15 @@ function EmprendimientoComponent({
   };
 
   const onGetFiles = (logoEmpresa) => {
+    delete error.logoEmpresa;
     setDatos({
       ...datos,
       logoEmpresa,
     });
+  };
+
+  const getFilesRejected = (mensajeError) => {
+    setError({ ...error, logoEmpresa: mensajeError });
   };
 
   if (!datos || !redesData) {
@@ -526,8 +534,13 @@ function EmprendimientoComponent({
                       </Label>
                       <DropZoneComponent
                         upFiles={onGetFiles}
+                        upFilesRejected={getFilesRejected}
                         files={datos?.logoEmpresa}
                         filesUrl={datos.logoEmpresaUrl}
+                        accept={{
+                          "image/jpeg": [],
+                          "image/png": [],
+                        }}
                       />
 
                       {error.logoEmpresa && (

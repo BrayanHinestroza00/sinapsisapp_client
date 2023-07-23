@@ -44,15 +44,20 @@ function CrearTarea({
   };
 
   const getFiles = (fileTarea) => {
+    delete error.fileTarea;
     setDatos({
       ...datos,
       fileTarea,
     });
   };
 
+  const getFilesRejected = (mensajeError) => {
+    setError({ ...error, fileTarea: mensajeError });
+  };
+
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    let erroresFormulario = validarCreacionTarea(datos);
+    let erroresFormulario = validarCreacionTarea(datos, error);
     if (Object.keys(erroresFormulario).length) {
       setError(erroresFormulario);
     } else {
@@ -147,7 +152,9 @@ function CrearTarea({
         <div className="container">
           <form encType="multipart/form-data">
             <Form.Group className="mb-3">
-              <Form.Label>Nombre de Tarea</Form.Label>
+              <Form.Label>
+                Nombre de Tarea <span className="text-danger"> (*)</span>
+              </Form.Label>
               <Form.Control
                 name="nombreTarea"
                 className="form-control"
@@ -167,7 +174,10 @@ function CrearTarea({
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Descripción de la Tarea</Form.Label>
+              <Form.Label>
+                Descripción de la Tarea{" "}
+                <span className="text-danger"> (*)</span>
+              </Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
@@ -187,7 +197,10 @@ function CrearTarea({
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Fecha Límite de Entrega</Form.Label>
+              <Form.Label>
+                Fecha Límite de Entrega{" "}
+                <span className="text-danger"> (*)</span>
+              </Form.Label>
               <Form.Control
                 name="fechaEntrega"
                 className="form-control"
@@ -207,8 +220,28 @@ function CrearTarea({
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Adjunta tus archivos</Form.Label>
-              <DropZoneComponent upFiles={getFiles} files={datos?.fileTarea} />
+              <Form.Label>
+                Adjunta tus archivos <span className="text-danger"> (*)</span>
+              </Form.Label>
+              <DropZoneComponent
+                upFiles={getFiles}
+                upFilesRejected={getFilesRejected}
+                files={datos?.fileTarea}
+                accept={{
+                  "application/msword": [],
+                  "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+                    [],
+                  "application/zip": [],
+                  "application/vnd.rar": [],
+                  "image/jpeg": [],
+                  "image/png": [],
+                  "application/pdf": [],
+                  "text/plain": [],
+                  "application/vnd.ms-excel": [],
+                  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+                    [],
+                }}
+              />
 
               {error.fileTarea && (
                 <small className="form-text font-weight-bold text-danger">

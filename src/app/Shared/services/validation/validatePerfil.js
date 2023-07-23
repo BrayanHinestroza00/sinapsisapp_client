@@ -11,7 +11,7 @@ import {
   REGEX_PATTERN_NUMERO_TELEFONO,
 } from "../../utils/regexPatterns";
 
-export const validacionesEditarPerfil = (datos) => {
+export const validacionesEditarPerfil = (datos, error) => {
   const errors = {};
   const {
     fechaNacimiento,
@@ -105,25 +105,15 @@ export const validacionesEditarPerfil = (datos) => {
         break;
     }
   }
+
+  if (error.fotoPerfil) {
+    errors.fotoPerfil = error.fotoPerfil;
+  }
+
   return errors;
 };
 
-export const validacionesEditarPerfilUsuario = (datos) => {
-  // idUsuario: preloadData.id,
-  // nombres: preloadData.nombres,
-  // apellidos: preloadData.apellidos,
-  // nombreCompleto: preloadData.nombreCompleto,
-  // tipoDocumento: preloadData.acronimoTipoDocumento,
-  // numeroDocumento: preloadData.numeroDocumento,
-  // correoInstitucional: preloadData.correoInstitucional,
-  // correoPersonal: preloadData.correoPersonal,
-  // telefonoContacto: preloadData.telefonoContacto,
-  // cargo: preloadData.cargo,
-  // dependencia: preloadData.dependencia,
-  // facultad: preloadData.facultad,
-  // fotoUrl: preloadData.fotoUrl,
-  // tipoUsuario: tipoUsuario,
-
+export const validacionesEditarPerfilUsuario = (datos, error) => {
   const errors = {};
   const { correoPersonal, telefonoContacto, dependencia, facultad, cargo } =
     datos;
@@ -166,6 +156,10 @@ export const validacionesEditarPerfilUsuario = (datos) => {
     if (!RegExp.test(cargo)) {
       errors.cargo = "Máximo 200 caracteres";
     }
+  }
+
+  if (error.fotoPerfil) {
+    errors.fotoPerfil = error.fotoPerfil;
   }
 
   return errors;

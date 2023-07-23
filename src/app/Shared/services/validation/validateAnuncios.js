@@ -1,6 +1,6 @@
 import { REGEX_PATTERN_CARATERETES } from "../../utils/regexPatterns";
 
-export const validarCrearAnuncio = (datos) => {
+export const validarCrearAnuncio = (datos, error) => {
   const errors = {};
   const { tituloAnuncio, descripcionAnuncio, permanente, fileAnuncio } = datos;
 
@@ -36,8 +36,10 @@ export const validarCrearAnuncio = (datos) => {
     }
   }
 
-  //Validaciones para el mentor principal del emprendedor
-  if (!fileAnuncio) {
+  //Validaciones para el flyer
+  if (error.fileAnuncio) {
+    errors.fileAnuncio = error.fileAnuncio;
+  } else if (!fileAnuncio) {
     errors.fileAnuncio = "Campo Obligatorio";
   }
 

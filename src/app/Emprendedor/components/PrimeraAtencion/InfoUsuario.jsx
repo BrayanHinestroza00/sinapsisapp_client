@@ -150,7 +150,7 @@ function InfoUsuario({ userData, ...props }) {
         })
         .catch((error) => console.error(error));
     }
-  }, [props.datos.departamento]);
+  }, [props.datos.departamento, preloadData]);
 
   const onHandleChange = (event) => {
     props.handleChange(event);
@@ -158,7 +158,10 @@ function InfoUsuario({ userData, ...props }) {
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    let erroresFormulario = validacionesPrimeraAtencionUsuario(props.datos);
+    let erroresFormulario = validacionesPrimeraAtencionUsuario(
+      props.datos,
+      error
+    );
     if (Object.keys(erroresFormulario).length) {
       setError(erroresFormulario);
     } else {
@@ -168,7 +171,12 @@ function InfoUsuario({ userData, ...props }) {
   };
 
   const onGetFiles = (files) => {
+    delete error.fotoPerfil;
     props.getFotoPerfilFile(files);
+  };
+
+  const getFilesRejected = (mensajeError) => {
+    setError({ ...error, fotoPerfil: mensajeError });
   };
 
   if (loadingFetch || !preloadData) {
@@ -845,8 +853,13 @@ function InfoUsuario({ userData, ...props }) {
           </Label>
           <DropZoneComponent
             upFiles={onGetFiles}
+            upFilesRejected={getFilesRejected}
             files={props.datos?.fotoPerfil}
             filesUrl={props.datos.fotoUrl}
+            accept={{
+              "image/jpeg": [],
+              "image/png": [],
+            }}
           />
 
           {error.fotoPerfil && (

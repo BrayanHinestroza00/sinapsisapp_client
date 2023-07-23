@@ -46,7 +46,8 @@ function InfoEmprendimiento(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     let erroresFormulario = validacionesPrimeraAtencionEmprendimiento(
-      props.datos
+      props.datos,
+      error
     );
     if (Object.keys(erroresFormulario).length) {
       setError(erroresFormulario);
@@ -57,7 +58,12 @@ function InfoEmprendimiento(props) {
   };
 
   const onGetFiles = (files) => {
+    delete error.logoEmpresa;
     props.getLogoEmpresa(files);
+  };
+
+  const getFilesRejected = (mensajeError) => {
+    setError({ ...error, logoEmpresa: mensajeError });
   };
 
   return (
@@ -251,7 +257,6 @@ function InfoEmprendimiento(props) {
             redesData &&
             redesData.length > 0 &&
             redesData.map((redSocial, index) => {
-              console.log("here", { redSocial, datos: props.datos });
               return (
                 <div key={index} className="col-md-6 mb-3">
                   <Label
@@ -400,7 +405,12 @@ function InfoEmprendimiento(props) {
 
               <DropZoneComponent
                 upFiles={onGetFiles}
-                files={props?.logoEmpresa}
+                upFilesRejected={getFilesRejected}
+                files={props?.datos.logoEmpresa}
+                accept={{
+                  "image/jpeg": [],
+                  "image/png": [],
+                }}
               />
 
               {error.logoEmpresa && (

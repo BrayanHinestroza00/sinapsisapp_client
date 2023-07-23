@@ -1,14 +1,6 @@
-import { useEffect, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useDropzone } from "react-dropzone";
-import {
-  acceptStyle,
-  activeStyle,
-  baseStyle,
-  img,
-  rejectStyle,
-  thumb,
-  thumbInner,
-} from "./styled";
+import { acceptStyle, activeStyle, baseStyle, rejectStyle } from "./styled";
 
 function DropZone(props) {
   const [files, setFiles] = useState(props?.files || []);
@@ -20,16 +12,25 @@ function DropZone(props) {
     isDragReject,
   } = useDropzone({
     accept: props.accept ? props.accept : {},
-    onDrop: (acceptedFiles) => {
-      setFiles(
-        acceptedFiles.map((file) =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          })
-        )
-      );
+    maxFiles: 1,
+    onDrop: (acceptedFiles, rejectedFiles) => {
+      const files = acceptedFiles.length + rejectedFiles.length;
 
-      props.upFiles(acceptedFiles);
+      if (files > 1) {
+        props.upFilesRejected("Sólo se permite la carga de 1 archivo.");
+      } else {
+        if (acceptedFiles.length > 0) {
+          props.upFiles(acceptedFiles);
+        }
+
+        if (rejectedFiles.length > 0) {
+          if (rejectedFiles[0].errors.code == "too-many-files") {
+            props.upFilesRejected("Sólo se permite la carga de 1 archivo.");
+          } else {
+            props.upFilesRejected("Formato de archivo NO permitido.");
+          }
+        }
+      }
     },
   });
 
@@ -43,22 +44,6 @@ function DropZone(props) {
     [isDragActive, isDragReject, isDragAccept]
   );
 
-  const thumbs = files.map((file) => (
-    <div style={thumb} key={file.name}>
-      <div style={thumbInner}>
-        <img src={file.preview} style={img} alt={file.name} />
-      </div>
-    </div>
-  ));
-
-  useEffect(
-    () => () => {
-      // Make sure to revoke the data uris to avoid memory leaks
-      files.forEach((file) => URL.revokeObjectURL(file.preview));
-    },
-    [files]
-  );
-
   return (
     <section className="container">
       <div {...getRootProps({ className: "dropzone", style })}>
@@ -66,7 +51,6 @@ function DropZone(props) {
         <p>Clickea o arrastra y suelta el archivo aquí</p>
         <em>(Máximo 1 archivo)</em>
       </div>
-      {/* <aside style={thumbsContainer}>{thumbs}</aside> */}
     </section>
   );
 }

@@ -70,10 +70,15 @@ function DetalleTarea(props) {
   };
 
   const getFiles = (files) => {
+    delete error.files;
     setDatosTarea({
       ...datosTarea,
       files,
     });
+  };
+
+  const getFilesRejected = (mensajeError) => {
+    setError({ ...error, files: mensajeError });
   };
 
   const onHandleChange = (e) => {
@@ -85,7 +90,7 @@ function DetalleTarea(props) {
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    let erroresFormulario = validarEntregaTarea(datosTarea);
+    let erroresFormulario = validarEntregaTarea(datosTarea, error);
     if (Object.keys(erroresFormulario).length) {
       setError(erroresFormulario);
     } else {
@@ -308,8 +313,23 @@ function DetalleTarea(props) {
                   </Label>
                   <DropZoneComponent
                     upFiles={getFiles}
+                    upFilesRejected={getFilesRejected}
                     files={datosTarea?.files}
                     filesUrl={props.data.urlArchivosEntrega}
+                    accept={{
+                      "application/msword": [],
+                      "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+                        [],
+                      "application/zip": [],
+                      "application/vnd.rar": [],
+                      "image/jpeg": [],
+                      "image/png": [],
+                      "application/pdf": [],
+                      "text/plain": [],
+                      "application/vnd.ms-excel": [],
+                      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+                        [],
+                    }}
                   />
                   {error.files && (
                     <small className="form-text font-weight-bold text-danger">
