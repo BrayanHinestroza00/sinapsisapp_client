@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import EtapaSonar from "../../components/Ruta/AvanzarRuta/Common/etapa_ruta/Sonar";
 import EtapaPensar from "../../components/Ruta/AvanzarRuta/Common/etapa_ruta/Pensar";
@@ -18,11 +18,14 @@ import {
 } from "src/app/Shared/utils/apiConstants";
 import { Card } from "src/app/Shared/assets/styles/Common";
 import { SINAPSIS_APP_ESTADO_RUTA_EMPRENDIMIENTO_PENDIENTE_APROBAR } from "src/app/Shared/utils/constants";
+import Welcome from "../../components/Ruta/AvanzarRuta/Welcome";
 
 function HomePage() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const { userData, selectedProjectIndex } = useContext(EmprendedorContext);
+
+  const [showModal, setShowModal] = useState({ show: null });
 
   // Custom Hooks
   const {
@@ -38,6 +41,15 @@ function HomePage() {
       refrescarDatos();
     }
   }, [selectedProjectIndex, state?.reload]);
+
+  useEffect(() => {
+    if (dataAPI) {
+      const isFirstTime =
+        dataAPI.rutaProyectoEmprendimiento.idEtapa == 1 &&
+        !(dataAPI.subActividadRutaEmp.length > 0);
+      setShowModal({ show: isFirstTime });
+    }
+  }, [dataAPI]);
 
   const refrescarDatos = async () => {
     await fetchAPI({
@@ -139,7 +151,7 @@ function HomePage() {
         method: HTTP_METHOD_POST,
         data: {
           idRutaProyecto: dataAPI?.rutaProyectoEmprendimiento.id,
-          idSubActividadRuta: 9,
+          idSubActividadRuta: 10,
         },
       }).then(() => {
         axios({
@@ -178,7 +190,7 @@ function HomePage() {
         method: HTTP_METHOD_POST,
         data: {
           idRutaProyecto: dataAPI?.rutaProyectoEmprendimiento.id,
-          idSubActividadRuta: 15,
+          idSubActividadRuta: 16,
         },
       }).then(() => {
         axios({
@@ -209,6 +221,10 @@ function HomePage() {
     }
   };
 
+  const onClicHideWelcome = () => {
+    setShowModal({ show: false });
+  };
+
   return loadingAPI || selectedProjectIndex == null ? (
     <>
       <Card>
@@ -216,23 +232,31 @@ function HomePage() {
       </Card>
     </>
   ) : dataAPI?.rutaProyectoEmprendimiento.idEtapa == 1 ? (
-    <EtapaSonar
-      showButton={true}
-      stateButton={
-        dataAPI?.rutaProyectoEmprendimiento.estadoRuta ==
-        SINAPSIS_APP_ESTADO_RUTA_EMPRENDIMIENTO_PENDIENTE_APROBAR
-          ? 1
-          : dataAPI.subActividadRutaEmp.length > 0
-          ? 2
-          : 0
-      }
-      lastActivity={
-        dataAPI.subActividadRutaEmp.length > 0
-          ? dataAPI.subActividadRutaEmp[0]
-          : null
-      }
-      onIniciar={onIniciarEtapaSonar}
-    />
+    <>
+      <>
+        {!(dataAPI.subActividadRutaEmp.length > 0) && (
+          <Welcome show={showModal.show} onHide={onClicHideWelcome} />
+        )}
+      </>
+
+      <EtapaSonar
+        showButton={true}
+        stateButton={
+          dataAPI?.rutaProyectoEmprendimiento.estadoRuta ==
+          SINAPSIS_APP_ESTADO_RUTA_EMPRENDIMIENTO_PENDIENTE_APROBAR
+            ? 1
+            : dataAPI.subActividadRutaEmp.length > 0
+            ? 2
+            : 0
+        }
+        lastActivity={
+          dataAPI.subActividadRutaEmp.length > 0
+            ? dataAPI.subActividadRutaEmp[0]
+            : null
+        }
+        onIniciar={onIniciarEtapaSonar}
+      />
+    </>
   ) : dataAPI?.rutaProyectoEmprendimiento.idEtapa == 2 ? (
     <EtapaPensar
       showButton={true}

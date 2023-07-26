@@ -21,6 +21,7 @@ import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpin
 
 function RutaMentor({ idProyectoEmprendimiento, userData }) {
   const [loadingComponent, setLoadingComponent] = useState(true);
+  const [selectedRuta, setSelectedRuta] = useState(null);
 
   // Custom Hooks
   const {
@@ -43,7 +44,13 @@ function RutaMentor({ idProyectoEmprendimiento, userData }) {
     }).then(() => setLoadingComponent(false));
   }, []);
 
-  if (loadingFetch || loadingComponent) {
+  useEffect(() => {
+    if (preloadData) {
+      setSelectedRuta(preloadData.rutaProyectoEmprendimientos.length - 1);
+    }
+  }, [preloadData]);
+
+  if (loadingFetch || loadingComponent || selectedRuta == null) {
     return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
@@ -70,6 +77,8 @@ function RutaMentor({ idProyectoEmprendimiento, userData }) {
     );
   }
 
+  console.log("mentor", preloadData);
+
   return (
     <Card>
       <Subtitulo>Estado de la ruta de I&E de SINAPSIS UAO</Subtitulo>
@@ -84,6 +93,8 @@ function RutaMentor({ idProyectoEmprendimiento, userData }) {
           <EstadoRuta
             etapa={preloadData.asesoramientosView.idEtapa}
             avance={preloadData.rutaProyectoEmprendimientos}
+            selectedRuta={selectedRuta}
+            setSelectedRuta={setSelectedRuta}
           />
         </Ruta>
       </CardRuta>
@@ -96,13 +107,19 @@ function RutaMentor({ idProyectoEmprendimiento, userData }) {
               {obtenerNombreEtapa(preloadData.asesoramientosView.idEtapa)}
             </SpanAuxiliar>
           </Subtitulo>
-          <AvanceRuta preloadData={preloadData.asesoramientosView} />
+          <AvanceRuta
+            preloadData={preloadData.asesoramientosView}
+            selectedRuta={selectedRuta}
+            avance={preloadData.rutaProyectoEmprendimientos}
+          />
         </Ruta>
       </CardRuta>
 
       {preloadData.asesoramientosView.estadoRuta ==
         SINAPSIS_APP_ESTADO_RUTA_EMPRENDIMIENTO_PENDIENTE_APROBAR &&
-        preloadData.asesoramientosView.idMentor == userData.id && (
+        preloadData.asesoramientosView.idMentor == userData.id &&
+        preloadData.rutaProyectoEmprendimientos[selectedRuta].estadoRuta ==
+          "PENDIENTE_APROBAR" && (
           <CardRuta className="mb-2">
             <Ruta>
               <Subtitulo>Finalizar Acompañamiento: </Subtitulo>

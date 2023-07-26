@@ -244,3 +244,7 @@ export function getRandomRGBColor() {
 export function removeDuplicatesItems(arr) {
   return arr.filter((item, index) => arr.indexOf(item) === index);
 }
+
+export function getExtension(filename) {
+  return filename.split(".").pop();
+}

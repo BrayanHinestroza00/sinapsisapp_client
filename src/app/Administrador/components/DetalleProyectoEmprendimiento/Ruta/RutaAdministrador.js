@@ -23,8 +23,10 @@ function RutaAdministrador({
   idProyectoEmprendimiento,
   idAsesoramiento,
   idMentorAsesoramiento,
+  idRutaProyectoEmprendimiento,
 }) {
   const [loadingComponent, setLoadingComponent] = useState(true);
+  const [selectedRuta, setSelectedRuta] = useState(null);
 
   // Custom Hooks
   const {
@@ -47,7 +49,13 @@ function RutaAdministrador({
     }).then(() => setLoadingComponent(false));
   }, []);
 
-  if (loadingFetch || loadingComponent) {
+  useEffect(() => {
+    if (preloadData) {
+      setSelectedRuta(preloadData.rutaProyectoEmprendimientos.length - 1);
+    }
+  }, [preloadData]);
+
+  if (loadingFetch || loadingComponent || selectedRuta == null) {
     return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
@@ -88,6 +96,8 @@ function RutaAdministrador({
           <EstadoRuta
             etapa={preloadData.asesoramientosView.idEtapa}
             avance={preloadData.rutaProyectoEmprendimientos}
+            selectedRuta={selectedRuta}
+            setSelectedRuta={setSelectedRuta}
           />
         </Ruta>
       </CardRuta>
@@ -100,23 +110,29 @@ function RutaAdministrador({
               {obtenerNombreEtapa(preloadData.asesoramientosView.idEtapa)}
             </SpanAuxiliar>
           </Subtitulo>
-          <AvanceRuta preloadData={preloadData.asesoramientosView} />
+          <AvanceRuta
+            preloadData={preloadData.asesoramientosView}
+            selectedRuta={selectedRuta}
+            avance={preloadData.rutaProyectoEmprendimientos}
+          />
         </Ruta>
       </CardRuta>
 
-      {!idMentorAsesoramiento && (
-        <CardRuta className="mb-3">
-          <Ruta>
-            <Subtitulo>
-              Asignar mentor en la ruta de I&E para la etapa:{" "}
-              <SpanAuxiliar className="text-muted">
-                {obtenerNombreEtapa(preloadData.asesoramientosView.idEtapa)}
-              </SpanAuxiliar>
-            </Subtitulo>
-            <AsignarMentor preloadData={preloadData.asesoramientosView} />
-          </Ruta>
-        </CardRuta>
-      )}
+      {!idMentorAsesoramiento &&
+        preloadData.rutaProyectoEmprendimientos[selectedRuta].id ==
+          idRutaProyectoEmprendimiento && (
+          <CardRuta className="mb-3">
+            <Ruta>
+              <Subtitulo>
+                Asignar mentor en la ruta de I&E para la etapa:{" "}
+                <SpanAuxiliar className="text-muted">
+                  {obtenerNombreEtapa(preloadData.asesoramientosView.idEtapa)}
+                </SpanAuxiliar>
+              </Subtitulo>
+              <AsignarMentor preloadData={preloadData.asesoramientosView} />
+            </Ruta>
+          </CardRuta>
+        )}
     </Card>
   );
 }

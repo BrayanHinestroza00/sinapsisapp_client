@@ -13,7 +13,7 @@ import {
   SINAPSIS_APP_FORMATO_FECHA,
 } from "src/app/Shared/utils/constants";
 
-function EstadoRuta({ etapa, avance }) {
+function EstadoRuta({ etapa, avance, selectedRuta, setSelectedRuta }) {
   const [loading, setLoading] = useState(true);
   const [ruta, setRuta] = useState({});
 
@@ -153,7 +153,19 @@ function EstadoRuta({ etapa, avance }) {
       <div className="d-flex justify-content-around mb-1">
         <div className="text-center">
           <div className="mr-auto ml-auto">Soñar</div>
-          <CirculoRuta className={ruta.sonar.color}>
+          <CirculoRuta
+            className={selectedRuta == 0 ? "bg-primary" : ruta.sonar.color}
+            style={
+              selectedRuta == 0
+                ? { borderWidth: "3px", boxShadow: "0px 0px #f0f0f0" }
+                : {}
+            }
+            onClick={() => {
+              if (avance.length > 0) {
+                setSelectedRuta(0);
+              }
+            }}
+          >
             <NumeroRuta>1</NumeroRuta>
           </CirculoRuta>
           {avance?.[0] && (
@@ -172,7 +184,19 @@ function EstadoRuta({ etapa, avance }) {
         </div>
         <div className="text-center">
           <div className="mr-auto ml-auto">Pensar</div>
-          <CirculoRuta className={ruta.pensar.color}>
+          <CirculoRuta
+            className={selectedRuta == 1 ? "bg-primary" : ruta.pensar.color}
+            style={
+              selectedRuta == 1
+                ? { borderWidth: "3px", boxShadow: "0px 0px #f0f0f0" }
+                : {}
+            }
+            onClick={() => {
+              if (avance.length > 1) {
+                setSelectedRuta(1);
+              }
+            }}
+          >
             <NumeroRuta>2</NumeroRuta>
           </CirculoRuta>
           {avance?.[1] && (
@@ -191,7 +215,19 @@ function EstadoRuta({ etapa, avance }) {
         </div>
         <div className="text-center">
           <div className="mr-auto ml-auto">Testear</div>
-          <CirculoRuta className={ruta.testear.color}>
+          <CirculoRuta
+            className={selectedRuta == 2 ? "bg-primary" : ruta.testear.color}
+            style={
+              selectedRuta == 2
+                ? { borderWidth: "3px", boxShadow: "0px 0px #f0f0f0" }
+                : {}
+            }
+            onClick={() => {
+              if (avance.length > 2) {
+                setSelectedRuta(2);
+              }
+            }}
+          >
             <NumeroRuta>3</NumeroRuta>
           </CirculoRuta>
           {avance?.[2] && (
@@ -210,7 +246,19 @@ function EstadoRuta({ etapa, avance }) {
         </div>
         <div className="text-center">
           <div className="mr-auto ml-auto">Arrancar</div>
-          <CirculoRuta className={ruta.arrancar.color}>
+          <CirculoRuta
+            className={selectedRuta == 3 ? "bg-primary" : ruta.arrancar.color}
+            style={
+              selectedRuta == 3
+                ? { borderWidth: "3px", boxShadow: "0px 0px #f0f0f0" }
+                : {}
+            }
+            onClick={() => {
+              if (avance.length > 3) {
+                setSelectedRuta(3);
+              }
+            }}
+          >
             <NumeroRuta>4</NumeroRuta>
           </CirculoRuta>
           {avance?.[3] && (

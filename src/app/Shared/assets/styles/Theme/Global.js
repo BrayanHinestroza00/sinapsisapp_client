@@ -13,7 +13,7 @@ body {
   ${"" /* min-height: 100vh; */}
   text-rendering: optimizeSpeed;
   font-family: ${({ theme }) => theme.fonts.montserrat}, sans-serif;
-  font-size: 1rem;
+  font-size: 1.5rem;
   color: ${({ theme }) => theme.colors.text};
   background-color: ${({ theme }) => theme.colors.background};
   line-height: 1;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CardRuta, Ruta, Titulo } from "src/app/Shared/assets/styles/Common.js";
+import { CardRuta } from "src/app/Shared/assets/styles/Common.js";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import {
   HTTP_METHOD_GET,
@@ -9,9 +9,11 @@ import {
   URL_OBTENER_SUB_ACTIVIDADES_EMPRENDEDOR,
 } from "src/app/Shared/utils/apiConstants";
 import LoadingSpinner from "../../../LoadingSpinner/LoadingSpinner";
+import { getArchivo } from "src/app/Shared/utils/utilityFunctions";
 
-function AvanceRuta({ preloadData }) {
+function AvanceRuta({ preloadData, selectedRuta, avance }) {
   const [actidadesEmprendedor, setActidadesEmprendedor] = useState(null);
+  const [loading, setLoading] = useState(true);
   // Custom Hooks
   const {
     data: actRutaData,
@@ -48,13 +50,13 @@ function AvanceRuta({ preloadData }) {
   } = useFetch();
 
   useEffect(() => {
-    if (preloadData) {
+    if (preloadData || avance) {
       fetchApiActRuta({
         URL: URL_OBTENER_ACTIVIDADES_ETAPA_RUTA,
         requestOptions: {
           method: HTTP_METHOD_GET,
           params: {
-            idEtapa: preloadData.idEtapa,
+            idEtapa: avance[selectedRuta].idEtapa,
           },
         },
       });
@@ -64,7 +66,8 @@ function AvanceRuta({ preloadData }) {
         requestOptions: {
           method: HTTP_METHOD_GET,
           params: {
-            idEtapa: preloadData.idEtapa,
+            // idEtapa: preloadData.idEtapa,
+            idEtapa: avance[selectedRuta].idEtapa,
           },
         },
       });
@@ -74,8 +77,11 @@ function AvanceRuta({ preloadData }) {
         requestOptions: {
           method: HTTP_METHOD_GET,
           params: {
-            idProyectoEmprendimiento: preloadData.idProyectoEmprendimiento,
-            idRutaEmprendimiento: preloadData.idRutaProyEmprendimiento,
+            idProyectoEmprendimiento:
+              avance[selectedRuta].idProyectoEmprendimiento,
+            idRutaEmprendimiento: avance[selectedRuta].id,
+            // idProyectoEmprendimiento: preloadData.idProyectoEmprendimiento,
+            // idRutaEmprendimiento: preloadData.idRutaProyEmprendimiento,
           },
         },
       });
@@ -85,46 +91,28 @@ function AvanceRuta({ preloadData }) {
         requestOptions: {
           method: HTTP_METHOD_GET,
           params: {
-            idProyectoEmprendimiento: preloadData.idProyectoEmprendimiento,
-            idRutaEmprendimiento: preloadData.idRutaProyEmprendimiento,
+            idProyectoEmprendimiento:
+              avance[selectedRuta].idProyectoEmprendimiento,
+            idRutaEmprendimiento: avance[selectedRuta].id,
+            // idProyectoEmprendimiento: preloadData.idProyectoEmprendimiento,
+            // idRutaEmprendimiento: preloadData.idRutaProyEmprendimiento,
           },
         },
       });
     }
-  }, [preloadData]);
+  }, [preloadData, selectedRuta]);
 
   useEffect(() => {
-    if (
-      !actEmpRutaLoading &&
-      !subActEmpRutaLoading &&
-      actEmpRutaData &&
-      subActEmpRutaData
-    ) {
-      let actividadObjects = {};
-      let herramientaObjects = {};
-
-      actEmpRutaData.forEach((actEmpRuta) => {
-        actividadObjects = {
-          ...actividadObjects,
-          [actEmpRuta.idActividad]: { ...actEmpRuta },
-        };
-      });
-
-      subActEmpRutaData.forEach((subActEmpRuta) => {
-        if (subActEmpRuta.tipoSubActividad == 2) {
-          herramientaObjects = {
-            ...herramientaObjects,
-            [subActEmpRuta.idSubActividad]: { ...subActEmpRuta },
-          };
+    if (!actEmpRutaLoading && !subActEmpRutaLoading) {
+      if (actEmpRutaData && subActEmpRutaData) {
+        //if (actidadesEmprendedor == null) {
+        transformData();
+        //}
+      } else {
+        if (loading) {
+          setLoading(false);
         }
-      });
-
-      setActidadesEmprendedor({
-        herramientas: {
-          ...herramientaObjects,
-        },
-        actividades: { ...actividadObjects },
-      });
+      }
     }
   }, [
     actEmpRutaLoading,
@@ -133,11 +121,56 @@ function AvanceRuta({ preloadData }) {
     subActEmpRutaData,
   ]);
 
+  const transformData = async () => {
+    let actividadObjects = {};
+    let herramientaObjects = {};
+
+    actEmpRutaData.forEach((actEmpRuta) => {
+      actividadObjects = {
+        ...actividadObjects,
+        [actEmpRuta.idActividad]: { ...actEmpRuta },
+      };
+    });
+
+    let itemsProcessed = 0;
+    subActEmpRutaData.forEach(async (subActEmpRuta) => {
+      if (subActEmpRuta.tipoSubActividad == 2) {
+        if (subActEmpRuta.urlEstadoActividad != null) {
+          const imagen = await getArchivo(subActEmpRuta.urlEstadoActividad);
+          if (imagen) {
+            subActEmpRuta.urlEstadoActividad = {
+              url: `data:${imagen.contentType};base64,${imagen.file}`,
+              filename: imagen.filename,
+            };
+          }
+        }
+
+        herramientaObjects = {
+          ...herramientaObjects,
+          [subActEmpRuta.idSubActividad]: { ...subActEmpRuta },
+        };
+      }
+      itemsProcessed++;
+
+      if (itemsProcessed === subActEmpRutaData.length) {
+        setActidadesEmprendedor({
+          herramientas: {
+            ...herramientaObjects,
+          },
+          actividades: { ...actividadObjects },
+        });
+
+        setLoading(false);
+      }
+    });
+  };
+
   if (
     actRutaLoading ||
     herrRutaLoading ||
     actEmpRutaLoading ||
-    subActEmpRutaLoading
+    subActEmpRutaLoading ||
+    loading
   ) {
     return <LoadingSpinner width="5rem" height="5rem" />;
   }
@@ -187,7 +220,10 @@ function AvanceRuta({ preloadData }) {
                 actRutaData.length > 0 &&
                 actRutaData.map((actividadRuta, index) => {
                   return (
-                    <div key={index} className="form-check">
+                    <div
+                      key={index}
+                      className="d-flex align-items-center form-check"
+                    >
                       <input
                         className="form-check-input"
                         type={"checkbox"}
@@ -197,7 +233,7 @@ function AvanceRuta({ preloadData }) {
                         }
                         disabled
                       />
-                      <label className="form-check-label">
+                      <label className="form-check-label  mx-3 p-0">
                         {actividadRuta.nombre.toUpperCase()}
                       </label>
                     </div>
@@ -213,7 +249,10 @@ function AvanceRuta({ preloadData }) {
               herrRutaData.length > 0 &&
               herrRutaData.map((herramientaRuta, index) => {
                 return (
-                  <div key={index} className="form-check">
+                  <div
+                    key={index}
+                    className="d-flex align-items-center form-check "
+                  >
                     <input
                       style={{ opacity: "1 !important" }}
                       className="form-check-input"
@@ -229,9 +268,36 @@ function AvanceRuta({ preloadData }) {
                       }
                       disabled
                     />
-                    <label className="form-check-label">
-                      {herramientaRuta.nombre.toUpperCase()}
-                    </label>
+                    {actidadesEmprendedor?.herramientas[
+                      herramientaRuta.idSubActividadRuta
+                    ]?.idSubActividad == herramientaRuta.idSubActividadRuta &&
+                    actidadesEmprendedor?.herramientas[
+                      herramientaRuta?.idSubActividadRuta
+                    ]?.estadoActividad == "COMPLETADO" &&
+                    actidadesEmprendedor?.herramientas[
+                      herramientaRuta?.idSubActividadRuta
+                    ]?.urlEstadoActividad != null ? (
+                      <a
+                        className="mx-3 p-0"
+                        href={
+                          actidadesEmprendedor?.herramientas[
+                            herramientaRuta.idSubActividadRuta
+                          ]?.urlEstadoActividad.url
+                        }
+                        download={
+                          actidadesEmprendedor?.herramientas[
+                            herramientaRuta.idSubActividadRuta
+                          ]?.urlEstadoActividad.filename
+                        }
+                        target="_blank"
+                      >
+                        {herramientaRuta.nombre.toUpperCase()}
+                      </a>
+                    ) : (
+                      <label className="form-check-label mx-3">
+                        {herramientaRuta.nombre.toUpperCase()}
+                      </label>
+                    )}
                   </div>
                 );
               })}

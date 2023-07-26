@@ -24,6 +24,7 @@ function EstadoRutaEmprendedor() {
     useContext(EmprendedorContext);
 
   const [loadingComponent, setLoadingComponent] = useState(true);
+  const [selectedRuta, setSelectedRuta] = useState(null);
 
   // Custom Hooks
   const {
@@ -50,7 +51,19 @@ function EstadoRutaEmprendedor() {
     }
   }, [userData, selectedProjectIndex]);
 
-  if (loadingFetch || loading || loadingComponent || !preloadData) {
+  useEffect(() => {
+    if (preloadData) {
+      setSelectedRuta(preloadData.rutaProyectoEmprendimientos.length - 1);
+    }
+  }, [preloadData]);
+
+  if (
+    loadingFetch ||
+    loading ||
+    loadingComponent ||
+    !preloadData ||
+    selectedRuta == null
+  ) {
     return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
@@ -91,6 +104,8 @@ function EstadoRutaEmprendedor() {
           <EstadoRuta
             etapa={preloadData.asesoramientosView.idEtapa}
             avance={preloadData.rutaProyectoEmprendimientos}
+            selectedRuta={selectedRuta}
+            setSelectedRuta={setSelectedRuta}
           />
         </Ruta>
       </CardRuta>
@@ -105,6 +120,8 @@ function EstadoRutaEmprendedor() {
           </Subtitulo>
           <AvanceRuta
             preloadData={preloadData.asesoramientosView}
+            selectedRuta={selectedRuta}
+            avance={preloadData.rutaProyectoEmprendimientos}
             userData={userData}
             selectedProjectIndex={selectedProjectIndex}
           />
