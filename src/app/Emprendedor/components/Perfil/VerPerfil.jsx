@@ -19,9 +19,10 @@ import { getArchivo } from "src/app/Shared/utils/utilityFunctions";
 
 import default_image from "src/app/Shared/assets/images/default_profile_picture.png";
 
-function VerPerfil({ preloadData }) {
+function VerPerfil({ preloadData: perfilData }) {
   const { data: dataAsignaturas, error, loading, fetchAPI } = useFetch();
   const [datosImagen, setDatosImagen] = useState({});
+  const [preloadData, setPreloadData] = useState({});
 
   useEffect(() => {
     fetchAPI({
@@ -35,6 +36,27 @@ function VerPerfil({ preloadData }) {
   useEffect(() => {
     obtenerImagen();
   }, []);
+
+  useEffect(() => {
+    if (perfilData) {
+      let asignaturasEmprendedor = [];
+      if (
+        perfilData.asignaturasEmprendedor &&
+        perfilData.asignaturasEmprendedor.length > 0
+      ) {
+        perfilData.asignaturasEmprendedor.forEach((asignaturaEmprendedor) => {
+          asignaturasEmprendedor.push(
+            `${asignaturaEmprendedor.id.asignaturaId}`
+          );
+        });
+      }
+
+      setPreloadData({
+        ...perfilData,
+        asignaturasEmprendedor: asignaturasEmprendedor,
+      });
+    }
+  }, [perfilData]);
 
   const obtenerImagen = async () => {
     if (preloadData.fotoUrl) {
@@ -347,7 +369,7 @@ function VerPerfil({ preloadData }) {
 
           <div className="col-md-6">
             <Label htmlFor="dependenciaColaborador" className="form-label">
-              Dependencia
+              Dependencia de colaborador
             </Label>
             <Input
               type="text"

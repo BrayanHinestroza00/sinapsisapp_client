@@ -320,7 +320,7 @@ function ProyectoEmprendimientosPage() {
                 </>
               ) : (
                 <Subtitulo>
-                  No hay Proyectos de Emprendimiento disponibles
+                  No se encontraron proyectos de emprendimiento
                 </Subtitulo>
               )}
             </Ruta>

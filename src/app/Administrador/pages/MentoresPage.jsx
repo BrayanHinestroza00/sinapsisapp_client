@@ -118,7 +118,7 @@ function MentoresPage() {
 
   return (
     <>
-      <Titulo>Mentores </Titulo>
+      <Titulo>Mentores en Ruta de Innovación y Emprendimiento </Titulo>
 
       <>
         {etapasRutaLoading ? (
@@ -269,7 +269,9 @@ function MentoresPage() {
                   adicional={true}
                 />
               ) : (
-                <Subtitulo>No hay mentores disponibles</Subtitulo>
+                <Subtitulo>
+                  No hay mentores en Ruta de Innovación y Emprendimiento
+                </Subtitulo>
               )}
             </Ruta>
           )

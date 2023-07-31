@@ -115,6 +115,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
         profesionEgresado: preloadData.programaAcademicoId,
         cursosEmprendimiento: asignaturasEmprendedor,
         fotoUrl: preloadData.fotoUrl,
+        cualOtroProgramaAcademico: preloadData.cualOtroProgramaAcademico,
       });
     }
   }, [preloadData]);
@@ -159,6 +160,15 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
         }
       }
       setDatos({ ...datos, [event.target.name]: arrTmp });
+      return;
+    }
+
+    if (event.target.name === "programaAcademico" && event.target.value != 0) {
+      setDatos({
+        ...datos,
+        cualOtroProgramaAcademico: null,
+        [event.target.name]: event.target.value,
+      });
       return;
     }
 
@@ -568,7 +578,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
               id="programaAcademico"
               className="form-select"
               name="programaAcademico"
-              value={datos.programaAcademico || "-1"}
+              value={datos.programaAcademico}
               onChange={(e) => onHandleChange(e)}
             >
               <option value={"-1"} disabled>
@@ -645,7 +655,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
                     onChange={(e) => onHandleChange(e)}
                     value={1}
                     checked={
-                      datos.modTrabajoGrado === T_SINAPSIS_MOD_TRABAJO_GRADO_SI
+                      datos.modTrabajoGrado == T_SINAPSIS_MOD_TRABAJO_GRADO_SI
                     }
                   />
                   <label
@@ -665,7 +675,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
                     onChange={(e) => onHandleChange(e)}
                     value={0}
                     checked={
-                      datos.modTrabajoGrado === T_SINAPSIS_MOD_TRABAJO_GRADO_NO
+                      datos.modTrabajoGrado == T_SINAPSIS_MOD_TRABAJO_GRADO_NO
                     }
                   />
                   <label

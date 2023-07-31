@@ -115,7 +115,7 @@ function EmprendedoresPage() {
 
   return (
     <>
-      <Titulo>Emprendedores Registrados</Titulo>
+      <Titulo>Emprendedores en Ruta de Innovación y Emprendimiento</Titulo>
 
       <>
         {tiposContactoLoading ? (
@@ -246,29 +246,29 @@ function EmprendedoresPage() {
         )}
       </>
 
-      {emprendedoresData && (
-        <Ruta
-          style={{
-            padding: "0.5rem 2rem 1rem 2rem",
-            marginTop: "1rem",
-            marginLeft: "0rem",
-          }}
-        >
-          {emprendedoresData.length > 0 ? (
-            <FlexyTable
-              datos={datos}
-              titulo={"Emprendedores"}
-              btn1={<img src={showIcon} width="auto" height="25" />}
-              fun1={(emprendedorData) => {
-                onHandleDetalleEmprendedor(emprendedorData);
-              }}
-              adicional={true}
-            />
-          ) : (
-            <Subtitulo>No hay emprendedores disponibles</Subtitulo>
-          )}
-        </Ruta>
-      )}
+      <Ruta
+        style={{
+          padding: "0.5rem 2rem 1rem 2rem",
+          marginTop: "1rem",
+          marginLeft: "0rem",
+        }}
+      >
+        {emprendedoresData && emprendedoresData.length > 0 ? (
+          <FlexyTable
+            datos={datos}
+            titulo={"Emprendedores"}
+            btn1={<img src={showIcon} width="auto" height="25" />}
+            fun1={(emprendedorData) => {
+              onHandleDetalleEmprendedor(emprendedorData);
+            }}
+            adicional={true}
+          />
+        ) : (
+          <Subtitulo>
+            No hay emprendedores en Ruta de Innovación y Emprendimiento
+          </Subtitulo>
+        )}
+      </Ruta>
     </>
   );
 }

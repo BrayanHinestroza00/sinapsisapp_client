@@ -1,5 +1,6 @@
 import {
   T_SINAPSIS_NIVEL_ACADEMICO_PREGRADO,
+  T_SINAPSIS_PROGRAMAS_OTRO,
   T_SINAPSIS_TIPOS_CONTACTO_COLABORADOR,
   T_SINAPSIS_TIPOS_CONTACTO_EGRESADO,
   T_SINAPSIS_TIPOS_CONTACTO_ESTUDIANTE,
@@ -74,8 +75,16 @@ export const validacionesPrimeraAtencionUsuario = (datos, error) => {
             errors.modTrabajoGrado = "Campo Obligatorio";
           }
         }
-        if (!programaAcademico) {
+        if (programaAcademico == null) {
           errors.programaAcademico = "Campo Obligatorio";
+        } else {
+          const { cualOtroProgramaAcademico } = datos;
+          if (
+            programaAcademico == T_SINAPSIS_PROGRAMAS_OTRO &&
+            cualOtroProgramaAcademico == null
+          ) {
+            errors.cualOtroProgramaAcademico = "Campo Obligatorio";
+          }
         }
         break;
 

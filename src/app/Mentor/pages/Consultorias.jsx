@@ -2,8 +2,6 @@ import moment from "moment";
 import { useContext, useEffect, useState } from "react";
 
 import FlexyTable from "src/app/Shared/components/FlexyTable";
-import TablaHorarioDisponibilidad from "src/app/Mentor/components/TablaHorarioDisponibilidad";
-import EditarDisponibilidadModal from "src/app/Mentor/components//ModalHorarioDisponibilidad";
 import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 import RevisarConsultoria from "src/app/Shared/components/DetalleProyectoEmprendimiento/consultorias/RevisarConsultoria";
 
@@ -18,7 +16,6 @@ import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import {
   HTTP_METHOD_GET,
   URL_OBTENER_CONSULTORIAS_PROGRAMADAS,
-  URL_OBTENER_HORARIO_MENTOR,
 } from "src/app/Shared/utils/apiConstants.js";
 import { SINAPSIS_APP_FORMATO_FECHA } from "src/app/Shared/utils/constants.js";
 
@@ -30,18 +27,8 @@ function Consultorias() {
   const [loadingComponent, setLoadingComponent] = useState(true);
   const [consultorias, setConsultorias] = useState([]);
   const [showConsultorias, setShowConsultorias] = useState({ show: false });
-  const [showEditarDisponibilidad, setShowEditarDisponibilidad] =
-    useState(false);
 
   // Custom Hooks
-  const {
-    data: horariosData,
-    message: horariosMessage,
-    error: horariosError,
-    loading: horariosLoading,
-    fetchAPI: fetchApiHorarios,
-  } = useFetch();
-
   const {
     data: consultoriasData,
     message: consultoriasMessage,
@@ -52,16 +39,6 @@ function Consultorias() {
 
   useEffect(() => {
     if (userData != null) {
-      fetchApiHorarios({
-        URL: URL_OBTENER_HORARIO_MENTOR,
-        requestOptions: {
-          method: HTTP_METHOD_GET,
-          params: {
-            idMentor: userData.id,
-          },
-        },
-      });
-
       fetchApiConsultorias({
         URL: URL_OBTENER_CONSULTORIAS_PROGRAMADAS,
         requestOptions: {
@@ -113,13 +90,6 @@ function Consultorias() {
     }
   }, [consultoriasData]);
 
-  function ocultarEditarDisponibilidadModal() {
-    setShowEditarDisponibilidad(false);
-  }
-  function mostrarEditarDisponibilidadModal() {
-    setShowEditarDisponibilidad(true);
-  }
-
   const onClicRevisarConsultoria = (consultoria) => {
     setShowConsultorias({
       show: true,
@@ -127,35 +97,29 @@ function Consultorias() {
     });
   };
 
-  if (
-    loadingUserData ||
-    horariosLoading ||
-    loadingComponent ||
-    consultoriasLoading ||
-    !horariosData
-  ) {
+  if (loadingUserData || loadingComponent || consultoriasLoading) {
     return <LoadingSpinner width="5rem" height="5rem" />;
   }
 
-  if (horariosMessage || consultoriasMessage) {
+  if (consultoriasMessage) {
     return (
       <>
         <Titulo>Consultorías Programadas</Titulo>
 
         <Card>
           <Ruta>
-            <p>{horariosMessage || consultoriasMessage}</p>
+            <p>{consultoriasMessage}</p>
           </Ruta>
         </Card>
       </>
     );
   }
 
-  if (horariosError || consultoriasError) {
+  if (consultoriasError) {
     return (
       <>
         <h1>ERROR</h1>
-        <p>{horariosError || consultoriasError}</p>
+        <p>{consultoriasError}</p>
       </>
     );
   }
@@ -163,20 +127,6 @@ function Consultorias() {
   return (
     <>
       <Titulo>Consultorías Programadas</Titulo>
-      {/* <Card>
-        <Subtitulo>Horario de disponibilidad</Subtitulo>
-        <form>
-          <TablaHorarioDisponibilidad horarios={horariosData} />
-          <button
-            type="button"
-            className="btn btn-primary w-25"
-            onClick={() => mostrarEditarDisponibilidadModal()}
-          >
-            Editar disponibilidad
-          </button>
-        </form>
-      </Card> */}
-
       <Ruta
         style={{
           padding: "0.5rem 2rem 1rem 2rem",
@@ -198,14 +148,6 @@ function Consultorias() {
           <Subtitulo>No hay consultorías programadas</Subtitulo>
         )}
       </Ruta>
-
-      {showEditarDisponibilidad && (
-        <EditarDisponibilidadModal
-          show={showEditarDisponibilidad}
-          setShow={ocultarEditarDisponibilidadModal}
-          horarios={horariosData}
-        />
-      )}
 
       {showConsultorias.show && (
         <RevisarConsultoria

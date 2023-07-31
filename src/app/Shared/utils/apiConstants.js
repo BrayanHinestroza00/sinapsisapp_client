@@ -117,9 +117,6 @@ export const URL_OBTENER_MENTOR_POR_PROYECTO_EMPRENDIMIENTO =
 
 export const URL_OBTENER_EMPRENDEDORES_ASOCIADOS =
   HOST + "/mentores/emprendedores";
-
-export const URL_OBTENER_HORARIO_MENTOR = HOST + "/mentores/horario";
-export const URL_ACTUALIZAR_HORARIO_MENTOR = HOST + "/mentores/horario";
 export const URL_FINALIZAR_ACOMPANAMIENTO =
   HOST + "/mentores/finalizar_acompanamiento";
 

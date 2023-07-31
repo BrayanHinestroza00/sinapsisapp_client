@@ -303,7 +303,7 @@ function PrimeraAtencionPage() {
                 </>
               ) : (
                 <Subtitulo>
-                  No hay solicitudes de primera atencion pendientes
+                  No hay solicitudes de primera atención pendientes
                 </Subtitulo>
               )}
             </Ruta>

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
@@ -15,9 +15,15 @@ import {
   T_SINAPSIS_TIPOS_CONTACTO_EGRESADO,
   T_SINAPSIS_TIPOS_CONTACTO_ESTUDIANTE,
 } from "src/app/Shared/utils/constants";
+import { getArchivo } from "../../utils/utilityFunctions";
 
-function PerfilEmprendedor({ preloadData }) {
+import default_image from "src/app/Shared/assets/images/default_profile_picture.png";
+
+function PerfilEmprendedor({ preloadData: perfilData }) {
   const { data: dataAsignaturas, error, loading, fetchAPI } = useFetch();
+
+  const [preloadData, setPreloadData] = useState({});
+  const [datosImagen, setDatosImagen] = useState({});
 
   useEffect(() => {
     fetchAPI({
@@ -27,6 +33,40 @@ function PerfilEmprendedor({ preloadData }) {
       },
     });
   }, []);
+
+  useEffect(() => {
+    if (perfilData) {
+      let asignaturasEmprendedor = [];
+      if (
+        perfilData.asignaturasEmprendedor &&
+        perfilData.asignaturasEmprendedor.length > 0
+      ) {
+        perfilData.asignaturasEmprendedor.forEach((asignaturaEmprendedor) => {
+          asignaturasEmprendedor.push(
+            `${asignaturaEmprendedor.id.asignaturaId}`
+          );
+        });
+      }
+
+      setPreloadData({
+        ...perfilData,
+        asignaturasEmprendedor: asignaturasEmprendedor,
+      });
+    }
+  }, [perfilData]);
+
+  useEffect(() => {
+    obtenerImagen();
+  }, []);
+
+  const obtenerImagen = async () => {
+    if (perfilData.fotoUrl) {
+      const imagen = await getArchivo(perfilData.fotoUrl);
+      setDatosImagen(`data:${imagen.contentType};base64,${imagen.file}`);
+    } else {
+      setDatosImagen(default_image);
+    }
+  };
 
   if (loading) {
     return <LoadingSpinner width="5rem" height="5rem" />;
@@ -43,9 +83,17 @@ function PerfilEmprendedor({ preloadData }) {
 
   return (
     <form className="row g-3 mt-1">
+      <div className="col-md-12 text-center mb-3">
+        {datosImagen == null ? (
+          <LoadingSpinner width="30%" height="30%" />
+        ) : (
+          <img src={datosImagen} alt="Foto de perfil" width={"30%"} />
+        )}
+      </div>
+
       <div className="col-md-6">
         <Label htmlFor="nombreCompleto" className="form-label">
-          Nombre Completo
+          Nombre completo
         </Label>
         <Input
           type="text"
@@ -58,7 +106,7 @@ function PerfilEmprendedor({ preloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="docIdentificacion" className="form-label">
-          Documento de Identificación
+          Documento de identificación
         </Label>
         <Input
           type="text"
@@ -71,7 +119,7 @@ function PerfilEmprendedor({ preloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="fechaNacimiento" className="form-label">
-          Fecha de Nacimiento
+          Fecha de nacimiento
         </Label>
         <Input
           type="text"
@@ -97,7 +145,7 @@ function PerfilEmprendedor({ preloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="correoPersonal" className="form-label">
-          Correo Personal
+          Correo personal
         </Label>
         <Input
           type="text"
@@ -110,7 +158,7 @@ function PerfilEmprendedor({ preloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="celular" className="form-label">
-          Teléfono Contacto
+          Teléfono contacto
         </Label>
         <Input
           type="text"
@@ -123,7 +171,7 @@ function PerfilEmprendedor({ preloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="departamento" className="form-label">
-          Departamento de Residencia
+          Departamento de residencia
         </Label>
         <Input
           type="text"
@@ -136,7 +184,7 @@ function PerfilEmprendedor({ preloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="municipio" className="form-label">
-          Municipio de Residencia
+          Municipio de residencia
         </Label>
         <Input
           type="text"
@@ -149,7 +197,7 @@ function PerfilEmprendedor({ preloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="direccion" className="form-label">
-          Dirección de Residencia
+          Dirección de residencia
         </Label>
         <Input
           type="text"
@@ -162,7 +210,7 @@ function PerfilEmprendedor({ preloadData }) {
 
       <div className="col-md-6">
         <Label htmlFor="vinculoConU" className="form-label">
-          Vinculo con la Universidad
+          Vinculo con la universidad
         </Label>
         <Input
           type="text"
@@ -176,7 +224,7 @@ function PerfilEmprendedor({ preloadData }) {
         <>
           <div className="col-md-6">
             <Label htmlFor="codigoEstudiantil" className="form-label">
-              Código Estudiantil
+              Código estudiantil
             </Label>
             <Input
               type="text"
@@ -202,7 +250,7 @@ function PerfilEmprendedor({ preloadData }) {
 
           <div className="col-md-6">
             <Label htmlFor="programaAcademico" className="form-label">
-              Programa Académico
+              Programa académico
             </Label>
             <Input
               type="text"
@@ -222,7 +270,7 @@ function PerfilEmprendedor({ preloadData }) {
             <>
               <div className="col-md-6">
                 <Label className="form-label">
-                  Modalidad de Emprendimiento como Trabajo de Grado
+                  Modalidad de emprendimiento como trabajo de grado
                 </Label>
 
                 <div className="form-check">
@@ -262,7 +310,7 @@ function PerfilEmprendedor({ preloadData }) {
 
               <div className="col-md-6">
                 <Label htmlFor="cursosEmprendimiento" className="form-label">
-                  Asignaturas de Emprendimiento Cursadas
+                  Asignaturas de emprendimiento cursadas
                 </Label>
                 <div>
                   <div className="form-check form-check-inline">
@@ -308,7 +356,7 @@ function PerfilEmprendedor({ preloadData }) {
         <>
           <div className="col-md-6">
             <Label htmlFor="cargoColaborador" className="form-label">
-              Cargo de Colaborador
+              Cargo de colaborador
             </Label>
             <Input
               type="text"
@@ -321,7 +369,7 @@ function PerfilEmprendedor({ preloadData }) {
 
           <div className="col-md-6">
             <Label htmlFor="dependenciaColaborador" className="form-label">
-              Dependencia
+              Dependencia de colaborador
             </Label>
             <Input
               type="text"

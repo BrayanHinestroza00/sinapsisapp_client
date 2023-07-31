@@ -59,7 +59,7 @@ function ListadoAnuncios() {
       ) : (
         <>
           <ListadoAnuncioSubtitulo>
-            No hay anuncios publicados
+            No se encontró ningún anuncio publicado en el sistema
           </ListadoAnuncioSubtitulo>
         </>
       )}

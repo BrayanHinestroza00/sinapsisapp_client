@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
@@ -13,9 +13,12 @@ import {
   HTTP_METHOD_GET,
   URL_OBTENER_PRIMERA_ATENCION_EMP,
 } from "src/app/Shared/utils/apiConstants";
+import { SINAPSIS_APP_FORMATO_FECHA_INPUT } from "src/app/Shared/utils/constants";
+import moment from "moment";
 
 function PrimeraAtencion({ idProyectoEmprendimiento }) {
-  const { data, error, loading, fetchAPI } = useFetch();
+  const { data: preloadData, error, loading, fetchAPI } = useFetch();
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     fetchAPI({
@@ -29,6 +32,19 @@ function PrimeraAtencion({ idProyectoEmprendimiento }) {
     });
   }, []);
 
+  useEffect(() => {
+    if (preloadData) {
+      setData({
+        ...preloadData,
+        desdeFechaEjecucion: moment(
+          preloadData.desdeFechaEjecucion,
+          "YYYY-MM-DD hh:mm:ss"
+        ).format(SINAPSIS_APP_FORMATO_FECHA_INPUT),
+        evidenciaProducto: preloadData.evidenciasProducto,
+      });
+    }
+  }, [preloadData]);
+
   if (loading || !data) {
     return <LoadingSpinner width="10rem" height="10rem" />;
   }
@@ -41,6 +57,8 @@ function PrimeraAtencion({ idProyectoEmprendimiento }) {
       </>
     );
   }
+
+  console.log("data", data);
 
   return (
     // <Card>
@@ -58,7 +76,7 @@ function PrimeraAtencion({ idProyectoEmprendimiento }) {
         <form className="row g-3">
           <div className="col-md-6 mb-3">
             <Label htmlFor="nombreProducto" className="form-label">
-              Producto o Servicio
+              Producto o servicio
             </Label>
             <Input
               type="text"

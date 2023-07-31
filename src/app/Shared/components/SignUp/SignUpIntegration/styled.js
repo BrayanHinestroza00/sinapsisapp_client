@@ -91,6 +91,12 @@ export const SignUpIntegrationFormContainer = styled.div`
   justify-content: space-between;
 `;
 
+export const SignUpIntegrationFormButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 export const SignUpIntegrationFormButton = styled.button`
   flex-direction: column;
   align-items: center;

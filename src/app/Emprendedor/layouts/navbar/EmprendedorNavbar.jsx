@@ -78,6 +78,17 @@ function EmprendedorNavbar() {
                 INICIO
               </Link>
             </li>
+            <li className="nav-item">
+              <Link
+                className={`nav-link ${
+                  menuItemActive == MENU_EMPRENDEDOR_PERFIL && "active"
+                }`}
+                onClick={() => onChangeMenu(MENU_EMPRENDEDOR_PERFIL)}
+                to={"/Emprendedor/Perfil"}
+              >
+                MI PERFIL
+              </Link>
+            </li>
             {userData.esPrimeraVez == 1 ? (
               <li className="nav-item">
                 <Link
@@ -95,17 +106,6 @@ function EmprendedorNavbar() {
               </li>
             ) : (
               <>
-                <li className="nav-item">
-                  <Link
-                    className={`nav-link ${
-                      menuItemActive == MENU_EMPRENDEDOR_PERFIL && "active"
-                    }`}
-                    onClick={() => onChangeMenu(MENU_EMPRENDEDOR_PERFIL)}
-                    to={"/Emprendedor/Perfil"}
-                  >
-                    MI PERFIL
-                  </Link>
-                </li>
                 {userData.proyectosEmprendimiento[selectedProjectIndex]
                   ?.estadoEmprendimiento != "PENDIENTE" && (
                   <li className="nav-item">

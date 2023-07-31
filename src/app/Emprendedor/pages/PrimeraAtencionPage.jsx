@@ -88,6 +88,15 @@ function PrimeraAtencionPage() {
       return;
     }
 
+    if (event.target.name === "programaAcademico" && event.target.value != 0) {
+      setDatos({
+        ...datos,
+        cualOtroProgramaAcademico: null,
+        [event.target.name]: event.target.value,
+      });
+      return;
+    }
+
     setDatos({
       ...datos,
       [event.target.name]: event.target.value,
@@ -103,17 +112,14 @@ function PrimeraAtencionPage() {
         Object.values(datos)[index] != undefined
       ) {
         if (
+          Object.keys(datos)[index] == "fotoPerfil" ||
           Object.keys(datos)[index] == "logoEmpresa" ||
-          Object.keys(datos)[index] == "files"
+          Object.keys(datos)[index] == "fileDiagnostico"
         ) {
-          if (Object.keys(datos)[index] == "files") {
-            form.append("fotoPerfil", Object.values(datos)[index][0]);
-          } else {
-            form.append(
-              Object.keys(datos)[index],
-              Object.values(datos)[index][0]
-            );
-          }
+          form.append(
+            Object.keys(datos)[index],
+            Object.values(datos)[index][0]
+          );
         } else if (Object.keys(datos)[index] == "municipioId") {
           form.append("municipio", Object.values(datos)[index]);
         } else if (Object.keys(datos)[index] == "cursosEmprendimiento") {

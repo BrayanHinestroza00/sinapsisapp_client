@@ -127,6 +127,7 @@ function InfoUsuario({ userData, ...props }) {
         profesionEgresado: preloadData.programaAcademicoId,
         cursosEmprendimiento: asignaturasEmprendedor,
         fotoUrl: preloadData.fotoUrl,
+        cualOtroProgramaAcademico: preloadData.cualOtroProgramaAcademico,
       });
     }
   }, [preloadData]);
@@ -520,7 +521,7 @@ function InfoUsuario({ userData, ...props }) {
                 id="programaAcademico"
                 className="form-select"
                 name="programaAcademico"
-                value={props.datos.programaAcademico || "-1"}
+                value={props.datos.programaAcademico}
                 onChange={(e) => props.handleChange(e)}
               >
                 <option value={"-1"} disabled>

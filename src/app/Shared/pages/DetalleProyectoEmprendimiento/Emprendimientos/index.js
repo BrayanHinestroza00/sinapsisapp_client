@@ -14,6 +14,8 @@ import {
   URL_OBTENER_EMPRENDEDIMIENTO,
   URL_OBTENER_REDES_SOCIALES,
 } from "src/app/Shared/utils/apiConstants";
+import { SINAPSIS_APP_FORMATO_FECHA_INPUT } from "src/app/Shared/utils/constants";
+import moment from "moment";
 
 function Emprendimiento({ idEmprendimiento }) {
   const [loadingComponent, setLoadingComponent] = useState(true);
@@ -74,7 +76,10 @@ function Emprendimiento({ idEmprendimiento }) {
         sitioWeb: preloadData.sitioWeb,
         redesSociales: redesSociales,
         estaConstituida: preloadData.estaConstituida,
-        fechaConstitucion: preloadData.fechaConstitucion,
+        fechaConstitucion: moment(
+          preloadData.fechaConstitucion,
+          "YYYY-MM-DD hh:mm:ss"
+        ).format(SINAPSIS_APP_FORMATO_FECHA_INPUT),
         nitEmpresa: preloadData.nit,
         nombreEmpresa: preloadData.nombreEmpresa,
         razonSocialEmpresa: preloadData.razonSocial,
@@ -95,6 +100,8 @@ function Emprendimiento({ idEmprendimiento }) {
       </>
     );
   }
+
+  console.log("first", { datos, preloadData });
 
   return (
     <Card>

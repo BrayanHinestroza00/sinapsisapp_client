@@ -240,7 +240,7 @@ function GestionMentoresPage() {
 
   return (
     <>
-      <Titulo>Mentores </Titulo>
+      <Titulo>Mentores Registrados</Titulo>
 
       <>
         {etapasRutaLoading ? (
@@ -454,7 +454,7 @@ function GestionMentoresPage() {
                   }}
                 />
               ) : (
-                <Subtitulo>No hay mentores disponibles</Subtitulo>
+                <Subtitulo>No hay mentores registrados</Subtitulo>
               )}
             </Ruta>
           )

@@ -217,7 +217,7 @@ function GestionEmprendedoresPage() {
 
   return (
     <>
-      <Titulo>Emprendedores </Titulo>
+      <Titulo>Emprendedores Registrados </Titulo>
 
       <>
         {tiposContactoLoading ? (
@@ -348,63 +348,62 @@ function GestionEmprendedoresPage() {
         )}
       </>
 
-      {emprendedoresData && (
-        <Ruta
-          style={{
-            padding: "0.5rem 2rem 1rem 2rem",
-            marginTop: "1rem",
-            marginLeft: "0rem",
-          }}
-        >
-          {emprendedoresData.length > 0 ? (
-            <FlexyTable
-              datos={datos}
-              titulo={"Emprendedores"}
-              btn1={
-                <img
-                  src={detalleIcon}
-                  width="auto"
-                  height="25"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Ver Detalle"
-                />
-              }
-              fun1={(emprendedorData) => {
-                onHandleDetalleEmprendedor(emprendedorData);
-              }}
-              btn2={
-                <img
-                  src={resetPasswordIcon}
-                  width="auto"
-                  height="25"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Restablecer contraseña"
-                />
-              }
-              fun2={(emprendedorData) => {
-                onResetPasswordEmprendedor(emprendedorData);
-              }}
-              btn3={
-                <img
-                  src={deleteUserIcon}
-                  width="auto"
-                  height="25"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Desactivar usuario"
-                />
-              }
-              fun3={(emprendedorData) => {
-                onDeleteEmprendedor(emprendedorData);
-              }}
-            />
-          ) : (
-            <Subtitulo>No hay emprendedores disponibles</Subtitulo>
-          )}
-        </Ruta>
-      )}
+      <Ruta
+        style={{
+          padding: "0.5rem 2rem 1rem 2rem",
+          marginTop: "1rem",
+          marginLeft: "0rem",
+        }}
+      >
+        {emprendedoresData && emprendedoresData.length > 0 ? (
+          <FlexyTable
+            datos={datos}
+            titulo={"Emprendedores"}
+            btn1={
+              <img
+                src={detalleIcon}
+                width="auto"
+                height="25"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Ver Detalle"
+              />
+            }
+            fun1={(emprendedorData) => {
+              onHandleDetalleEmprendedor(emprendedorData);
+            }}
+            btn2={
+              <img
+                src={resetPasswordIcon}
+                width="auto"
+                height="25"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Restablecer contraseña"
+              />
+            }
+            fun2={(emprendedorData) => {
+              onResetPasswordEmprendedor(emprendedorData);
+            }}
+            btn3={
+              <img
+                src={deleteUserIcon}
+                width="auto"
+                height="25"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Desactivar usuario"
+              />
+            }
+            fun3={(emprendedorData) => {
+              onDeleteEmprendedor(emprendedorData);
+            }}
+          />
+        ) : (
+          <Subtitulo>No hay emprendedores registrados</Subtitulo>
+        )}
+      </Ruta>
+
       {showDetalle.show && (
         <VerPerfil
           show={showDetalle.show}

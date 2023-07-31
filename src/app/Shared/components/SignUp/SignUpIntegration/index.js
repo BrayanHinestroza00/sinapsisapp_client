@@ -24,6 +24,7 @@ import {
   SignUpIntegrationErrorAPI,
   SignUpIntegrationForm,
   SignUpIntegrationFormButton,
+  SignUpIntegrationFormButtonContainer,
   SignUpIntegrationFormContainer,
   SignUpIntegrationFormContainers,
   SignUpIntegrationFormDescription,
@@ -142,7 +143,7 @@ function SignUpIntegration() {
               />
             </SignUpIntegrationFormImageContainer>
 
-            <SignUpIntegrationFormTitulo>
+            <SignUpIntegrationFormTitulo className="text-center">
               Regístrate en Sinapsis UAO
             </SignUpIntegrationFormTitulo>
 
@@ -298,7 +299,7 @@ function SignUpIntegration() {
 
                 <SignUpIntegrationFormContainers>
                   <Form.Group>
-                    <SignUpIntegrationFormContainer>
+                    <SignUpIntegrationFormButtonContainer>
                       <SignUpIntegrationFormButton
                         className="btn btn-primary mb-2"
                         type="submit"
@@ -317,185 +318,11 @@ function SignUpIntegration() {
                           Iniciar sesión
                         </Link>
                       </p>
-                    </SignUpIntegrationFormContainer>
+                    </SignUpIntegrationFormButtonContainer>
                   </Form.Group>
                 </SignUpIntegrationFormContainers>
               </Form>
             </SignUpIntegrationFormContainer>
-
-            {/* {tiposDocumentoLoading ? (
-              <>Loading...</>
-            ) : tiposDocumentoError || tiposDocumentoMessage ? (
-              <>
-                {tiposDocumentoError && <Titulo>{tiposDocumentoError}</Titulo>}
-
-                {tiposDocumentoMessage && (
-                  <Titulo>{tiposDocumentoMessage}</Titulo>
-                )}
-              </>
-            ) : (
-              <>
-                <p className="text-muted text-center">
-                  <span>
-                    Bienvenido al formulario de registro de la comunidad UAO.
-                  </span>
-                  <br />
-                  <span>
-                    Utilizamos su usuario universitario para el registro.
-                  </span>
-                  <br />
-                  <span>
-                    <span style={{ fontWeight: "bold" }}>IMPORTANTE.</span>
-                    Todos los campos son obligatorios
-                  </span>
-                </p>
-
-                <SignUpIntegrationFormContainer>
-                  <div className="form-controls">
-                    <signUpStyled.Label htmlFor="usuario">
-                      Usuario <span className="text-danger"> (*)</span>
-                    </signUpStyled.Label>
-                    <signUpStyled.InputContainerRegistro>
-                      <signUpStyled.Input
-                        name="usuario"
-                        placeholder="Usuario Universitario"
-                        type="text"
-                        id="usuario"
-                        autoFocus
-                        onChange={(e) => handleChange(e)}
-                        value={datos.usuario}
-                      />
-                      <br />
-                      {error.usuario && (
-                        <signUpStyled.SmallError className="form-text font-weight-bold text-danger">
-                          {error.usuario}
-                        </signUpStyled.SmallError>
-                      )}
-                    </signUpStyled.InputContainerRegistro>
-                  </div>
-
-                  <div className="form-controls">
-                    <signUpStyled.Label htmlFor="tipoDocumento">
-                      Tipo de documento
-                      <span className="text-danger"> (*)</span>
-                    </signUpStyled.Label>
-                    <signUpStyled.InputContainerRegistro>
-                      <signUpStyled.InputSelect
-                        name="tipoDocumento"
-                        type="text"
-                        id="tipoDocumento"
-                        onChange={(e) => handleChange(e)}
-                        value={datos.tipoDocumento || "-1"}
-                      >
-                        <option value={"-1"} disabled>
-                          Seleccione...
-                        </option>
-                        {tiposDocumentoData &&
-                          tiposDocumentoData.length > 0 &&
-                          tiposDocumentoData.map((tipoDocumento, index) => {
-                            return (
-                              <option key={index} value={tipoDocumento.id}>
-                                {tipoDocumento.nombre}
-                              </option>
-                            );
-                          })}
-                      </signUpStyled.InputSelect>
-                      <br />
-                      {error.tipoDocumento && (
-                        <signUpStyled.SmallError className="form-text font-weight-bold text-danger">
-                          {error.tipoDocumento}
-                        </signUpStyled.SmallError>
-                      )}
-                    </signUpStyled.InputContainerRegistro>
-                  </div>
-
-                  <div className="form-controls">
-                    <signUpStyled.Label htmlFor="numeroDocumento">
-                      Numero de documento
-                      <span className="text-danger"> (*)</span>
-                    </signUpStyled.Label>
-                    <signUpStyled.InputContainerRegistro>
-                      <signUpStyled.Input
-                        name="numeroDocumento"
-                        placeholder="Numero de documento"
-                        type="text"
-                        id="numeroDocumento"
-                        onChange={(e) => handleChange(e)}
-                        value={datos.numeroDocumento}
-                      />
-                      <br />
-                      {error.numeroDocumento && (
-                        <signUpStyled.SmallError className="form-text font-weight-bold text-danger error-class">
-                          {error.numeroDocumento}
-                        </signUpStyled.SmallError>
-                      )}
-                    </signUpStyled.InputContainerRegistro>
-                  </div>
-
-                  <div className="form-controls">
-                    <signUpStyled.Label htmlFor="contrasena">
-                      Contraseña <span className="text-danger"> (*)</span>
-                    </signUpStyled.Label>
-                    <signUpStyled.InputContainerRegistro>
-                      <signUpStyled.Input
-                        name="contrasena"
-                        placeholder="Contraseña"
-                        type="password"
-                        id="contrasena"
-                        onChange={(e) => handleChange(e)}
-                        value={datos.contrasena}
-                      />
-                      <br />
-                      {error.contrasena && (
-                        <signUpStyled.SmallError className="form-text font-weight-bold text-danger">
-                          {error.contrasena}
-                        </signUpStyled.SmallError>
-                      )}
-                    </signUpStyled.InputContainerRegistro>
-                  </div>
-
-                  <div className="form-controls">
-                    <signUpStyled.Label htmlFor="confirmContrasena">
-                      Confirmar contraseña
-                      <span className="text-danger"> (*)</span>
-                    </signUpStyled.Label>
-                    <signUpStyled.InputContainerRegistro>
-                      <signUpStyled.Input
-                        name="confirmContrasena"
-                        placeholder="Confirmar contraseña"
-                        type="password"
-                        id="confirmContrasena"
-                        onChange={(e) => handleChange(e)}
-                        value={datos.confirmContrasena}
-                      />
-                      <br />
-                      {error.confirmContrasena && (
-                        <signUpStyled.SmallError className="form-text font-weight-bold text-danger">
-                          {error.confirmContrasena}
-                        </signUpStyled.SmallError>
-                      )}
-                    </signUpStyled.InputContainerRegistro>
-                  </div>
-                  <signUpStyled.BotonesContainer>
-                    <signUpStyled.Boton
-                      className="btn btn-primary"
-                      type=" submit"
-                    >
-                      
-                      Registrarse
-                    </signUpStyled.Boton>
-                    <p>
-                      ¿Eres externo de la UAO?
-                      <Link to="/Signup/Externo">Registrarte aquí</Link>
-                    </p>
-                    <p>
-                      ¿Ya tienes una cuenta?
-                      <Link to="/Login">Iniciar sesión</Link>
-                    </p>
-                  </signUpStyled.BotonesContainer>
-                </SignUpIntegrationFormContainer>
-              </>
-            )} */}
           </SignUpIntegrationForm>
         </SignUpIntegrationCard>
       </SignUpIntegrationRightPanelContainer>
