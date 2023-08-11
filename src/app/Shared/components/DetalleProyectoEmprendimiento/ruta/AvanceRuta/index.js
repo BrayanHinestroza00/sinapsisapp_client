@@ -104,10 +104,8 @@ function AvanceRuta({ preloadData, selectedRuta, avance }) {
 
   useEffect(() => {
     if (!actEmpRutaLoading && !subActEmpRutaLoading) {
-      if (actEmpRutaData && subActEmpRutaData) {
-        //if (actidadesEmprendedor == null) {
+      if (actEmpRutaData || subActEmpRutaData) {
         transformData();
-        //}
       } else {
         if (loading) {
           setLoading(false);
@@ -125,12 +123,14 @@ function AvanceRuta({ preloadData, selectedRuta, avance }) {
     let actividadObjects = {};
     let herramientaObjects = {};
 
-    actEmpRutaData.forEach((actEmpRuta) => {
-      actividadObjects = {
-        ...actividadObjects,
-        [actEmpRuta.idActividad]: { ...actEmpRuta },
-      };
-    });
+    if (actEmpRutaData) {
+      actEmpRutaData.forEach((actEmpRuta) => {
+        actividadObjects = {
+          ...actividadObjects,
+          [actEmpRuta.idActividad]: { ...actEmpRuta },
+        };
+      });
+    }
 
     let itemsProcessed = 0;
     subActEmpRutaData.forEach(async (subActEmpRuta) => {

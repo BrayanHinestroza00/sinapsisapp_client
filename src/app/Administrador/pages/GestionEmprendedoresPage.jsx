@@ -37,7 +37,7 @@ function GestionEmprendedoresPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({});
   const [datos, setDatos] = useState({});
-  const [datosFiltro, setDatosFiltro] = useState({});
+  const [datosFiltro, setDatosFiltro] = useState({ estadosCuenta: "-1" });
   const [showDetalle, setShowDetalle] = useState({ show: false });
 
   // Custom Hooks
@@ -93,7 +93,8 @@ function GestionEmprendedoresPage() {
             "Correo Contacto":
               emprendedorData.correoInstitucional ||
               emprendedorData.correoPersonal,
-            "Estado Ruta I&E": emprendedorData.estado,
+            "Estado Cuenta":
+              emprendedorData.estadoCuenta == 1 ? "ACTIVO" : "INACTIVO",
           };
         });
       }
@@ -252,7 +253,7 @@ function GestionEmprendedoresPage() {
               {/* Numero de documento */}
               <div className="col-md-6">
                 <Label htmlFor="numeroDocumento" className="form-label">
-                  Número de documento
+                  Número de Documento
                 </Label>
                 <Input
                   type="text"
@@ -261,6 +262,7 @@ function GestionEmprendedoresPage() {
                   id="numeroDocumento"
                   value={datosFiltro.numeroDocumento || ""}
                   onChange={(e) => onHandleChange(e)}
+                  autoComplete="off"
                 />
                 {error.numeroDocumento && (
                   <small className="form-text font-weight-bold text-danger">
@@ -281,6 +283,7 @@ function GestionEmprendedoresPage() {
                   id="nombreEmprendedor"
                   value={datosFiltro.nombreEmprendedor || ""}
                   onChange={(e) => onHandleChange(e)}
+                  autoComplete="off"
                 />
                 {error.nombreEmprendedor && (
                   <small className="form-text font-weight-bold text-danger">
@@ -290,23 +293,25 @@ function GestionEmprendedoresPage() {
               </div>
               {/* Estado en la Ruta de Innovación & Emprendimiento */}
               <div className="col-md-6">
-                <Label htmlFor="estadosRuta" className="form-label">
-                  Estado en la Ruta de Innovación & Emprendimiento
+                <Label htmlFor="estadosCuenta" className="form-label">
+                  Estado de la Cuenta
                 </Label>
                 <select
-                  id="estadosRuta"
+                  id="estadosCuenta"
                   className="form-select"
-                  name="estadosRuta"
-                  value={datosFiltro.estadosRuta || "-1"}
+                  name="estadosCuenta"
+                  value={datosFiltro.estadosCuenta || "-1"}
                   onChange={(e) => onHandleChange(e)}
                 >
                   <option value={"-1"}>TODAS...</option>
-                  <option value={"ACTIVO"}>ACTIVO</option>
-                  <option value={"INACTIVO"}>INACTIVO</option>
+                  <option selected value={"1"}>
+                    ACTIVO
+                  </option>
+                  <option value={"0"}>INACTIVO</option>
                 </select>
-                {error.estadosRuta && (
+                {error.estadosCuenta && (
                   <small className="form-text font-weight-bold text-danger">
-                    {error.estadosRuta}
+                    {error.estadosCuenta}
                   </small>
                 )}
               </div>

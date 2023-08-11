@@ -7,7 +7,7 @@ import {
   T_SINAPSIS_TIPOS_CONTACTO_EXTERNO,
 } from "../../utils/constants";
 import {
-  REGEX_PATTERN_CARATERETES,
+  REGEX_PATTERN_CARACTERES,
   REGEX_PATTERN_CORREO_ELECTRONICO,
   REGEX_PATTERN_NUMERO_TELEFONO,
 } from "../../utils/regexPatterns";
@@ -54,64 +54,73 @@ export const validacionesEditarPerfil = (datos, error) => {
   }
   if (!direccion) {
     errors.direccion = "Campo Obligatorio";
+  } else {
+    if (direccion.length > 20) {
+      errors.direccion = "Máximo 20 caracteres";
+    }
   }
   if (!vinculoConU) {
     errors.vinculoConU = "Campo Obligatorio";
   } else {
-    switch (vinculoConU) {
-      case T_SINAPSIS_TIPOS_CONTACTO_ESTUDIANTE:
-        const { codigoEstudiantil, tipoEstudiante, programaAcademico } = datos;
-        if (!codigoEstudiantil) {
-          errors.codigoEstudiantil = "Campo Obligatorio";
+    if (vinculoConU == T_SINAPSIS_TIPOS_CONTACTO_ESTUDIANTE) {
+      const { codigoEstudiantil, tipoEstudiante, programaAcademico } = datos;
+      if (!codigoEstudiantil) {
+        errors.codigoEstudiantil = "Campo Obligatorio";
+      } else {
+        if (codigoEstudiantil.length != 7) {
+          errors.codigoEstudiantil =
+            "El codigo estudiantil debe ser de 7 dígitos";
         }
-        if (!tipoEstudiante) {
-          errors.tipoEstudiante = "Campo Obligatorio";
-        } else {
-          const { modTrabajoGrado } = datos;
-          if (
-            tipoEstudiante === T_SINAPSIS_NIVEL_ACADEMICO_PREGRADO &&
-            modTrabajoGrado == null
-          ) {
-            errors.modTrabajoGrado = "Campo Obligatorio";
-          }
+      }
+      if (!tipoEstudiante) {
+        errors.tipoEstudiante = "Campo Obligatorio";
+      } else {
+        const { modTrabajoGrado } = datos;
+        if (
+          tipoEstudiante === T_SINAPSIS_NIVEL_ACADEMICO_PREGRADO &&
+          modTrabajoGrado == null
+        ) {
+          errors.modTrabajoGrado = "Campo Obligatorio";
         }
-        if (programaAcademico == null) {
-          errors.programaAcademico = "Campo Obligatorio";
-        } else {
-          const { cualOtroProgramaAcademico } = datos;
-          if (
-            programaAcademico == T_SINAPSIS_PROGRAMAS_OTRO &&
-            cualOtroProgramaAcademico == null
-          ) {
+      }
+      if (programaAcademico == null) {
+        errors.programaAcademico = "Campo Obligatorio";
+      } else {
+        const { cualOtroProgramaAcademico } = datos;
+        if (programaAcademico == T_SINAPSIS_PROGRAMAS_OTRO) {
+          if (cualOtroProgramaAcademico == null) {
             errors.cualOtroProgramaAcademico = "Campo Obligatorio";
+          } else {
+            if (cualOtroProgramaAcademico.length > 20) {
+              errors.cualOtroProgramaAcademico = "Máximo 20 caracteres";
+            }
           }
         }
-        break;
-
-      case T_SINAPSIS_TIPOS_CONTACTO_EGRESADO:
-        const { profesionEgresado, tipoEstudianteEgresado } = datos;
-        if (!profesionEgresado) {
-          errors.profesionEgresado = "Campo Obligatorio";
+      }
+    } else if (vinculoConU == T_SINAPSIS_TIPOS_CONTACTO_EGRESADO) {
+      const { profesionEgresado, tipoEstudianteEgresado } = datos;
+      if (!profesionEgresado) {
+        errors.profesionEgresado = "Campo Obligatorio";
+      }
+      if (!tipoEstudianteEgresado) {
+        errors.tipoEstudianteEgresado = "Campo Obligatorio";
+      }
+    } else if (vinculoConU == T_SINAPSIS_TIPOS_CONTACTO_COLABORADOR) {
+      const { cargoColaborador, dependenciaColaborador } = datos;
+      if (!cargoColaborador) {
+        errors.cargoColaborador = "Campo Obligatorio";
+      } else {
+        if (cargoColaborador.length > 100) {
+          errors.cargoColaborador = "Máximo 100 caracteres";
         }
-        if (!tipoEstudianteEgresado) {
-          errors.tipoEstudianteEgresado = "Campo Obligatorio";
+      }
+      if (!dependenciaColaborador) {
+        errors.dependenciaColaborador = "Campo Obligatorio";
+      } else {
+        if (dependenciaColaborador.length > 100) {
+          errors.dependenciaColaborador = "Máximo 100 caracteres";
         }
-        break;
-
-      case T_SINAPSIS_TIPOS_CONTACTO_COLABORADOR:
-        const { cargoColaborador, dependenciaColaborador } = datos;
-        if (!cargoColaborador) {
-          errors.cargoColaborador = "Campo Obligatorio";
-        }
-        if (!dependenciaColaborador) {
-          errors.dependenciaColaborador = "Campo Obligatorio";
-        }
-        break;
-      case T_SINAPSIS_TIPOS_CONTACTO_EXTERNO:
-        break;
-
-      default:
-        break;
+      }
     }
   }
 
@@ -131,7 +140,7 @@ export const validacionesEditarPerfilUsuario = (datos, error) => {
     // eslint-disable-next-line
     const RegExp = REGEX_PATTERN_CORREO_ELECTRONICO;
     if (!RegExp.test(correoPersonal)) {
-      errors.correo = "El correo no es válido";
+      errors.correoPersonal = "El correo personal no es válido";
     }
   }
 
@@ -144,7 +153,7 @@ export const validacionesEditarPerfilUsuario = (datos, error) => {
 
   if (dependencia) {
     // eslint-disable-next-line
-    const RegExp = REGEX_PATTERN_CARATERETES;
+    const RegExp = REGEX_PATTERN_CARACTERES;
     if (!RegExp.test(dependencia)) {
       errors.dependencia = "Máximo 200 caracteres";
     }
@@ -161,7 +170,7 @@ export const validacionesEditarPerfilUsuario = (datos, error) => {
   if (!cargo) {
     errors.cargo = "Campo Obligatorio";
   } else {
-    const RegExp = REGEX_PATTERN_CARATERETES;
+    const RegExp = REGEX_PATTERN_CARACTERES;
     if (!RegExp.test(cargo)) {
       errors.cargo = "Máximo 200 caracteres";
     }

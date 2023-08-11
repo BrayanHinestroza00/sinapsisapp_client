@@ -152,7 +152,9 @@ function AnuncioModal(props) {
         <div className="container">
           <form encType="multipart/form-data">
             <Form.Group className="mb-3">
-              <Form.Label>Título de Anuncio </Form.Label>
+              <Form.Label>
+                Título de Anuncio <span className="text-danger"> (*)</span>
+              </Form.Label>
               <Form.Control
                 name="tituloAnuncio"
                 className="form-control"
@@ -167,7 +169,9 @@ function AnuncioModal(props) {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Descripción de Anuncio</Form.Label>
+              <Form.Label>
+                Descripción de Anuncio <span className="text-danger"> (*)</span>
+              </Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
@@ -186,6 +190,7 @@ function AnuncioModal(props) {
             <Form.Group className="mb-3">
               <Form.Label>
                 El anuncio sera visible de manera permanente
+                <span className="text-danger"> (*)</span>
               </Form.Label>
               <div>
                 <Form.Check
@@ -221,6 +226,7 @@ function AnuncioModal(props) {
               <Form.Group className="mb-3">
                 <Form.Label>
                   Fecha Hasta de Visualización del Anuncio
+                  <span className="text-danger"> (*)</span>
                 </Form.Label>
                 <Form.Control
                   type="date"
@@ -238,7 +244,9 @@ function AnuncioModal(props) {
             )}
 
             <div className="mt-4">
-              <h6>Flayer del Anuncio</h6>
+              <h6>
+                Flayer del Anuncio <span className="text-danger"> (*)</span>
+              </h6>
               <DropZoneComponent
                 upFiles={getFiles}
                 upFilesRejected={getFilesRejected}

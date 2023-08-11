@@ -65,12 +65,22 @@ function DetalleConsultoria(props) {
 
           <Form.Group className="col-md-6 mb-3">
             <Form.Label>Hora Inicio Programada</Form.Label>
-            <Form.Control value={props.data.horaInicioConsultoria} disabled />
+            <Form.Control
+              value={moment(props.data.horaInicioConsultoria, "hh:mm").format(
+                "LT"
+              )}
+              disabled
+            />
           </Form.Group>
 
           <Form.Group className="col-md-6 mb-3">
             <Form.Label>Hora Finalización Programada</Form.Label>
-            <Form.Control value={props.data.horaFinConsultoria} disabled />
+            <Form.Control
+              value={moment(props.data.horaFinConsultoria, "hh:mm").format(
+                "LT"
+              )}
+              disabled
+            />
           </Form.Group>
 
           <Form.Group className="col-md-6 mb-3">

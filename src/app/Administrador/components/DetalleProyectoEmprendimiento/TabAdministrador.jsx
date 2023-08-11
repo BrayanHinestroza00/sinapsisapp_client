@@ -18,8 +18,6 @@ function TabAdministrador() {
   const { state } = useLocation();
   const [key, setKey] = useState("ruta");
 
-  console.log("TabAdministrador", state);
-
   return (
     <Tabs activeKey={key} onSelect={(key) => setKey(key)}>
       <Tab eventKey="ruta" title="Estado Ruta">

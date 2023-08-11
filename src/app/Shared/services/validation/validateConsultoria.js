@@ -1,4 +1,4 @@
-import { REGEX_PATTERN_CARATERETES } from "../../utils/regexPatterns";
+import { REGEX_PATTERN_CARACTERES } from "../../utils/regexPatterns";
 
 export const validarRevisionConsultoria = (datos, tipo) => {
   const errors = {};
@@ -6,14 +6,27 @@ export const validarRevisionConsultoria = (datos, tipo) => {
 
   if (tipo == "A") {
     if (comentariosConsultoria) {
-      const RegExp = REGEX_PATTERN_CARATERETES;
+      const RegExp = REGEX_PATTERN_CARACTERES;
       if (!RegExp.test(comentariosConsultoria)) {
-        errors.comentariosConsultoria = "Máximo 200 caracteres";
+        errors.comentariosConsultoria = "Solo se permiten letras";
+      } else {
+        if (comentariosConsultoria.length > 500) {
+          errors.comentariosConsultoria = "Máximo 500 caracteres";
+        }
       }
     }
   } else {
     if (!comentariosConsultoria) {
       errors.comentariosConsultoria = "Campo Obligatorio";
+    } else {
+      const RegExp = REGEX_PATTERN_CARACTERES;
+      if (!RegExp.test(comentariosConsultoria)) {
+        errors.comentariosConsultoria = "Solo se permiten letras";
+      } else {
+        if (comentariosConsultoria.length > 500) {
+          errors.comentariosConsultoria = "Máximo 500 caracteres";
+        }
+      }
     }
   }
 
@@ -34,6 +47,10 @@ export const validarCreacionConsultoria = (datos, tipoUsuario) => {
 
   if (!tituloConsultoria) {
     errors.tituloConsultoria = "Campo Obligatorio";
+  } else {
+    if (tituloConsultoria.length > 30) {
+      errors.tituloConsultoria = "Solo se permiten 30 caracteres";
+    }
   }
 
   if (!mentor && tipoUsuario == "ADMINISTRADOR") {
@@ -54,13 +71,20 @@ export const validarCreacionConsultoria = (datos, tipoUsuario) => {
 
   if (!asuntoConsultoria) {
     errors.asuntoConsultoria = "Campo Obligatorio";
+  } else {
+    if (asuntoConsultoria.length > 100) {
+      errors.asuntoConsultoria = "Solo se permiten 100 caracteres";
+    }
   }
+
   if (!fechaConsultoria) {
     errors.fechaConsultoria = "Campo Obligatorio";
   }
+
   if (!horaFinalizacion) {
     errors.horaFinalizacion = "Campo Obligatorio";
   }
+
   if (!horaInicio) {
     errors.horaInicio = "Campo Obligatorio";
   }

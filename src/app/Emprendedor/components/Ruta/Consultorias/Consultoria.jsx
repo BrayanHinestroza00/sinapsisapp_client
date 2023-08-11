@@ -71,8 +71,14 @@ function Consultoria() {
               consultoriaData.fechaConsultoria,
               "YYYY-MM-DD hh:mm:ss"
             ).format(SINAPSIS_APP_FORMATO_FECHA),
-            "Hora Inicio Programada": consultoriaData.horaInicioConsultoria,
-            "Hora Finalización Programada": consultoriaData.horaFinConsultoria,
+            "Hora Inicio Programada": moment(
+              consultoriaData.horaInicioConsultoria,
+              "hh:mm"
+            ).format("LT"),
+            "Hora Finalización Programada": moment(
+              consultoriaData.horaFinConsultoria,
+              "hh:mm"
+            ).format("LT"),
             "Creado Por":
               consultoriaData.nombreMentor +
               " " +
@@ -121,6 +127,8 @@ function Consultoria() {
     );
   }
 
+  console.log("first", consultorias);
+
   return (
     <>
       <Titulo>
@@ -150,7 +158,7 @@ function Consultoria() {
                   <h5>
                     Fecha de consultoría:
                     <SpanAuxiliar>
-                      {`${consultorias[0]["Fecha Consultoria"]} `}
+                      {`${consultorias[0]["Fecha Consultoría"]} `}
                       {/* Viernes, 15 de
                       diciembre del 2022 */}
                     </SpanAuxiliar>

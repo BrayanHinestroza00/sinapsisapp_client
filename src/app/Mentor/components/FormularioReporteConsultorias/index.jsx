@@ -22,14 +22,13 @@ function FormularioReporteConsultorias({ idMentor }) {
   const { data, message: messageAPI, error: errorAPI, fetchAPI } = useFetch();
 
   useEffect(() => {
-    if (data) {
-      var blob = new Blob([data.file], { type: "application/vnd.ms-excel" });
-
+    if (data && loading) {
       const link = document.createElement("a");
-      const url = URL.createObjectURL(blob);
+      const url = `data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,${data.file}`;
       link.href = url;
       link.download = data.filename;
       link.click();
+      setLoading(false);
     }
 
     if (messageAPI && messageAPI != "OK") {
@@ -93,7 +92,7 @@ function FormularioReporteConsultorias({ idMentor }) {
           className="form-control"
           name="fechaInicio"
           id="fechaInicio"
-          max={getCurrentDate()}
+          //max={getCurrentDate()}
           value={datos.fechaInicio != null ? datos.fechaInicio : ""}
           onChange={(e) => onHandleChange(e)}
         />
@@ -114,7 +113,7 @@ function FormularioReporteConsultorias({ idMentor }) {
           className="form-control inputDiag"
           name="fechaFin"
           id="fechaFin"
-          max={getCurrentDate()}
+          // max={getCurrentDate()}
           value={datos.fechaFin != null ? datos.fechaFin : ""}
           onChange={(e) => onHandleChange(e)}
         />

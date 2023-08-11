@@ -55,8 +55,14 @@ function Consultorias({ idEmprendedor }) {
               consultoriaData.fechaConsultoria,
               "YYYY-MM-DD hh:mm:ss"
             ).format(SINAPSIS_APP_FORMATO_FECHA),
-            "Hora Inicio Programada": consultoriaData.horaInicioConsultoria,
-            "Hora Finalización Programada": consultoriaData.horaFinConsultoria,
+            "Hora Inicio Programada": moment(
+              consultoriaData.horaInicioConsultoria,
+              "hh:mm"
+            ).format("LT"),
+            "Hora Finalización Programada": moment(
+              consultoriaData.horaFinConsultoria,
+              "hh:mm"
+            ).format("LT"),
             Emprendedor:
               consultoriaData.nombreEmprendedor +
               " " +

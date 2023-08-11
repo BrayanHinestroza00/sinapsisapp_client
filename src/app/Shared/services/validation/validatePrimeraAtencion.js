@@ -7,6 +7,7 @@ import {
   T_SINAPSIS_TIPOS_CONTACTO_EXTERNO,
 } from "../../utils/constants";
 import {
+  REGEX_PATTERN_CARACTERES,
   REGEX_PATTERN_CORREO_ELECTRONICO,
   REGEX_PATTERN_NUMERO_TELEFONO,
   REGEX_PATTERN_SOLO_NUMEROS,
@@ -54,64 +55,73 @@ export const validacionesPrimeraAtencionUsuario = (datos, error) => {
   }
   if (!direccion) {
     errors.direccion = "Campo Obligatorio";
+  } else {
+    if (direccion.length > 20) {
+      errors.direccion = "Máximo 20 caracteres";
+    }
   }
   if (!vinculoConU) {
     errors.vinculoConU = "Campo Obligatorio";
   } else {
-    switch (vinculoConU) {
-      case T_SINAPSIS_TIPOS_CONTACTO_ESTUDIANTE:
-        const { codigoEstudiantil, tipoEstudiante, programaAcademico } = datos;
-        if (!codigoEstudiantil) {
-          errors.codigoEstudiantil = "Campo Obligatorio";
+    if (vinculoConU == T_SINAPSIS_TIPOS_CONTACTO_ESTUDIANTE) {
+      const { codigoEstudiantil, tipoEstudiante, programaAcademico } = datos;
+      if (!codigoEstudiantil) {
+        errors.codigoEstudiantil = "Campo Obligatorio";
+      } else {
+        if (codigoEstudiantil.length != 7) {
+          errors.codigoEstudiantil =
+            "El codigo estudiantil debe ser de 7 dígitos";
         }
-        if (!tipoEstudiante) {
-          errors.tipoEstudiante = "Campo Obligatorio";
-        } else {
-          const { modTrabajoGrado } = datos;
-          if (
-            tipoEstudiante === T_SINAPSIS_NIVEL_ACADEMICO_PREGRADO &&
-            modTrabajoGrado == null
-          ) {
-            errors.modTrabajoGrado = "Campo Obligatorio";
-          }
+      }
+      if (!tipoEstudiante) {
+        errors.tipoEstudiante = "Campo Obligatorio";
+      } else {
+        const { modTrabajoGrado } = datos;
+        if (
+          tipoEstudiante === T_SINAPSIS_NIVEL_ACADEMICO_PREGRADO &&
+          modTrabajoGrado == null
+        ) {
+          errors.modTrabajoGrado = "Campo Obligatorio";
         }
-        if (programaAcademico == null) {
-          errors.programaAcademico = "Campo Obligatorio";
-        } else {
-          const { cualOtroProgramaAcademico } = datos;
-          if (
-            programaAcademico == T_SINAPSIS_PROGRAMAS_OTRO &&
-            cualOtroProgramaAcademico == null
-          ) {
+      }
+      if (programaAcademico == null) {
+        errors.programaAcademico = "Campo Obligatorio";
+      } else {
+        const { cualOtroProgramaAcademico } = datos;
+        if (programaAcademico == T_SINAPSIS_PROGRAMAS_OTRO) {
+          if (cualOtroProgramaAcademico == null) {
             errors.cualOtroProgramaAcademico = "Campo Obligatorio";
+          } else {
+            if (cualOtroProgramaAcademico.length > 20) {
+              errors.cualOtroProgramaAcademico = "Máximo 20 caracteres";
+            }
           }
         }
-        break;
-
-      case T_SINAPSIS_TIPOS_CONTACTO_EGRESADO:
-        const { profesionEgresado, tipoEstudianteEgresado } = datos;
-        if (!profesionEgresado) {
-          errors.profesionEgresado = "Campo Obligatorio";
+      }
+    } else if (vinculoConU == T_SINAPSIS_TIPOS_CONTACTO_EGRESADO) {
+      const { profesionEgresado, tipoEstudianteEgresado } = datos;
+      if (!profesionEgresado) {
+        errors.profesionEgresado = "Campo Obligatorio";
+      }
+      if (!tipoEstudianteEgresado) {
+        errors.tipoEstudianteEgresado = "Campo Obligatorio";
+      }
+    } else if (vinculoConU == T_SINAPSIS_TIPOS_CONTACTO_COLABORADOR) {
+      const { cargoColaborador, dependenciaColaborador } = datos;
+      if (!cargoColaborador) {
+        errors.cargoColaborador = "Campo Obligatorio";
+      } else {
+        if (cargoColaborador.length > 100) {
+          errors.cargoColaborador = "Máximo 100 caracteres";
         }
-        if (!tipoEstudianteEgresado) {
-          errors.tipoEstudianteEgresado = "Campo Obligatorio";
+      }
+      if (!dependenciaColaborador) {
+        errors.dependenciaColaborador = "Campo Obligatorio";
+      } else {
+        if (dependenciaColaborador.length > 100) {
+          errors.dependenciaColaborador = "Máximo 100 caracteres";
         }
-        break;
-
-      case T_SINAPSIS_TIPOS_CONTACTO_COLABORADOR:
-        const { cargoColaborador, dependenciaColaborador } = datos;
-        if (!cargoColaborador) {
-          errors.cargoColaborador = "Campo Obligatorio";
-        }
-        if (!dependenciaColaborador) {
-          errors.dependenciaColaborador = "Campo Obligatorio";
-        }
-        break;
-      case T_SINAPSIS_TIPOS_CONTACTO_EXTERNO:
-        break;
-
-      default:
-        break;
+      }
     }
   }
 
@@ -130,22 +140,71 @@ export const validacionesPrimeraAtencionEmprendimiento = (datos, error) => {
     necesidadesIdentificadas,
     descripcionClientes,
     estaConstituida,
+    materiasPrimas,
+    enfoqueSocial,
+    sectorEmprendimiento,
+    sitioWeb,
   } = datos;
 
   if (!nombreEmprendimiento) {
     errors.nombreEmprendimiento = "Campo Obligatorio";
+  } else {
+    if (nombreEmprendimiento.length > 100) {
+      errors.nombreEmprendimiento = "Solo se permiten 100 caracteres";
+    } else {
+      const RegExp = REGEX_PATTERN_CARACTERES;
+      if (!RegExp.test(nombreEmprendimiento)) {
+        errors.nombreEmprendimiento = "Solo se permiten letras.";
+      }
+    }
   }
 
   if (!descripcionProducto) {
     errors.descripcionProducto = "Campo Obligatorio";
+  } else {
+    if (descripcionProducto.length > 1000) {
+      errors.descripcionProducto = "Solo se permiten 1000 caracteres";
+    }
   }
 
   if (!necesidadesIdentificadas) {
     errors.necesidadesIdentificadas = "Campo Obligatorio";
+  } else {
+    if (necesidadesIdentificadas.length > 500) {
+      errors.necesidadesIdentificadas = "Solo se permiten 500 caracteres";
+    }
   }
 
   if (!descripcionClientes) {
     errors.descripcionClientes = "Campo Obligatorio";
+  } else {
+    if (descripcionClientes.length > 100) {
+      errors.descripcionClientes = "Solo se permiten 100 caracteres";
+    }
+  }
+
+  if (materiasPrimas) {
+    if (materiasPrimas.length > 500) {
+      errors.materiasPrimas = "Solo se permiten 500 caracteres";
+    }
+  }
+
+  if (enfoqueSocial) {
+    if (enfoqueSocial.length > 100) {
+      errors.enfoqueSocial = "Solo se permiten 100 caracteres";
+    }
+  }
+
+  if (sectorEmprendimiento) {
+    if (sectorEmprendimiento.length > 100) {
+      errors.sectorEmprendimiento = "Solo se permiten 100 caracteres";
+    }
+  }
+
+  if (sitioWeb) {
+    if (sitioWeb.length > 500) {
+      errors.sitioWeb = "Solo se permiten 500 caracteres";
+    }
   }
 
   if (!estaConstituida) {
@@ -165,14 +224,26 @@ export const validacionesPrimeraAtencionEmprendimiento = (datos, error) => {
 
       if (!nitEmpresa) {
         errors.nitEmpresa = "Campo Obligatorio";
+      } else {
+        if (nitEmpresa.length > 50) {
+          errors.nitEmpresa = "Solo se permiten 50 caracteres";
+        }
       }
 
       if (!nombreEmpresa) {
         errors.nombreEmpresa = "Campo Obligatorio";
+      } else {
+        if (nombreEmpresa.length > 100) {
+          errors.nombreEmpresa = "Solo se permiten 100 caracteres";
+        }
       }
 
       if (!razonSocialEmpresa) {
         errors.razonSocialEmpresa = "Campo Obligatorio";
+      } else {
+        if (razonSocialEmpresa.length > 100) {
+          errors.razonSocialEmpresa = "Solo se permiten 100 caracteres";
+        }
       }
     }
   }
@@ -188,6 +259,9 @@ export const validacionesPrimeraAtencionPA = (datos) => {
   const errors = {};
   const {
     nombreProducto,
+    promedioVentas,
+    evidenciaProducto,
+    obtencionMateriasPrimas,
     equipoTrabajo,
     dedicacion,
     horasSemanales,
@@ -197,6 +271,31 @@ export const validacionesPrimeraAtencionPA = (datos) => {
 
   if (!nombreProducto) {
     errors.nombreProducto = "Campo Obligatorio";
+  } else {
+    if (nombreProducto.length > 100) {
+      errors.nombreProducto = "Solo se permiten 100 caracteres";
+    }
+  }
+
+  if (promedioVentas) {
+    const RegExp = REGEX_PATTERN_SOLO_NUMEROS;
+    if (!RegExp.test(promedioVentas)) {
+      errors.promedioVentas = "Solo se permiten números";
+    } else if (promedioVentas.length > 20) {
+      errors.promedioVentas = "Máximo 20 dígitos";
+    }
+  }
+
+  if (evidenciaProducto) {
+    if (evidenciaProducto.length > 1000) {
+      errors.evidenciaProducto = "Solo se permiten 1000 caracteres";
+    }
+  }
+
+  if (obtencionMateriasPrimas) {
+    if (obtencionMateriasPrimas.length > 500) {
+      errors.obtencionMateriasPrimas = "Solo se permiten 500 caracteres";
+    }
   }
 
   if (!equipoTrabajo) {
@@ -207,12 +306,20 @@ export const validacionesPrimeraAtencionPA = (datos) => {
 
       if (!cualEquipoTrabajo) {
         errors.cualEquipoTrabajo = "Campo Obligatorio";
+      } else {
+        if (cualEquipoTrabajo.length > 200) {
+          errors.cualEquipoTrabajo = "Solo se permiten 200 caracteres";
+        }
       }
     }
   }
 
   if (!dedicacion) {
     errors.dedicacion = "Campo Obligatorio";
+  } else {
+    if (dedicacion.length > 100) {
+      errors.dedicacion = "Solo se permiten 100 caracteres";
+    }
   }
 
   if (!horasSemanales) {
@@ -221,11 +328,19 @@ export const validacionesPrimeraAtencionPA = (datos) => {
     const RegExp = REGEX_PATTERN_SOLO_NUMEROS;
     if (!RegExp.test(horasSemanales)) {
       errors.horasSemanales = "Solo se permiten números";
+    } else {
+      if (horasSemanales > 168 || horasSemanales < 0) {
+        errors.horasSemanales = "Solo se permite un número entre 0 y 168";
+      }
     }
   }
 
   if (!motivacion) {
     errors.motivacion = "Campo Obligatorio";
+  } else {
+    if (motivacion.length > 500) {
+      errors.motivacion = "Solo se permiten 500 caracteres";
+    }
   }
 
   if (!descubrioSinapsis || descubrioSinapsis.length == 0) {
@@ -239,6 +354,11 @@ export const validacionesPrimeraAtencionPA = (datos) => {
 
         if (!cualOtroDescubrioSinapsis) {
           errors.cualOtroDescubrioSinapsis = "Campo Obligatorio";
+        } else {
+          if (cualOtroDescubrioSinapsis.length > 100) {
+            errors.cualOtroDescubrioSinapsis =
+              "Solo se permiten 100 caracteres";
+          }
         }
         break;
       }
@@ -253,7 +373,7 @@ export const validacionesDiagnostico = (datos, error) => {
   const { fileDiagnostico } = datos;
 
   if (error.fileDiagnostico) {
-    errors.fileAnuncio = error.fileDiagnostico;
+    errors.fileDiagnostico = error.fileDiagnostico;
   } else if (!fileDiagnostico) {
     errors.fileDiagnostico = "Campo Obligatorio";
   }

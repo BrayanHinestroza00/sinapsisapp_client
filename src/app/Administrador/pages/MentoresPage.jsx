@@ -160,6 +160,7 @@ function MentoresPage() {
                   id="numeroDocumento"
                   value={datosFiltro.numeroDocumento || ""}
                   onChange={(e) => onHandleChange(e)}
+                  autoComplete="off"
                 />
                 {error.numeroDocumento && (
                   <small className="form-text font-weight-bold text-danger">
@@ -180,6 +181,7 @@ function MentoresPage() {
                   id="nombreMentor"
                   value={datosFiltro.nombreMentor || ""}
                   onChange={(e) => onHandleChange(e)}
+                  autoComplete="off"
                 />
                 {error.nombreMentor && (
                   <small className="form-text font-weight-bold text-danger">

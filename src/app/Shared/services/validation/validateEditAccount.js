@@ -11,7 +11,7 @@ export const validarActualizacionContrasena = (datos) => {
     const RegExp = REGEX_PATTERN_PASSWORD;
     if (!RegExp.test(oldPassword)) {
       errors.oldPassword =
-        "La contraseña debe tener entre 4 y 12 caracteres y al menos un dígito.";
+        "La contraseña debe tener entre 8 y 15 caracteres, un símbolo, una mayúscula y al menos un dígito.";
     }
   }
 
@@ -22,7 +22,7 @@ export const validarActualizacionContrasena = (datos) => {
     const RegExp = REGEX_PATTERN_PASSWORD;
     if (!RegExp.test(newPassword)) {
       errors.newPassword =
-        "La contraseña debe tener entre 4 y 12 caracteres y al menos un dígito.";
+        "La contraseña debe tener entre 8 y 15 caracteres, un símbolo, una mayúscula y al menos un dígito.";
     }
   }
 
@@ -33,7 +33,7 @@ export const validarActualizacionContrasena = (datos) => {
     const RegExp = REGEX_PATTERN_PASSWORD;
     if (!RegExp.test(newPasswordConfirm)) {
       errors.newPasswordConfirm =
-        "La contraseña debe tener entre 4 y 12 caracteres y al menos un dígito.";
+        "La contraseña debe tener entre 8 y 15 caracteres, un símbolo, una mayúscula y al menos un dígito.";
     }
   }
 

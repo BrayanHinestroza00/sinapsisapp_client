@@ -101,8 +101,6 @@ function Emprendimiento({ idEmprendimiento }) {
     );
   }
 
-  console.log("first", { datos, preloadData });
-
   return (
     <Card>
       <Subtitulo>

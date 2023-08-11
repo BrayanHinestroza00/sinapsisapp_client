@@ -1,14 +1,27 @@
-import { REGEX_PATTERN_SOLO_LETRAS } from "../../utils/regexPatterns";
+import {
+  REGEX_PATTERN_CARACTERES,
+  REGEX_PATTERN_SOLO_LETRAS,
+} from "../../utils/regexPatterns";
 
 export const validarCreacionTarea = (datos, error) => {
   const errors = {};
   const { fileTarea, descripcionTarea, fechaEntrega, nombreTarea } = datos;
   if (!nombreTarea) {
     errors.nombreTarea = "Campo Obligatorio";
+  } else {
+    if (nombreTarea.length > 30) {
+      errors.nombreTarea = "Solo se permiten 30 caracteres";
+    }
   }
+
   if (!descripcionTarea) {
     errors.descripcionTarea = "Campo Obligatorio";
+  } else {
+    if (descripcionTarea.length > 500) {
+      errors.descripcionTarea = "Solo se permiten 500 caracteres";
+    }
   }
+
   if (!fechaEntrega) {
     errors.fechaEntrega = "Campo Obligatorio";
   } else {
@@ -35,9 +48,13 @@ export const validarEntregaTarea = (datos, error) => {
   const { files, comentarioEmprendedor } = datos;
 
   if (comentarioEmprendedor) {
-    const RegExp = REGEX_PATTERN_SOLO_LETRAS;
+    const RegExp = REGEX_PATTERN_CARACTERES;
     if (!RegExp.test(comentarioEmprendedor)) {
       errors.comentarioEmprendedor = "Solo se permiten letras";
+    } else {
+      if (comentarioEmprendedor.length > 500) {
+        errors.comentarioEmprendedor = "Solo se permiten 500 caracteres";
+      }
     }
   }
 
@@ -60,6 +77,10 @@ export const validarCalificacionTarea = (datos) => {
     const RegExp = REGEX_PATTERN_SOLO_LETRAS;
     if (!RegExp.test(comentariosEntrega)) {
       errors.comentariosEntrega = "Solo se permiten letras";
+    } else {
+      if (comentariosEntrega.length > 500) {
+        errors.comentariosEntrega = "Solo se permiten 500 caracteres";
+      }
     }
   }
 

@@ -28,6 +28,7 @@ function Tareas({ idProyectoEmprendimiento, idUsuario, tipoUsuario }) {
   const [loadingComponent, setLoadingComponent] = useState(true);
   const [pendientes, setPendientes] = useState([]);
   const [entregadas, setEntregadas] = useState([]);
+  const [pendientesCalificar, setPendientesCalificar] = useState([]);
   const [showPendientes, setShowPendientes] = useState({ show: false });
   const [showEntregadas, setShowEntregadas] = useState({ show: false });
   const [showCrearTarea, setShowCrearTarea] = useState(false);
@@ -77,22 +78,39 @@ function Tareas({ idProyectoEmprendimiento, idUsuario, tipoUsuario }) {
 
   useEffect(() => {
     if (pendientesData || entregadasData) {
+      let newPendientesCalificar = [];
       let newEntregadas = [];
       let newPendientes = [];
 
       if (entregadasData && entregadasData.length > 0) {
-        newEntregadas = entregadasData.map((entregadaData, index) => {
-          return {
-            n: index + 1,
-            título: entregadaData.titulo,
-            "Fecha Límite": moment(
-              entregadaData.fechaLimiteEntrega,
-              "YYYY-MM-DD hh:mm:ss"
-            ).format(SINAPSIS_APP_FORMATO_FECHA_HORA),
-            "Creado Por":
-              entregadaData.nombresCrea + " " + entregadaData.apellidosCrea,
-            "Correo Contacto": entregadaData.correoInstitucionalCrea,
-          };
+        let index = 0;
+        entregadasData.forEach((entregadaData) => {
+          if (entregadaData.idUsuarioCrea != idUsuario) {
+            newEntregadas.push({
+              n: index + 1,
+              título: entregadaData.titulo,
+              "Fecha Límite": moment(
+                entregadaData.fechaLimiteEntrega,
+                "YYYY-MM-DD hh:mm:ss"
+              ).format(SINAPSIS_APP_FORMATO_FECHA_HORA),
+              "Creado Por":
+                entregadaData.nombresCrea + " " + entregadaData.apellidosCrea,
+              "Correo Contacto": entregadaData.correoInstitucionalCrea,
+            });
+          } else {
+            newPendientesCalificar.push({
+              n: index + 1,
+              título: entregadaData.titulo,
+              "Fecha Límite": moment(
+                entregadaData.fechaLimiteEntrega,
+                "YYYY-MM-DD hh:mm:ss"
+              ).format(SINAPSIS_APP_FORMATO_FECHA_HORA),
+              "Creado Por":
+                entregadaData.nombresCrea + " " + entregadaData.apellidosCrea,
+              "Correo Contacto": entregadaData.correoInstitucionalCrea,
+            });
+          }
+          index++;
         });
       }
 
@@ -112,17 +130,26 @@ function Tareas({ idProyectoEmprendimiento, idUsuario, tipoUsuario }) {
         });
       }
 
+      setPendientesCalificar(newPendientesCalificar);
       setEntregadas(newEntregadas);
       setPendientes(newPendientes);
     }
   }, [pendientesData, entregadasData]);
 
-  const onClicDetalleTarea = (tarea) => {
-    setShowPendientes({
-      show: true,
-      data: pendientesData[tarea.n - 1],
-      tipo: "PENDIENTES",
-    });
+  const onClicDetalleTarea = (tarea, tipo = "PENDIENTES") => {
+    if (tipo == "PENDIENTES") {
+      setShowPendientes({
+        show: true,
+        data: pendientesData[tarea.n - 1],
+        tipo: "PENDIENTES",
+      });
+    } else {
+      setShowPendientes({
+        show: true,
+        data: entregadasData[tarea.n - 1],
+        tipo: "ENTREGADAS",
+      });
+    }
   };
 
   const onClicRevisarTarea = (tarea) => {
@@ -181,23 +208,37 @@ function Tareas({ idProyectoEmprendimiento, idUsuario, tipoUsuario }) {
         Crear tarea
       </Button>
 
-      <CardRuta style={{ marginTop: "1rem", marginBottom: "1rem" }}>
-        <Ruta>
-          {entregadas.length > 0 ? (
+      {pendientesCalificar.length > 0 && (
+        <CardRuta style={{ marginTop: "1rem", marginBottom: "1rem" }}>
+          <Ruta>
             <FlexyTable
-              datos={entregadas}
-              titulo={"Tareas Entregadas"}
-              btn1={"Revisar Entrega"}
+              datos={pendientesCalificar}
+              titulo={"Tareas Pendientes Calificar"}
+              btn1={"Calificar Entrega"}
               fun1={(tareaData) => {
                 onClicRevisarTarea(tareaData);
               }}
               adicional={true}
             />
-          ) : (
-            <h6>No hay tareas Entregadas por el Emprendedor</h6>
-          )}
-        </Ruta>
-      </CardRuta>
+          </Ruta>
+        </CardRuta>
+      )}
+
+      {entregadas.length > 0 && (
+        <CardRuta style={{ marginTop: "1rem", marginBottom: "1rem" }}>
+          <Ruta>
+            <FlexyTable
+              datos={entregadas}
+              titulo={"Tareas Entregadas"}
+              btn1={"Detalle Entrega"}
+              fun1={(tareaData) => {
+                onClicDetalleTarea(tareaData, "ENTREGADAS");
+              }}
+              adicional={true}
+            />
+          </Ruta>
+        </CardRuta>
+      )}
 
       <CardRuta>
         <Ruta>

@@ -5,7 +5,7 @@ import FlexyTable from "src/app/Shared/components/FlexyTable";
 import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 import RevisarConsultoria from "src/app/Shared/components/DetalleProyectoEmprendimiento/consultorias/RevisarConsultoria.js";
 
-import { Card, Ruta, Subtitulo } from "src/app/Shared/assets/styles/Common";
+import { Card, Subtitulo } from "src/app/Shared/assets/styles/Common";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import {
   HTTP_METHOD_GET,
@@ -55,8 +55,14 @@ function Consultorias({ idMentor }) {
               consultoriaData.fechaConsultoria,
               "YYYY-MM-DD hh:mm:ss"
             ).format(SINAPSIS_APP_FORMATO_FECHA),
-            "Hora Inicio Programada": consultoriaData.horaInicioConsultoria,
-            "Hora Finalización Programada": consultoriaData.horaFinConsultoria,
+            "Hora Inicio Programada": moment(
+              consultoriaData.horaInicioConsultoria,
+              "hh:mm"
+            ).format("LT"),
+            "Hora Finalización Programada": moment(
+              consultoriaData.horaFinConsultoria,
+              "hh:mm"
+            ).format("LT"),
             Emprendedor:
               consultoriaData.nombreEmprendedor +
               " " +

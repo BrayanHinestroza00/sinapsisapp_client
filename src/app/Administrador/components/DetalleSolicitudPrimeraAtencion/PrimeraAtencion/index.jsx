@@ -1,3 +1,4 @@
+import moment from "moment";
 import { useEffect, useState } from "react";
 
 import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
@@ -14,11 +15,15 @@ import {
   URL_OBTENER_PRIMERA_ATENCION_EMP,
 } from "src/app/Shared/utils/apiConstants";
 import { SINAPSIS_APP_FORMATO_FECHA_INPUT } from "src/app/Shared/utils/constants";
-import moment from "moment";
+import { getArchivo } from "src/app/Shared/utils/utilityFunctions";
+
+import downloadIcon from "src/app/Shared/assets/images/icons/download_icon.png";
 
 function PrimeraAtencion({ idProyectoEmprendimiento }) {
   const { data: preloadData, error, loading, fetchAPI } = useFetch();
+
   const [data, setData] = useState(null);
+  const [datosImagen, setDatosImagen] = useState({});
 
   useEffect(() => {
     fetchAPI({
@@ -45,6 +50,20 @@ function PrimeraAtencion({ idProyectoEmprendimiento }) {
     }
   }, [preloadData]);
 
+  useEffect(() => {
+    obtenerImagen();
+  }, [preloadData]);
+
+  const obtenerImagen = async () => {
+    if (preloadData && preloadData.fileAutodiagnosticoURL) {
+      const imagen = await getArchivo(preloadData.fileAutodiagnosticoURL);
+      setDatosImagen({
+        url: `data:${imagen.contentType};base64,${imagen.file}`,
+        filename: imagen.filename,
+      });
+    }
+  };
+
   if (loading || !data) {
     return <LoadingSpinner width="10rem" height="10rem" />;
   }
@@ -57,8 +76,6 @@ function PrimeraAtencion({ idProyectoEmprendimiento }) {
       </>
     );
   }
-
-  console.log("data", data);
 
   return (
     // <Card>
@@ -242,6 +259,25 @@ function PrimeraAtencion({ idProyectoEmprendimiento }) {
               </ul>
             )}
           </div>
+
+          {data.fileAutodiagnosticoURL != null && (
+            <div className="col-md-12 mb-3">
+              <Label htmlFor="fileAuto" className="form-label">
+                Descarga Autodiagnóstico
+              </Label>
+              <div className="text-center">
+                <a
+                  className="text-center"
+                  href={datosImagen.url}
+                  download={datosImagen.filename}
+                  target="_blank"
+                >
+                  <img src={downloadIcon} width="25%" alt="downloadIcon" />
+                </a>
+                <br />
+              </div>
+            </div>
+          )}
         </form>
       </div>
     </CardRuta>

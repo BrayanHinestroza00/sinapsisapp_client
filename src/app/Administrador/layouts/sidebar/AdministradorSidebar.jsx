@@ -165,7 +165,7 @@ function AdministradorSidebar() {
                     marginRight: "1rem",
                   }}
                 />
-                Usuarios
+                Usuarios En Ruta de I&E
               </AccordionItemSidebar>
             </h2>
             <div

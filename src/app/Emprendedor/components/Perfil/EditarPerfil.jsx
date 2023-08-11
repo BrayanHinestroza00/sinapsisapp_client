@@ -578,7 +578,9 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
               id="programaAcademico"
               className="form-select"
               name="programaAcademico"
-              value={datos.programaAcademico}
+              value={
+                datos.programaAcademico != null ? datos.programaAcademico : "-1"
+              }
               onChange={(e) => onHandleChange(e)}
             >
               <option value={"-1"} disabled>

@@ -117,13 +117,15 @@ function CrearConsultoria({
     const tipoConsultoria =
       tipoUsuario == "ADMINISTRADOR" ? datos.tipoConsultoria : "N";
 
+    const mentor = tipoUsuario == "ADMINISTRADOR" ? datos.mentor : idUsuario;
+
     fetchAPI({
       URL: URL_PROGRAMAR_CONSULTORIA_EMPRENDEDOR,
       requestOptions: {
         method: HTTP_METHOD_POST,
         data: {
           ...datos,
-          mentor: datos.mentor,
+          mentor: mentor,
           titulo: datos.tituloConsultoria,
           tipoConsultoria: tipoConsultoria,
           fechaConsultoria: moment(

@@ -77,8 +77,6 @@ function RutaMentor({ idProyectoEmprendimiento, userData }) {
     );
   }
 
-  console.log("mentor", preloadData);
-
   return (
     <Card>
       <Subtitulo>Estado de la ruta de I&E de SINAPSIS UAO</Subtitulo>

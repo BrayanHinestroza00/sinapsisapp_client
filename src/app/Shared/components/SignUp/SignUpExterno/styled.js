@@ -91,6 +91,12 @@ export const SignUpExternoFormContainer = styled.div`
   justify-content: space-between;
 `;
 
+export const SignUpExternoFormButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 export const SignUpExternoFormButton = styled.button`
   flex-direction: column;
   align-items: center;

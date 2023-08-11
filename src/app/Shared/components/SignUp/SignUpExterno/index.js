@@ -23,6 +23,7 @@ import {
   SignUpExternoErrorAPI,
   SignUpExternoForm,
   SignUpExternoFormButton,
+  SignUpExternoFormButtonContainer,
   SignUpExternoFormContainer,
   SignUpExternoFormContainers,
   SignUpExternoFormDescription,
@@ -350,7 +351,7 @@ function SignUpExterno() {
                   </Form.Group>
 
                   <Form.Group>
-                    <SignUpExternoFormContainer>
+                    <SignUpExternoFormButtonContainer>
                       <SignUpExternoFormButton
                         className="btn btn-primary mb-2"
                         type="submit"
@@ -369,7 +370,7 @@ function SignUpExterno() {
                           Iniciar sesión
                         </Link>
                       </p>
-                    </SignUpExternoFormContainer>
+                    </SignUpExternoFormButtonContainer>
                   </Form.Group>
                 </SignUpExternoFormContainers>
               </Form>

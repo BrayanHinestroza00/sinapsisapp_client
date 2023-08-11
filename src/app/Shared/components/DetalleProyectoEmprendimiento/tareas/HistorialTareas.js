@@ -120,7 +120,7 @@ function HistorialTareas({ idProyectoEmprendimiento }) {
               adicional={true}
             />
           ) : (
-            <h6>El emprendedor no cuenta con tareas registradas</h6>
+            <h6>El emprendedor no cuenta con tareas calificadas</h6>
           )}
         </Ruta>
       </CardRuta>

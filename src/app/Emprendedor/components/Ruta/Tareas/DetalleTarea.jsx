@@ -1,16 +1,9 @@
 import moment from "moment";
-import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import { Form, Modal } from "react-bootstrap";
 
 import DropZoneComponent from "src/app/Shared/components/DropZone/DropZoneComponent";
 
-import {
-  img,
-  thumb,
-  thumbInner,
-  thumbsContainer,
-} from "src/app/Shared/components/DropZone/styled";
 import { Label, Table } from "./styled";
 import {
   HOST,
@@ -29,7 +22,6 @@ import { getArchivo } from "src/app/Shared/utils/utilityFunctions";
 import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 import downloadIcon from "src/app/Shared/assets/images/icons/download_icon.png";
-import default_image from "src/app/Shared/assets/images/default_profile_picture.png";
 
 function DetalleTarea(props) {
   const [datosImagen, setDatosImagen] = useState({});
@@ -350,6 +342,11 @@ function DetalleTarea(props) {
                     className="form-control"
                     onChange={(e) => onHandleChange(e)}
                   />
+                  {error.comentarioEmprendedor && (
+                    <small className="form-text font-weight-bold text-danger">
+                      {error.comentarioEmprendedor}
+                    </small>
+                  )}
                 </Form.Group>
               </div>
             </>

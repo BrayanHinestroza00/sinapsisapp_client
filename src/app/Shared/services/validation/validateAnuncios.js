@@ -1,4 +1,4 @@
-import { REGEX_PATTERN_CARATERETES } from "../../utils/regexPatterns";
+import { REGEX_PATTERN_CARACTERES } from "../../utils/regexPatterns";
 
 export const validarCrearAnuncio = (datos, error) => {
   const errors = {};
@@ -8,9 +8,8 @@ export const validarCrearAnuncio = (datos, error) => {
   if (!tituloAnuncio) {
     errors.tituloAnuncio = "Campo Obligatorio";
   } else {
-    const RegExp = REGEX_PATTERN_CARATERETES;
-    if (!RegExp.test(tituloAnuncio)) {
-      errors.tituloAnuncio = "Maximo 200 caracteres";
+    if (tituloAnuncio.length > 30) {
+      errors.tituloAnuncio = "Máximo 30 caracteres";
     }
   }
 
@@ -18,9 +17,8 @@ export const validarCrearAnuncio = (datos, error) => {
   if (!descripcionAnuncio) {
     errors.descripcionAnuncio = "Campo Obligatorio";
   } else {
-    const RegExp = REGEX_PATTERN_CARATERETES;
-    if (!RegExp.test(descripcionAnuncio)) {
-      errors.descripcionAnuncio = "Maximo 200 caracteres";
+    if (descripcionAnuncio.length > 500) {
+      errors.descripcionAnuncio = "Máximo 500 caracteres";
     }
   }
 

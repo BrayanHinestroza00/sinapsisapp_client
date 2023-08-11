@@ -159,6 +159,7 @@ function EmprendedoresPage() {
                   id="numeroDocumento"
                   value={datosFiltro.numeroDocumento || ""}
                   onChange={(e) => onHandleChange(e)}
+                  autoComplete="off"
                 />
                 {error.numeroDocumento && (
                   <small className="form-text font-weight-bold text-danger">
@@ -179,6 +180,7 @@ function EmprendedoresPage() {
                   id="nombreEmprendedor"
                   value={datosFiltro.nombreEmprendedor || ""}
                   onChange={(e) => onHandleChange(e)}
+                  autoComplete="off"
                 />
                 {error.nombreEmprendedor && (
                   <small className="form-text font-weight-bold text-danger">

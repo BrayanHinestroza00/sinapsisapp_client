@@ -21,7 +21,7 @@ import {
   messageAlertWithoutText,
 } from "src/app/Shared/utils/messageAlerts";
 
-function RevisarConsultoria({ data, show, onHide }) {
+function RevisarConsultoria({ data, idUsuario, show, onHide }) {
   const [datos, setDatos] = useState({});
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
@@ -151,6 +151,29 @@ function RevisarConsultoria({ data, show, onHide }) {
     setLoading(false);
   }
 
+  console.log("first", {
+    r1: data.idMentor != idUsuario,
+    r2:
+      (data.estadoConsultoria == "EN CURSO" ||
+        data.estadoConsultoria === "PROGRAMADA") &&
+      compareWithCurrentDate(
+        moment(data.fechaConsultoria, "YYYY-MM-DD hh:mm:ss").format(
+          SINAPSIS_APP_FORMATO_FECHA
+        )
+      ),
+    r3:
+      !(
+        data.estadoConsultoria == "EN CURSO" ||
+        data.estadoConsultoria === "PROGRAMADA"
+      ) &&
+      compareWithCurrentDate(
+        moment(data.fechaConsultoria, "YYYY-MM-DD hh:mm:ss").format(
+          SINAPSIS_APP_FORMATO_FECHA
+        )
+      ),
+    data,
+  });
+
   return (
     <Modal
       size="lg"
@@ -207,12 +230,18 @@ function RevisarConsultoria({ data, show, onHide }) {
 
           <Form.Group className="col-md-6 mb-3">
             <Form.Label>Hora Inicio Programada</Form.Label>
-            <Form.Control value={data.horaInicioConsultoria} disabled />
+            <Form.Control
+              value={moment(data.horaInicioConsultoria, "hh:mm").format("LT")}
+              disabled
+            />
           </Form.Group>
 
           <Form.Group className="col-md-6 mb-3">
             <Form.Label>Hora Finalización Programada</Form.Label>
-            <Form.Control value={data.horaFinConsultoria} disabled />
+            <Form.Control
+              value={moment(data.horaFinConsultoria, "hh:mm").format("LT")}
+              disabled
+            />
           </Form.Group>
 
           <Form.Group className="col-md-6 mb-3">
@@ -270,8 +299,7 @@ function RevisarConsultoria({ data, show, onHide }) {
             />
           </Form.Group>
 
-          {(data.estadoConsultoria == "EN CURSO" ||
-            data.estadoConsultoria == "PROGRAMADA") && (
+          {data.estadoConsultoria == "EN CURSO" && (
             <Form.Group className="col-md-12 mb-3">
               <Form.Label>Comentarios Consultoría</Form.Label>
               <Form.Control
@@ -283,6 +311,36 @@ function RevisarConsultoria({ data, show, onHide }) {
                   datos.comentariosConsultoria ||
                   data.comentariosConsultoria ||
                   ""
+                }
+                disabled={data.idMentor != idUsuario}
+              />
+              {error.comentariosConsultoria && (
+                <small className="form-text font-weight-bold text-danger">
+                  {error.comentariosConsultoria}
+                </small>
+              )}
+            </Form.Group>
+          )}
+
+          {data.estadoConsultoria == "PROGRAMADA" && (
+            <Form.Group className="col-md-12 mb-3">
+              <Form.Label>Comentarios Consultoría</Form.Label>
+              <Form.Control
+                as="textarea"
+                cols={3}
+                name="comentariosConsultoria"
+                onChange={(e) => onHandleChange(e)}
+                value={
+                  datos.comentariosConsultoria ||
+                  data.comentariosConsultoria ||
+                  ""
+                }
+                disabled={
+                  !compareWithCurrentDate(
+                    moment(data.fechaConsultoria, "YYYY-MM-DD hh:mm:ss").format(
+                      SINAPSIS_APP_FORMATO_FECHA
+                    )
+                  )
                 }
               />
               {error.comentariosConsultoria && (

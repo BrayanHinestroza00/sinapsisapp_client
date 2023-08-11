@@ -1,4 +1,5 @@
 import {
+  REGEX_PATTERN_CARACTERES,
   REGEX_PATTERN_CORREO_ELECTRONICO,
   REGEX_PATTERN_NUMERO_DOCUMENTO,
   REGEX_PATTERN_PASSWORD,
@@ -33,7 +34,7 @@ export const validacionesSignUp = (datos) => {
   } else {
     const RegExp = REGEX_PATTERN_NUMERO_DOCUMENTO;
     if (!RegExp.test(numeroDocumento)) {
-      errors.numeroDocumento = "Solo se permiten números entre 5 a 11 dígitos";
+      errors.numeroDocumento = "Solo se permiten números entre 8 a 12 dígitos";
     }
   }
 
@@ -41,27 +42,26 @@ export const validacionesSignUp = (datos) => {
   if (!nombres) {
     errors.nombres = "Campo obligatorio";
   } else {
-    const RegExp = /^[A-Za-z ]{1,255}$/;
-    if (!RegExp.test(nombres)) {
-      errors.nombres = "Solo se permiten letras";
+    if (nombres.length > 100) {
+      errors.nombres = "Solo se permiten 100 caracteres";
     } else {
-      const RegExp = /^[A-Za-z ]{1,50}$/;
+      const RegExp = REGEX_PATTERN_CARACTERES;
       if (!RegExp.test(nombres)) {
-        errors.nombres = "Mínimo 1 y máximo 50 caracteres.";
+        errors.nombres = "Solo se permiten letras";
       }
     }
   }
+
   //Validaciones para apellidos
   if (!apellidos) {
     errors.apellidos = "Campo obligatorio";
   } else {
-    const RegExp = /^[A-Za-z ]{1,255}$/;
-    if (!RegExp.test(apellidos)) {
-      errors.apellidos = "Solo se permiten letras";
+    if (apellidos.length > 100) {
+      errors.apellidos = "Solo se permiten 100 caracteres";
     } else {
-      const RegExp = /^[A-Za-z ]{1,50}$/;
+      const RegExp = REGEX_PATTERN_CARACTERES;
       if (!RegExp.test(apellidos)) {
-        errors.apellidos = "Mínimo 1 y máximo 50 caracteres.";
+        errors.apellidos = "Solo se permiten letras";
       }
     }
   }
@@ -84,7 +84,7 @@ export const validacionesSignUp = (datos) => {
     const RegExp = REGEX_PATTERN_PASSWORD;
     if (!RegExp.test(contrasena)) {
       errors.contrasena =
-        "La contraseña debe tener entre 4 y 12 caracteres y al menos un dígito.";
+        "La contraseña debe tener entre 8 y 15 caracteres, un símbolo, una mayúscula y al menos un dígito.";
     }
   }
 
@@ -94,7 +94,7 @@ export const validacionesSignUp = (datos) => {
     const RegExp = REGEX_PATTERN_PASSWORD;
     if (!RegExp.test(confirmContrasena)) {
       errors.confirmContrasena =
-        "La contraseña debe tener entre 4 y 12 caracteres y al menos un dígito.";
+        "La contraseña debe tener entre 8 y 15 caracteres, un símbolo, una mayúscula y al menos un dígito.";
     }
   }
 
@@ -127,25 +127,23 @@ export const validacionesSignUpComunidadUAO = (datos) => {
   } else {
     const RegExp = REGEX_PATTERN_NUMERO_DOCUMENTO;
     if (!RegExp.test(numeroDocumento)) {
-      errors.numeroDocumento = "Solo se permiten números entre 5 a 11 dígitos";
+      errors.numeroDocumento = "Solo se permiten números entre 8 a 12 dígitos";
     }
   }
 
   //Validaciones para el usuario
   if (!usuario) {
     errors.usuario = "Campo obligatorio";
+  } else {
+    if (usuario.length > 20) {
+      errors.usuario = "Solo se permiten 20 caracteres";
+    } else {
+      const RegExp = REGEX_PATTERN_CARACTERES;
+      if (!RegExp.test(usuario)) {
+        errors.usuario = "Solo se permiten letras";
+      }
+    }
   }
-  // else {
-  //   const RegExp = /^[A-Za-z ]{1,255}$/;
-  //   if (!RegExp.test(usuario)) {
-  //     errors.usuario = "Solo se permiten letras";
-  //   } else {
-  //     const RegExp = /^[A-Za-z ]{1,50}$/;
-  //     if (!RegExp.test(usuario)) {
-  //       errors.usuario = "Mínimo 1 y máximo 50 caracteres.";
-  //     }
-  //   }
-  // }
 
   //Validaciones para la contrasena
   if (!contrasena) {
@@ -154,7 +152,7 @@ export const validacionesSignUpComunidadUAO = (datos) => {
     const RegExp = REGEX_PATTERN_PASSWORD;
     if (!RegExp.test(contrasena)) {
       errors.contrasena =
-        "La contraseña debe tener entre 4 y 12 caracteres y al menos un dígito.";
+        "La contraseña debe tener entre 8 y 15 caracteres, un símbolo, una mayúscula y al menos un dígito.";
     }
   }
 
@@ -164,7 +162,7 @@ export const validacionesSignUpComunidadUAO = (datos) => {
     const RegExp = REGEX_PATTERN_PASSWORD;
     if (!RegExp.test(confirmContrasena)) {
       errors.confirmContrasena =
-        "La contraseña debe tener entre 4 y 12 caracteres y al menos un dígito.";
+        "La contraseña debe tener entre 8 y 15 caracteres, un símbolo, una mayúscula y al menos un dígito.";
     }
   }
 
@@ -196,13 +194,22 @@ export const validacionesSignUpMentor = (datos) => {
   } else {
     const RegExp = REGEX_PATTERN_NUMERO_DOCUMENTO;
     if (!RegExp.test(numeroDocumento)) {
-      errors.numeroDocumento = "Solo se permiten números entre 5 a 11 dígitos";
+      errors.numeroDocumento = "Solo se permiten números entre 8 a 12 dígitos";
     }
   }
 
   //Validaciones para el usuario
   if (!usuario) {
     errors.usuario = "Campo obligatorio";
+  } else {
+    if (usuario.length > 20) {
+      errors.usuario = "Solo se permiten 20 caracteres";
+    } else {
+      const RegExp = REGEX_PATTERN_CARACTERES;
+      if (!RegExp.test(usuario)) {
+        errors.usuario = "Solo se permiten letras";
+      }
+    }
   }
   // else {
   //     const RegExp = /^[A-Za-z ]{1,50}$/;

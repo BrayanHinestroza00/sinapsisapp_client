@@ -4,13 +4,6 @@ import { Form, Modal } from "react-bootstrap";
 
 import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
-import {
-  img,
-  thumb,
-  thumbInner,
-  thumbsContainer,
-} from "src/app/Shared/components/DropZone/styled.js";
-import { HOST } from "src/app/Shared/utils/apiConstants";
 import { SINAPSIS_APP_FORMATO_FECHA_HORA } from "src/app/Shared/utils/constants";
 import { Label, Table } from "./styled";
 import { getArchivo } from "src/app/Shared/utils/utilityFunctions";
