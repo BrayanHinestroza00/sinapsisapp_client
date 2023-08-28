@@ -58,11 +58,11 @@ function Consultorias({ idMentor }) {
             "Hora Inicio Programada": moment(
               consultoriaData.horaInicioConsultoria,
               "hh:mm"
-            ).format("LT"),
+            ).format("hh:mm A"),
             "Hora Finalización Programada": moment(
               consultoriaData.horaFinConsultoria,
               "hh:mm"
-            ).format("LT"),
+            ).format("hh:mm A"),
             Emprendedor:
               consultoriaData.nombreEmprendedor +
               " " +
@@ -103,7 +103,16 @@ function Consultorias({ idMentor }) {
         <FlexyTable
           datos={consultorias}
           titulo={"consultorías programadas"}
-          btn1={<img src={showIcon} width="auto" height="25" />}
+          btn1={
+            <img
+              src={showIcon}
+              width="100%"
+              height="25"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Ver Detalle"
+            />
+          }
           fun1={(consultoriaData) => {
             onClicRevisarConsultoria(consultoriaData);
           }}

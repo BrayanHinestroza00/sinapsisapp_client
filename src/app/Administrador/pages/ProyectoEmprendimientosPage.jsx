@@ -53,6 +53,8 @@ function ProyectoEmprendimientosPage() {
         method: HTTP_METHOD_GET,
       },
     });
+
+    consultarProyectosEmprendimiento();
   }, []);
 
   useEffect(() => {
@@ -67,7 +69,7 @@ function ProyectoEmprendimientosPage() {
             "Nombre Emprendedor": `${emprendimiento.nombreEmprendedor}`,
             "Nombre Emprendimiento": emprendimiento.nombreEmprendimiento,
             "Etapa en Ruta": emprendimiento.etapaRuta,
-            "Estado en Ruta": emprendimiento.estadoRuta,
+            "Estado en Ruta": emprendimiento.estadoRuta.replace("_", " "),
             "Correo Contacto": emprendimiento.correoEmprendedor,
           };
         });
@@ -89,15 +91,7 @@ function ProyectoEmprendimientosPage() {
     if (Object.keys(erroresFormulario).length) {
       setError(erroresFormulario);
     } else {
-      setError({});
-      setLoading(true);
-      fetchApiPrimerasAtenciones({
-        URL: URL_OBTENER_PROYECTOS_EMPRENDIMIENTO,
-        requestOptions: {
-          method: HTTP_METHOD_GET,
-          params: datosFiltro,
-        },
-      }).then(() => setLoading(false));
+      consultarProyectosEmprendimiento();
     }
   };
 
@@ -113,6 +107,18 @@ function ProyectoEmprendimientosPage() {
         state: data,
       }
     );
+  };
+
+  const consultarProyectosEmprendimiento = () => {
+    setError({});
+    setLoading(true);
+    fetchApiPrimerasAtenciones({
+      URL: URL_OBTENER_PROYECTOS_EMPRENDIMIENTO,
+      requestOptions: {
+        method: HTTP_METHOD_GET,
+        params: datosFiltro,
+      },
+    }).then(() => setLoading(false));
   };
 
   return (
@@ -312,8 +318,17 @@ function ProyectoEmprendimientosPage() {
                 <>
                   <FlexyTable
                     datos={datos}
-                    titulo={"Proyectos de Emprendimiento"}
-                    btn1={<img src={showIcon} width="auto" height="25" />}
+                    titulo={"proyectos de emprendimiento"}
+                    btn1={
+                      <img
+                        src={showIcon}
+                        width="100%"
+                        height="25"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Ver Detalle"
+                      />
+                    }
                     fun1={(emprendimientoData) => {
                       onHandleDetalleSolicitud(emprendimientoData);
                     }}

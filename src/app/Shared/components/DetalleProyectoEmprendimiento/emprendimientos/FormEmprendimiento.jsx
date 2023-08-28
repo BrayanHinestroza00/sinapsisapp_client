@@ -50,7 +50,7 @@ function EmprendimientoComponent({
 
   useEffect(() => {
     obtenerImagen();
-  }, []);
+  }, [datos?.logoEmpresaUrl]);
 
   const obtenerImagen = async () => {
     if (datos.logoEmpresaUrl) {
@@ -212,6 +212,30 @@ function EmprendimientoComponent({
       <form>
         <div className="container-fluid">
           <Subtitulo>Datos del Emprendimiento</Subtitulo>
+
+          <div className="col-md-12 mb-3">
+            {editable ? (
+              <></>
+            ) : datosImagen == null ? (
+              <LoadingSpinner width="30%" height="30%" />
+            ) : (
+              <div className="d-flex flex-column">
+                <Label htmlFor="logoEmpresa" className="form-label">
+                  Logo empresa
+                </Label>
+                <img
+                  src={datosImagen}
+                  alt="Foto de perfil"
+                  style={{
+                    textAlign: "center",
+                    maxHeight: "20vh",
+                    objectFit: "contain",
+                  }}
+                />
+              </div>
+            )}
+          </div>
+
           <div className="mb-3">
             <Label htmlFor="nombreEmprendimiento" className="form-label">
               Nombre del emprendimiento
@@ -507,7 +531,7 @@ function EmprendimientoComponent({
                 <div className="col-md-6 mb-3">
                   <Label htmlFor="razonSocialEmpresa" className="form-label">
                     Razón social
-                    <span className="text-danger"> (*)</span>
+                    {editable && <span className="text-danger"> (*)</span>}
                   </Label>
                   <Input
                     type="text"
@@ -527,7 +551,7 @@ function EmprendimientoComponent({
                 </div>
 
                 <div className="col-md-12 mb-3">
-                  {editable ? (
+                  {editable && (
                     <>
                       <Label htmlFor="logoEmpresa" className="form-label">
                         Logo empresa
@@ -549,19 +573,6 @@ function EmprendimientoComponent({
                         </small>
                       )}
                     </>
-                  ) : datosImagen == null ? (
-                    <LoadingSpinner width="30%" height="30%" />
-                  ) : (
-                    <div className="d-flex flex-column">
-                      <Label htmlFor="logoEmpresa" className="form-label">
-                        Logo empresa
-                      </Label>
-                      <img
-                        src={datosImagen}
-                        alt="Foto de perfil"
-                        width={"30%"}
-                      />
-                    </div>
                   )}
                 </div>
               </>

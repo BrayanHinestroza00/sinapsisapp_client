@@ -7,7 +7,7 @@ import MentorContentLayout from "./content/MentorContentLayout";
 import { MentorContext } from "../contexts/MentorContext";
 
 const Layout = styled.div`
-  margin-top: 4.5rem;
+  margin-top: 5.5rem;
 `;
 
 function MentorLayout({ children, sidebar }) {

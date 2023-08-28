@@ -10,8 +10,8 @@ export const validarRevisionConsultoria = (datos, tipo) => {
       if (!RegExp.test(comentariosConsultoria)) {
         errors.comentariosConsultoria = "Solo se permiten letras";
       } else {
-        if (comentariosConsultoria.length > 500) {
-          errors.comentariosConsultoria = "Máximo 500 caracteres";
+        if (comentariosConsultoria.length > 1000) {
+          errors.comentariosConsultoria = "Máximo 1000 caracteres";
         }
       }
     }
@@ -23,8 +23,8 @@ export const validarRevisionConsultoria = (datos, tipo) => {
       if (!RegExp.test(comentariosConsultoria)) {
         errors.comentariosConsultoria = "Solo se permiten letras";
       } else {
-        if (comentariosConsultoria.length > 500) {
-          errors.comentariosConsultoria = "Máximo 500 caracteres";
+        if (comentariosConsultoria.length > 1000) {
+          errors.comentariosConsultoria = "Máximo 1000 caracteres";
         }
       }
     }
@@ -48,16 +48,16 @@ export const validarCreacionConsultoria = (datos, tipoUsuario) => {
   if (!tituloConsultoria) {
     errors.tituloConsultoria = "Campo Obligatorio";
   } else {
-    if (tituloConsultoria.length > 30) {
-      errors.tituloConsultoria = "Solo se permiten 30 caracteres";
+    if (tituloConsultoria.length > 100) {
+      errors.tituloConsultoria = "Solo se permiten 100 caracteres";
     }
   }
 
-  if (!mentor && tipoUsuario == "ADMINISTRADOR") {
+  if (!mentor && tipoUsuario == 3) {
     errors.mentor = "Campo Obligatorio";
   }
 
-  if (!tipoConsultoria && tipoUsuario == "ADMINISTRADOR") {
+  if (!tipoConsultoria && tipoUsuario == 3) {
     errors.tipoConsultoria = "Campo Obligatorio";
   } else {
     if (tipoConsultoria == "E") {
@@ -72,8 +72,8 @@ export const validarCreacionConsultoria = (datos, tipoUsuario) => {
   if (!asuntoConsultoria) {
     errors.asuntoConsultoria = "Campo Obligatorio";
   } else {
-    if (asuntoConsultoria.length > 100) {
-      errors.asuntoConsultoria = "Solo se permiten 100 caracteres";
+    if (asuntoConsultoria.length > 1000) {
+      errors.asuntoConsultoria = "Solo se permiten 1000 caracteres";
     }
   }
 

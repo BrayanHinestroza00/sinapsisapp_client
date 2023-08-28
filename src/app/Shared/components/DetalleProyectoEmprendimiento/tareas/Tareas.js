@@ -89,10 +89,11 @@ function Tareas({ idProyectoEmprendimiento, idUsuario, tipoUsuario }) {
             newEntregadas.push({
               n: index + 1,
               título: entregadaData.titulo,
-              "Fecha Límite": moment(
-                entregadaData.fechaLimiteEntrega,
-                "YYYY-MM-DD hh:mm:ss"
-              ).format(SINAPSIS_APP_FORMATO_FECHA_HORA),
+              "Estado entrega": entregadaData.estadoEntrega,
+              // "Fecha Límite": moment(
+              //   entregadaData.fechaLimiteEntrega,
+              //   "YYYY-MM-DD hh:mm:ss"
+              // ).format(SINAPSIS_APP_FORMATO_FECHA_HORA),
               "Creado Por":
                 entregadaData.nombresCrea + " " + entregadaData.apellidosCrea,
               "Correo Contacto": entregadaData.correoInstitucionalCrea,
@@ -101,10 +102,11 @@ function Tareas({ idProyectoEmprendimiento, idUsuario, tipoUsuario }) {
             newPendientesCalificar.push({
               n: index + 1,
               título: entregadaData.titulo,
-              "Fecha Límite": moment(
-                entregadaData.fechaLimiteEntrega,
-                "YYYY-MM-DD hh:mm:ss"
-              ).format(SINAPSIS_APP_FORMATO_FECHA_HORA),
+              "Estado entrega": entregadaData.estadoEntrega,
+              // "Fecha Límite": moment(
+              //   entregadaData.fechaLimiteEntrega,
+              //   "YYYY-MM-DD hh:mm:ss"
+              // ).format(SINAPSIS_APP_FORMATO_FECHA_HORA),
               "Creado Por":
                 entregadaData.nombresCrea + " " + entregadaData.apellidosCrea,
               "Correo Contacto": entregadaData.correoInstitucionalCrea,
@@ -119,10 +121,11 @@ function Tareas({ idProyectoEmprendimiento, idUsuario, tipoUsuario }) {
           return {
             n: index + 1,
             título: pendienteData.titulo,
-            "Fecha Límite": moment(
-              pendienteData.fechaLimiteEntrega,
-              "YYYY-MM-DD hh:mm:ss"
-            ).format(SINAPSIS_APP_FORMATO_FECHA_HORA),
+            "Estado entrega": pendienteData.estadoEntrega,
+            // "Fecha Límite": moment(
+            //   pendienteData.fechaLimiteEntrega,
+            //   "YYYY-MM-DD hh:mm:ss"
+            // ).format(SINAPSIS_APP_FORMATO_FECHA_HORA),
             "Creado Por":
               pendienteData.nombresCrea + " " + pendienteData.apellidosCrea,
             "Correo Contacto": pendienteData.correoInstitucionalCrea,
@@ -202,7 +205,8 @@ function Tareas({ idProyectoEmprendimiento, idUsuario, tipoUsuario }) {
       <Subtitulo>Tareas del Emprendedor</Subtitulo>
 
       <Button
-        className="btn btn-primary mx-4 my-3 w-25"
+        variant="primary"
+        className="mx-4 my-3 w-25"
         onClick={() => setShowCrearTarea(!showCrearTarea)}
       >
         Crear tarea
@@ -213,7 +217,7 @@ function Tareas({ idProyectoEmprendimiento, idUsuario, tipoUsuario }) {
           <Ruta>
             <FlexyTable
               datos={pendientesCalificar}
-              titulo={"Tareas Pendientes Calificar"}
+              titulo={"tareas por calificar"}
               btn1={"Calificar Entrega"}
               fun1={(tareaData) => {
                 onClicRevisarTarea(tareaData);
@@ -229,7 +233,7 @@ function Tareas({ idProyectoEmprendimiento, idUsuario, tipoUsuario }) {
           <Ruta>
             <FlexyTable
               datos={entregadas}
-              titulo={"Tareas Entregadas"}
+              titulo={"tareas entregadas"}
               btn1={"Detalle Entrega"}
               fun1={(tareaData) => {
                 onClicDetalleTarea(tareaData, "ENTREGADAS");
@@ -245,7 +249,7 @@ function Tareas({ idProyectoEmprendimiento, idUsuario, tipoUsuario }) {
           {pendientes.length > 0 ? (
             <FlexyTable
               datos={pendientes}
-              titulo={"Tareas Pendientes"}
+              titulo={"tareas pendientes"}
               btn1={"Ver Detalle"}
               fun1={(tareaData) => {
                 onClicDetalleTarea(tareaData);

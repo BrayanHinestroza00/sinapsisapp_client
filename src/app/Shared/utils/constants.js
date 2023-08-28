@@ -17,6 +17,7 @@ export const SINAPSIS_APP_MNT_ROLE_NAME = "Mentor";
 export const SINAPSIS_APP_EMP_ROLE_NAME = "Emprendedor";
 
 export const SINAPSIS_APP_FORMATO_FECHA = "DD/MM/YYYY";
+export const SINAPSIS_APP_FORMATO_FECHA_HORA_ = "DD/MM/YYYY hh:mm A";
 export const SINAPSIS_APP_FORMATO_FECHA_HORA = "DD/MM/YYYY HH:mm:ss";
 export const SINAPSIS_APP_FORMATO_FECHA_INPUT = "YYYY-MM-DD";
 export const SINAPSIS_APP_FORMATO_FECHA_HORA_INPUT = "YYYY-MM-DDTHH:mm";
@@ -43,16 +44,17 @@ export const MENU_EMPRENDEDOR_INICIO = "inicio";
 export const MENU_EMPRENDEDOR_PERFIL = "mi_perfil";
 export const MENU_EMPRENDEDOR_RUTA = "mi_ruta";
 export const MENU_EMPRENDEDOR_PRIMERA_ATENCION = "primera_atencion";
+export const MENU_EMPRENDEDOR_EDITAR_CUENTA = "editar_cuenta";
 
 export const SIDEBAR_EMPRENDEDOR = "sinapsisapp_sidebar_item_active";
 export const SIDEBAR_EMPRENDEDOR_SUBMENU = "sinapsisapp_sidebar_subitem_active";
 export const SIDEBAR_EMPRENDEDOR_RUTA_ITEM = "ruta";
 export const SIDEBAR_EMPRENDEDOR_CONSULTORIAS_ITEM = "consultoria";
+export const SIDEBAR_EMPRENDEDOR_AVANCE_RUTA = "avance_ruta";
 export const SIDEBAR_EMPRENDEDOR_ESTADO_RUTA = "estado_ruta";
 export const SIDEBAR_EMPRENDEDOR_MENTORES = "mentores";
 export const SIDEBAR_EMPRENDEDOR_TAREAS = "tareas";
 export const SIDEBAR_EMPRENDEDOR_PROYECTO = "proyecto";
-export const SIDEBAR_EMPRENDEDOR_MATERIAL_APOYO = "material_apoyo";
 export const SIDEBAR_EMPRENDEDOR_CONSULTORIAS = "consultorias";
 export const SIDEBAR_EMPRENDEDOR_CONSULTORIAS_ESPECIALIZADAS =
   "consultorias_especializadas";
@@ -64,21 +66,31 @@ export const SIDEBAR_MENTOR_SUBMENU =
   "sinapsisapp_sidebar_mentor_subitem_active";
 export const SIDEBAR_MENTOR_EMPRENDEDORES_ITEM = "emprendedores";
 export const SIDEBAR_MENTOR_CONSULTORIAS_ITEM = "consultorias";
-export const SIDEBAR_MENTOR_CONSULTORIAS_NORMALES = "normales";
-export const SIDEBAR_MENTOR_CONSULTORIAS_ESPECIALIZADAS = "especializadas";
 export const SIDEBAR_MENTOR_REPORTES_ITEM = "reportes";
+export const SIDEBAR_MENTOR_EMPRENDIMIENTOS = "emprendimientos";
+export const SIDEBAR_MENTOR_CONSULTORIAS = "consultorias_programadas";
 export const SIDEBAR_MENTOR_REPORTES_CONSULTORIAS = "rep_consultorias";
 
 export const SIDEBAR_ADMINISTRADOR =
   "sinapsisapp_sidebar_administrador_item_active";
 export const SIDEBAR_ADMINISTRADOR_SUBMENU =
   "sinapsisapp_sidebar_administrador_subitem_active";
-export const SIDEBAR_ADMINISTRADOR_PRIMERA_ATENCION_ITEM = "primera_atencion";
 export const SIDEBAR_ADMINISTRADOR_EMPRENDIMIENTOS_ITEM = "emprendimientos";
-export const SIDEBAR_ADMINISTRADOR_EMPRENDEDORES_ITEM = "emprendedores";
+export const SIDEBAR_ADMINISTRADOR_USUARIOS_ITEM = "usuarios";
 export const SIDEBAR_ADMINISTRADOR_REPORTES_ITEM = "reportes";
 export const SIDEBAR_ADMINISTRADOR_GESTION_USUARIOS_ITEM = "gestion_usuarios";
 export const SIDEBAR_ADMINISTRADOR_GESTION_ANUNCIOS_ITEM = "gestion_anuncios";
+
+export const SIDEBAR_ADMINISTRADOR_EMPRENDIMIENTO = "emprendimiento";
+export const SIDEBAR_ADMINISTRADOR_PRIMERA_ATENCION = "primera_atencion";
+export const SIDEBAR_ADMINISTRADOR_EMPRENDEDOR = "emprendedor";
+export const SIDEBAR_ADMINISTRADOR_MENTOR = "mentor";
+export const SIDEBAR_ADMINISTRADOR_REPORTES_FORMACION = "reportes_formacion";
+export const SIDEBAR_ADMINISTRADOR_REPORTES_GESTION = "reportes_gestion";
+export const SIDEBAR_ADMINISTRADOR_GESTION_EMPRENDEDORES =
+  "gestion_emprendedores";
+export const SIDEBAR_ADMINISTRADOR_GESTION_MENTORES = "gestion_mentores";
+export const SIDEBAR_ADMINISTRADOR_GESTION_ANUNCIO = "gestion_anuncio";
 // export const SIDEBAR_ADMINISTRADOR_REPORTES_ITEM = "reportes";
 // export const SIDEBAR_ADMINISTRADOR_REPORTES_CONSULTORIAS = "rep_consultorias";
 

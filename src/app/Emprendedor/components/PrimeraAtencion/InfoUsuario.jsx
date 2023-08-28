@@ -41,6 +41,7 @@ import {
   getMunicipios,
 } from "src/app/Shared/utils/utilityFunctions";
 import { validacionesPrimeraAtencionUsuario } from "src/app/Shared/services/validation/validatePrimeraAtencion";
+import { messageAlert } from "src/app/Shared/utils/messageAlerts";
 
 function InfoUsuario({ userData, ...props }) {
   const [error, setError] = useState({});
@@ -59,6 +60,21 @@ function InfoUsuario({ userData, ...props }) {
     useFetch();
 
   const { data: dataAsignaturas, fetchAPI: fetchApiAsignaturas } = useFetch();
+
+  useEffect(() => {
+    messageAlert({
+      title: "Nuevo de Proyecto de Emprendimiento",
+      text: `<p style="text-align:justify">
+          Bienvenido al formulario de primera atención de SINAPSIS UAO. Por favor, diligencie todos los pasos y espere novedades en el correo electrónico registrado.
+          </p> 
+          <br/>
+          <p style="text-align:justify">
+            Recuerde que todos los campos marcados con <span className="text-danger"> (*)</span> son <b>OBLIGATORIOS</b> 
+          </p>`,
+      icon: "warning",
+      confirmButtonText: "Aceptar",
+    });
+  }, []);
 
   useEffect(() => {
     fetchApiInfoEmprendedor({
@@ -710,6 +726,7 @@ function InfoUsuario({ userData, ...props }) {
                 id="cargoColaborador"
                 value={props.datos.cargoColaborador || null}
                 onChange={(e) => props.handleChange(e)}
+                disabled
               />
               {error.cargoColaborador && (
                 <small className="form-text font-weight-bold text-danger">
@@ -730,6 +747,7 @@ function InfoUsuario({ userData, ...props }) {
                 id="dependenciaColaborador"
                 value={props.datos.dependenciaColaborador || null}
                 onChange={(e) => props.handleChange(e)}
+                disabled
               />
               {error.dependenciaColaborador && (
                 <small className="form-text font-weight-bold text-danger">

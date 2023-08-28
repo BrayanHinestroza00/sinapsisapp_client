@@ -15,6 +15,10 @@
   border-radius: 10px !important;
 }
 
+#rft-table-id tfoot {
+  background-color: #f3eef5;
+}
+
 ._2lyTg {
   display: flex;
   align-items: center;
@@ -159,12 +163,22 @@
   border-color: #9a66a8;
   align-content: center;
 }
+.btn_tabla img {
+  filter: invert(99%) sepia(1%) saturate(232%) hue-rotate(105deg)
+    brightness(117%) contrast(88%);
+}
 
 .btn_tabla:hover {
   background-color: #ffffff;
   color: #9a66a8;
   border-color: #9a66a8;
   transition-delay: 100ms;
+}
+.btn_tabla:hover img {
+  /* filter: invert(36%) sepia(0%) saturate(201%) hue-rotate(181deg)
+    brightness(97%) contrast(79%); */
+  filter: invert(55%) sepia(6%) saturate(3195%) hue-rotate(242deg)
+    brightness(83%) contrast(92%);
 }
 
 .btn_tabla_outline,
@@ -179,8 +193,17 @@
   border-width: 2px;
   align-content: center;
 }
+.btn_tabla_outline img {
+  filter: invert(55%) sepia(6%) saturate(3195%) hue-rotate(242deg)
+    brightness(83%) contrast(92%);
+}
+
 .btn_tabla_outline:hover {
   background-color: #9a66a8;
   color: #ffffff;
   border-color: #9a66a8;
+}
+.btn_tabla_outline:hover img {
+  filter: invert(99%) sepia(1%) saturate(232%) hue-rotate(105deg)
+    brightness(117%) contrast(88%);
 }

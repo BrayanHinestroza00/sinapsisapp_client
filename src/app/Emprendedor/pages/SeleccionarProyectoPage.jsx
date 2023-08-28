@@ -9,6 +9,10 @@ import {
 import { insertIntoLocalStorage } from "src/app/Shared/utils/utilityFunctions";
 import { EmprendedorContext } from "../contexts/EmprendedorContext";
 import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
+import {
+  messageAlert,
+  messageAlertWithoutText,
+} from "src/app/Shared/utils/messageAlerts";
 
 function SeleccionarProyectoPage() {
   let navigate = useNavigate();
@@ -22,7 +26,7 @@ function SeleccionarProyectoPage() {
     setMenuItemActive,
   } = useContext(EmprendedorContext);
 
-  const onSetMainProject = (idProject) => {
+  const onSetMainProject = (idProject, nameProject) => {
     setSelectedProjectValue(idProject);
     insertIntoLocalStorage(
       SINAPSIS_APP_LOCALSTORAGE_SELECTED_PROJECT,
@@ -32,6 +36,13 @@ function SeleccionarProyectoPage() {
     setMenuItemActive(MENU_EMPRENDEDOR_INICIO);
     setShowSidebar(false);
     navigate("/Emprendedor");
+
+    messageAlert({
+      title: "Correcto!",
+      text: `Se ha seleccionado el proyecto de emprendimiento <b>"${nameProject}"</b> como PRINCIPAL`,
+      icon: "success",
+      confirmButtonText: "Aceptar",
+    });
   };
 
   const onCreateNewProject = () => {
@@ -49,13 +60,14 @@ function SeleccionarProyectoPage() {
       tabIndex={-1}
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
+      data-bs-backdrop="static"
     >
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title" id="exampleModalLabel">
+            <h1 className="modal-title text-center" id="exampleModalLabel">
               Elige tu proyecto de emprendimiento
-            </h5>
+            </h1>
             <button
               type="button"
               className="btn-close"
@@ -77,7 +89,10 @@ function SeleccionarProyectoPage() {
                       marginBottom: "0.5rem",
                     }}
                     onClick={() =>
-                      onSetMainProject(proyecto.idProyectoEmprendimiento)
+                      onSetMainProject(
+                        proyecto.idProyectoEmprendimiento,
+                        proyecto.nombreEmprendimiento
+                      )
                     }
                   >
                     <span>
@@ -96,7 +111,7 @@ function SeleccionarProyectoPage() {
                 );
               })}
             <Button
-              className="btn btn-primary"
+              variant="primary"
               style={{
                 display: "flex",
                 alignSelf: "center",

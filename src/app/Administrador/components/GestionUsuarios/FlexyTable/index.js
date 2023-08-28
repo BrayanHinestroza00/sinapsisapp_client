@@ -50,8 +50,8 @@ function FlexyTable({ datos, ...props }) {
         <ReactFlexyTable
           data={datos}
           filteredDataText="Datos filtrados:"
-          nextText="Siguiente"
-          previousText="Anterior"
+          nextText="Siguiente Pag."
+          previousText="Anterior Pag."
           totalDataText="Total datos:"
           rowsText="Número de filas"
           pageText="Página"

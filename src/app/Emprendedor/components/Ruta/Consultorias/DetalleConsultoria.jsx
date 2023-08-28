@@ -1,6 +1,9 @@
 import moment from "moment";
 import { Button, Form, Modal } from "react-bootstrap";
-import { SINAPSIS_APP_FORMATO_FECHA_HORA } from "src/app/Shared/utils/constants";
+import {
+  SINAPSIS_APP_FORMATO_FECHA,
+  SINAPSIS_APP_FORMATO_FECHA_HORA,
+} from "src/app/Shared/utils/constants";
 
 function DetalleConsultoria(props) {
   return (
@@ -27,7 +30,7 @@ function DetalleConsultoria(props) {
         <Form className="container row">
           <Form.Group className="col-md-12 mb-3">
             <Form.Label>Asunto Consultoría</Form.Label>
-            <Form.Control value={props.data.asuntoConsultoria} />
+            <Form.Control value={props.data.asuntoConsultoria} disabled />
           </Form.Group>
 
           <Form.Group className="col-md-6 mb-3">
@@ -36,34 +39,51 @@ function DetalleConsultoria(props) {
               value={
                 props.data.tipoConsultoria == "E" ? "Especializada" : "Normal"
               }
+              disabled
             />
           </Form.Group>
 
           {props.data.tipoConsultoria == "E" && (
             <Form.Group className="col-md-6 mb-3">
-              <Form.Label>Temática Consultoria</Form.Label>
-              <Form.Control value={props.data.nombreSubActRuta} />
+              <Form.Label>Temática Consultoría</Form.Label>
+              <Form.Control value={props.data.nombreSubActRuta} disabled />
             </Form.Group>
           )}
 
           <Form.Group className="col-md-12 mb-3">
-            <Form.Label>Fecha de Consultoria</Form.Label>
-            <Form.Control value={props.data.fechaConsultoria} />
+            <Form.Label>Fecha de Consultoría</Form.Label>
+            <Form.Control
+              value={moment(
+                props.data.fechaConsultoria,
+                "YYYY-MM-DD hh:mm:ss"
+              ).format(SINAPSIS_APP_FORMATO_FECHA)}
+              disabled
+            />
           </Form.Group>
 
           <Form.Group className="col-md-6 mb-3">
             <Form.Label>Hora Inicio Programada</Form.Label>
-            <Form.Control value={props.data.horaInicioConsultoria} />
+            <Form.Control
+              value={moment(props.data.horaInicioConsultoria, "hh:mm").format(
+                "hh:mm A"
+              )}
+              disabled
+            />
           </Form.Group>
 
           <Form.Group className="col-md-6 mb-3">
             <Form.Label>Hora Finalización Programada</Form.Label>
-            <Form.Control value={props.data.horaFinConsultoria} />
+            <Form.Control
+              value={moment(props.data.horaFinConsultoria, "hh:mm").format(
+                "hh:mm A"
+              )}
+              disabled
+            />
           </Form.Group>
 
           <Form.Group className="col-md-6 mb-3">
-            <Form.Label>Estado de Consultoria</Form.Label>
-            <Form.Control value={props.data.estadoConsultoria} />
+            <Form.Label>Estado de Consultoría</Form.Label>
+            <Form.Control value={props.data.estadoConsultoria} disabled />
           </Form.Group>
 
           {props.data.estadoConsultoria != "PROGRAMADA" && (
@@ -79,6 +99,7 @@ function DetalleConsultoria(props) {
                         ).format(SINAPSIS_APP_FORMATO_FECHA_HORA)
                       : ""
                   }
+                  disabled
                 />
               </Form.Group>
 
@@ -93,7 +114,9 @@ function DetalleConsultoria(props) {
                         ).format(SINAPSIS_APP_FORMATO_FECHA_HORA)
                       : ""
                   }
+                  disabled
                 />
+                Histórico de Consultorías
               </Form.Group>
             </>
           )}
@@ -102,6 +125,7 @@ function DetalleConsultoria(props) {
             <Form.Label>Mentor</Form.Label>
             <Form.Control
               value={`${props.data.nombreMentor} ${props.data.apellidoMentor}`}
+              disabled
             />
           </Form.Group>
 
@@ -111,6 +135,7 @@ function DetalleConsultoria(props) {
               value={
                 props.data.correoInstitucionalMentor || "Sin correo registrado"
               }
+              disabled
             />
           </Form.Group>
 
@@ -118,12 +143,13 @@ function DetalleConsultoria(props) {
             <Form.Label>Comentarios Consultoría</Form.Label>
             <Form.Control
               value={props.data.comentariosConsultoria || "Sin comentarios"}
+              disabled
             />
           </Form.Group>
         </Form>
       </Modal.Body>
       <Modal.Footer style={{ backgroundColor: "#fbf6fc" }}>
-        <Button className="btn btn-secondary" onClick={props.onHide}>
+        <Button variant="secondary" onClick={props.onHide}>
           Cerrar
         </Button>
       </Modal.Footer>

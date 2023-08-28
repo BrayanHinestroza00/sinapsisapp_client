@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { Form } from "react-bootstrap";
+import { Button, Form, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
+
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner.jsx";
 
 import { useFetch } from "../../services/hooks/useFetch.js";
 import {
@@ -20,10 +22,11 @@ import {
   LoginFormImageElement,
   LoginFormTitulo,
 } from "./styled.js";
+import { validacionesLogin } from "../../services/validation/validateLogin.js";
 
 import logoSinapsis from "src/app/Shared/assets/images/logo_sinapsis.png";
-import LoadingSpinner from "../LoadingSpinner/LoadingSpinner.jsx";
-import { validacionesLogin } from "../../services/validation/validateLogin.js";
+import showPasswordIcon from "src/app/Shared/assets/images/icons/showPassword.png";
+import hidePasswordIcon from "src/app/Shared/assets/images/icons/hidePassword.png";
 
 const INITIAL_LOGIN_FORM_DATA = {
   tipoDocumento: 1,
@@ -32,6 +35,7 @@ const INITIAL_LOGIN_FORM_DATA = {
 function LoginFormComponent({ onSubmit }) {
   const [datos, setDatos] = useState(INITIAL_LOGIN_FORM_DATA);
   const [error, setError] = useState({});
+  const [show, setShow] = useState(false);
 
   const onHandleChange = (e) => {
     setDatos({
@@ -152,12 +156,26 @@ function LoginFormComponent({ onSubmit }) {
               Contraseña
               <span className="text-danger"> (*)</span>
             </Form.Label>
-            <Form.Control
-              id="password"
-              name="password"
-              type="password"
-              onChange={(e) => onHandleChange(e)}
-            />
+            <InputGroup>
+              <Form.Control
+                type={show ? "text" : "password"}
+                className="form-control"
+                name="password"
+                id="password"
+                onChange={(e) => onHandleChange(e)}
+              />
+              <InputGroup.Text className="p-0">
+                <Button
+                  style={{ width: "100%" }}
+                  onClick={() => setShow(!show)}
+                >
+                  <img
+                    style={{ width: "2rem" }}
+                    src={show ? showPasswordIcon : hidePasswordIcon}
+                  />
+                </Button>
+              </InputGroup.Text>
+            </InputGroup>
             {error.password && (
               <LoginFormFieldError className="text-danger">
                 {error.password}

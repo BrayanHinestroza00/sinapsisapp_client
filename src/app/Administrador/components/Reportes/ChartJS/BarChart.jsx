@@ -1,4 +1,5 @@
 import { Bar } from "react-chartjs-2";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -19,7 +20,8 @@ ChartJS.register(
   Colors,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ChartDataLabels
 );
 
 function BarChart({
@@ -36,6 +38,11 @@ function BarChart({
 }) {
   const options = {
     responsive: true,
+    scales: {
+      y: {
+        ticks: { precision: 0 },
+      },
+    },
     plugins: {
       legend: {
         display:
@@ -45,6 +52,13 @@ function BarChart({
       title: {
         display: true,
         text: titulo,
+      },
+      datalabels: {
+        display: true,
+        color: "black",
+        align: "center",
+        font: { size: "14" },
+        clamp: true,
       },
     },
   };

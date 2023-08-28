@@ -2,7 +2,7 @@ import AdministradorSidebar from "../sidebar/AdministradorSidebar";
 
 function AdministradorContentLayout({ children, sidebar }) {
   return (
-    <div className="container-fluid" style={{ marginTop: "4rem" }}>
+    <div className="container-fluid" style={{ marginTop: "5rem" }}>
       <div className="row flex-wrap">
         {sidebar ? (
           <>

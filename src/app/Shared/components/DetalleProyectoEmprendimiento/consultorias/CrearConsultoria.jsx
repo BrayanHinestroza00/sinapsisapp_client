@@ -58,11 +58,7 @@ function CrearConsultoria({
   } = useFetch();
 
   useEffect(() => {
-    if (
-      tipoUsuario == "ADMINISTRADOR" &&
-      datos &&
-      datos.tipoConsultoria == "E"
-    ) {
+    if (tipoUsuario == 3 && datos && datos.tipoConsultoria == "E") {
       fetchApiTematicasEtapa({
         URL: URL_OBTENER_TEMATICAS_CONSULTORIAS_PROYECTO_EMPRENDIMIENTO,
         requestOptions: {
@@ -114,10 +110,9 @@ function CrearConsultoria({
   const submitForm = () => {
     setLoading(true);
 
-    const tipoConsultoria =
-      tipoUsuario == "ADMINISTRADOR" ? datos.tipoConsultoria : "N";
+    const tipoConsultoria = tipoUsuario == 3 ? datos.tipoConsultoria : "N";
 
-    const mentor = tipoUsuario == "ADMINISTRADOR" ? datos.mentor : idUsuario;
+    const mentor = tipoUsuario == 3 ? datos.mentor : idUsuario;
 
     fetchAPI({
       URL: URL_PROGRAMAR_CONSULTORIA_EMPRENDEDOR,
@@ -193,17 +188,19 @@ function CrearConsultoria({
         <Form encType="multipart/form-data">
           <Form.Group className="mb-3">
             <Form.Label className="form-label">
-              Titulo de Consultoría
+              Título de Consultoría
             </Form.Label>
             <Form.Control
               name="tituloConsultoria"
               className="form-control"
-              placeholder="Titulo de Consultoría"
+              placeholder="Título de Consultoría"
               type="text"
               onChange={(e) => {
                 onHandleChange(e);
               }}
               value={datos.tituloConsultoria}
+              autoComplete="off"
+              autoFocus
             />
             {error.tituloConsultoria && (
               <small class="form-text font-weight-bold text-danger">
@@ -212,7 +209,7 @@ function CrearConsultoria({
             )}
           </Form.Group>
 
-          {tipoUsuario == "ADMINISTRADOR" && (
+          {tipoUsuario == 3 && (
             <>
               <Form.Group className="mb-3">
                 <Form.Label>Tipo de Consultoría</Form.Label>
@@ -322,6 +319,7 @@ function CrearConsultoria({
                 onHandleChange(e);
               }}
               value={datos.asuntoConsultoria || ""}
+              autoComplete="off"
             />
             {error.asuntoConsultoria && (
               <small class="form-text font-weight-bold text-danger">
@@ -396,17 +394,17 @@ function CrearConsultoria({
       </Modal.Body>
 
       <Modal.Footer style={{ backgroundColor: "#fbf6fc" }}>
-        <Button className="btn btn-secondary" onClick={onHide}>
-          Cancelar
-        </Button>
-
         <Button
-          className="btn btn-primary"
+          variant="primary"
           onClick={(e) => {
             onHandleSubmit(e);
           }}
         >
           Programar Consultoría
+        </Button>
+
+        <Button variant="secondary" onClick={onHide}>
+          Cancelar
         </Button>
       </Modal.Footer>
     </Modal>

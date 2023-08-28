@@ -298,11 +298,11 @@ function RegistrarMentor({ show, onHide }) {
         </Container>
       </Modal.Body>
       <Modal.Footer style={{ backgroundColor: "#fbf6fc" }}>
-        <Button className="btn btn-primary" onClick={onHandleSubmit}>
+        <Button variant="primary" onClick={onHandleSubmit}>
           Registrar
         </Button>
 
-        <Button className="btn btn-secondary" onClick={onHide}>
+        <Button variant="secondary" onClick={onHide}>
           Cerrar
         </Button>
       </Modal.Footer>

@@ -135,9 +135,9 @@ function RevisarTarea({ show, data, onHide }) {
 
       <Modal.Body style={{ backgroundColor: "#fbf6fc" }}>
         <Form className="container">
-          <Titulo>Información de tarea</Titulo>
+          <Titulo className="text-bold">INFORMACIÓN DE TAREA</Titulo>
           <Form.Group className="row mb-3">
-            <Label>Descripción</Label>
+            <Label style={{ fontWeight: "600" }}>Descripción</Label>
             <Form.Control
               as="textarea"
               rows={3}
@@ -149,7 +149,9 @@ function RevisarTarea({ show, data, onHide }) {
           <hr />
           {data.urlArchivosEntrega && datosImagen && (
             <Form.Group className="text-center">
-              <Label>Tarea entregada por el emprendedor</Label>
+              <Label style={{ fontWeight: "600" }}>
+                Tarea entregada por el emprendedor
+              </Label>
               <p className="m-2">
                 Descarga el archivo y realiza la retroalimentación al
                 emprendedor
@@ -187,15 +189,15 @@ function RevisarTarea({ show, data, onHide }) {
 
           <hr />
           <Form.Group>
-            <Label>Estado de Entrega</Label>
+            <Label style={{ fontWeight: "600" }}>Estado de Entrega</Label>
             <div>
-              <Table className="table table-bordered">
+              <Table className="table table-bordered table_tarea">
                 <tbody>
                   <tr>
                     <td>Estado de la Entrega</td>
                     <td>{data.estadoEntrega}</td>
                   </tr>
-                  <tr>
+                  {/* <tr>
                     <td>Fecha Límite de Entrega</td>
                     <td>
                       {moment(
@@ -203,7 +205,7 @@ function RevisarTarea({ show, data, onHide }) {
                         "YYYY-MM-DD hh:mm:ss"
                       ).format(SINAPSIS_APP_FORMATO_FECHA_HORA)}
                     </td>
-                  </tr>
+                  </tr> */}
                   <tr>
                     <td>Estado de la Calificación</td>
                     <td>{data.calificacion || "SIN CALIFICAR"}</td>
@@ -233,7 +235,7 @@ function RevisarTarea({ show, data, onHide }) {
 
           <h5 className="text-center">Retroalimentación</h5>
           <Form.Group className="mb-3">
-            <Label>
+            <Label style={{ fontWeight: "600" }}>
               Calificación de la Entrega{" "}
               <span className="text-danger"> (*)</span>
             </Label>
@@ -257,7 +259,9 @@ function RevisarTarea({ show, data, onHide }) {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Label>Comentarios de la Entrega</Label>
+            <Label style={{ fontWeight: "600" }}>
+              Comentarios de la Entrega
+            </Label>
             <Form.Control
               as="textarea"
               cols={3}
@@ -274,10 +278,10 @@ function RevisarTarea({ show, data, onHide }) {
       </Modal.Body>
 
       <Modal.Footer style={{ backgroundColor: "#fbf6fc" }}>
-        <Button className="btn btn-primary" onClick={(e) => onHandleSubmit(e)}>
+        <Button variant="primary" onClick={(e) => onHandleSubmit(e)}>
           Calificar
         </Button>
-        <button className="btn btn-secondary" onClick={onHide}>
+        <button variant="secondary" onClick={onHide}>
           Cancelar
         </button>
       </Modal.Footer>

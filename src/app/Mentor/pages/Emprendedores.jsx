@@ -15,7 +15,7 @@ import {
   SINAPSIS_APP_ESTADO_ASESORAMIENTO_FINALIZADO,
 } from "src/app/Shared/utils/constants.js";
 
-import showIcon from "src/app/Shared/assets/images/icons/showIcon.png";
+import showIcon from "src/app/Shared/assets/images/icons/detalleIcon.svg";
 import {
   Card,
   Input,
@@ -58,6 +58,7 @@ function Emprendedores() {
             "Nombre Emprendedor": `${emprendedorData.nombres} ${emprendedorData.apellidos}`,
             "Nombre Emprendimiento": emprendedorData.nombreEmprendimiento,
             "Estado Asesoramiento": emprendedorData.estadoAsesoramiento,
+            "Estado En Ruta I&E": emprendedorData.estadoRuta.replace("_", " "),
             "Correo Contacto":
               emprendedorData.correoInstitucional ||
               emprendedorData.correoPersonal,
@@ -67,6 +68,10 @@ function Emprendedores() {
     }
     setDatos(newEmprendedores);
   }, [emprendedoresData]);
+
+  useEffect(() => {
+    consultarEmprendimientos();
+  }, []);
 
   const onHandleChange = (event) => {
     setDatosFiltro({
@@ -91,24 +96,28 @@ function Emprendedores() {
     if (Object.keys(erroresFormulario).length) {
       setError(erroresFormulario);
     } else {
-      setError({});
-      setLoading(true);
-      fetchApiEmprendedores({
-        URL: URL_OBTENER_EMPRENDEDORES_ASOCIADOS,
-        requestOptions: {
-          method: HTTP_METHOD_GET,
-          params: {
-            ...datosFiltro,
-            idMentor: userData.id,
-          },
-        },
-      }).then(() => setLoading(false));
+      consultarEmprendimientos();
     }
+  };
+
+  const consultarEmprendimientos = () => {
+    setError({});
+    setLoading(true);
+    fetchApiEmprendedores({
+      URL: URL_OBTENER_EMPRENDEDORES_ASOCIADOS,
+      requestOptions: {
+        method: HTTP_METHOD_GET,
+        params: {
+          ...datosFiltro,
+          idMentor: userData.id,
+        },
+      },
+    }).then(() => setLoading(false));
   };
 
   return (
     <>
-      <Titulo>Emprendedores</Titulo>
+      <Titulo>Proyectos de Emprendimiento Asociados</Titulo>
 
       <Card>
         <Subtitulo>Filtros de búsqueda</Subtitulo>
@@ -246,8 +255,17 @@ function Emprendedores() {
               <>
                 <FlexyTable
                   datos={datos}
-                  titulo={"Listado de Emprendedores"}
-                  btn1={<img src={showIcon} width="auto" height="25" />}
+                  titulo={"proyectos de emprendimiento"}
+                  btn1={
+                    <img
+                      src={showIcon}
+                      width="100%"
+                      height="25"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Ver Detalle"
+                    />
+                  }
                   fun1={(emprendedorData) => {
                     onHandleSearchEmprendedor(emprendedorData);
                   }}

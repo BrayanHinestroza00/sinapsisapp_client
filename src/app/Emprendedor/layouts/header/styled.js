@@ -6,7 +6,7 @@ const PanelSuperior = styled.div`
   justify-content: space-between;
   position: fixed;
   top: 0;
-  height: 4.5rem;
+  height: 5.5rem;
   width: 100%;
   padding: 10px 30px;
   background-color: #ffffff;
@@ -25,7 +25,7 @@ const LogoSinapsis = styled.img`
   display: flex;
   flex-direction: row;
   align-self: center;
-  height: 4rem;
+  height: 5rem;
 `;
 
 const LogoSinapsisContainer = styled.button`

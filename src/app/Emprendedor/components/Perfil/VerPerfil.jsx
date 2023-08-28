@@ -279,7 +279,7 @@ function VerPerfil({ preloadData: perfilData }) {
                     id="modTrabajoGradoTrue"
                     value={1}
                     checked={preloadData?.modalidadTrabajoGrado == 1}
-                    readOnly
+                    disabled
                   />
                   <label
                     className="form-check-label"
@@ -296,7 +296,7 @@ function VerPerfil({ preloadData: perfilData }) {
                     id="modTrabajoGradoFalse"
                     value={0}
                     checked={preloadData?.modalidadTrabajoGrado == 0}
-                    readOnly
+                    disabled
                   />
                   <label
                     className="form-check-label"

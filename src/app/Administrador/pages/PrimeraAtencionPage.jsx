@@ -23,7 +23,7 @@ import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import { SINAPSIS_APP_FORMATO_FECHA } from "src/app/Shared/utils/constants";
 import { validarListadoSolicitudesPA } from "src/app/Shared/services/validation/validateListadoSolicitudesPA";
 
-import showIcon from "src/app/Shared/assets/images/icons/showIcon.png";
+import showIcon from "src/app/Shared/assets/images/icons/detalleIcon.svg";
 
 function PrimeraAtencionPage() {
   const navigate = useNavigate();
@@ -55,6 +55,8 @@ function PrimeraAtencionPage() {
         method: HTTP_METHOD_GET,
       },
     });
+
+    consultarPrimerasAtenciones();
   }, []);
 
   useEffect(() => {
@@ -96,15 +98,7 @@ function PrimeraAtencionPage() {
     if (Object.keys(erroresFormulario).length) {
       setError(erroresFormulario);
     } else {
-      setError({});
-      setLoading(true);
-      fetchApiPrimerasAtenciones({
-        URL: URL_OBTENER_PRIMERAS_ATENCIONES_PENDIENTES,
-        requestOptions: {
-          method: HTTP_METHOD_GET,
-          params: datosFiltro,
-        },
-      }).then(() => setLoading(false));
+      consultarPrimerasAtenciones();
     }
   };
 
@@ -117,6 +111,18 @@ function PrimeraAtencionPage() {
       replace: true,
       state: data,
     });
+  };
+
+  const consultarPrimerasAtenciones = () => {
+    setError({});
+    setLoading(true);
+    fetchApiPrimerasAtenciones({
+      URL: URL_OBTENER_PRIMERAS_ATENCIONES_PENDIENTES,
+      requestOptions: {
+        method: HTTP_METHOD_GET,
+        params: datosFiltro,
+      },
+    }).then(() => setLoading(false));
   };
 
   return (
@@ -209,7 +215,7 @@ function PrimeraAtencionPage() {
               {/* Nombre(s) emprendedor */}
               <div className="col-md-6">
                 <Label htmlFor="nombreEmprendedor" className="form-label">
-                  Nombre(s) del Emprendedor:
+                  Nombre(s) del emprendedor:
                 </Label>
                 <Input
                   type="text"
@@ -230,7 +236,7 @@ function PrimeraAtencionPage() {
               {/* Nombre Emprendimiento */}
               <div className="col-md-6">
                 <Label htmlFor="nombreEmprendimiento" className="form-label">
-                  Nombre del Emprendimiento:
+                  Nombre del emprendimiento:
                 </Label>
                 <Input
                   type="text"
@@ -296,8 +302,17 @@ function PrimeraAtencionPage() {
                 <>
                   <FlexyTable
                     datos={datos}
-                    titulo={"Solicitudes de Primera Atención"}
-                    btn1={<img src={showIcon} width="auto" height="25" />}
+                    titulo={"solicitudes de primera atención"}
+                    btn1={
+                      <img
+                        src={showIcon}
+                        width="100%"
+                        height="25"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Ver Detalle"
+                      />
+                    }
                     fun1={(primeraAtencionData) => {
                       onHandleDetalleSolicitud(primeraAtencionData);
                     }}

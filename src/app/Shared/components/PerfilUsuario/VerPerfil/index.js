@@ -35,7 +35,7 @@ function VerPerfil({ datos }) {
 
       <div className="col-md-6 mb-3">
         <Label htmlFor="nombreCompleto" className="form-label">
-          Nombre Completo
+          Nombre completo
         </Label>
         <Input
           type="text"
@@ -48,7 +48,7 @@ function VerPerfil({ datos }) {
 
       <div className="col-md-6 mb-3">
         <Label htmlFor="docIdentificacion" className="form-label">
-          Documento de Identificación
+          Documento de identificación
         </Label>
         <Input
           type="text"
@@ -61,7 +61,7 @@ function VerPerfil({ datos }) {
 
       <div className="col-md-6 mb-3">
         <Label htmlFor="correoInstitucional" className="form-label">
-          Correo Institucional
+          Correo institucional
         </Label>
         <Input
           type="text"
@@ -74,7 +74,7 @@ function VerPerfil({ datos }) {
 
       <div className="col-md-6 mb-3">
         <Label htmlFor="correoPersonal" className="form-label">
-          Correo Personal
+          Correo personal
         </Label>
         <Input
           type="text"

@@ -98,7 +98,8 @@ function VerPerfilPage() {
                 {allowEdit === false && (
                   <Button
                     type="button"
-                    className="btn btn-primary m-0"
+                    variant="primary"
+                    className="m-0"
                     onClick={() => setAllowEdit(!allowEdit)}
                   >
                     Editar datos

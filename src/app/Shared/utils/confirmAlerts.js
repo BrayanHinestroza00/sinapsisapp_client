@@ -13,8 +13,9 @@ export const confirmAlert = ({
     confirmButtonText: confirmButtonText,
     confirmButtonColor: "#9a66a8",
     showConfirmButton: true,
-    showCancelButton: true,
     cancelButtonText: cancelButtonText,
+    cancelButtonColor: "#fd9233",
+    showCancelButton: true,
   }).then((res) => {
     if (res.isConfirmed) {
       onConfirm();
@@ -37,8 +38,9 @@ export const confirmAlertWithText = ({
     confirmButtonText: confirmButtonText,
     confirmButtonColor: "#9a66a8",
     showConfirmButton: true,
-    showCancelButton: true,
     cancelButtonText: cancelButtonText,
+    cancelButtonColor: "#fd9233",
+    showCancelButton: true,
   }).then((res) => {
     if (res.isConfirmed) {
       onConfirm();

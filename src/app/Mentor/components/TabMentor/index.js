@@ -42,7 +42,7 @@ function TabMentor() {
           idEmprendedor={state.idEmprendedor}
           idProyectoEmprendimiento={state.idProyectoEmprendimiento}
           idEtapaRuta={state.idEstadoRuta}
-          tipoUsuario={"MENTOR"}
+          tipoUsuario={1}
           idUsuario={userData.id}
           estadoAsesoramiento={state.estadoAsesoramiento}
         />

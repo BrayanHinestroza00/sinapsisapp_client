@@ -9,7 +9,7 @@ export const messageAlert = ({
 }) => {
   Swal.fire({
     title: title,
-    text: text,
+    html: text,
     icon: icon,
     iconColor: "#9a66a8",
     confirmButtonText: confirmButtonText,

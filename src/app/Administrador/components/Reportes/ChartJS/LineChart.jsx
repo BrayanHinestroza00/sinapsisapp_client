@@ -62,13 +62,13 @@ function LineChart({
     datasets: datos2
       ? [
           {
-            label: dataLabel || "Consultoria Normal",
+            label: dataLabel || "Consultoría Normal",
             data: datos || [5, 6, 7],
             borderColor: "rgb(255, 99, 132)",
             backgroundColor: "rgba(255, 99, 132, 0.5)",
           },
           {
-            label: dataLabel2 || "Consultoria Especializada",
+            label: dataLabel2 || "Consultoría Especializada",
             data: datos2 || [3, 2, 1],
             borderColor: "rgb(53, 162, 235)",
             backgroundColor: "rgba(53, 162, 235, 0.5)",

@@ -112,7 +112,7 @@ function HistorialTareas({ idProyectoEmprendimiento }) {
           {historial.length > 0 ? (
             <FlexyTable
               datos={historial}
-              titulo={"Historial Tareas"}
+              titulo={"historial tareas"}
               btn1={"Ver Detalle"}
               fun1={(tareaData) => {
                 onClicDetalleTarea(tareaData);

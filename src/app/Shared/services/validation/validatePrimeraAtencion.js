@@ -56,8 +56,8 @@ export const validacionesPrimeraAtencionUsuario = (datos, error) => {
   if (!direccion) {
     errors.direccion = "Campo Obligatorio";
   } else {
-    if (direccion.length > 20) {
-      errors.direccion = "Máximo 20 caracteres";
+    if (direccion.length > 500) {
+      errors.direccion = "Máximo 500 caracteres";
     }
   }
   if (!vinculoConU) {
@@ -111,15 +111,15 @@ export const validacionesPrimeraAtencionUsuario = (datos, error) => {
       if (!cargoColaborador) {
         errors.cargoColaborador = "Campo Obligatorio";
       } else {
-        if (cargoColaborador.length > 100) {
-          errors.cargoColaborador = "Máximo 100 caracteres";
+        if (cargoColaborador.length > 500) {
+          errors.cargoColaborador = "Máximo 500 caracteres";
         }
       }
       if (!dependenciaColaborador) {
         errors.dependenciaColaborador = "Campo Obligatorio";
       } else {
-        if (dependenciaColaborador.length > 100) {
-          errors.dependenciaColaborador = "Máximo 100 caracteres";
+        if (dependenciaColaborador.length > 500) {
+          errors.dependenciaColaborador = "Máximo 500 caracteres";
         }
       }
     }
@@ -149,8 +149,8 @@ export const validacionesPrimeraAtencionEmprendimiento = (datos, error) => {
   if (!nombreEmprendimiento) {
     errors.nombreEmprendimiento = "Campo Obligatorio";
   } else {
-    if (nombreEmprendimiento.length > 100) {
-      errors.nombreEmprendimiento = "Solo se permiten 100 caracteres";
+    if (nombreEmprendimiento.length > 1000) {
+      errors.nombreEmprendimiento = "Solo se permiten 1000 caracteres";
     } else {
       const RegExp = REGEX_PATTERN_CARACTERES;
       if (!RegExp.test(nombreEmprendimiento)) {
@@ -162,48 +162,48 @@ export const validacionesPrimeraAtencionEmprendimiento = (datos, error) => {
   if (!descripcionProducto) {
     errors.descripcionProducto = "Campo Obligatorio";
   } else {
-    if (descripcionProducto.length > 1000) {
-      errors.descripcionProducto = "Solo se permiten 1000 caracteres";
+    if (descripcionProducto.length > 4000) {
+      errors.descripcionProducto = "Solo se permiten 4000 caracteres";
     }
   }
 
   if (!necesidadesIdentificadas) {
     errors.necesidadesIdentificadas = "Campo Obligatorio";
   } else {
-    if (necesidadesIdentificadas.length > 500) {
-      errors.necesidadesIdentificadas = "Solo se permiten 500 caracteres";
+    if (necesidadesIdentificadas.length > 4000) {
+      errors.necesidadesIdentificadas = "Solo se permiten 4000 caracteres";
     }
   }
 
   if (!descripcionClientes) {
     errors.descripcionClientes = "Campo Obligatorio";
   } else {
-    if (descripcionClientes.length > 100) {
-      errors.descripcionClientes = "Solo se permiten 100 caracteres";
+    if (descripcionClientes.length > 4000) {
+      errors.descripcionClientes = "Solo se permiten 4000 caracteres";
     }
   }
 
   if (materiasPrimas) {
-    if (materiasPrimas.length > 500) {
-      errors.materiasPrimas = "Solo se permiten 500 caracteres";
+    if (materiasPrimas.length > 1000) {
+      errors.materiasPrimas = "Solo se permiten 1000 caracteres";
     }
   }
 
   if (enfoqueSocial) {
-    if (enfoqueSocial.length > 100) {
-      errors.enfoqueSocial = "Solo se permiten 100 caracteres";
+    if (enfoqueSocial.length > 500) {
+      errors.enfoqueSocial = "Solo se permiten 500 caracteres";
     }
   }
 
   if (sectorEmprendimiento) {
-    if (sectorEmprendimiento.length > 100) {
-      errors.sectorEmprendimiento = "Solo se permiten 100 caracteres";
+    if (sectorEmprendimiento.length > 1000) {
+      errors.sectorEmprendimiento = "Solo se permiten 1000 caracteres";
     }
   }
 
   if (sitioWeb) {
-    if (sitioWeb.length > 500) {
-      errors.sitioWeb = "Solo se permiten 500 caracteres";
+    if (sitioWeb.length > 2000) {
+      errors.sitioWeb = "Solo se permiten 2000 caracteres";
     }
   }
 
@@ -233,16 +233,16 @@ export const validacionesPrimeraAtencionEmprendimiento = (datos, error) => {
       if (!nombreEmpresa) {
         errors.nombreEmpresa = "Campo Obligatorio";
       } else {
-        if (nombreEmpresa.length > 100) {
-          errors.nombreEmpresa = "Solo se permiten 100 caracteres";
+        if (nombreEmpresa.length > 1000) {
+          errors.nombreEmpresa = "Solo se permiten 1000 caracteres";
         }
       }
 
       if (!razonSocialEmpresa) {
         errors.razonSocialEmpresa = "Campo Obligatorio";
       } else {
-        if (razonSocialEmpresa.length > 100) {
-          errors.razonSocialEmpresa = "Solo se permiten 100 caracteres";
+        if (razonSocialEmpresa.length > 1000) {
+          errors.razonSocialEmpresa = "Solo se permiten 1000 caracteres";
         }
       }
     }
@@ -272,8 +272,8 @@ export const validacionesPrimeraAtencionPA = (datos) => {
   if (!nombreProducto) {
     errors.nombreProducto = "Campo Obligatorio";
   } else {
-    if (nombreProducto.length > 100) {
-      errors.nombreProducto = "Solo se permiten 100 caracteres";
+    if (nombreProducto.length > 500) {
+      errors.nombreProducto = "Solo se permiten 500 caracteres";
     }
   }
 
@@ -293,8 +293,8 @@ export const validacionesPrimeraAtencionPA = (datos) => {
   }
 
   if (obtencionMateriasPrimas) {
-    if (obtencionMateriasPrimas.length > 500) {
-      errors.obtencionMateriasPrimas = "Solo se permiten 500 caracteres";
+    if (obtencionMateriasPrimas.length > 1000) {
+      errors.obtencionMateriasPrimas = "Solo se permiten 1000 caracteres";
     }
   }
 
@@ -307,8 +307,8 @@ export const validacionesPrimeraAtencionPA = (datos) => {
       if (!cualEquipoTrabajo) {
         errors.cualEquipoTrabajo = "Campo Obligatorio";
       } else {
-        if (cualEquipoTrabajo.length > 200) {
-          errors.cualEquipoTrabajo = "Solo se permiten 200 caracteres";
+        if (cualEquipoTrabajo.length > 500) {
+          errors.cualEquipoTrabajo = "Solo se permiten 500 caracteres";
         }
       }
     }
@@ -317,8 +317,8 @@ export const validacionesPrimeraAtencionPA = (datos) => {
   if (!dedicacion) {
     errors.dedicacion = "Campo Obligatorio";
   } else {
-    if (dedicacion.length > 100) {
-      errors.dedicacion = "Solo se permiten 100 caracteres";
+    if (dedicacion.length > 1000) {
+      errors.dedicacion = "Solo se permiten 1000 caracteres";
     }
   }
 
@@ -338,8 +338,8 @@ export const validacionesPrimeraAtencionPA = (datos) => {
   if (!motivacion) {
     errors.motivacion = "Campo Obligatorio";
   } else {
-    if (motivacion.length > 500) {
-      errors.motivacion = "Solo se permiten 500 caracteres";
+    if (motivacion.length > 1000) {
+      errors.motivacion = "Solo se permiten 1000 caracteres";
     }
   }
 
@@ -355,9 +355,9 @@ export const validacionesPrimeraAtencionPA = (datos) => {
         if (!cualOtroDescubrioSinapsis) {
           errors.cualOtroDescubrioSinapsis = "Campo Obligatorio";
         } else {
-          if (cualOtroDescubrioSinapsis.length > 100) {
+          if (cualOtroDescubrioSinapsis.length > 500) {
             errors.cualOtroDescubrioSinapsis =
-              "Solo se permiten 100 caracteres";
+              "Solo se permiten 500 caracteres";
           }
         }
         break;

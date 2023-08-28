@@ -1,11 +1,19 @@
 import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { AccordionItemSidebar, EtiquetaSidebar, Sidebar } from "./styled.js";
 import {
   SIDEBAR_EMPRENDEDOR,
+  SIDEBAR_EMPRENDEDOR_AVANCE_RUTA,
+  SIDEBAR_EMPRENDEDOR_CONSULTORIAS,
+  SIDEBAR_EMPRENDEDOR_CONSULTORIAS_ESPECIALIZADAS,
   SIDEBAR_EMPRENDEDOR_CONSULTORIAS_ITEM,
+  SIDEBAR_EMPRENDEDOR_ESTADO_RUTA,
+  SIDEBAR_EMPRENDEDOR_HISTORIAL_CONSULTORIAS,
+  SIDEBAR_EMPRENDEDOR_MENTORES,
+  SIDEBAR_EMPRENDEDOR_PROYECTO,
   SIDEBAR_EMPRENDEDOR_RUTA_ITEM,
+  SIDEBAR_EMPRENDEDOR_TAREAS,
 } from "src/app/Shared/utils/constants";
 import { EmprendedorContext } from "../../contexts/EmprendedorContext";
 
@@ -21,41 +29,88 @@ import historialConsultoriaIcon from "src/app/Shared/assets/images/sidebar/histo
 import emprendimientosIcon from "src/app/Shared/assets/images/sidebar/administrador_emprendimientos.png";
 
 function EmprendedorSidebar() {
+  const location = useLocation();
   const { userData, selectedProjectIndex } = useContext(EmprendedorContext);
 
   const [menuActive, setMenuActive] = useState("");
+  const [menuSubActive, setSubMenuActive] = useState("");
 
   useEffect(() => {
-    try {
-      const menu_item_active = localStorage.getItem(SIDEBAR_EMPRENDEDOR);
-      if (menu_item_active === null) {
-        if (
-          userData.proyectosEmprendimiento[selectedProjectIndex]
-            .estadoEmprendimiento == "TERMINADO"
-        ) {
-          localStorage.setItem(
-            SIDEBAR_EMPRENDEDOR,
-            SIDEBAR_EMPRENDEDOR_RUTA_ITEM
-          );
-          setMenuActive(SIDEBAR_EMPRENDEDOR_RUTA_ITEM);
-        } else {
-          localStorage.setItem(
-            SIDEBAR_EMPRENDEDOR,
-            SIDEBAR_EMPRENDEDOR_RUTA_ITEM
-          );
-          setMenuActive(SIDEBAR_EMPRENDEDOR_RUTA_ITEM);
-        }
-      } else {
-        setMenuActive(menu_item_active);
-      }
-    } catch (error) {
-      console.error("Error al leer el localStorage - EmprendedorNavbar.jsx");
+    const arrayPath = location.pathname.split("/");
+    const pathRoute = arrayPath[arrayPath.length - 1].toLowerCase();
+
+    switch (pathRoute) {
+      case "avanzar":
+        setMenuActive(SIDEBAR_EMPRENDEDOR_RUTA_ITEM);
+        setSubMenuActive(SIDEBAR_EMPRENDEDOR_AVANCE_RUTA);
+        break;
+      case "estado":
+        setMenuActive(SIDEBAR_EMPRENDEDOR_RUTA_ITEM);
+        setSubMenuActive(SIDEBAR_EMPRENDEDOR_ESTADO_RUTA);
+        break;
+      case "mentores":
+        setMenuActive(SIDEBAR_EMPRENDEDOR_RUTA_ITEM);
+        setSubMenuActive(SIDEBAR_EMPRENDEDOR_MENTORES);
+        break;
+      case "tareas":
+        setMenuActive(SIDEBAR_EMPRENDEDOR_RUTA_ITEM);
+        setSubMenuActive(SIDEBAR_EMPRENDEDOR_TAREAS);
+        break;
+      case "proyecto":
+        setMenuActive(SIDEBAR_EMPRENDEDOR_RUTA_ITEM);
+        setSubMenuActive(SIDEBAR_EMPRENDEDOR_PROYECTO);
+        break;
+      case "consultoria":
+        setMenuActive(SIDEBAR_EMPRENDEDOR_CONSULTORIAS_ITEM);
+        setSubMenuActive(SIDEBAR_EMPRENDEDOR_CONSULTORIAS);
+        break;
+      case "consultoriaespecializada":
+        setMenuActive(SIDEBAR_EMPRENDEDOR_CONSULTORIAS_ITEM);
+        setSubMenuActive(SIDEBAR_EMPRENDEDOR_CONSULTORIAS_ESPECIALIZADAS);
+        break;
+      case "historial":
+        setMenuActive(SIDEBAR_EMPRENDEDOR_CONSULTORIAS_ITEM);
+        setSubMenuActive(SIDEBAR_EMPRENDEDOR_HISTORIAL_CONSULTORIAS);
+        break;
+
+      default:
+        setMenuActive(SIDEBAR_EMPRENDEDOR_RUTA_ITEM);
+        setSubMenuActive(SIDEBAR_EMPRENDEDOR_AVANCE_RUTA);
+        break;
     }
-    // eslint-disable-next-line
-  }, []);
+  }, [location.pathname]);
+
+  // useEffect(() => {
+  //   try {
+  //     const menu_item_active = localStorage.getItem(SIDEBAR_EMPRENDEDOR);
+  //     if (menu_item_active === null) {
+  //       if (
+  //         userData.proyectosEmprendimiento[selectedProjectIndex]
+  //           .estadoEmprendimiento == "TERMINADO"
+  //       ) {
+  //         localStorage.setItem(
+  //           SIDEBAR_EMPRENDEDOR,
+  //           SIDEBAR_EMPRENDEDOR_RUTA_ITEM
+  //         );
+  //         setMenuActive(SIDEBAR_EMPRENDEDOR_RUTA_ITEM);
+  //       } else {
+  //         localStorage.setItem(
+  //           SIDEBAR_EMPRENDEDOR,
+  //           SIDEBAR_EMPRENDEDOR_RUTA_ITEM
+  //         );
+  //         setMenuActive(SIDEBAR_EMPRENDEDOR_RUTA_ITEM);
+  //       }
+  //     } else {
+  //       setMenuActive(menu_item_active);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error al leer el localStorage - EmprendedorNavbar.jsx");
+  //   }
+  //   // eslint-disable-next-line
+  // }, []);
 
   const onChangeMenu = (event_key) => {
-    localStorage.setItem(SIDEBAR_EMPRENDEDOR, event_key);
+    // localStorage.setItem(SIDEBAR_EMPRENDEDOR, event_key);
     setMenuActive(event_key);
   };
 
@@ -115,7 +170,10 @@ function EmprendedorSidebar() {
                 ) : (
                   <Link
                     to={"/Emprendedor/Ruta/Avanzar"}
-                    className="btn d-flex align-items-center"
+                    className={`btn d-flex align-items-center ${
+                      menuSubActive == SIDEBAR_EMPRENDEDOR_AVANCE_RUTA &&
+                      "activeSubItem"
+                    }`}
                     style={{
                       textAlign: "left",
                       height: "72px",
@@ -138,7 +196,10 @@ function EmprendedorSidebar() {
 
                 <Link
                   to={"/Emprendedor/Ruta/Estado"}
-                  className="btn d-flex align-items-center"
+                  className={`btn d-flex align-items-center ${
+                    menuSubActive == SIDEBAR_EMPRENDEDOR_ESTADO_RUTA &&
+                    "activeSubItem"
+                  }`}
                   style={{
                     textAlign: "left",
                     height: "72px",
@@ -160,7 +221,10 @@ function EmprendedorSidebar() {
 
                 <Link
                   to={"/Emprendedor/Ruta/Mentores"}
-                  className="btn d-flex align-items-center"
+                  className={`btn d-flex align-items-center ${
+                    menuSubActive == SIDEBAR_EMPRENDEDOR_MENTORES &&
+                    "activeSubItem"
+                  }`}
                   style={{
                     textAlign: "left",
                     height: "72px",
@@ -182,7 +246,10 @@ function EmprendedorSidebar() {
 
                 <Link
                   to={"/Emprendedor/Ruta/Tareas"}
-                  className="btn d-flex align-items-center"
+                  className={`btn d-flex align-items-center ${
+                    menuSubActive == SIDEBAR_EMPRENDEDOR_TAREAS &&
+                    "activeSubItem"
+                  }`}
                   style={{
                     textAlign: "left",
                     height: "72px",
@@ -204,7 +271,10 @@ function EmprendedorSidebar() {
 
                 <Link
                   to={"/Emprendedor/Ruta/Proyecto"}
-                  className="btn d-flex align-items-center"
+                  className={`btn d-flex align-items-center ${
+                    menuSubActive == SIDEBAR_EMPRENDEDOR_PROYECTO &&
+                    "activeSubItem"
+                  }`}
                   style={{
                     textAlign: "left",
                     height: "72px",
@@ -290,7 +360,10 @@ function EmprendedorSidebar() {
               >
                 <Link
                   to={"/Emprendedor/Ruta/Consultoria"}
-                  className="btn d-flex align-items-center"
+                  className={`btn d-flex align-items-center ${
+                    menuSubActive == SIDEBAR_EMPRENDEDOR_CONSULTORIAS &&
+                    "activeSubItem"
+                  }`}
                   style={{
                     textAlign: "left",
                     height: "72px",
@@ -311,7 +384,11 @@ function EmprendedorSidebar() {
                 </Link>
                 <Link
                   to={"/Emprendedor/Ruta/ConsultoriaEspecializada"}
-                  className="btn d-flex align-items-center"
+                  className={`btn d-flex align-items-center ${
+                    menuSubActive ==
+                      SIDEBAR_EMPRENDEDOR_CONSULTORIAS_ESPECIALIZADAS &&
+                    "activeSubItem"
+                  }`}
                   style={{
                     textAlign: "left",
                     height: "72px",
@@ -332,7 +409,11 @@ function EmprendedorSidebar() {
                 </Link>
                 <Link
                   to={"/Emprendedor/Ruta/Consultoria/Historial"}
-                  className="btn d-flex align-items-center"
+                  className={`btn d-flex align-items-center ${
+                    menuSubActive ==
+                      SIDEBAR_EMPRENDEDOR_HISTORIAL_CONSULTORIAS &&
+                    "activeSubItem"
+                  }`}
                   style={{
                     textAlign: "left",
                     height: "72px",

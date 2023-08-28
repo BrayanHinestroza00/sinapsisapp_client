@@ -76,10 +76,11 @@ function Emprendimiento({ idEmprendimiento }) {
         sitioWeb: preloadData.sitioWeb,
         redesSociales: redesSociales,
         estaConstituida: preloadData.estaConstituida,
-        fechaConstitucion: moment(
-          preloadData.fechaConstitucion,
-          "YYYY-MM-DD hh:mm:ss"
-        ).format(SINAPSIS_APP_FORMATO_FECHA_INPUT),
+        fechaConstitucion: preloadData.fechaConstitucion
+          ? moment(preloadData.fechaConstitucion, "YYYY-MM-DD hh:mm:ss").format(
+              SINAPSIS_APP_FORMATO_FECHA_INPUT
+            )
+          : null,
         nitEmpresa: preloadData.nit,
         nombreEmpresa: preloadData.nombreEmpresa,
         razonSocialEmpresa: preloadData.razonSocial,

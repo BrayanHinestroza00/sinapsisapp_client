@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import {
+  MENU_EMPRENDEDOR_EDITAR_CUENTA,
   MENU_EMPRENDEDOR_INICIO,
   MENU_EMPRENDEDOR_PERFIL,
   MENU_EMPRENDEDOR_PRIMERA_ATENCION,
@@ -15,16 +16,43 @@ import { EmprendedorContext } from "../../contexts/EmprendedorContext";
 import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 function EmprendedorNavbar() {
+  const location = useLocation();
   const {
     userData,
     selectedProjectIndex,
     setShowSidebar,
-    menuItemActive,
-    setMenuItemActive,
+    // menuItemActive,
+    // setMenuItemActive,
     loading: loadingContext,
   } = useContext(EmprendedorContext);
 
   const [loading, setLoading] = useState(true);
+  const [menuItemActive, setMenuItemActive] = useState("");
+
+  useEffect(() => {
+    const arrayPath = location.pathname.split("/");
+    const pathRoute = arrayPath[arrayPath.length - 1];
+
+    switch (pathRoute) {
+      case "Emprendedor":
+        setMenuItemActive(MENU_EMPRENDEDOR_INICIO);
+        break;
+
+      case "Perfil":
+        setMenuItemActive(MENU_EMPRENDEDOR_PERFIL);
+        break;
+      case "primeraAtencion":
+        setMenuItemActive(MENU_EMPRENDEDOR_PRIMERA_ATENCION);
+        break;
+      case "Editar_Cuenta":
+        setMenuItemActive(MENU_EMPRENDEDOR_EDITAR_CUENTA);
+        break;
+
+      default:
+        setMenuItemActive(MENU_EMPRENDEDOR_RUTA);
+        break;
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     if (!loadingContext && userData) {
@@ -35,11 +63,11 @@ function EmprendedorNavbar() {
   const onChangeMenu = (event_key) => {
     setMenuItemActive(event_key);
     if (event_key === MENU_EMPRENDEDOR_RUTA) {
-      localStorage.setItem(SIDEBAR_EMPRENDEDOR, SIDEBAR_EMPRENDEDOR_RUTA_ITEM);
-      localStorage.setItem(
-        SIDEBAR_EMPRENDEDOR_SUBMENU,
-        SIDEBAR_EMPRENDEDOR_ESTADO_RUTA
-      );
+      // localStorage.setItem(SIDEBAR_EMPRENDEDOR, SIDEBAR_EMPRENDEDOR_RUTA_ITEM);
+      // localStorage.setItem(
+      //   SIDEBAR_EMPRENDEDOR_SUBMENU,
+      //   SIDEBAR_EMPRENDEDOR_ESTADO_RUTA
+      // );
       setShowSidebar(true);
     } else {
       setShowSidebar(false);
@@ -54,7 +82,7 @@ function EmprendedorNavbar() {
     <nav
       id="header_emprendedor"
       className="navbar fixed-top navbar-expand-md navbar-dark "
-      style={{ backgroundColor: "#752A88", marginTop: "4.5rem" }}
+      style={{ backgroundColor: "#752A88", marginTop: "5.5rem" }}
     >
       <div className="container">
         <button

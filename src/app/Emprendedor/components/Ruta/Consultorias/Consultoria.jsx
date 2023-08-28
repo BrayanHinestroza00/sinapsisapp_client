@@ -74,11 +74,11 @@ function Consultoria() {
             "Hora Inicio Programada": moment(
               consultoriaData.horaInicioConsultoria,
               "hh:mm"
-            ).format("LT"),
+            ).format("hh:mm A"),
             "Hora Finalización Programada": moment(
               consultoriaData.horaFinConsultoria,
               "hh:mm"
-            ).format("LT"),
+            ).format("hh:mm A"),
             "Creado Por":
               consultoriaData.nombreMentor +
               " " +
@@ -126,8 +126,6 @@ function Consultoria() {
       </>
     );
   }
-
-  console.log("first", consultorias);
 
   return (
     <>
@@ -187,7 +185,7 @@ function Consultoria() {
             <Ruta>
               <FlexyTable
                 datos={consultorias}
-                titulo={"Consultorías"}
+                titulo={"consultorías"}
                 // btn1={"Ver Detalle"}
                 // fun1={(consultoriaData) => {
                 //   onClicDetalleConsultoria(consultoriaData);

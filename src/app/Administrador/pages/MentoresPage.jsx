@@ -19,7 +19,7 @@ import {
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import { validarListadoMentores } from "src/app/Shared/services/validation/validateListadoMentores";
 
-import showIcon from "src/app/Shared/assets/images/icons/showIcon.png";
+import showIcon from "src/app/Shared/assets/images/icons/detalleIcon.svg";
 import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 function MentoresPage() {
@@ -52,6 +52,8 @@ function MentoresPage() {
         method: HTTP_METHOD_GET,
       },
     });
+
+    consultarMentores();
   }, []);
 
   useEffect(() => {
@@ -91,17 +93,7 @@ function MentoresPage() {
     if (Object.keys(erroresFormulario).length) {
       setError(erroresFormulario);
     } else {
-      setError({});
-      fetchApiMentores({
-        URL: URL_OBTENER_MENTORES,
-        requestOptions: {
-          method: HTTP_METHOD_GET,
-          params: {
-            ...datosFiltro,
-            estadoCuenta: "1",
-          },
-        },
-      });
+      consultarMentores();
     }
   };
 
@@ -113,6 +105,20 @@ function MentoresPage() {
     navigate(`/Administrador/Mentores/${data.id}`, {
       replace: true,
       state: data,
+    });
+  };
+
+  const consultarMentores = () => {
+    setError({});
+    fetchApiMentores({
+      URL: URL_OBTENER_MENTORES,
+      requestOptions: {
+        method: HTTP_METHOD_GET,
+        params: {
+          ...datosFiltro,
+          estadoCuenta: "1",
+        },
+      },
     });
   };
 
@@ -263,8 +269,17 @@ function MentoresPage() {
               {datos && datos.length > 0 ? (
                 <FlexyTable
                   datos={datos}
-                  titulo={"Mentores"}
-                  btn1={<img src={showIcon} width="auto" height="25" />}
+                  titulo={"mentores"}
+                  btn1={
+                    <img
+                      src={showIcon}
+                      width="100%"
+                      height="25"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Ver Detalle"
+                    />
+                  }
                   fun1={(mentorData) => {
                     onHandleDetalleMentor(mentorData);
                   }}

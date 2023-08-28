@@ -9,7 +9,7 @@ import { EmprendedorContext } from "../../contexts/EmprendedorContext";
 
 import logo from "src/app/Shared/assets/images/header/sinapsis.png";
 import exit from "src/app/Shared/assets/images/header/exit.svg";
-import user from "src/app/Shared/assets/images/header/emprendedor/emprendedor_header.png";
+import user from "src/app/Shared/assets/images/header/emprendedor_header.png";
 import { HeaderMenuItem } from "src/app/Shared/assets/styles/Common.js";
 
 function EmprendedorHeader() {

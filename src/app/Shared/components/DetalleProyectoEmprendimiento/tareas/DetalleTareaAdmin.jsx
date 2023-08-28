@@ -9,6 +9,7 @@ import { Label, Table } from "./styled";
 import { getArchivo } from "src/app/Shared/utils/utilityFunctions";
 
 import downloadIcon from "src/app/Shared/assets/images/icons/download_icon.png";
+import { Titulo } from "src/app/Shared/assets/styles/Common";
 
 function DetalleTareaAdmin(props) {
   const [datosImagen, setDatosImagen] = useState({});
@@ -62,11 +63,12 @@ function DetalleTareaAdmin(props) {
           <h1 style={{ color: "#FFF" }}>{props.data.titulo}</h1>
         </Modal.Title>
       </Modal.Header>
+
       <Modal.Body style={{ backgroundColor: "#fbf6fc" }}>
         <Form className="container" encType="multipart/form-data">
-          <h5>Información de tarea</h5>
+          <Titulo className="text-bold">INFORMACIÓN DE TAREA</Titulo>
           <Form.Group className="row mb-3">
-            <Form.Label>Descripción</Form.Label>
+            <Label style={{ fontWeight: "600" }}>Descripción</Label>
             <Form.Control
               as="textarea"
               rows={3}
@@ -79,7 +81,9 @@ function DetalleTareaAdmin(props) {
             <LoadingSpinner width="30%" height="30%" />
           ) : (
             <Form.Group className="row mb-3">
-              <Label>Recursos entregados por el docente</Label>
+              <Label style={{ fontWeight: "600" }}>
+                Recursos entregados por el docente
+              </Label>
               <br />
               <div className="text-center">
                 <a
@@ -97,7 +101,9 @@ function DetalleTareaAdmin(props) {
 
           {props?.tipo == "historial" && props.data.urlArchivosEntrega && (
             <Form.Group className="row mb-3">
-              <Label>Recursos entregados por el Emprendedor</Label>
+              <Label style={{ fontWeight: "600" }}>
+                Recursos entregados por el Emprendedor
+              </Label>
               <br />
               <div className="text-center">
                 <a
@@ -114,15 +120,15 @@ function DetalleTareaAdmin(props) {
           )}
 
           <Form.Group className="row mb-3">
-            <Label>Estado de Entrega</Label>
+            <Label style={{ fontWeight: "600" }}>Estado de Entrega</Label>
             <div>
-              <Table className="table table-bordered">
+              <Table className="table table-bordered table_tarea">
                 <tbody>
                   <tr>
                     <td>Estado de la Entrega</td>
                     <td>{props.data.estadoEntrega}</td>
                   </tr>
-                  {props.data.estadoEntrega == "PENDIENTE" && (
+                  {/* {props.data.estadoEntrega == "PENDIENTE" && (
                     <tr>
                       <td>Fecha Límite de Entrega</td>
                       <td>
@@ -132,7 +138,7 @@ function DetalleTareaAdmin(props) {
                         ).format(SINAPSIS_APP_FORMATO_FECHA_HORA)}
                       </td>
                     </tr>
-                  )}
+                  )} */}
                   <tr>
                     <td>Estado de la Calificación</td>
                     <td>{props.data.calificacion || "SIN ENTREGAR"}</td>
@@ -194,10 +200,10 @@ function DetalleTareaAdmin(props) {
             </div>
           </Form.Group>
           <div className="row mb-3">
-            <h5>Información de docente</h5>
+            <Titulo className="text-bold">INFORMACIÓN DE DOCENTE</Titulo>
             <br />
             <Form.Group className="mb-3">
-              <Label>Docente </Label>
+              <Label style={{ fontWeight: "600" }}>Docente </Label>
               <Form.Control
                 value={`${props.data.nombresCrea} ${props.data.apellidosCrea}`}
                 disabled
@@ -205,7 +211,7 @@ function DetalleTareaAdmin(props) {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Label>Correo Docente </Label>
+              <Label style={{ fontWeight: "600" }}>Correo Docente </Label>
               <Form.Control
                 value={
                   props.data.correoInstitucionalCrea ||

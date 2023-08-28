@@ -58,11 +58,11 @@ function HistorialConsultoria({ idProyectoEmprendimiento }) {
             "Hora Inicio Programada": moment(
               consultoriaData.horaInicioConsultoria,
               "hh:mm"
-            ).format("LT"),
+            ).format("hh:mm A"),
             "Hora Finalización Programada": moment(
               consultoriaData.horaFinConsultoria,
               "hh:mm"
-            ).format("LT"),
+            ).format("hh:mm A"),
             "Creado Por":
               consultoriaData.nombreMentor +
               " " +
@@ -100,8 +100,17 @@ function HistorialConsultoria({ idProyectoEmprendimiento }) {
             ) : consultorias && consultorias.length > 0 ? (
               <FlexyTable
                 datos={consultorias}
-                titulo={"Histórico de Consultorías"}
-                btn1={<img src={showIcon} width="auto" height="25" />}
+                titulo={"histórico de consultorías"}
+                btn1={
+                  <img
+                    src={showIcon}
+                    width="100%"
+                    height="25"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Ver Detalle"
+                  />
+                }
                 fun1={(consultoriaData) => {
                   onClicDetalleConsultoria(consultoriaData);
                 }}

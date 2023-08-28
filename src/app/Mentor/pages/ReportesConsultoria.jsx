@@ -13,7 +13,7 @@ function ReportesConsultoria() {
       <Titulo>Reportes Consultorías</Titulo>
 
       <Card>
-        <Subtitulo>Filtros de búsqueda</Subtitulo>
+        <Subtitulo>Filtros de reporte</Subtitulo>
 
         <FormularioReporteConsultorias idMentor={userData.id} />
       </Card>

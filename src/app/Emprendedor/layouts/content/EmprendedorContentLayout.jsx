@@ -2,7 +2,7 @@ import EmprendedorSidebar from "../sidebar/EmprendedorSidebar";
 
 function EmprendedorContentLayout({ children, sidebar }) {
   return (
-    <div className="container-fluid" style={{ marginTop: "7.5rem" }}>
+    <div className="container-fluid" style={{ marginTop: "8.5rem" }}>
       <div className="row flex-wrap">
         {sidebar ? (
           <>

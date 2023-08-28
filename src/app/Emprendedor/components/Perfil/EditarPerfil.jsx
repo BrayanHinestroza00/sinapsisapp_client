@@ -757,6 +757,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
               id="cargoColaborador"
               value={datos.cargoColaborador || null}
               onChange={(e) => onHandleChange(e)}
+              disabled
             />
             {error.cargoColaborador && (
               <small className="form-text font-weight-bold text-danger">
@@ -777,6 +778,7 @@ function EditarPerfil({ preloadData, allowEdit, setAllowEdit, reloadData }) {
               id="dependenciaColaborador"
               value={datos.dependenciaColaborador || null}
               onChange={(e) => onHandleChange(e)}
+              disabled
             />
             {error.dependenciaColaborador && (
               <small className="form-text font-weight-bold text-danger">

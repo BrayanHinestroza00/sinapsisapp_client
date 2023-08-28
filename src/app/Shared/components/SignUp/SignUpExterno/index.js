@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Form } from "react-bootstrap";
+import { Button, Form, InputGroup } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 
 import { validacionesSignUp } from "src/app/Shared/services/validation/validationSignUp";
@@ -15,8 +15,6 @@ import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import { messageAlert } from "src/app/Shared/utils/messageAlerts";
 import { confirmAlert } from "src/app/Shared/utils/confirmAlerts";
 
-import imagen from "src/app/Shared/assets/images/panel_lateral.png";
-import logoSinapsis from "src/app/Shared/assets/images/logo_sinapsis.png";
 import {
   SignUpExternoCard,
   SignUpExternoContainer,
@@ -35,11 +33,20 @@ import {
   SignUpExternoRightPanelContainer,
 } from "./styled";
 
+import imagen from "src/app/Shared/assets/images/panel_lateral.png";
+import logoSinapsis from "src/app/Shared/assets/images/logo_sinapsis.png";
+import showPasswordIcon from "src/app/Shared/assets/images/icons/showPassword.png";
+import hidePasswordIcon from "src/app/Shared/assets/images/icons/hidePassword.png";
+
 function SignUpExterno() {
   const navigate = useNavigate();
   const [datos, setDatos] = useState({});
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
+  const [show, setShow] = useState({
+    contrasena: false,
+    confirmContrasena: false,
+  });
 
   // Custom Hooks
   const {
@@ -298,14 +305,33 @@ function SignUpExterno() {
                     Contraseña
                     <span className="text-danger"> (*)</span>
                   </Form.Label>
-                  <Form.Control
-                    name="contrasena"
-                    placeholder="Contraseña"
-                    type="password"
-                    id="contrasena"
-                    onChange={(e) => handleChange(e)}
-                    value={datos.contrasena}
-                  />
+                  <InputGroup>
+                    <Form.Control
+                      type={show.contrasena ? "text" : "password"}
+                      name="contrasena"
+                      placeholder="Contraseña"
+                      id="contrasena"
+                      onChange={(e) => handleChange(e)}
+                      value={datos.contrasena}
+                    />
+                    <InputGroup.Text className="p-0">
+                      <Button
+                        style={{ width: "100%" }}
+                        onClick={() =>
+                          setShow({ ...show, contrasena: !show.contrasena })
+                        }
+                      >
+                        <img
+                          style={{ width: "2rem" }}
+                          src={
+                            show.contrasena
+                              ? showPasswordIcon
+                              : hidePasswordIcon
+                          }
+                        />
+                      </Button>
+                    </InputGroup.Text>
+                  </InputGroup>
                   {error.contrasena && (
                     <SignUpExternoFormFieldError className="text-danger">
                       {error.contrasena}
@@ -318,14 +344,36 @@ function SignUpExterno() {
                     Confirmar contraseña
                     <span className="text-danger"> (*)</span>
                   </Form.Label>
-                  <Form.Control
-                    name="confirmContrasena"
-                    placeholder="Confirmar contraseña"
-                    type="password"
-                    id="confirmContrasena"
-                    onChange={(e) => handleChange(e)}
-                    value={datos.confirmContrasena}
-                  />
+                  <InputGroup>
+                    <Form.Control
+                      type={show.confirmContrasena ? "text" : "password"}
+                      name="confirmContrasena"
+                      placeholder="Confirmar contraseña"
+                      id="confirmContrasena"
+                      onChange={(e) => handleChange(e)}
+                      value={datos.confirmContrasena}
+                    />
+                    <InputGroup.Text className="p-0">
+                      <Button
+                        style={{ width: "100%" }}
+                        onClick={() =>
+                          setShow({
+                            ...show,
+                            confirmContrasena: !show.confirmContrasena,
+                          })
+                        }
+                      >
+                        <img
+                          style={{ width: "2rem" }}
+                          src={
+                            show.confirmContrasena
+                              ? showPasswordIcon
+                              : hidePasswordIcon
+                          }
+                        />
+                      </Button>
+                    </InputGroup.Text>
+                  </InputGroup>
                   {error.confirmContrasena && (
                     <SignUpExternoFormFieldError className="text-danger">
                       {error.confirmContrasena}

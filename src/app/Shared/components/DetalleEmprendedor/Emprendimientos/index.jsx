@@ -8,6 +8,7 @@ import {
   SpanAuxiliar,
   CardRuta,
   Subtitulo,
+  Titulo,
 } from "src/app/Shared/assets/styles/Common.js";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import {
@@ -15,6 +16,8 @@ import {
   URL_OBTENER_EMPRENDEDIMIENTOS,
   URL_OBTENER_REDES_SOCIALES,
 } from "src/app/Shared/utils/apiConstants";
+import moment from "moment";
+import { SINAPSIS_APP_FORMATO_FECHA_INPUT } from "src/app/Shared/utils/constants";
 
 function Emprendimientos({ idEmprendedor }) {
   const [loadingComponent, setLoadingComponent] = useState(true);
@@ -80,7 +83,12 @@ function Emprendimientos({ idEmprendedor }) {
         sitioWeb: preloadData[selected].sitioWeb,
         redesSociales: redesSociales,
         estaConstituida: preloadData[selected].estaConstituida,
-        fechaConstitucion: preloadData[selected].fechaConstitucion,
+        fechaConstitucion: preloadData[selected].fechaConstitucion
+          ? moment(
+              preloadData[selected].fechaConstitucion,
+              "YYYY-MM-DD hh:mm:ss"
+            ).format(SINAPSIS_APP_FORMATO_FECHA_INPUT)
+          : null,
         nitEmpresa: preloadData[selected].nit,
         nombreEmpresa: preloadData[selected].nombreEmpresa,
         razonSocialEmpresa: preloadData[selected].razonSocial,
@@ -108,7 +116,7 @@ function Emprendimientos({ idEmprendedor }) {
 
   return (
     <Card>
-      {preloadData && preloadData.length > 1 ? (
+      {preloadData && preloadData.length > 0 ? (
         <>
           <Subtitulo>Seleccione el proyecto... </Subtitulo>
           <div className="px-3">
@@ -116,7 +124,11 @@ function Emprendimientos({ idEmprendedor }) {
               return (
                 <button
                   id={index}
-                  className="btn btn-primary mx-1"
+                  className={
+                    selected == index
+                      ? "btn btn-primary mx-1"
+                      : "btn btn-outline-primary mx-1"
+                  }
                   key={index}
                   onClick={() => onChangeSelectedProject(index)}
                 >
@@ -126,22 +138,22 @@ function Emprendimientos({ idEmprendedor }) {
             })}
           </div>
           {datos && (
-            <CardRuta style={{ marginTop: "1rem", marginBottom: "0rem" }}>
+            <CardRuta style={{ marginTop: "0rem", marginBottom: "0rem" }}>
               <div
                 style={{
                   width: "100%",
-                  marginLeft: "2rem",
+                  marginLeft: "0rem",
                   marginRight: "2rem",
                   marginBottom: "2rem",
                   padding: "15px 16px 30px 14px",
                 }}
               >
-                <Subtitulo>
-                  Información del proyecto:
+                <Titulo style={{ fontWeight: "bold" }}>
+                  Información del proyecto de emprendimiento:
                   <SpanAuxiliar className="text-muted">
                     {datos.nombreEmprendimiento}
                   </SpanAuxiliar>
-                </Subtitulo>
+                </Titulo>
                 <FormEmprendimiento
                   datos={datos}
                   redesData={redesData}

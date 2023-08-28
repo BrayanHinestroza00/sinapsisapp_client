@@ -206,15 +206,22 @@ function InfoEmprendimiento(props) {
           <Label htmlFor="sectorEmprendimiento" className="form-label">
             Sector del emprendimiento
           </Label>
-          <Input
-            type="text"
+          <select
             className="form-control"
             id="sectorEmprendimiento"
             name="sectorEmprendimiento"
-            placeholder="Sector del Emprendimiento"
+            value={props.datos.sectorEmprendimiento || "-1"}
             onChange={(e) => props.handleChange(e)}
-            value={props.datos.sectorEmprendimiento || ""}
-          />
+          >
+            <option value={"-1"} disabled>
+              Seleccione...
+            </option>
+            <option value="Sector Comercio">Sector Comercio</option>
+            <option value="Sector Servicios">Sector Servicios</option>
+            <option value="Sector Alimentos">Sector Alimentos</option>
+            <option value="Sector Tecnológico">Sector Tecnológico</option>
+            <option value="Sector Salud">Sector Salud</option>
+          </select>
           {error.sectorEmprendimiento && (
             <small className="form-text font-weight-bold text-danger">
               {error.sectorEmprendimiento}

@@ -151,29 +151,6 @@ function RevisarConsultoria({ data, idUsuario, show, onHide }) {
     setLoading(false);
   }
 
-  console.log("first", {
-    r1: data.idMentor != idUsuario,
-    r2:
-      (data.estadoConsultoria == "EN CURSO" ||
-        data.estadoConsultoria === "PROGRAMADA") &&
-      compareWithCurrentDate(
-        moment(data.fechaConsultoria, "YYYY-MM-DD hh:mm:ss").format(
-          SINAPSIS_APP_FORMATO_FECHA
-        )
-      ),
-    r3:
-      !(
-        data.estadoConsultoria == "EN CURSO" ||
-        data.estadoConsultoria === "PROGRAMADA"
-      ) &&
-      compareWithCurrentDate(
-        moment(data.fechaConsultoria, "YYYY-MM-DD hh:mm:ss").format(
-          SINAPSIS_APP_FORMATO_FECHA
-        )
-      ),
-    data,
-  });
-
   return (
     <Modal
       size="lg"
@@ -231,7 +208,9 @@ function RevisarConsultoria({ data, idUsuario, show, onHide }) {
           <Form.Group className="col-md-6 mb-3">
             <Form.Label>Hora Inicio Programada</Form.Label>
             <Form.Control
-              value={moment(data.horaInicioConsultoria, "hh:mm").format("LT")}
+              value={moment(data.horaInicioConsultoria, "hh:mm").format(
+                "hh:mm A"
+              )}
               disabled
             />
           </Form.Group>
@@ -239,13 +218,13 @@ function RevisarConsultoria({ data, idUsuario, show, onHide }) {
           <Form.Group className="col-md-6 mb-3">
             <Form.Label>Hora Finalización Programada</Form.Label>
             <Form.Control
-              value={moment(data.horaFinConsultoria, "hh:mm").format("LT")}
+              value={moment(data.horaFinConsultoria, "hh:mm").format("hh:mm A")}
               disabled
             />
           </Form.Group>
 
           <Form.Group className="col-md-6 mb-3">
-            <Form.Label>Estado de Consultoria</Form.Label>
+            <Form.Label>Estado de Consultoría</Form.Label>
             <Form.Control value={data.estadoConsultoria} disabled />
           </Form.Group>
 
@@ -361,28 +340,28 @@ function RevisarConsultoria({ data, idUsuario, show, onHide }) {
           ) && (
             <>
               <Button
-                className="btn btn-primary"
+                variant="primary"
                 onClick={(e) => {
                   onHandleSubmit(e);
                 }}
               >
-                INICIAR CONSULTORÍA
+                Iniciar Consultoría
               </Button>
 
               <Button
-                className="btn btn-secondary"
+                variant="secondary"
                 onClick={(e) => {
                   onHandleSubmitInasistencia(e);
                 }}
               >
-                MARCAR INASISTENCIA
+                Marcar Inasistencia
               </Button>
             </>
           )}
 
         {data.estadoConsultoria === "EN CURSO" && (
           <Button
-            className="btn btn-primary"
+            variant="primary"
             onClick={(e) => {
               onHandleSubmitTerminar(e);
             }}
@@ -391,7 +370,7 @@ function RevisarConsultoria({ data, idUsuario, show, onHide }) {
           </Button>
         )}
 
-        <Button className="btn btn-secondary" onClick={onHide}>
+        <Button variant="danger" onClick={onHide}>
           Cancelar
         </Button>
       </Modal.Footer>

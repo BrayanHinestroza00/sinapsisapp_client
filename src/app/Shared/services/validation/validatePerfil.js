@@ -55,8 +55,8 @@ export const validacionesEditarPerfil = (datos, error) => {
   if (!direccion) {
     errors.direccion = "Campo Obligatorio";
   } else {
-    if (direccion.length > 20) {
-      errors.direccion = "Máximo 20 caracteres";
+    if (direccion.length > 500) {
+      errors.direccion = "Máximo 500 caracteres";
     }
   }
   if (!vinculoConU) {
@@ -110,15 +110,15 @@ export const validacionesEditarPerfil = (datos, error) => {
       if (!cargoColaborador) {
         errors.cargoColaborador = "Campo Obligatorio";
       } else {
-        if (cargoColaborador.length > 100) {
-          errors.cargoColaborador = "Máximo 100 caracteres";
+        if (cargoColaborador.length > 500) {
+          errors.cargoColaborador = "Máximo 500 caracteres";
         }
       }
       if (!dependenciaColaborador) {
         errors.dependenciaColaborador = "Campo Obligatorio";
       } else {
-        if (dependenciaColaborador.length > 100) {
-          errors.dependenciaColaborador = "Máximo 100 caracteres";
+        if (dependenciaColaborador.length > 500) {
+          errors.dependenciaColaborador = "Máximo 500 caracteres";
         }
       }
     }
@@ -152,27 +152,22 @@ export const validacionesEditarPerfilUsuario = (datos, error) => {
   }
 
   if (dependencia) {
-    // eslint-disable-next-line
-    const RegExp = REGEX_PATTERN_CARACTERES;
-    if (!RegExp.test(dependencia)) {
-      errors.dependencia = "Máximo 200 caracteres";
+    if (dependencia.length > 500) {
+      errors.dependencia = "Máximo 500 caracteres";
     }
   }
 
   if (facultad) {
-    // eslint-disable-next-line
-    const RegExp = REGEX_PATTERN_CORREO_ELECTRONICO;
-    if (!RegExp.test(facultad)) {
-      errors.facultad = "Máximo 200 caracteres";
+    if (facultad.length > 500) {
+      errors.facultad = "Máximo 500 caracteres";
     }
   }
 
   if (!cargo) {
     errors.cargo = "Campo Obligatorio";
   } else {
-    const RegExp = REGEX_PATTERN_CARACTERES;
-    if (!RegExp.test(cargo)) {
-      errors.cargo = "Máximo 200 caracteres";
+    if (cargo.length > 500) {
+      errors.cargo = "Máximo 500 caracteres";
     }
   }
 

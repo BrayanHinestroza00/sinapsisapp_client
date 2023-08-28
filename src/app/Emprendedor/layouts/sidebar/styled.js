@@ -23,12 +23,12 @@ export const EtiquetaSidebar = styled.span`
   margin: 1rem;
   font-weight: bold;
   text-align: center;
-  font-size: 1rem;
+  font-size: 1.2rem;
   @media ${devices.lg} {
-    font-size: 1.5rem;
+    font-size: 1.7rem;
   }
   @media ${devices.sm} {
-    font-size: 1.5rem;
+    font-size: 1.7rem;
   }
 `;
 

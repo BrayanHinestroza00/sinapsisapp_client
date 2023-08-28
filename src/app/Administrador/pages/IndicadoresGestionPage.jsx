@@ -16,6 +16,7 @@ import {
   URL_REPORTES_GESTION,
 } from "src/app/Shared/utils/apiConstants";
 import { removeDuplicatesItems } from "src/app/Shared/utils/utilityFunctions";
+import BarChart2 from "../components/Reportes/ChartJS/BarChart2";
 
 function IndicadoresGestionPage() {
   const [loading, setLoading] = useState(true);
@@ -272,78 +273,86 @@ function IndicadoresGestionPage() {
 
               <div className="col-md-12 mb-3 d-flex">
                 <div className="p-3 w-50">
-                  <BarChart
+                  <BarChart2
                     titulo={
                       "Número de emprendedores en ruta de I&E por programa académico"
                     }
-                    labels={dataAPI.nroEmprendedoresRutaXPrograma.map(
-                      (data) => data.programaAcademico
+                    labels={["Programas Académicos"]}
+                    dataLabel={dataAPI.nroEmprendedoresRutaXPrograma.map(
+                      (datos) => {
+                        return {
+                          label: datos.programaAcademico,
+                          data: datos.nroEmprendedores,
+                        };
+                      }
                     )}
-                    data={dataAPI.nroEmprendedoresRutaXPrograma.map(
-                      (data) => data.nroEmprendedores
-                    )}
-                    dataLabel={"Número de emprendedores"}
                   />
                 </div>
                 <div className="p-3 w-50">
-                  <BarChart
+                  <BarChart2
                     titulo={
                       "Número de emprendedores en ruta de I&E por facultad"
                     }
-                    labels={dataAPI.nroEmprendedoresRutaXFacultad.map(
-                      (data) => data.facultad
+                    labels={["Facultades"]}
+                    dataLabel={dataAPI.nroEmprendedoresRutaXFacultad.map(
+                      (datos) => {
+                        return {
+                          label: datos.facultad,
+                          data: datos.nroEmprendedores,
+                        };
+                      }
                     )}
-                    data={dataAPI.nroEmprendedoresRutaXFacultad.map(
-                      (data) => data.nroEmprendedores
-                    )}
-                    dataLabel={"Número de emprendedores"}
                   />
                 </div>
               </div>
 
               <div className="col-md-12 mb-3 d-flex">
                 <div className="p-3 w-50">
-                  <BarChart
+                  <BarChart2
                     titulo={
                       "Número de emprendedores por municipio de residencia"
                     }
-                    labels={dataAPI.nroEmprendedoresXMunicipio.map(
-                      (data) => data.municipio
+                    labels={["Municipios"]}
+                    dataLabel={dataAPI.nroEmprendedoresXMunicipio.map(
+                      (datos) => {
+                        return {
+                          label: datos.municipio,
+                          data: datos.nroEmprendedores,
+                        };
+                      }
                     )}
-                    data={dataAPI.nroEmprendedoresXMunicipio.map(
-                      (data) => data.nroEmprendedores
-                    )}
-                    dataLabel={"Número de emprendedores"}
                   />
                 </div>
                 <div className="p-3 w-50">
-                  <BarChart
+                  <BarChart2
                     titulo={
                       "Número de estudiantes que optaron por modalidad de emprendimiento como proyecto de grado"
                     }
-                    labels={dataAPI.nroEmprendedoresXModalidad.map(
-                      (data) => data.modTrabajoGrado
+                    labels={["Con Modalidad de Trabajo de Grado"]}
+                    dataLabel={dataAPI.nroEmprendedoresXModalidad.map(
+                      (datos) => {
+                        return {
+                          label: datos.modTrabajoGrado,
+                          data: datos.nroEmprendedores,
+                        };
+                      }
                     )}
-                    data={dataAPI.nroEmprendedoresXModalidad.map(
-                      (data) => data.nroEmprendedores
-                    )}
-                    dataLabel={"Número de estudiantes"}
                   />
                 </div>
               </div>
 
               <div className="col-md-12 mb-3">
-                <BarChart
+                <BarChart2
                   titulo={
                     "Número de proyectos de emprendimiento por emprendedor"
                   }
-                  labels={dataAPI.nroProyectosXEmprendedor.map(
-                    (data) => data.emprendedor
-                  )}
-                  data={dataAPI.nroProyectosXEmprendedor.map(
-                    (data) => data.nroEmprendimientos
-                  )}
-                  dataLabel={"Número de proyectos de emprendimiento"}
+                  labels={["Proyectos de Emprendimiento"]}
+                  dataLabel={dataAPI.nroProyectosXEmprendedor.map((datos) => {
+                    return {
+                      label: datos.emprendedor,
+                      data: datos.nroEmprendimientos,
+                    };
+                  })}
                 />
               </div>
             </>
@@ -472,11 +481,11 @@ function IndicadoresGestionPage() {
                       )
                     )}
                     data={consultoriasXEstadoProgramadaXMes()}
-                    dataLabel={"Consultoria Programada"}
+                    dataLabel={"Consultoría Programada"}
                     data2={consultoriasXEstadoNoAsistidaXMes()}
-                    dataLabel2={"Consultoria No Asistida"}
+                    dataLabel2={"Consultoría No Asistida"}
                     data3={consultoriasXEstadoTerminadaXMes()}
-                    dataLabel3={"Consultoria Terminada"}
+                    dataLabel3={"Consultoría Terminada"}
                   />
                 </div>
               </div>

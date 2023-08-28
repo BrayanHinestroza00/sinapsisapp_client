@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import moment from "moment";
 import { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "src/app/Shared/assets/styles/Theme/Global.js";
 import { theme } from "src/app/Shared/assets/styles/Theme/Theme.js";
@@ -9,6 +10,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "src/app/Shared/assets/styles/react-flexy-table.css";
 import "src/app/Shared/assets/styles/bootstrap.css";
+import "moment/locale/es";
 
 import AppRoutes from "./Routes/AppRoutes";
 import AuthMentor from "./Routes/ProtectRoutes/AuthMentor";
@@ -16,6 +18,7 @@ import AuthEmprendedor from "./Routes/ProtectRoutes/AuthEmprendedor";
 import AuthAdministrador from "./Routes/ProtectRoutes/AuthAdministrador";
 
 function App() {
+  moment.locale("es");
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />

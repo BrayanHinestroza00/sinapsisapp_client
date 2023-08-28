@@ -24,7 +24,7 @@ function VerPerfil({ show, datos, onHide }) {
         </Container>
       </Modal.Body>
       <Modal.Footer style={{ backgroundColor: "#fbf6fc" }}>
-        <Button className="btn btn-primary" onClick={onHide}>
+        <Button variant="primary" onClick={onHide}>
           Cerrar
         </Button>
       </Modal.Footer>

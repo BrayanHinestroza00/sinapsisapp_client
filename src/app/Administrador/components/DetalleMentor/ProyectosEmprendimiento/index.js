@@ -15,6 +15,8 @@ import {
   URL_OBTENER_EMPRENDEDIMIENTOS_MENTOR,
   URL_OBTENER_REDES_SOCIALES,
 } from "src/app/Shared/utils/apiConstants";
+import moment from "moment";
+import { SINAPSIS_APP_FORMATO_FECHA_INPUT } from "src/app/Shared/utils/constants";
 
 function ProyectosEmprendimiento({ idMentor }) {
   const [loadingComponent, setLoadingComponent] = useState(true);
@@ -80,7 +82,12 @@ function ProyectosEmprendimiento({ idMentor }) {
         sitioWeb: preloadData[selected].sitioWeb,
         redesSociales: redesSociales,
         estaConstituida: preloadData[selected].estaConstituida,
-        fechaConstitucion: preloadData[selected].fechaConstitucion,
+        fechaConstitucion: preloadData[selected].fechaConstitucion
+          ? moment(
+              preloadData[selected].fechaConstitucion,
+              "YYYY-MM-DD hh:mm:ss"
+            ).format(SINAPSIS_APP_FORMATO_FECHA_INPUT)
+          : null,
         nitEmpresa: preloadData[selected].nit,
         nombreEmpresa: preloadData[selected].nombreEmpresa,
         razonSocialEmpresa: preloadData[selected].razonSocial,

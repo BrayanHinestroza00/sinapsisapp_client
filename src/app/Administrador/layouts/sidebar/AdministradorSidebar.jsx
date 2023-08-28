@@ -1,14 +1,22 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { AccordionItemSidebar, EtiquetaSidebar, Sidebar } from "./styled.js";
 import {
-  SIDEBAR_ADMINISTRADOR,
+  SIDEBAR_ADMINISTRADOR_EMPRENDEDOR,
   SIDEBAR_ADMINISTRADOR_EMPRENDEDORES_ITEM,
-  SIDEBAR_ADMINISTRADOR_GESTION_ANUNCIOS_ITEM,
+  SIDEBAR_ADMINISTRADOR_EMPRENDIMIENTO,
+  SIDEBAR_ADMINISTRADOR_EMPRENDIMIENTOS_ITEM,
+  SIDEBAR_ADMINISTRADOR_GESTION_ANUNCIO,
+  SIDEBAR_ADMINISTRADOR_GESTION_EMPRENDEDORES,
+  SIDEBAR_ADMINISTRADOR_GESTION_MENTORES,
   SIDEBAR_ADMINISTRADOR_GESTION_USUARIOS_ITEM,
-  SIDEBAR_ADMINISTRADOR_PRIMERA_ATENCION_ITEM,
+  SIDEBAR_ADMINISTRADOR_MENTOR,
+  SIDEBAR_ADMINISTRADOR_PRIMERA_ATENCION,
+  SIDEBAR_ADMINISTRADOR_REPORTES_FORMACION,
+  SIDEBAR_ADMINISTRADOR_REPORTES_GESTION,
   SIDEBAR_ADMINISTRADOR_REPORTES_ITEM,
+  SIDEBAR_ADMINISTRADOR_USUARIOS_ITEM,
 } from "src/app/Shared/utils/constants";
 
 import solicitudPAIcon from "src/app/Shared/assets/images/sidebar/administrador_solicitudes_pa.png";
@@ -24,27 +32,90 @@ import consultoriaIcon from "src/app/Shared/assets/images/sidebar/consultoria.pn
 import consultoriaEspIcon from "src/app/Shared/assets/images/sidebar/consultoria_especializada.png";
 
 function AdministradorSidebar() {
+  const location = useLocation();
+
   const [menuActive, setMenuActive] = useState("");
+  const [menuSubActive, setSubMenuActive] = useState("");
 
   useEffect(() => {
-    try {
-      const menu_item_active = localStorage.getItem(SIDEBAR_ADMINISTRADOR);
-      if (menu_item_active === null) {
-        localStorage.setItem(
-          SIDEBAR_ADMINISTRADOR,
-          SIDEBAR_ADMINISTRADOR_PRIMERA_ATENCION_ITEM
-        );
-        setMenuActive(SIDEBAR_ADMINISTRADOR_PRIMERA_ATENCION_ITEM);
-      } else {
-        setMenuActive(menu_item_active);
-      }
-    } catch (error) {
-      console.error("Error al leer el localStorage - AdministradorNavbar.jsx");
+    const arrayPath = location.pathname.toLowerCase().split("/");
+    arrayPath.shift();
+
+    let pathRoute = `${arrayPath[0]}_${arrayPath[1]}${
+      arrayPath[2]
+        ? arrayPath[1] == "emprendimientos" ||
+          arrayPath[1] == "solicitudes" ||
+          arrayPath[1] == "emprendedores" ||
+          arrayPath[1] == "mentores"
+          ? ""
+          : "_" + arrayPath[2]
+        : ""
+    }`.toLowerCase();
+
+    switch (pathRoute) {
+      case "administrador_emprendimientos":
+        setMenuActive(SIDEBAR_ADMINISTRADOR_EMPRENDIMIENTOS_ITEM);
+        setSubMenuActive(SIDEBAR_ADMINISTRADOR_EMPRENDIMIENTO);
+        break;
+      case "administrador_solicitudes":
+        setMenuActive(SIDEBAR_ADMINISTRADOR_EMPRENDIMIENTOS_ITEM);
+        setSubMenuActive(SIDEBAR_ADMINISTRADOR_PRIMERA_ATENCION);
+        break;
+      case "administrador_emprendedores":
+        setMenuActive(SIDEBAR_ADMINISTRADOR_USUARIOS_ITEM);
+        setSubMenuActive(SIDEBAR_ADMINISTRADOR_EMPRENDEDOR);
+        break;
+      case "administrador_mentores":
+        setMenuActive(SIDEBAR_ADMINISTRADOR_USUARIOS_ITEM);
+        setSubMenuActive(SIDEBAR_ADMINISTRADOR_MENTOR);
+        break;
+      case "administrador_reportes_formacion":
+        setMenuActive(SIDEBAR_ADMINISTRADOR_REPORTES_ITEM);
+        setSubMenuActive(SIDEBAR_ADMINISTRADOR_REPORTES_FORMACION);
+        break;
+      case "administrador_reportes_gestion":
+        setMenuActive(SIDEBAR_ADMINISTRADOR_REPORTES_ITEM);
+        setSubMenuActive(SIDEBAR_ADMINISTRADOR_REPORTES_GESTION);
+        break;
+      case "administrador_gestion_emprendedores":
+        setMenuActive(SIDEBAR_ADMINISTRADOR_GESTION_USUARIOS_ITEM);
+        setSubMenuActive(SIDEBAR_ADMINISTRADOR_GESTION_EMPRENDEDORES);
+        break;
+      case "administrador_gestion_mentores":
+        setMenuActive(SIDEBAR_ADMINISTRADOR_GESTION_USUARIOS_ITEM);
+        setSubMenuActive(SIDEBAR_ADMINISTRADOR_GESTION_MENTORES);
+        break;
+      case "administrador_gestion_anuncios":
+        setMenuActive(SIDEBAR_ADMINISTRADOR_GESTION_ANUNCIO);
+        setSubMenuActive(SIDEBAR_ADMINISTRADOR_GESTION_ANUNCIO);
+        break;
+
+      default:
+        setMenuActive(SIDEBAR_ADMINISTRADOR_EMPRENDIMIENTOS_ITEM);
+        setSubMenuActive(SIDEBAR_ADMINISTRADOR_EMPRENDIMIENTO);
+        break;
     }
-  }, []);
+  }, [location.pathname]);
+
+  // useEffect(() => {
+  //   try {
+  //     const menu_item_active = localStorage.getItem(SIDEBAR_ADMINISTRADOR);
+  //     if (menu_item_active === null) {
+  //       localStorage.setItem(
+  //         SIDEBAR_ADMINISTRADOR,
+  //         SIDEBAR_ADMINISTRADOR_PRIMERA_ATENCION_ITEM
+  //       );
+  //       setMenuActive(SIDEBAR_ADMINISTRADOR_PRIMERA_ATENCION_ITEM);
+  //     } else {
+  //       setMenuActive(menu_item_active);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error al leer el localStorage - AdministradorNavbar.jsx");
+  //   }
+  // }, []);
 
   const onChangeMenu = (event_key) => {
-    localStorage.setItem(SIDEBAR_ADMINISTRADOR, event_key);
+    // localStorage.setItem(SIDEBAR_ADMINISTRADOR, event_key);
     setMenuActive(event_key);
   };
 
@@ -58,20 +129,20 @@ function AdministradorSidebar() {
             <h2 className="accordion-header m-0" id="headingOne">
               <AccordionItemSidebar
                 className={`accordion-button ${
-                  menuActive !== SIDEBAR_ADMINISTRADOR_PRIMERA_ATENCION_ITEM &&
+                  menuActive !== SIDEBAR_ADMINISTRADOR_EMPRENDIMIENTOS_ITEM &&
                   "collapsed"
                 }`}
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapseOne"
                 aria-expanded={
-                  menuActive === SIDEBAR_ADMINISTRADOR_PRIMERA_ATENCION_ITEM
+                  menuActive === SIDEBAR_ADMINISTRADOR_EMPRENDIMIENTOS_ITEM
                     ? "true"
                     : "false"
                 }
                 aria-controls="collapseOne"
                 onClick={() =>
-                  onChangeMenu(SIDEBAR_ADMINISTRADOR_PRIMERA_ATENCION_ITEM)
+                  onChangeMenu(SIDEBAR_ADMINISTRADOR_EMPRENDIMIENTOS_ITEM)
                 }
               >
                 <img
@@ -90,7 +161,7 @@ function AdministradorSidebar() {
             <div
               id="collapseOne"
               className={`accordion-collapse collapse ${
-                menuActive === SIDEBAR_ADMINISTRADOR_PRIMERA_ATENCION_ITEM &&
+                menuActive === SIDEBAR_ADMINISTRADOR_EMPRENDIMIENTOS_ITEM &&
                 "show active"
               }`}
               aria-labelledby="headingOne"
@@ -103,7 +174,10 @@ function AdministradorSidebar() {
               >
                 <Link
                   to={"/Administrador/Emprendimientos"}
-                  className="btn d-flex align-items-center"
+                  className={`btn d-flex align-items-center ${
+                    menuSubActive == SIDEBAR_ADMINISTRADOR_EMPRENDIMIENTO &&
+                    "activeSubItem"
+                  }`}
                   style={{
                     textAlign: "left",
                     height: "72px",
@@ -124,7 +198,10 @@ function AdministradorSidebar() {
 
                 <Link
                   to={"/Administrador/Solicitudes"}
-                  className="btn d-flex align-items-center"
+                  className={`btn d-flex align-items-center ${
+                    menuSubActive == SIDEBAR_ADMINISTRADOR_PRIMERA_ATENCION &&
+                    "activeSubItem"
+                  }`}
                   style={{
                     textAlign: "left",
                     height: "72px",
@@ -171,14 +248,12 @@ function AdministradorSidebar() {
             <div
               id="collapseTwo"
               className={`accordion-collapse collapse ${
-                menuActive === SIDEBAR_ADMINISTRADOR_EMPRENDEDORES_ITEM &&
+                menuActive === SIDEBAR_ADMINISTRADOR_USUARIOS_ITEM &&
                 "show active"
               }`}
               aria-labelledby="headingTwo"
               data-bs-parent="#accordionExample"
-              onClick={() =>
-                onChangeMenu(SIDEBAR_ADMINISTRADOR_EMPRENDEDORES_ITEM)
-              }
+              onClick={() => onChangeMenu(SIDEBAR_ADMINISTRADOR_USUARIOS_ITEM)}
             >
               <div
                 className="btn-group-vertical w-100"
@@ -187,7 +262,10 @@ function AdministradorSidebar() {
               >
                 <Link
                   to={"/Administrador/Emprendedores"}
-                  className="btn d-flex align-items-center"
+                  className={`btn d-flex align-items-center ${
+                    menuSubActive == SIDEBAR_ADMINISTRADOR_EMPRENDEDOR &&
+                    "activeSubItem"
+                  }`}
                   style={{
                     textAlign: "left",
                     height: "72px",
@@ -208,7 +286,10 @@ function AdministradorSidebar() {
 
                 <Link
                   to={"/Administrador/Mentores"}
-                  className="btn d-flex align-items-center"
+                  className={`btn d-flex align-items-center ${
+                    menuSubActive == SIDEBAR_ADMINISTRADOR_MENTOR &&
+                    "activeSubItem"
+                  }`}
                   style={{
                     textAlign: "left",
                     height: "72px",
@@ -269,7 +350,10 @@ function AdministradorSidebar() {
               >
                 <Link
                   to={"/Administrador/Reportes/Formacion"}
-                  className="btn d-flex align-items-center"
+                  className={`btn d-flex align-items-center ${
+                    menuSubActive == SIDEBAR_ADMINISTRADOR_REPORTES_FORMACION &&
+                    "activeSubItem"
+                  }`}
                   style={{
                     textAlign: "left",
                     height: "72px",
@@ -290,7 +374,10 @@ function AdministradorSidebar() {
 
                 <Link
                   to={"/Administrador/Reportes/Gestion"}
-                  className="btn d-flex align-items-center"
+                  className={`btn d-flex align-items-center ${
+                    menuSubActive == SIDEBAR_ADMINISTRADOR_REPORTES_GESTION &&
+                    "activeSubItem"
+                  }`}
                   style={{
                     textAlign: "left",
                     height: "72px",
@@ -357,7 +444,11 @@ function AdministradorSidebar() {
               >
                 <Link
                   to={"/Administrador/Gestion/Emprendedores"}
-                  className="btn d-flex align-items-center"
+                  className={`btn d-flex align-items-center ${
+                    menuSubActive ==
+                      SIDEBAR_ADMINISTRADOR_GESTION_EMPRENDEDORES &&
+                    "activeSubItem"
+                  }`}
                   style={{
                     textAlign: "left",
                     height: "72px",
@@ -378,7 +469,10 @@ function AdministradorSidebar() {
 
                 <Link
                   to={"/Administrador/Gestion/Mentores"}
-                  className="btn d-flex align-items-center"
+                  className={`btn d-flex align-items-center ${
+                    menuSubActive == SIDEBAR_ADMINISTRADOR_GESTION_MENTORES &&
+                    "activeSubItem"
+                  }`}
                   style={{
                     textAlign: "left",
                     height: "72px",
@@ -402,20 +496,21 @@ function AdministradorSidebar() {
 
           <Link
             to={"/Administrador/Gestion/Anuncios"}
-            className="w-100"
+            className={`w-100 ${
+              menuSubActive == SIDEBAR_ADMINISTRADOR_GESTION_ANUNCIO &&
+              "activeSubItem"
+            }`}
             style={{
               textAlign: "left",
               color: "#FFF",
               fontWeight: "bolder",
               textDecoration: "none",
             }}
-            onClick={() =>
-              onChangeMenu(SIDEBAR_ADMINISTRADOR_GESTION_ANUNCIOS_ITEM)
-            }
+            onClick={() => onChangeMenu(SIDEBAR_ADMINISTRADOR_GESTION_ANUNCIO)}
           >
             <AccordionItemSidebar
               className={`accordion-button accordion-collapse-without-draw ${
-                menuActive === SIDEBAR_ADMINISTRADOR_GESTION_ANUNCIOS_ITEM
+                menuActive === SIDEBAR_ADMINISTRADOR_GESTION_ANUNCIO
                   ? ""
                   : "collapsed"
               }

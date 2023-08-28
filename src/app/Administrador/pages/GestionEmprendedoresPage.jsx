@@ -29,9 +29,9 @@ import {
 } from "src/app/Shared/utils/messageAlerts";
 import { confirmAlertWithText } from "src/app/Shared/utils/confirmAlerts";
 
-import deleteUserIcon from "src/app/Shared/assets/images/icons/delete_user.png";
-import detalleIcon from "src/app/Shared/assets/images/icons/detalle_perfil.png";
-import resetPasswordIcon from "src/app/Shared/assets/images/icons/reset_password.png";
+import deleteUserIcon from "src/app/Shared/assets/images/icons/delete_user.svg";
+import detalleIcon from "src/app/Shared/assets/images/icons/detalle_perfil.svg";
+import resetPasswordIcon from "src/app/Shared/assets/images/icons/reset_password.svg";
 
 function GestionEmprendedoresPage() {
   const [loading, setLoading] = useState(false);
@@ -77,6 +77,8 @@ function GestionEmprendedoresPage() {
         method: HTTP_METHOD_GET,
       },
     });
+
+    consultarEmprendedores();
   }, []);
 
   useEffect(() => {
@@ -115,16 +117,7 @@ function GestionEmprendedoresPage() {
     if (Object.keys(erroresFormulario).length) {
       setError(erroresFormulario);
     } else {
-      setError({});
-      fetchApiEmprendedores({
-        URL: URL_OBTENER_EMPRENDEDORES,
-        requestOptions: {
-          method: HTTP_METHOD_GET,
-          params: {
-            ...datosFiltro,
-          },
-        },
-      });
+      consultarEmprendedores();
     }
   };
 
@@ -176,6 +169,19 @@ function GestionEmprendedoresPage() {
             },
           },
         });
+      },
+    });
+  };
+
+  const consultarEmprendedores = () => {
+    setError({});
+    fetchApiEmprendedores({
+      URL: URL_OBTENER_EMPRENDEDORES,
+      requestOptions: {
+        method: HTTP_METHOD_GET,
+        params: {
+          ...datosFiltro,
+        },
       },
     });
   };
@@ -363,11 +369,11 @@ function GestionEmprendedoresPage() {
         {emprendedoresData && emprendedoresData.length > 0 ? (
           <FlexyTable
             datos={datos}
-            titulo={"Emprendedores"}
+            titulo={"emprendedores"}
             btn1={
               <img
                 src={detalleIcon}
-                width="auto"
+                width="100%"
                 height="25"
                 data-toggle="tooltip"
                 data-placement="top"
@@ -380,11 +386,11 @@ function GestionEmprendedoresPage() {
             btn2={
               <img
                 src={resetPasswordIcon}
-                width="auto"
+                width="100%"
                 height="25"
                 data-toggle="tooltip"
                 data-placement="top"
-                title="Restablecer contraseña"
+                title="Reiniciar contraseña"
               />
             }
             fun2={(emprendedorData) => {
@@ -393,7 +399,7 @@ function GestionEmprendedoresPage() {
             btn3={
               <img
                 src={deleteUserIcon}
-                width="auto"
+                width="100%"
                 height="25"
                 data-toggle="tooltip"
                 data-placement="top"

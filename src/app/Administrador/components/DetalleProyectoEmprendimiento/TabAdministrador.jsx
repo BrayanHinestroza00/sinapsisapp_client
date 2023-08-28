@@ -48,7 +48,7 @@ function TabAdministrador() {
           idProyectoEmprendimiento={state.proyectoEmprendimientoId}
           idEmprendedor={state.emprendedorId}
           idEtapaRuta={state.idEstadoRuta}
-          tipoUsuario={"ADMINISTRADOR"}
+          tipoUsuario={3}
           idUsuario={userData.id}
           estadoAsesoramiento={state.estadoAsesoramiento}
         />

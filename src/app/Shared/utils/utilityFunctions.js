@@ -248,3 +248,10 @@ export function removeDuplicatesItems(arr) {
 export function getExtension(filename) {
   return filename.split(".").pop();
 }
+
+export function urlify(text) {
+  var urlRegex = /(https?:\/\/[^\s]+)/g;
+  return text.replace(urlRegex, function (url) {
+    return '<a href="' + url + '">' + url + "</a>";
+  });
+}

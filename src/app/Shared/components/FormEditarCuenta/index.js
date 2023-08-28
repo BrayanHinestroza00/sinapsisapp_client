@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Form, InputGroup } from "react-bootstrap";
 
-import { Subtitulo } from "src/app/Shared/assets/styles/Common";
+import { Subtitulo, Titulo } from "src/app/Shared/assets/styles/Common";
 
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import {
@@ -92,7 +92,7 @@ function FormEditarCuenta({ idUsuario }) {
       <div className="card">
         <div className="card-body">
           <div className="d-flex justify-content-between align-items-center">
-            <Subtitulo className="m-0">Actualizar Contraseña</Subtitulo>
+            <Titulo className="m-0">Actualizar Contraseña</Titulo>
           </div>
 
           <div className="d-flex">
@@ -211,7 +211,7 @@ function FormEditarCuenta({ idUsuario }) {
               <div className="col-md-12 text-center">
                 <Button
                   type="submit"
-                  className="btn btn-primary"
+                  variant="primary"
                   style={{ height: "auto" }}
                 >
                   Actualizar

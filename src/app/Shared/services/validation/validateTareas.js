@@ -22,14 +22,14 @@ export const validarCreacionTarea = (datos, error) => {
     }
   }
 
-  if (!fechaEntrega) {
-    errors.fechaEntrega = "Campo Obligatorio";
-  } else {
-    if (new Date(fechaEntrega) < new Date()) {
-      errors.fechaEntrega =
-        "La fecha límite de entrega NO puede ser menor de HOY";
-    }
-  }
+  // if (!fechaEntrega) {
+  //   errors.fechaEntrega = "Campo Obligatorio";
+  // } else {
+  //   if (new Date(fechaEntrega) < new Date()) {
+  //     errors.fechaEntrega =
+  //       "La fecha límite de entrega NO puede ser menor de HOY";
+  //   }
+  // }
 
   if (error.fileTarea) {
     errors.fileTarea = error.fileTarea;

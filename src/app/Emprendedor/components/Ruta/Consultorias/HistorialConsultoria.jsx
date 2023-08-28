@@ -65,11 +65,11 @@ function HistorialConsultoria() {
             "Hora Inicio Programada": moment(
               consultoriaData.horaInicioConsultoria,
               "hh:mm"
-            ).format("LT"),
+            ).format("hh:mm A"),
             "Hora Finalización Programada": moment(
               consultoriaData.horaFinConsultoria,
               "hh:mm"
-            ).format("LT"),
+            ).format("hh:mm A"),
             "Creado Por":
               consultoriaData.nombreMentor +
               " " +
@@ -127,7 +127,7 @@ function HistorialConsultoria() {
           <Ruta>
             <FlexyTable
               datos={consultorias}
-              titulo={"Historico de Consultorias"}
+              titulo={"histórico de consultorías"}
               btn1={"Ver Detalle"}
               fun1={(consultoriaData) => {
                 onClicDetalleConsultoria(consultoriaData);

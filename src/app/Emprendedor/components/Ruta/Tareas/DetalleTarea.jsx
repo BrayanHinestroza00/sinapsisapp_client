@@ -22,6 +22,7 @@ import { getArchivo } from "src/app/Shared/utils/utilityFunctions";
 import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 
 import downloadIcon from "src/app/Shared/assets/images/icons/download_icon.png";
+import { Titulo } from "src/app/Shared/assets/styles/Common";
 
 function DetalleTarea(props) {
   const [datosImagen, setDatosImagen] = useState({});
@@ -168,9 +169,9 @@ function DetalleTarea(props) {
       </Modal.Header>
       <Modal.Body style={{ backgroundColor: "#fbf6fc" }}>
         <Form className="container" encType="multipart/form-data">
-          <h5>Información de tarea</h5>
+          <Titulo className="text-bold">INFORMACIÓN DE TAREA</Titulo>
           <Form.Group className="row mb-3">
-            <Label>Descripción</Label>
+            <Label style={{ fontWeight: "600" }}>Descripción</Label>
             <Form.Control
               as="textarea"
               rows={3}
@@ -183,7 +184,9 @@ function DetalleTarea(props) {
             <LoadingSpinner width="30%" height="30%" />
           ) : (
             <Form.Group className="row mb-3">
-              <Label>Recursos entregados por el docente</Label>
+              <Label style={{ fontWeight: "600" }}>
+                Recursos entregados por el docente
+              </Label>
               <br />
               <div className="text-center">
                 <a
@@ -200,15 +203,15 @@ function DetalleTarea(props) {
           )}
 
           <Form.Group className="row mb-3">
-            <Label>Estado de Entrega</Label>
+            <Label style={{ fontWeight: "600" }}>Estado de Entrega</Label>
             <div>
-              <Table className="table table-bordered">
+              <Table className="table table-bordered table_tarea">
                 <tbody>
                   <tr>
                     <td>Estado de la Entrega</td>
                     <td>{props.data.estadoEntrega}</td>
                   </tr>
-                  {props.data.estadoEntrega == "PENDIENTE" && (
+                  {/* {props.data.estadoEntrega == "PENDIENTE" && (
                     <tr>
                       <td>Fecha Límite de Entrega</td>
                       <td>
@@ -218,7 +221,7 @@ function DetalleTarea(props) {
                         ).format(SINAPSIS_APP_FORMATO_FECHA_HORA)}
                       </td>
                     </tr>
-                  )}
+                  )} */}
                   <tr>
                     <td>Estado de la Calificación</td>
                     <td>{props.data.calificacion || "SIN ENTREGAR"}</td>
@@ -271,10 +274,10 @@ function DetalleTarea(props) {
           </Form.Group>
 
           <div className="row mb-3">
-            <h5>Información de docente</h5>
+            <Titulo className="text-bold">INFORMACIÓN DE DOCENTE</Titulo>
             <br />
             <Form.Group className="mb-3">
-              <Label>Docente </Label>
+              <Label style={{ fontWeight: "600" }}>Docente </Label>
               <Form.Control
                 value={`${props.data.nombresCrea} ${props.data.apellidosCrea}`}
                 disabled
@@ -282,7 +285,7 @@ function DetalleTarea(props) {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Label>Correo Docente </Label>
+              <Label style={{ fontWeight: "600" }}>Correo Docente </Label>
               <Form.Control
                 value={
                   props.data.correoInstitucionalCrea ||
@@ -296,11 +299,10 @@ function DetalleTarea(props) {
           {props.tipo == "PENDIENTES" && (
             <>
               <hr />
-              <h5>Realiza tu entrega</h5>
-              <br />
+              <Titulo className="text-bold">REALIZA TU ENTREGA</Titulo>
               <div className="row mb-3">
                 <Form.Group className="mb-3">
-                  <Label>
+                  <Label style={{ fontWeight: "600" }}>
                     Sube tu tarea <span className="text-danger"> (*)</span>
                   </Label>
                   <DropZoneComponent
@@ -331,10 +333,10 @@ function DetalleTarea(props) {
                 </Form.Group>
               </div>
               <div className="row mb-3">
-                <h5>Comentarios de tu entrega</h5>
-                <br />
                 <Form.Group className="mb-3">
-                  <Label>Comentario </Label>
+                  <Label style={{ fontWeight: "600" }}>
+                    Comentario de tu entrega
+                  </Label>
                   <Form.Control
                     as="textarea"
                     cols={3}

@@ -21,7 +21,7 @@ import {
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import { validarListadoEmprendedoresAdmin } from "src/app/Shared/services/validation/validateListadoEmprendedores.js";
 
-import showIcon from "src/app/Shared/assets/images/icons/showIcon.png";
+import showIcon from "src/app/Shared/assets/images/icons/detalleIcon.svg";
 
 function EmprendedoresPage() {
   const navigate = useNavigate();
@@ -52,6 +52,8 @@ function EmprendedoresPage() {
         method: HTTP_METHOD_GET,
       },
     });
+
+    consultarEmprendedores();
   }, []);
 
   useEffect(() => {
@@ -89,16 +91,7 @@ function EmprendedoresPage() {
     if (Object.keys(erroresFormulario).length) {
       setError(erroresFormulario);
     } else {
-      setError({});
-      fetchApiEmprendedores({
-        URL: URL_OBTENER_EMPRENDEDORES,
-        requestOptions: {
-          method: HTTP_METHOD_GET,
-          params: {
-            ...datosFiltro,
-          },
-        },
-      });
+      consultarEmprendedores();
     }
   };
 
@@ -110,6 +103,19 @@ function EmprendedoresPage() {
     navigate(`/Administrador/Emprendedores/${data.id}`, {
       replace: true,
       state: data,
+    });
+  };
+
+  const consultarEmprendedores = () => {
+    setError({});
+    fetchApiEmprendedores({
+      URL: URL_OBTENER_EMPRENDEDORES,
+      requestOptions: {
+        method: HTTP_METHOD_GET,
+        params: {
+          ...datosFiltro,
+        },
+      },
     });
   };
 
@@ -258,8 +264,17 @@ function EmprendedoresPage() {
         {emprendedoresData && emprendedoresData.length > 0 ? (
           <FlexyTable
             datos={datos}
-            titulo={"Emprendedores"}
-            btn1={<img src={showIcon} width="auto" height="25" />}
+            titulo={"emprendedores"}
+            btn1={
+              <img
+                src={showIcon}
+                width="100%"
+                height="25"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Ver Detalle"
+              />
+            }
             fun1={(emprendedorData) => {
               onHandleDetalleEmprendedor(emprendedorData);
             }}

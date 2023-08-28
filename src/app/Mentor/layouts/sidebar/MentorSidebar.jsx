@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { AccordionItemSidebar, EtiquetaSidebar, Sidebar } from "./styled.js";
 import {
   SIDEBAR_MENTOR,
+  SIDEBAR_MENTOR_CONSULTORIAS,
   SIDEBAR_MENTOR_CONSULTORIAS_ITEM,
   SIDEBAR_MENTOR_EMPRENDEDORES_ITEM,
+  SIDEBAR_MENTOR_EMPRENDIMIENTOS,
+  SIDEBAR_MENTOR_REPORTES_CONSULTORIAS,
   SIDEBAR_MENTOR_REPORTES_ITEM,
 } from "src/app/Shared/utils/constants";
 
@@ -17,24 +20,51 @@ import listadoEmprendimientosIcon from "src/app/Shared/assets/images/sidebar/adm
 import reportesIcon from "src/app/Shared/assets/images/sidebar/administrador_reportes.png";
 
 function MentorSidebar() {
+  const location = useLocation();
+
   const [menuActive, setMenuActive] = useState("");
+  const [menuSubActive, setSubMenuActive] = useState("");
 
   useEffect(() => {
-    try {
-      const menu_item_active = localStorage.getItem(SIDEBAR_MENTOR);
-      if (menu_item_active === null) {
-        localStorage.setItem(SIDEBAR_MENTOR, SIDEBAR_MENTOR_EMPRENDEDORES_ITEM);
+    const arrayPath = location.pathname.split("/");
+    const pathRoute = arrayPath[arrayPath.length - 1].toLowerCase();
+
+    switch (pathRoute) {
+      case "emprendedores":
         setMenuActive(SIDEBAR_MENTOR_EMPRENDEDORES_ITEM);
-      } else {
-        setMenuActive(menu_item_active);
-      }
-    } catch (error) {
-      console.error("Error al leer el localStorage - MentorNavbar.jsx");
+        setSubMenuActive(SIDEBAR_MENTOR_EMPRENDIMIENTOS);
+        break;
+      case "consultorias":
+        setMenuActive(SIDEBAR_MENTOR_CONSULTORIAS_ITEM);
+        setSubMenuActive(SIDEBAR_MENTOR_CONSULTORIAS);
+        break;
+      case "consultoria":
+        setMenuActive(SIDEBAR_MENTOR_REPORTES_ITEM);
+        setSubMenuActive(SIDEBAR_MENTOR_REPORTES_CONSULTORIAS);
+        break;
+      default:
+        setMenuActive("");
+        setSubMenuActive("");
+        break;
     }
-  }, []);
+  }, [location.pathname]);
+
+  // useEffect(() => {
+  //   try {
+  //     const menu_item_active = localStorage.getItem(SIDEBAR_MENTOR);
+  //     if (menu_item_active === null) {
+  //       localStorage.setItem(SIDEBAR_MENTOR, SIDEBAR_MENTOR_EMPRENDEDORES_ITEM);
+  //       setMenuActive(SIDEBAR_MENTOR_EMPRENDEDORES_ITEM);
+  //     } else {
+  //       setMenuActive(menu_item_active);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error al leer el localStorage - MentorNavbar.jsx");
+  //   }
+  // }, []);
 
   const onChangeMenu = (event_key) => {
-    localStorage.setItem(SIDEBAR_MENTOR, event_key);
+    // localStorage.setItem(SIDEBAR_MENTOR, event_key);
     setMenuActive(event_key);
   };
 
@@ -91,7 +121,10 @@ function MentorSidebar() {
               >
                 <Link
                   to={"/Mentor/Emprendedores"}
-                  className="btn d-flex align-items-center"
+                  className={`btn d-flex align-items-center ${
+                    menuSubActive == SIDEBAR_MENTOR_EMPRENDIMIENTOS &&
+                    "activeSubItem"
+                  }`}
                   style={{
                     textAlign: "left",
                     height: "72px",
@@ -115,7 +148,9 @@ function MentorSidebar() {
           <div className="accordion-item">
             <h2 className="accordion-header  m-0" id="headingTwo">
               <AccordionItemSidebar
-                className="accordion-button collapsed"
+                className={`accordion-button ${
+                  menuActive !== SIDEBAR_MENTOR_CONSULTORIAS_ITEM && "collapsed"
+                }`}
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapseTwo"
@@ -150,7 +185,10 @@ function MentorSidebar() {
               >
                 <Link
                   to={"/Mentor/Consultorias"}
-                  className="btn d-flex align-items-center"
+                  className={`btn d-flex align-items-center ${
+                    menuSubActive == SIDEBAR_MENTOR_CONSULTORIAS &&
+                    "activeSubItem"
+                  }`}
                   style={{
                     textAlign: "left",
                     height: "72px",
@@ -175,7 +213,9 @@ function MentorSidebar() {
           <div className="accordion-item">
             <h2 className="accordion-header  m-0" id="headingThree">
               <AccordionItemSidebar
-                className="accordion-button collapsed"
+                className={`accordion-button ${
+                  menuActive !== SIDEBAR_MENTOR_REPORTES_ITEM && "collapsed"
+                }`}
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapseThree"
@@ -210,7 +250,10 @@ function MentorSidebar() {
               >
                 <Link
                   to={"/Mentor/Reportes/Consultoria"}
-                  className="btn d-flex align-items-center"
+                  className={`btn d-flex align-items-center ${
+                    menuSubActive == SIDEBAR_MENTOR_REPORTES_CONSULTORIAS &&
+                    "activeSubItem"
+                  }`}
                   style={{
                     textAlign: "left",
                     height: "72px",

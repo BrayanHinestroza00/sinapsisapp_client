@@ -31,9 +31,9 @@ import {
 } from "src/app/Shared/utils/messageAlerts";
 import { confirmAlertWithText } from "src/app/Shared/utils/confirmAlerts";
 
-import deleteUserIcon from "src/app/Shared/assets/images/icons/delete_user.png";
-import detalleIcon from "src/app/Shared/assets/images/icons/detalle_perfil.png";
-import resetPasswordIcon from "src/app/Shared/assets/images/icons/reset_password.png";
+import deleteUserIcon from "src/app/Shared/assets/images/icons/delete_user.svg";
+import detalleIcon from "src/app/Shared/assets/images/icons/detalle_perfil.svg";
+import resetPasswordIcon from "src/app/Shared/assets/images/icons/reset_password.svg";
 
 function GestionMentoresPage() {
   const navigate = useNavigate();
@@ -85,6 +85,8 @@ function GestionMentoresPage() {
         method: HTTP_METHOD_GET,
       },
     });
+
+    consultarMentores();
   }, []);
 
   useEffect(() => {
@@ -125,16 +127,7 @@ function GestionMentoresPage() {
     if (Object.keys(erroresFormulario).length) {
       setError(erroresFormulario);
     } else {
-      setError({});
-      fetchApiMentores({
-        URL: URL_OBTENER_MENTORES,
-        requestOptions: {
-          method: HTTP_METHOD_GET,
-          params: {
-            ...datosFiltro,
-          },
-        },
-      });
+      consultarMentores();
     }
   };
 
@@ -202,6 +195,19 @@ function GestionMentoresPage() {
 
   const onClickRegistrarMentor = () => {
     setShow({ ...show, showForm: !show.showForm });
+  };
+
+  const consultarMentores = () => {
+    setError({});
+    fetchApiMentores({
+      URL: URL_OBTENER_MENTORES,
+      requestOptions: {
+        method: HTTP_METHOD_GET,
+        params: {
+          ...datosFiltro,
+        },
+      },
+    });
   };
 
   if (loading && (restablecerError || desactivarError)) {
@@ -416,11 +422,11 @@ function GestionMentoresPage() {
               {datos && datos.length > 0 ? (
                 <FlexyTable
                   datos={datos}
-                  titulo={"Mentores"}
+                  titulo={"mentores"}
                   btn1={
                     <img
                       src={detalleIcon}
-                      width="auto"
+                      width="100%"
                       height="25"
                       data-toggle="tooltip"
                       data-placement="top"
@@ -433,11 +439,11 @@ function GestionMentoresPage() {
                   btn2={
                     <img
                       src={resetPasswordIcon}
-                      width="auto"
+                      width="100%"
                       height="25"
                       data-toggle="tooltip"
                       data-placement="top"
-                      title="Restablecer contraseña"
+                      title="Reiniciar contraseña"
                     />
                   }
                   fun2={(mentorData) => {
@@ -446,7 +452,7 @@ function GestionMentoresPage() {
                   btn3={
                     <img
                       src={deleteUserIcon}
-                      width="auto"
+                      width="100%"
                       height="25"
                       data-toggle="tooltip"
                       data-placement="top"

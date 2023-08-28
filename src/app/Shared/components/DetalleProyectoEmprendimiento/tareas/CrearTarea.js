@@ -164,6 +164,8 @@ function CrearTarea({
                   onHandleChange(e);
                 }}
                 value={datos.nombreTarea}
+                autoComplete="off"
+                autoFocus
               />
 
               {error.nombreTarea && (
@@ -188,6 +190,7 @@ function CrearTarea({
                   onHandleChange(e);
                 }}
                 value={datos.descripcionTarea}
+                autoComplete="off"
               />
               {error.descripcionTarea && (
                 <small className="form-text font-weight-bold text-danger">
@@ -196,7 +199,7 @@ function CrearTarea({
               )}
             </Form.Group>
 
-            <Form.Group className="mb-3">
+            {/* <Form.Group className="mb-3">
               <Form.Label>
                 Fecha Límite de Entrega{" "}
                 <span className="text-danger"> (*)</span>
@@ -217,7 +220,7 @@ function CrearTarea({
                   {error.fechaEntrega}
                 </small>
               )}
-            </Form.Group>
+            </Form.Group> */}
 
             <Form.Group className="mb-3">
               <Form.Label>
@@ -253,17 +256,16 @@ function CrearTarea({
         </div>
       </Modal.Body>
       <Modal.Footer style={{ backgroundColor: "#fbf6fc" }}>
-        <Button className="btn btn-secondary" onClick={onHide}>
-          Cancelar
-        </Button>
-
         <Button
-          className="btn btn-primary"
+          variant="primary"
           onClick={(e) => {
             onHandleSubmit(e);
           }}
         >
           Crear Tarea
+        </Button>
+        <Button variant="secondary" onClick={onHide}>
+          Cancelar
         </Button>
       </Modal.Footer>
     </Modal>

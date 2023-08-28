@@ -12,6 +12,7 @@ import {
 } from "src/app/Shared/utils/apiConstants";
 import { Button } from "react-bootstrap";
 import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
+import { MENU_EMPRENDEDOR_PERFIL } from "src/app/Shared/utils/constants";
 
 function PerfilPage() {
   const { userData } = useContext(EmprendedorContext);
@@ -77,7 +78,8 @@ function PerfilPage() {
               {allowEdit === false && (
                 <Button
                   type="button"
-                  className="btn btn-primary m-0"
+                  variant="primary"
+                  className="m-0"
                   onClick={() => setAllowEdit(!allowEdit)}
                 >
                   Editar datos

@@ -112,10 +112,11 @@ function Tareas() {
           return {
             n: index + 1,
             título: entregadaData.titulo,
-            "Fecha Límite": moment(
-              entregadaData.fechaLimiteEntrega,
-              "YYYY-MM-DD hh:mm:ss"
-            ).format(SINAPSIS_APP_FORMATO_FECHA_HORA),
+            "Estado entrega": entregadaData.estadoEntrega,
+            // "Fecha Límite": moment(
+            //   entregadaData.fechaLimiteEntrega,
+            //   "YYYY-MM-DD hh:mm:ss"
+            // ).format(SINAPSIS_APP_FORMATO_FECHA_HORA),
             "Creado Por":
               entregadaData.nombresCrea + " " + entregadaData.apellidosCrea,
             "Correo Contacto": entregadaData.correoInstitucionalCrea,
@@ -128,10 +129,11 @@ function Tareas() {
           return {
             n: index + 1,
             título: pendienteData.titulo,
-            "Fecha Límite": moment(
-              pendienteData.fechaLimiteEntrega,
-              "YYYY-MM-DD hh:mm:ss"
-            ).format(SINAPSIS_APP_FORMATO_FECHA_HORA),
+            "Estado entrega": pendientesData.estadoEntrega,
+            // "Fecha Límite": moment(
+            //   pendienteData.fechaLimiteEntrega,
+            //   "YYYY-MM-DD hh:mm:ss"
+            // ).format(SINAPSIS_APP_FORMATO_FECHA_HORA),
             "Creado Por":
               pendienteData.nombresCrea + " " + pendienteData.apellidosCrea,
             "Correo Contacto": pendienteData.correoInstitucionalCrea,
@@ -235,7 +237,7 @@ function Tareas() {
           <Ruta>
             <FlexyTable
               datos={entregadas}
-              titulo={"Tareas Entregadas"}
+              titulo={"tareas entregadas"}
               btn1={"Ver Detalle"}
               fun1={(tareaData) => {
                 onClicDetalleTarea(tareaData, "ENTREGADAS");
@@ -251,7 +253,7 @@ function Tareas() {
           <Ruta>
             <FlexyTable
               datos={pendientes}
-              titulo={"Tareas Pendientes"}
+              titulo={"tareas pendientes"}
               btn1={"Ver Detalle"}
               fun1={(tareaData) => {
                 onClicDetalleTarea(tareaData, "PENDIENTES");
@@ -267,7 +269,7 @@ function Tareas() {
           <Ruta>
             <FlexyTable
               datos={todos}
-              titulo={"Historial de Tareas"}
+              titulo={"historial de tareas"}
               btn1={"Ver Detalle"}
               fun1={(tareaData) => {
                 onClicDetalleTarea(tareaData, "HISTORIAL");

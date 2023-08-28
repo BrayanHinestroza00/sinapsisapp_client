@@ -67,7 +67,7 @@ function DetalleConsultoria(props) {
             <Form.Label>Hora Inicio Programada</Form.Label>
             <Form.Control
               value={moment(props.data.horaInicioConsultoria, "hh:mm").format(
-                "LT"
+                "hh:mm A"
               )}
               disabled
             />
@@ -77,14 +77,14 @@ function DetalleConsultoria(props) {
             <Form.Label>Hora Finalización Programada</Form.Label>
             <Form.Control
               value={moment(props.data.horaFinConsultoria, "hh:mm").format(
-                "LT"
+                "hh:mm A"
               )}
               disabled
             />
           </Form.Group>
 
           <Form.Group className="col-md-6 mb-3">
-            <Form.Label>Estado de Consultoria</Form.Label>
+            <Form.Label>Estado de Consultoría</Form.Label>
             <Form.Control value={props.data.estadoConsultoria} disabled />
           </Form.Group>
 
@@ -150,7 +150,7 @@ function DetalleConsultoria(props) {
         </Form>
       </Modal.Body>
       <Modal.Footer style={{ backgroundColor: "#fbf6fc" }}>
-        <Button className="btn btn-secondary" onClick={props.onHide}>
+        <Button variant="secondary" onClick={props.onHide}>
           Cerrar
         </Button>
       </Modal.Footer>

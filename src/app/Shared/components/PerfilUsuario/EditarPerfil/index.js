@@ -154,7 +154,7 @@ function EditarPerfil({
     >
       <div className="col-md-6">
         <Label htmlFor="nombreCompleto" className="form-label">
-          Nombre Completo
+          Nombre completo
         </Label>
         <Input
           type="text"
@@ -167,7 +167,7 @@ function EditarPerfil({
 
       <div className="col-md-6">
         <Label htmlFor="docIdentificacion" className="form-label">
-          Documento de Identificación
+          Documento de identificación
         </Label>
         <Input
           type="text"
@@ -180,7 +180,7 @@ function EditarPerfil({
 
       <div className="col-md-6">
         <Label htmlFor="correoInstitucional" className="form-label">
-          Correo Institucional
+          Correo institucional
         </Label>
         <Input
           type="text"
@@ -189,6 +189,7 @@ function EditarPerfil({
           id="correoInstitucional"
           value={datos.correoInstitucional ? datos.correoInstitucional : ""}
           onChange={(e) => onHandleChange(e)}
+          disabled
         />
         {error.correoInstitucional && (
           <small className="form-text font-weight-bold text-danger">
@@ -199,7 +200,7 @@ function EditarPerfil({
 
       <div className="col-md-6">
         <Label htmlFor="correoPersonal" className="form-label">
-          Correo Personal
+          Correo personal
         </Label>
         <Input
           type="text"
@@ -246,6 +247,7 @@ function EditarPerfil({
           id="dependencia"
           value={datos.dependencia ? datos.dependencia : ""}
           onChange={(e) => onHandleChange(e)}
+          disabled
         />
         {error.dependencia && (
           <small className="form-text font-weight-bold text-danger">
@@ -265,6 +267,7 @@ function EditarPerfil({
           id="facultad"
           value={datos.facultad ? datos.facultad : ""}
           onChange={(e) => onHandleChange(e)}
+          disabled
         />
         {error.facultad && (
           <small className="form-text font-weight-bold text-danger">
@@ -275,7 +278,7 @@ function EditarPerfil({
 
       <div className="col-md-6">
         <Label htmlFor="cargo" className="form-label">
-          Cargo
+          Cargo de colaborador
           <span className="text-danger"> (*)</span>
         </Label>
         <Input
@@ -285,6 +288,7 @@ function EditarPerfil({
           id="cargo"
           value={datos.cargo ? datos.cargo : ""}
           onChange={(e) => onHandleChange(e)}
+          disabled
         />
         {error.cargo && (
           <small className="form-text font-weight-bold text-danger">
@@ -294,7 +298,7 @@ function EditarPerfil({
       </div>
       <div className="col-md-12">
         <Label htmlFor="fotoPerfil" className="form-label nombreInput">
-          Foto de Perfil
+          Foto de perfil
         </Label>
 
         <DropZoneComponent
