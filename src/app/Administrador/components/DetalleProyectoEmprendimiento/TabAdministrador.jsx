@@ -60,7 +60,7 @@ function TabAdministrador() {
         />
       </Tab>
 
-      <Tab eventKey="tareas" title="Tareas">
+      <Tab eventKey="tareas" title="Retos">
         <Tareas
           idProyectoEmprendimiento={state.proyectoEmprendimientoId}
           tipoUsuario={"ADMINISTRADOR"}
@@ -68,7 +68,7 @@ function TabAdministrador() {
         />
       </Tab>
 
-      <Tab eventKey="historial_tareas" title="Historial Tareas">
+      <Tab eventKey="historial_tareas" title="Historial Retos">
         <HistorialTareas
           idProyectoEmprendimiento={state.proyectoEmprendimientoId}
         />

@@ -115,7 +115,7 @@ function ProyectosEmprendimiento({ idMentor }) {
 
   return (
     <Card>
-      {preloadData && preloadData.length > 1 ? (
+      {preloadData && preloadData.length > 0 ? (
         <>
           <Subtitulo>Seleccione el proyecto... </Subtitulo>
           <div className="px-3">

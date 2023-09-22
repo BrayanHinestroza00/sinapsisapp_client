@@ -187,9 +187,7 @@ function CrearConsultoria({
       <Modal.Body style={{ backgroundColor: "#fbf6fc" }}>
         <Form encType="multipart/form-data">
           <Form.Group className="mb-3">
-            <Form.Label className="form-label">
-              Título de Consultoría
-            </Form.Label>
+            <Form.Label className="form-label">Título</Form.Label>
             <Form.Control
               name="tituloConsultoria"
               className="form-control"
@@ -212,7 +210,7 @@ function CrearConsultoria({
           {tipoUsuario == 3 && (
             <>
               <Form.Group className="mb-3">
-                <Form.Label>Tipo de Consultoría</Form.Label>
+                <Form.Label>Tipo</Form.Label>
                 <Form.Select
                   name="tipoConsultoria"
                   type="text"
@@ -239,7 +237,7 @@ function CrearConsultoria({
                     <p>{tematicasEtapaMessage || tematicasEtapaError}</p>
                   ) : (
                     <Form.Group className="mb-3">
-                      <Form.Label>Temática de Consultoría</Form.Label>
+                      <Form.Label>Temática</Form.Label>
                       <Form.Select
                         name="subActividadRuta"
                         type="text"
@@ -275,7 +273,7 @@ function CrearConsultoria({
                 <p>{mentoresMessage || mentoresError}</p>
               ) : (
                 <Form.Group className="mb-3">
-                  <Form.Label>Mentor de Consultoría</Form.Label>
+                  <Form.Label>Mentor</Form.Label>
                   <Form.Select
                     name="mentor"
                     type="text"
@@ -305,9 +303,7 @@ function CrearConsultoria({
           )}
 
           <Form.Group className="mb-3">
-            <Form.Label className="form-label">
-              Asunto de Consultoría
-            </Form.Label>
+            <Form.Label className="form-label">Asunto</Form.Label>
             <Form.Control
               as="textarea"
               cols={3}
@@ -329,7 +325,7 @@ function CrearConsultoria({
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label className="form-label">Fecha de consultoría</Form.Label>
+            <Form.Label className="form-label">Fecha</Form.Label>
             <Form.Control
               name="fechaConsultoria"
               className="form-control"
@@ -348,9 +344,7 @@ function CrearConsultoria({
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label className="form-label">
-              Hora de inicio consultoría
-            </Form.Label>
+            <Form.Label className="form-label">Hora de inicio</Form.Label>
             <Form.Control
               name="horaInicio"
               className="form-control"
@@ -370,9 +364,7 @@ function CrearConsultoria({
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label className="form-label">
-              Hora de fin consultoría
-            </Form.Label>
+            <Form.Label className="form-label">Hora de finalización</Form.Label>
             <Form.Control
               name="horaFinalizacion"
               className="form-control"

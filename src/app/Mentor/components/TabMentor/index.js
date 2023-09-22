@@ -54,7 +54,7 @@ function TabMentor() {
         />
       </Tab>
 
-      <Tab eventKey="tareas" title="Tareas">
+      <Tab eventKey="tareas" title="Retos">
         <Tareas
           idProyectoEmprendimiento={state.idProyectoEmprendimiento}
           idUsuario={userData.id}
@@ -62,7 +62,7 @@ function TabMentor() {
         />
       </Tab>
 
-      <Tab eventKey="historial_tareas" title="Historial Tareas">
+      <Tab eventKey="historial_tareas" title="Historial Retos">
         <HistorialTareas
           idProyectoEmprendimiento={state.idProyectoEmprendimiento}
         />

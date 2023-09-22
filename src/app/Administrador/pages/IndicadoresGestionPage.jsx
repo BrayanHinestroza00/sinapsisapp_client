@@ -369,7 +369,7 @@ function IndicadoresGestionPage() {
                     {
                       dataAPI.nroProyectosEmprendimiento
                         .nroProyectosEmprendimientoCompleto
-                    }
+                    }{" "}
                     Proyectos de emprendimiento
                   </p>
                 </div>
@@ -379,7 +379,7 @@ function IndicadoresGestionPage() {
                     {
                       dataAPI.nroProyectosEmprendimiento
                         .nroProyectosEmprendimiento
-                    }
+                    }{" "}
                     Proyectos de emprendimiento
                   </p>
                 </div>

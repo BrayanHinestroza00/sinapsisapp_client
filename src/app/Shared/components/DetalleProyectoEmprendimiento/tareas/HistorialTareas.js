@@ -105,14 +105,14 @@ function HistorialTareas({ idProyectoEmprendimiento }) {
 
   return (
     <Card>
-      <Subtitulo>Historial de Tareas del Emprendedor</Subtitulo>
+      <Subtitulo>Historial de Retos del Emprendedor</Subtitulo>
 
       <CardRuta style={{ marginTop: "1rem", marginBottom: "0rem" }}>
         <Ruta>
           {historial.length > 0 ? (
             <FlexyTable
               datos={historial}
-              titulo={"historial tareas"}
+              titulo={"historial retos"}
               btn1={"Ver Detalle"}
               fun1={(tareaData) => {
                 onClicDetalleTarea(tareaData);
@@ -120,7 +120,7 @@ function HistorialTareas({ idProyectoEmprendimiento }) {
               adicional={true}
             />
           ) : (
-            <h6>El emprendedor no cuenta con tareas calificadas</h6>
+            <h6>El emprendedor no cuenta con retos calificadas</h6>
           )}
         </Ruta>
       </CardRuta>

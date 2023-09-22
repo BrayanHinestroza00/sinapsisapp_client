@@ -90,6 +90,16 @@ function EmprendedorContextProvider({ children }) {
   }, [userData]);
 
   useEffect(() => {
+    const storageSelectedProject = getFromLocalStorage(
+      SINAPSIS_APP_LOCALSTORAGE_SELECTED_PROJECT
+    );
+
+    if (storageSelectedProject) {
+      setSelectedProjectValue(storageSelectedProject);
+    }
+  });
+
+  useEffect(() => {
     if (userData) {
       getIndexSelectedProject(userData.proyectosEmprendimiento);
     }
@@ -103,6 +113,7 @@ function EmprendedorContextProvider({ children }) {
     if (index != -1) {
       setSelectedProjectIndex(index);
     }
+
     setLoading(false);
   };
 

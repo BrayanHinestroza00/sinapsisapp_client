@@ -66,7 +66,7 @@ function DetalleTareaAdmin(props) {
 
       <Modal.Body style={{ backgroundColor: "#fbf6fc" }}>
         <Form className="container" encType="multipart/form-data">
-          <Titulo className="text-bold">INFORMACIÓN DE TAREA</Titulo>
+          <Titulo className="text-bold">Información de Reto</Titulo>
           <Form.Group className="row mb-3">
             <Label style={{ fontWeight: "600" }}>Descripción</Label>
             <Form.Control
@@ -82,7 +82,7 @@ function DetalleTareaAdmin(props) {
           ) : (
             <Form.Group className="row mb-3">
               <Label style={{ fontWeight: "600" }}>
-                Recursos entregados por el docente
+                Recursos compartidos por el facilitador
               </Label>
               <br />
               <div className="text-center">
@@ -141,7 +141,11 @@ function DetalleTareaAdmin(props) {
                   )} */}
                   <tr>
                     <td>Estado de la Calificación</td>
-                    <td>{props.data.calificacion || "SIN ENTREGAR"}</td>
+                    <td>
+                      {props.data.estadoEntrega == "CALIFICADA"
+                        ? `${props.data.calificacion} - calificación: (${props.data.calificacionCuantitativa})`
+                        : "SIN ENTREGAR"}
+                    </td>
                   </tr>
                   <tr>
                     <td>Fecha de Entrega</td>
@@ -190,7 +194,7 @@ function DetalleTareaAdmin(props) {
                   </tr>
 
                   <tr>
-                    <td>Comentarios de la entrega por Docente</td>
+                    <td>Comentarios de la entrega por Facilitador</td>
                     <td>
                       {props.data.comentariosEntrega || "SIN COMENTARIOS"}
                     </td>
@@ -200,10 +204,10 @@ function DetalleTareaAdmin(props) {
             </div>
           </Form.Group>
           <div className="row mb-3">
-            <Titulo className="text-bold">INFORMACIÓN DE DOCENTE</Titulo>
+            <Titulo className="text-bold">Información de Facilitador</Titulo>
             <br />
             <Form.Group className="mb-3">
-              <Label style={{ fontWeight: "600" }}>Docente </Label>
+              <Label style={{ fontWeight: "600" }}>Facilitador </Label>
               <Form.Control
                 value={`${props.data.nombresCrea} ${props.data.apellidosCrea}`}
                 disabled
@@ -211,7 +215,7 @@ function DetalleTareaAdmin(props) {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Label style={{ fontWeight: "600" }}>Correo Docente </Label>
+              <Label style={{ fontWeight: "600" }}>Correo Facilitador </Label>
               <Form.Control
                 value={
                   props.data.correoInstitucionalCrea ||

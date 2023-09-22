@@ -1,9 +1,10 @@
+import { Titulo } from "../assets/styles/Common";
 import ListadoAnuncios from "../components/ListadoAnuncios/ListadoAnuncios";
 
 function Anuncios() {
   return (
     <>
-      <h1>Últimos anuncios</h1>
+      <Titulo>Últimos anuncios</Titulo>
       <div className="container">
         <ListadoAnuncios />
       </div>

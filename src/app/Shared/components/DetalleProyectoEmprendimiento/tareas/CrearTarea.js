@@ -20,7 +20,6 @@ import {
   messageAlertWithoutText,
 } from "src/app/Shared/utils/messageAlerts";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
-import { getCurrentDateTime } from "src/app/Shared/utils/utilityFunctions";
 
 function CrearTarea({
   show,
@@ -63,9 +62,9 @@ function CrearTarea({
     } else {
       setError({});
       confirmAlertWithText({
-        title: "¿Estás seguro que deseas crear la tarea?",
+        title: "¿Estás seguro que deseas crear el reto?",
         text: "Esta acción no se puede deshacer",
-        confirmButtonText: "Crear Tarea",
+        confirmButtonText: "Crear Reto",
         cancelButtonText: "Cancelar",
         onConfirm: () => submitForm(),
       });
@@ -110,7 +109,7 @@ function CrearTarea({
   } else if (loading && messageAPI) {
     if (messageAPI == "OK") {
       messageAlertWithoutText({
-        title: "Tarea creada exitosamente",
+        title: "Reto creado exitosamente",
         icon: "success",
         confirmButtonText: "Aceptar",
         onConfirm: () => {
@@ -145,7 +144,7 @@ function CrearTarea({
         }}
       >
         <Modal.Title>
-          <h1 style={{ color: "#FFF" }}>Crear tarea</h1>
+          <h1 style={{ color: "#FFF" }}>Crear Reto</h1>
         </Modal.Title>
       </Modal.Header>
       <Modal.Body style={{ backgroundColor: "#fbf6fc" }}>
@@ -153,12 +152,12 @@ function CrearTarea({
           <form encType="multipart/form-data">
             <Form.Group className="mb-3">
               <Form.Label>
-                Nombre de Tarea <span className="text-danger"> (*)</span>
+                Nombre<span className="text-danger"> (*)</span>
               </Form.Label>
               <Form.Control
                 name="nombreTarea"
                 className="form-control"
-                placeholder="Nombre tarea"
+                placeholder="Nombre del reto"
                 type="text"
                 onChange={(e) => {
                   onHandleChange(e);
@@ -177,15 +176,14 @@ function CrearTarea({
 
             <Form.Group className="mb-3">
               <Form.Label>
-                Descripción de la Tarea{" "}
-                <span className="text-danger"> (*)</span>
+                Descripción <span className="text-danger"> (*)</span>
               </Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
                 name="descripcionTarea"
                 className="form-control"
-                placeholder="Descripción"
+                placeholder="Descripción del reto"
                 onChange={(e) => {
                   onHandleChange(e);
                 }}
@@ -262,7 +260,7 @@ function CrearTarea({
             onHandleSubmit(e);
           }}
         >
-          Crear Tarea
+          Crear Reto
         </Button>
         <Button variant="secondary" onClick={onHide}>
           Cancelar

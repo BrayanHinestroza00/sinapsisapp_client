@@ -78,7 +78,7 @@ function LoginFormComponent({ onSubmit }) {
       <LoginFormImageContainer>
         <LoginFormImageElement src={logoSinapsis} alt="Logo SINAPSIS UAO" />
       </LoginFormImageContainer>
-      <LoginFormTitulo className="mb-1">
+      <LoginFormTitulo className="mb-1 text-center">
         Inicia sesión en SINAPSIS UAO
       </LoginFormTitulo>
 

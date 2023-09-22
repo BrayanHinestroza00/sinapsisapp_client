@@ -6,7 +6,7 @@ import VerPerfilComponent from "src/app/Shared/components/PerfilUsuario/VerPerfi
 import LoadingSpinner from "src/app/Shared/components/LoadingSpinner/LoadingSpinner";
 import EditarPerfil from "src/app/Shared/components/PerfilUsuario/EditarPerfil";
 
-import { Subtitulo, Titulo } from "src/app/Shared/assets/styles/Common";
+import { Titulo } from "src/app/Shared/assets/styles/Common";
 import { MentorContext } from "src/app/Mentor/contexts/MentorContext";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import {

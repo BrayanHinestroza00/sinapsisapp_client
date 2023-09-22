@@ -57,9 +57,9 @@ function RevisarTarea({ show, data, onHide }) {
     } else {
       setError({});
       confirmAlertWithText({
-        title: "¿Estás seguro que deseas calificar la tarea?",
+        title: "¿Estás seguro que deseas calificar el reto?",
         text: "Esta acción no se puede deshacer",
-        confirmButtonText: "Calificar Tarea",
+        confirmButtonText: "Calificar Reto",
         cancelButtonText: "Cancelar",
         onConfirm: () => submitForm(),
       });
@@ -92,7 +92,7 @@ function RevisarTarea({ show, data, onHide }) {
   } else if (loading && messageAPI) {
     if (messageAPI == "OK") {
       messageAlertWithoutText({
-        title: "Tarea calificada exitosamente",
+        title: "Reto calificado exitosamente",
         icon: "success",
         confirmButtonText: "Aceptar",
         onConfirm: () => {
@@ -135,7 +135,7 @@ function RevisarTarea({ show, data, onHide }) {
 
       <Modal.Body style={{ backgroundColor: "#fbf6fc" }}>
         <Form className="container">
-          <Titulo className="text-bold">INFORMACIÓN DE TAREA</Titulo>
+          <Titulo className="text-bold">Información de Reto</Titulo>
           <Form.Group className="row mb-3">
             <Label style={{ fontWeight: "600" }}>Descripción</Label>
             <Form.Control
@@ -150,7 +150,7 @@ function RevisarTarea({ show, data, onHide }) {
           {data.urlArchivosEntrega && datosImagen && (
             <Form.Group className="text-center">
               <Label style={{ fontWeight: "600" }}>
-                Tarea entregada por el emprendedor
+                Reto entregado por el emprendedor
               </Label>
               <p className="m-2">
                 Descarga el archivo y realiza la retroalimentación al
@@ -208,7 +208,11 @@ function RevisarTarea({ show, data, onHide }) {
                   </tr> */}
                   <tr>
                     <td>Estado de la Calificación</td>
-                    <td>{data.calificacion || "SIN CALIFICAR"}</td>
+                    <td>
+                      {data.estadoEntrega == "CALIFICADA"
+                        ? `${data.calificacion} - calificación: (${data.calificacionCuantitativa})`
+                        : "SIN CALIFICAR"}
+                    </td>
                   </tr>
                   <tr>
                     <td>Fecha de Entrega</td>
@@ -233,7 +237,7 @@ function RevisarTarea({ show, data, onHide }) {
           </Form.Group>
           <hr />
 
-          <h5 className="text-center">Retroalimentación</h5>
+          <Titulo className="text-bold text-center">Retroalimentación</Titulo>
           <Form.Group className="mb-3">
             <Label style={{ fontWeight: "600" }}>
               Calificación de la Entrega{" "}
@@ -248,8 +252,11 @@ function RevisarTarea({ show, data, onHide }) {
               <option value={"-1"} disabled>
                 Seleccione la calificación
               </option>
-              <option value="A">Aprobada</option>
-              <option value="R">Reprobada</option>
+              <option value="1">1 - Insuficiente</option>
+              <option value="2">2 - Deficiente</option>
+              <option value="3">3 - Aceptable</option>
+              <option value="4">4 - Sobresaliente</option>
+              <option value="5">5 - Excelente</option>
             </Form.Select>
             {error.calificacionEntrega && (
               <small className="form-text font-weight-bold text-danger">
@@ -281,9 +288,9 @@ function RevisarTarea({ show, data, onHide }) {
         <Button variant="primary" onClick={(e) => onHandleSubmit(e)}>
           Calificar
         </Button>
-        <button variant="secondary" onClick={onHide}>
+        <Button variant="secondary" onClick={onHide}>
           Cancelar
-        </button>
+        </Button>
       </Modal.Footer>
     </Modal>
   );

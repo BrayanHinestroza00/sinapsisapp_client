@@ -63,7 +63,7 @@ function InfoUsuario({ userData, ...props }) {
 
   useEffect(() => {
     messageAlert({
-      title: "Nuevo de Proyecto de Emprendimiento",
+      title: "Nuevo Proyecto de Emprendimiento",
       text: `<p style="text-align:justify">
           Bienvenido al formulario de primera atención de SINAPSIS UAO. Por favor, diligencie todos los pasos y espere novedades en el correo electrónico registrado.
           </p> 

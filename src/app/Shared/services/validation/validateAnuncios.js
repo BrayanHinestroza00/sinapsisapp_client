@@ -8,8 +8,8 @@ export const validarCrearAnuncio = (datos, error) => {
   if (!tituloAnuncio) {
     errors.tituloAnuncio = "Campo Obligatorio";
   } else {
-    if (tituloAnuncio.length > 30) {
-      errors.tituloAnuncio = "Máximo 30 caracteres";
+    if (tituloAnuncio.length > 100) {
+      errors.tituloAnuncio = "Máximo 100 caracteres";
     }
   }
 

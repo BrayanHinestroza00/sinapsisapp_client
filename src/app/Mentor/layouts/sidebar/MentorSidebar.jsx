@@ -26,19 +26,25 @@ function MentorSidebar() {
   const [menuSubActive, setSubMenuActive] = useState("");
 
   useEffect(() => {
-    const arrayPath = location.pathname.split("/");
-    const pathRoute = arrayPath[arrayPath.length - 1].toLowerCase();
+    const arrayPath = location.pathname.toLowerCase().split("/");
+    arrayPath.shift();
+
+    let pathRoute = `${arrayPath[0]}_${arrayPath[1]}`.toLowerCase();
 
     switch (pathRoute) {
-      case "emprendedores":
+      case "mentor_emprendedores":
         setMenuActive(SIDEBAR_MENTOR_EMPRENDEDORES_ITEM);
         setSubMenuActive(SIDEBAR_MENTOR_EMPRENDIMIENTOS);
         break;
-      case "consultorias":
+      case "mentor_emprendedor":
+        setMenuActive(SIDEBAR_MENTOR_EMPRENDEDORES_ITEM);
+        setSubMenuActive(SIDEBAR_MENTOR_EMPRENDIMIENTOS);
+        break;
+      case "mentor_consultorias":
         setMenuActive(SIDEBAR_MENTOR_CONSULTORIAS_ITEM);
         setSubMenuActive(SIDEBAR_MENTOR_CONSULTORIAS);
         break;
-      case "consultoria":
+      case "mentor_consultoria":
         setMenuActive(SIDEBAR_MENTOR_REPORTES_ITEM);
         setSubMenuActive(SIDEBAR_MENTOR_REPORTES_CONSULTORIAS);
         break;

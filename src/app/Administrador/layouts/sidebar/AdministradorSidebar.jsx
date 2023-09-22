@@ -91,8 +91,8 @@ function AdministradorSidebar() {
         break;
 
       default:
-        setMenuActive(SIDEBAR_ADMINISTRADOR_EMPRENDIMIENTOS_ITEM);
-        setSubMenuActive(SIDEBAR_ADMINISTRADOR_EMPRENDIMIENTO);
+        setMenuActive("");
+        setSubMenuActive("");
         break;
     }
   }, [location.pathname]);

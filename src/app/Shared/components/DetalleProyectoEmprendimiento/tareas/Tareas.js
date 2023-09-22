@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import moment from "moment";
-import Axios from "axios";
-import swal from "sweetalert2";
 
 import CrearTarea from "./CrearTarea";
 import RevisarTarea from "./RevisarTarea";
@@ -10,8 +7,6 @@ import DetalleTareaAdmin from "./DetalleTareaAdmin";
 import FlexyTable from "src/app/Shared/components/FlexyTable";
 import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
-import { SINAPSIS_APP_FORMATO_FECHA_HORA } from "src/app/Shared/utils/constants";
-import { HOST } from "src/app/Shared/utils/apiConstants";
 import { useFetch } from "src/app/Shared/services/hooks/useFetch";
 import {
   HTTP_METHOD_GET,
@@ -202,14 +197,14 @@ function Tareas({ idProyectoEmprendimiento, idUsuario, tipoUsuario }) {
 
   return (
     <Card>
-      <Subtitulo>Tareas del Emprendedor</Subtitulo>
+      <Subtitulo>Retos del Emprendedor</Subtitulo>
 
       <Button
         variant="primary"
         className="mx-4 my-3 w-25"
         onClick={() => setShowCrearTarea(!showCrearTarea)}
       >
-        Crear tarea
+        Crear Reto
       </Button>
 
       {pendientesCalificar.length > 0 && (
@@ -217,7 +212,7 @@ function Tareas({ idProyectoEmprendimiento, idUsuario, tipoUsuario }) {
           <Ruta>
             <FlexyTable
               datos={pendientesCalificar}
-              titulo={"tareas por calificar"}
+              titulo={"retos por calificar"}
               btn1={"Calificar Entrega"}
               fun1={(tareaData) => {
                 onClicRevisarTarea(tareaData);
@@ -233,7 +228,7 @@ function Tareas({ idProyectoEmprendimiento, idUsuario, tipoUsuario }) {
           <Ruta>
             <FlexyTable
               datos={entregadas}
-              titulo={"tareas entregadas"}
+              titulo={"retos entregados"}
               btn1={"Detalle Entrega"}
               fun1={(tareaData) => {
                 onClicDetalleTarea(tareaData, "ENTREGADAS");
@@ -249,7 +244,7 @@ function Tareas({ idProyectoEmprendimiento, idUsuario, tipoUsuario }) {
           {pendientes.length > 0 ? (
             <FlexyTable
               datos={pendientes}
-              titulo={"tareas pendientes"}
+              titulo={"retos pendientes"}
               btn1={"Ver Detalle"}
               fun1={(tareaData) => {
                 onClicDetalleTarea(tareaData);
@@ -257,7 +252,7 @@ function Tareas({ idProyectoEmprendimiento, idUsuario, tipoUsuario }) {
               adicional={true}
             />
           ) : (
-            <h6>No hay tareas Pendientes del Emprendedor</h6>
+            <h6>No hay retos pendientes del emprendedor</h6>
           )}
         </Ruta>
       </CardRuta>

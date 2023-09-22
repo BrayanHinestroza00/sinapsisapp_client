@@ -266,7 +266,7 @@ function EmprendedorSidebar() {
                     }}
                     alt={""}
                   />
-                  Mis Tareas
+                  Mis Retos
                 </Link>
 
                 <Link

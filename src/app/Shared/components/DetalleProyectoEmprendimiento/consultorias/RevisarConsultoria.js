@@ -349,7 +349,7 @@ function RevisarConsultoria({ data, idUsuario, show, onHide }) {
               </Button>
 
               <Button
-                variant="secondary"
+                variant="danger"
                 onClick={(e) => {
                   onHandleSubmitInasistencia(e);
                 }}
@@ -370,7 +370,7 @@ function RevisarConsultoria({ data, idUsuario, show, onHide }) {
           </Button>
         )}
 
-        <Button variant="danger" onClick={onHide}>
+        <Button variant="secondary" onClick={onHide}>
           Cancelar
         </Button>
       </Modal.Footer>

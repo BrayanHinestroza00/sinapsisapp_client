@@ -89,9 +89,9 @@ function DetalleTarea(props) {
     } else {
       setError({});
       confirmAlertWithText({
-        title: "¿Estás seguro que deseas entregar la tarea?",
+        title: "¿Estás seguro que deseas entregar el reto?",
         text: "Esta acción no se puede deshacer",
-        confirmButtonText: "Entregar Tarea",
+        confirmButtonText: "Entregar Reto",
         cancelButtonText: "Cancelar",
         onConfirm: () => submitForm(),
       });
@@ -103,7 +103,9 @@ function DetalleTarea(props) {
 
     const form = new FormData();
     form.append("idTarea", props.data.idTarea);
-    form.append("comentariosEntrega", comentarioEmprendedor);
+    if (comentarioEmprendedor) {
+      form.append("comentariosEntrega", comentarioEmprendedor);
+    }
     form.append("fileEntrega", files[0]);
 
     setLoading(true);
@@ -128,7 +130,7 @@ function DetalleTarea(props) {
   } else if (loading && messageAPI) {
     if (messageAPI == "OK") {
       messageAlertWithoutText({
-        title: "Tarea entregada exitosamente",
+        title: "Reto entregado exitosamente",
         icon: "success",
         confirmButtonText: "Aceptar",
         onConfirm: () => {
@@ -169,7 +171,7 @@ function DetalleTarea(props) {
       </Modal.Header>
       <Modal.Body style={{ backgroundColor: "#fbf6fc" }}>
         <Form className="container" encType="multipart/form-data">
-          <Titulo className="text-bold">INFORMACIÓN DE TAREA</Titulo>
+          <Titulo className="text-bold">Información del Reto</Titulo>
           <Form.Group className="row mb-3">
             <Label style={{ fontWeight: "600" }}>Descripción</Label>
             <Form.Control
@@ -185,7 +187,7 @@ function DetalleTarea(props) {
           ) : (
             <Form.Group className="row mb-3">
               <Label style={{ fontWeight: "600" }}>
-                Recursos entregados por el docente
+                Recursos compartidos por el facilitador
               </Label>
               <br />
               <div className="text-center">
@@ -224,7 +226,11 @@ function DetalleTarea(props) {
                   )} */}
                   <tr>
                     <td>Estado de la Calificación</td>
-                    <td>{props.data.calificacion || "SIN ENTREGAR"}</td>
+                    <td>
+                      {props.data.estadoEntrega == "CALIFICADA"
+                        ? `${props.data.calificacion} - calificación: (${props.data.calificacionCuantitativa})`
+                        : "SIN ENTREGAR"}
+                    </td>
                   </tr>
                   <tr>
                     <td>Fecha de Entrega</td>
@@ -274,10 +280,10 @@ function DetalleTarea(props) {
           </Form.Group>
 
           <div className="row mb-3">
-            <Titulo className="text-bold">INFORMACIÓN DE DOCENTE</Titulo>
+            <Titulo className="text-bold">Información de Facilitador</Titulo>
             <br />
             <Form.Group className="mb-3">
-              <Label style={{ fontWeight: "600" }}>Docente </Label>
+              <Label style={{ fontWeight: "600" }}>Facilitador </Label>
               <Form.Control
                 value={`${props.data.nombresCrea} ${props.data.apellidosCrea}`}
                 disabled
@@ -285,7 +291,7 @@ function DetalleTarea(props) {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Label style={{ fontWeight: "600" }}>Correo Docente </Label>
+              <Label style={{ fontWeight: "600" }}>Correo Facilitador </Label>
               <Form.Control
                 value={
                   props.data.correoInstitucionalCrea ||
@@ -299,11 +305,11 @@ function DetalleTarea(props) {
           {props.tipo == "PENDIENTES" && (
             <>
               <hr />
-              <Titulo className="text-bold">REALIZA TU ENTREGA</Titulo>
+              <Titulo className="text-bold">Realiza tu Entrega</Titulo>
               <div className="row mb-3">
                 <Form.Group className="mb-3">
                   <Label style={{ fontWeight: "600" }}>
-                    Sube tu tarea <span className="text-danger"> (*)</span>
+                    Sube tu reto <span className="text-danger"> (*)</span>
                   </Label>
                   <DropZoneComponent
                     upFiles={getFiles}
@@ -358,7 +364,7 @@ function DetalleTarea(props) {
       <Modal.Footer style={{ backgroundColor: "#fbf6fc" }}>
         {props.tipo == "PENDIENTES" && (
           <button className="btn btn-primary" onClick={onHandleSubmit}>
-            Entregar Tarea
+            Entregar Reto
           </button>
         )}
 

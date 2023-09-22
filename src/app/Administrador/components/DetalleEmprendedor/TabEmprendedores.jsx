@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Tabs, Tab } from "react-bootstrap";
 
 import EmprendedorTab from "src/app/Shared/components/DetalleEmprendedor/Emprendedor";
