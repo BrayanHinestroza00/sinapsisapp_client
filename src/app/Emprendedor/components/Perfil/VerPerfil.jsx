@@ -35,7 +35,7 @@ function VerPerfil({ preloadData: perfilData }) {
 
   useEffect(() => {
     obtenerImagen();
-  }, []);
+  }, [preloadData]);
 
   useEffect(() => {
     if (perfilData) {
